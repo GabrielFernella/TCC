@@ -1,6 +1,6 @@
 {
   "git.ignoreLimitWarning": true,
-  /*"files.exclude": {
+  "files.exclude": {
     "node_modules": true,
     //"tools": true,
     "package-lock.json": true,
@@ -13,5 +13,5 @@
     ".eslintrc.js": true,
     ".prettierrc": true,
     "prettier.config.js": true
-  }*/
+  }
 }
