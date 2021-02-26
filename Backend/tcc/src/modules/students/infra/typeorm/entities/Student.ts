@@ -8,6 +8,13 @@ import { Exclude, Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
 
+interface ICard {
+  number: string;
+  name: string;
+  validate: string;
+  code: string;
+}
+
 class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,6 +28,9 @@ class Student {
   @Column()
   @Exclude() // não exibe para o response
   password: string;
+
+  @Column()
+  creditCard: ICard;
 
   @Column()
   avatar: string;
@@ -39,3 +49,5 @@ class Student {
     return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.avatar}`;
   }
 }
+
+export default Student;
