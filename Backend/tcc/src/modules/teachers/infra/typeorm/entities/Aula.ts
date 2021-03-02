@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -9,6 +10,7 @@ import {
 
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
+@Entity('aulas')
 class Aula {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,7 +23,7 @@ class Aula {
   teacher: Teacher;
 
   @Column()
-  title: string;
+  tittle: string;
 
   @Column()
   tag: string[];
@@ -30,7 +32,7 @@ class Aula {
   description: string;
 
   @Column()
-  value: number;
+  value: string;
 
   @CreateDateColumn()
   created_at: Date;

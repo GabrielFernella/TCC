@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -9,6 +10,7 @@ import {
 
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
+@Entity('disponibilidade')
 class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;

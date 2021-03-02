@@ -1,4 +1,6 @@
 import Teacher from '../infra/typeorm/entities/Teacher';
+import Disponibilidade from '../infra/typeorm/entities/Disponibilidade';
+import Aula from '../infra/typeorm/entities/Aula';
 
 import ICreateTeacherDTO from '../dtos/ICreateTeatherDTO';
 

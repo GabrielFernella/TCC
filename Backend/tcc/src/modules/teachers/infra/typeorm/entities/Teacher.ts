@@ -1,19 +1,24 @@
 import {
+  Entity,
   Column,
-  CreateDateColumn,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
 
+@Entity('teachers')
 class Teacher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
+
+  @Column()
+  cpf: string;
 
   @Column()
   email: string;
@@ -23,10 +28,13 @@ class Teacher {
   password: string;
 
   @Column()
-  Pix: string;
+  pix: string;
 
   @Column()
-  MateriaTag: string[];
+  qtdAulas: number;
+
+  @Column()
+  qtdAvaliacao: number;
 
   @Column()
   avatar: string;

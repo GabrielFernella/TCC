@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +16,7 @@ interface ICard {
   code: string;
 }
 
+@Entity('students')
 class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -23,14 +25,17 @@ class Student {
   name: string;
 
   @Column()
+  cpf: string;
+
+  @Column()
   email: string;
 
   @Column()
   @Exclude() // não exibe para o response
   password: string;
 
-  @Column()
-  creditCard: ICard;
+  /* @Column()
+  creditCard: ICard; */
 
   @Column()
   avatar: string;

@@ -1,25 +1,24 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+
 import IHashProvider from '@modules/teachers/providers/HashProvider/models/IHashProvider';
-import ITeacherRepository from '../repositories/ITeacherRepository';
-import Teacher from '../infra/typeorm/entities/Teacher';
+
+import Student from '../infra/typeorm/entities/Student';
+import IStudentRepository from '../repositories/IStudentRepository';
 
 interface IRequest {
   name: string;
   cpf: string;
   email: string;
   password: string;
-  pix: string;
-  qtdAulas: number;
-  qtdAvaliacao: number;
 }
 
 @injectable()
 class CreateTeacherService {
   constructor(
     @inject('TeachersRepository')
-    private teachersRepository: ITeacherRepository,
+    private teachersRepository: IStudentRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -30,8 +29,7 @@ class CreateTeacherService {
     cpf,
     email,
     password,
-    pix,
-  }: IRequest): Promise<Teacher> {
+  }: IRequest): Promise<Student> {
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.teachersRepository.findByEmail(email);
     if (checkUserExists) {
@@ -45,9 +43,6 @@ class CreateTeacherService {
       cpf,
       email,
       password: hashPassword,
-      pix,
-      qtdAulas: 0,
-      qtdAvaliacao: 0,
     });
 
     return user;
