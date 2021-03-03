@@ -4,7 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import CreateStudentService from '@modules/students/services/CreateStudentService';
 
-export default class SessionsController {
+export default class StudentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, cpf, email, password } = request.body;
 

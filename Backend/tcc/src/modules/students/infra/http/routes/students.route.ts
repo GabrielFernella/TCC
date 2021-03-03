@@ -4,13 +4,13 @@ import { celebrate, Joi, Segments } from 'celebrate';
 
 // import uploadConfig from '@config/upload';
 
-import UsersController from '../controllers/StudentsController';
+import StudentsController from '../controllers/StudentsController';
 // import UserAvatarController from '../controllers/UserAvatarController';
 
 // import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const studentsRoute = Router();
-const usersController = new UsersController();
+const studentsController = new StudentsController();
 // const userAvatarController = new UserAvatarController();
 
 // const upload = multer(uploadConfig.multer);
@@ -25,7 +25,7 @@ studentsRoute.post(
       password: Joi.string().required(),
     },
   }),
-  usersController.create,
+  studentsController.create,
 );
 
 /* usersRouter.patch(

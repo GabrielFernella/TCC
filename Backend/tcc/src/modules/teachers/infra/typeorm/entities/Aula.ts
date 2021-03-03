@@ -26,7 +26,7 @@ class Aula {
   tittle: string;
 
   @Column()
-  tag: string[];
+  tag: string;
 
   @Column()
   description: string;

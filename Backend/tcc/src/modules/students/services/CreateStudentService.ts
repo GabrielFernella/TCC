@@ -15,10 +15,10 @@ interface IRequest {
 }
 
 @injectable()
-class CreateTeacherService {
+class CreateStudentService {
   constructor(
-    @inject('TeachersRepository')
-    private teachersRepository: IStudentRepository,
+    @inject('StudentRepository')
+    private studentRepository: IStudentRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -30,15 +30,21 @@ class CreateTeacherService {
     email,
     password,
   }: IRequest): Promise<Student> {
+    // Procurando se há um user com o mesmo CPF
+    const checkUserCpfExists = await this.studentRepository.findByEmail(cpf);
+    if (checkUserCpfExists) {
+      throw new AppError('CPF address already used');
+    }
+
     // Procurando se há um user com o mesmo email
-    const checkUserExists = await this.teachersRepository.findByEmail(email);
+    const checkUserExists = await this.studentRepository.findByEmail(email);
     if (checkUserExists) {
       throw new AppError('Email address already used');
     }
 
     const hashPassword = await this.hashProvider.generateHash(password);
 
-    const user = await this.teachersRepository.create({
+    const user = await this.studentRepository.create({
       name,
       cpf,
       email,
@@ -49,4 +55,4 @@ class CreateTeacherService {
   }
 }
 
-export default CreateTeacherService;
+export default CreateStudentService;

@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 
 import '@modules/students/providers';
+import '@modules/teachers/providers';
 import './providers';
 
 // For Students
@@ -35,7 +36,6 @@ container.registerSingleton<ITeacherRepository>(
   'TeachersRepository',
   TeachersRepository,
 );
-
 container.registerSingleton<ITeacherTokensRepository>(
   'TeacherTokensRepository',
   TeacherTokensRepository,
