@@ -18,7 +18,7 @@ class Aula {
   @Column()
   teacher_id: string;
 
-  @ManyToOne(() => Teacher)
+  @ManyToOne(type => Teacher, aula => Aula)
   @JoinColumn({ name: 'teacher_id' })
   teacher: Teacher;
 
@@ -32,7 +32,7 @@ class Aula {
   description: string;
 
   @Column()
-  value: string;
+  value: number;
 
   @CreateDateColumn()
   created_at: Date;

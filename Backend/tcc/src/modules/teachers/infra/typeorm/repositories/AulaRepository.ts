@@ -15,7 +15,7 @@ class AulaRepository implements IAulaRepository {
   public async create(data: ICreateAulaDTO): Promise<Aula> {
     const createAula = this.ormRepository.create(data);
 
-    await this.ormRepository.save(data);
+    await this.ormRepository.save(createAula);
 
     return createAula;
   }

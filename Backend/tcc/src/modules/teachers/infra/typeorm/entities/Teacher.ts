@@ -4,10 +4,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
+import Aula from './Aula';
+import Disponibilidade from './Disponibilidade';
 
 @Entity('teachers')
 class Teacher {
@@ -35,6 +38,12 @@ class Teacher {
 
   @Column()
   qtdAvaliacao: number;
+
+  @OneToMany(type => Aula, teacher => Teacher)
+  aulas: Aula[];
+
+  @OneToMany(type => Disponibilidade, teacher => Teacher)
+  disponibilidade: Disponibilidade[];
 
   @Column()
   avatar: string;
