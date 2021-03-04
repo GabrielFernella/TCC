@@ -28,12 +28,12 @@ container.registerSingleton<IStudentsRepository>(
   StudentRepository,
 );
 container.registerSingleton<IStudentsTokensRepository>(
-  'StudentsTokensRepository',
+  'StudentTokensRepository',
   StudentsTokensRepository,
 );
 
 container.registerSingleton<ITeacherRepository>(
-  'TeachersRepository',
+  'TeacherRepository',
   TeachersRepository,
 );
 container.registerSingleton<ITeacherTokensRepository>(
