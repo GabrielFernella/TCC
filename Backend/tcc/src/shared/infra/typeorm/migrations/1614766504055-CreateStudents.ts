@@ -33,7 +33,14 @@ export default class CreateStudents1614766504055 implements MigrationInterface {
           {
             name: 'avatar',
             type: 'varchar',
-            isNullable: true,
+          },
+          {
+            name: 'pix',
+            type: 'varchar',
+          },
+          {
+            name: 'ban',
+            type: 'integer',
           },
           {
             name: 'created_at',

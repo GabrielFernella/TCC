@@ -31,16 +31,20 @@ export default class CreateTeachers1614766596223 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'avatar',
+            type: 'varchar',
+          },
+          {
             name: 'pix',
             type: 'varchar',
           },
           {
-            name: 'qtdAulas',
+            name: 'ban',
             type: 'integer',
           },
           {
-            name: 'qtdAvaliacao',
-            type: 'integer',
+            name: 'bio',
+            type: 'varchar',
           },
           {
             name: 'created_at',

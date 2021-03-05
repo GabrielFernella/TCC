@@ -5,12 +5,12 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export default class CreateDisponibilidade1614778395534
+export default class CreateAvaliacao1614980433207
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'disponibilidades',
+        name: 'avaliacao',
         columns: [
           {
             name: 'id',
@@ -25,11 +25,15 @@ export default class CreateDisponibilidade1614778395534
             isNullable: true,
           },
           {
-            name: 'diaSemana',
-            type: 'varchar',
+            name: 'qtdaulas',
+            type: 'integer',
           },
           {
-            name: 'horario',
+            name: 'qtdavaliacao',
+            type: 'integer',
+          },
+          {
+            name: 'opinion',
             type: 'varchar',
           },
           {
@@ -47,9 +51,9 @@ export default class CreateDisponibilidade1614778395534
     );
 
     await queryRunner.createForeignKey(
-      'disponibilidades',
+      'avaliacao',
       new TableForeignKey({
-        name: 'TeacherDisponibilidade',
+        name: 'TeacherAvaliacao',
         columnNames: ['teacher_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'teachers',
@@ -60,6 +64,6 @@ export default class CreateDisponibilidade1614778395534
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('disponibilidade');
+    await queryRunner.dropTable('avaliacao');
   }
 }

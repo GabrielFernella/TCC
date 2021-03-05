@@ -3,33 +3,33 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
-@Entity('disponibilidade')
-class Disponibilidade {
+@Entity('avaliacoes')
+class Avaliacao {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   teacher_id: string;
 
-  @ManyToOne(() => Teacher)
+  @OneToOne(type => Teacher, avaliacao => Avaliacao)
   @JoinColumn({ name: 'teacher_id' })
   teacher: Teacher;
 
-  /* @Column('timestamp with time zone')
-  date: Date; // Salva a data e a hora */
+  @Column()
+  qtdaulas: number;
 
   @Column()
-  diasemana: number;
+  qtdavaliacao: number;
 
   @Column()
-  horario: number;
+  opinion: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -38,4 +38,4 @@ class Disponibilidade {
   updated_at: Date;
 }
 
-export default Disponibilidade;
+export default Avaliacao;

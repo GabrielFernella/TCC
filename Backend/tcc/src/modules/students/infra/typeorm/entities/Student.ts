@@ -34,11 +34,14 @@ class Student {
   @Exclude() // não exibe para o response
   password: string;
 
-  /* @Column()
-  creditCard: ICard; */
-
   @Column()
   avatar: string;
+
+  @Column()
+  pix: string;
+
+  @Column()
+  ban: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -46,13 +49,13 @@ class Student {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Expose({ name: 'avatar_url' })
+  /* @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {
     if (!this.avatar) {
       return null;
     }
     return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.avatar}`;
-  }
+  } */
 }
 
 export default Student;

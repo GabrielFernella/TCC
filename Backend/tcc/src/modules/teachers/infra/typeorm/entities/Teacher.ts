@@ -5,12 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
-import uploadConfig from '@config/upload';
+// import uploadConfig from '@config/upload';
 import Aula from './Aula';
 import Disponibilidade from './Disponibilidade';
+import Avaliacao from './Avaliacao';
 
 @Entity('teachers')
 class Teacher {
@@ -31,13 +33,13 @@ class Teacher {
   password: string;
 
   @Column()
+  avatar: string;
+
+  @Column()
   pix: string;
 
   @Column()
-  qtdAulas: number;
-
-  @Column()
-  qtdAvaliacao: number;
+  ban: string;
 
   @OneToMany(type => Aula, teacher => Teacher)
   aulas: Aula[];
@@ -45,8 +47,8 @@ class Teacher {
   @OneToMany(type => Disponibilidade, teacher => Teacher)
   disponibilidade: Disponibilidade[];
 
-  @Column()
-  avatar: string;
+  @OneToOne(type => Avaliacao, teacher => Teacher)
+  avaliacao: Avaliacao;
 
   @CreateDateColumn()
   created_at: Date;
@@ -54,13 +56,13 @@ class Teacher {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Expose({ name: 'avatar_url' })
+  /* @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {
     if (!this.avatar) {
       return null;
     }
     return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.avatar}`;
-  }
+  } */
 }
 
 export default Teacher;
