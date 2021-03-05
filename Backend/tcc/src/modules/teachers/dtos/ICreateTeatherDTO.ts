@@ -3,7 +3,7 @@ export default interface ICreateTeacherDTO {
   cpf: string;
   email: string;
   password: string;
+  avatar: string;
   pix: string;
-  qtdAulas: number;
-  qtdAvaliacao: number;
+  ban: number;
 }
