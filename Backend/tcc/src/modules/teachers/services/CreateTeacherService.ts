@@ -10,9 +10,9 @@ interface IRequest {
   cpf: string;
   email: string;
   password: string;
+  avatar: string;
   pix: string;
-  qtdAulas: number;
-  qtdAvaliacao: number;
+  ban: number;
 }
 
 @injectable()
@@ -30,6 +30,7 @@ class CreateTeacherService {
     cpf,
     email,
     password,
+    avatar,
     pix,
   }: IRequest): Promise<Teacher> {
     // Procurando se há um user com o mesmo email
@@ -45,9 +46,9 @@ class CreateTeacherService {
       cpf,
       email,
       password: hashPassword,
+      avatar,
       pix,
-      qtdAulas: 0,
-      qtdAvaliacao: 0,
+      ban: 0,
     });
 
     return user;

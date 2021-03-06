@@ -12,6 +12,9 @@ interface IRequest {
   cpf: string;
   email: string;
   password: string;
+  avatar: string;
+  pix: string;
+  ban: number;
 }
 
 @injectable()
@@ -29,6 +32,8 @@ class CreateStudentService {
     cpf,
     email,
     password,
+    avatar,
+    pix,
   }: IRequest): Promise<Student> {
     // Procurando se há um user com o mesmo CPF
     const checkUserCpfExists = await this.studentRepository.findByEmail(cpf);
@@ -49,6 +54,9 @@ class CreateStudentService {
       cpf,
       email,
       password: hashPassword,
+      avatar,
+      pix,
+      ban: 0,
     });
 
     return user;

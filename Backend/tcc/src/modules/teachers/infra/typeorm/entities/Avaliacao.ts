@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
 @Entity('avaliacoes')
