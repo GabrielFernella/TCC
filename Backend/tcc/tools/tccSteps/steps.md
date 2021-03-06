@@ -13,3 +13,10 @@
 # Onde parei?
 
 Cadastrar a disponibildiade (Entender como vai funcionar o sistema de agendamento) e cadastrar as aulas
+
+# Como iniciar?
+
+1. Altere o IP do servidor no arquivo ormconfig.json de acordo com o ip do seu servidor de banco de dados
+2. Instale as dependências com o comando yarn
+3. Crie a database "web_educa" no banco de dados
+4. Rode o comando: yarn typeorm migration:run    (Para criar as tabelas no banco de dados)

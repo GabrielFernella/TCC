@@ -21,6 +21,8 @@ import IDisponibilidadeRepository from '@modules/teachers/repositories/IDisponib
 import DisponibilidadeRepository from '@modules/teachers/infra/typeorm/repositories/DisponibilidadeRepository';
 import IAulaRepository from '@modules/teachers/repositories/IAulaRepository';
 import AulaRepository from '@modules/teachers/infra/typeorm/repositories/AulaRepository';
+import IAvaliacaoRepository from '@modules/teachers/repositories/IAvaliacaoRepository';
+import AvaliacaoRepository from '@modules/teachers/infra/typeorm/repositories/AvaliacaoRepository';
 
 // Injeção de dependência para os alunos
 container.registerSingleton<IStudentsRepository>(
@@ -47,3 +49,8 @@ container.registerSingleton<IDisponibilidadeRepository>(
 );
 
 container.registerSingleton<IAulaRepository>('AulaRepository', AulaRepository);
+
+container.registerSingleton<IAvaliacaoRepository>(
+  'AvaliacaoRepository',
+  AvaliacaoRepository,
+);

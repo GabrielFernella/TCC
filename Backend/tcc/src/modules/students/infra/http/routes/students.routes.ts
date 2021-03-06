@@ -23,6 +23,8 @@ studentsRoute.post(
       cpf: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
+      avatar: Joi.string().required(),
+      pix: Joi.string().required(),
     },
   }),
   studentsController.create,

@@ -14,7 +14,6 @@ interface IRequest {
   password: string;
   avatar: string;
   pix: string;
-  ban: number;
 }
 
 @injectable()

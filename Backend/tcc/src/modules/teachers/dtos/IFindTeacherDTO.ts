@@ -1,4 +1,4 @@
-export default interface ICreateTeacherDTO {
+export default interface IFindTeacherDTO {
   email: string;
   password: string;
 }

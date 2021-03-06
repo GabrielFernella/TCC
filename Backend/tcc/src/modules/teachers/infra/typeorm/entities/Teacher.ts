@@ -39,7 +39,10 @@ class Teacher {
   pix: string;
 
   @Column()
-  ban: string;
+  bio: string;
+
+  @Column()
+  ban: number;
 
   @OneToMany(type => Aula, teacher => Teacher)
   aulas: Aula[];

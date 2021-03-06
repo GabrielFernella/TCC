@@ -6,7 +6,7 @@ import CreateTeacherService from '@modules/teachers/services/CreateTeacherServic
 
 export default class TeachersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, cpf, email, password, pix } = request.body;
+    const { name, cpf, email, password, avatar, pix, bio } = request.body;
 
     const createUser = container.resolve(CreateTeacherService);
 
@@ -15,9 +15,9 @@ export default class TeachersController {
       cpf,
       email,
       password,
+      avatar,
       pix,
-      qtdAulas: 0,
-      qtdAvaliacao: 0,
+      bio,
     });
 
     return response.json(classToClass(user));

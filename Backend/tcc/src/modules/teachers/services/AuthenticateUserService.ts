@@ -21,8 +21,8 @@ interface IResponse {
 @injectable()
 class AuthenticateUserService {
   constructor(
-    @inject('TeachersRepository')
-    private teachersRepository: ITeacherRepository,
+    @inject('TeacherRepository')
+    private teacherRepository: ITeacherRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -30,7 +30,7 @@ class AuthenticateUserService {
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     // Validate email
-    const user = await this.teachersRepository.findByEmail(email);
+    const user = await this.teacherRepository.findByEmail(email);
     if (!user) {
       throw new AppError('Incorrent email/password combination', 401);
     }

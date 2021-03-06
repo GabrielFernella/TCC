@@ -12,14 +12,14 @@ interface IRequest {
   password: string;
   avatar: string;
   pix: string;
-  ban: number;
+  bio: string;
 }
 
 @injectable()
 class CreateTeacherService {
   constructor(
-    @inject('TeachersRepository')
-    private teachersRepository: ITeacherRepository,
+    @inject('TeacherRepository')
+    private teacherRepository: ITeacherRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -32,22 +32,24 @@ class CreateTeacherService {
     password,
     avatar,
     pix,
+    bio,
   }: IRequest): Promise<Teacher> {
     // Procurando se há um user com o mesmo email
-    const checkUserExists = await this.teachersRepository.findByEmail(email);
+    const checkUserExists = await this.teacherRepository.findByEmail(email);
     if (checkUserExists) {
       throw new AppError('Email address already used');
     }
 
     const hashPassword = await this.hashProvider.generateHash(password);
 
-    const user = await this.teachersRepository.create({
+    const user = await this.teacherRepository.create({
       name,
       cpf,
       email,
       password: hashPassword,
       avatar,
       pix,
+      bio,
       ban: 0,
     });
 

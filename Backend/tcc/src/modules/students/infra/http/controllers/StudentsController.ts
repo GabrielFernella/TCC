@@ -6,7 +6,7 @@ import CreateStudentService from '@modules/students/services/CreateStudentServic
 
 export default class StudentsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, cpf, email, password } = request.body;
+    const { name, cpf, email, password, avatar, pix } = request.body;
 
     const createUser = container.resolve(CreateStudentService);
 
@@ -15,6 +15,8 @@ export default class StudentsController {
       cpf,
       email,
       password,
+      avatar,
+      pix,
     });
 
     return response.json(classToClass(user));
