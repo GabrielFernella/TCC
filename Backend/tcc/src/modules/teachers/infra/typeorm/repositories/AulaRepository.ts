@@ -13,6 +13,7 @@ class AulaRepository implements IAulaRepository {
   }
 
   public async create(data: ICreateAulaDTO): Promise<Aula> {
+    // Essa função deve ser executada 1 única vez
     const createAula = this.ormRepository.create(data);
 
     await this.ormRepository.save(createAula);

@@ -1,7 +1,8 @@
 # Lista de Tarefas
 
-1. Terminar implementações do Students, Teachers and Appointment
+1. Terminar implementações do Students, Teachers
 2. Criar os serviços para as entidades
+3. Fazer o CRUD completo para aulas, disponibilidade e avaliacao tendo nota que alguns precisam ser apenas alterados
 
 # Comandos
 

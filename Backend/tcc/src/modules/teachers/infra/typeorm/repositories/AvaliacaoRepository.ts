@@ -13,6 +13,7 @@ class AvaliacaoRepository implements IAvaliacaoRepository {
   }
 
   public async create(data: ICreateAvaliacaoDTO): Promise<Avaliacao> {
+    // Essa função deve ser executada 1 única vez
     const createAvaliacao = this.ormRepository.create(data);
 
     await this.ormRepository.save(createAvaliacao);

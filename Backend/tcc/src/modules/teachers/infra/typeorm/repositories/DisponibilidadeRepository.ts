@@ -15,6 +15,7 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
   public async create(
     data: ICreateDisponibilidadeDTO,
   ): Promise<Disponibilidade> {
+    // Essa função deve ser executada 1 única vez
     const disponibilidade = this.ormRepository.create(data);
 
     await this.ormRepository.save(disponibilidade);

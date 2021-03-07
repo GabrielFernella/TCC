@@ -25,6 +25,7 @@ class Disponibilidade {
   /* @Column('timestamp with time zone')
   date: Date; // Salva a data e a hora */
 
+  // Vamos computar o dia da seguinte maneira (1,2,3,4,5,6,7) e horários (00 até 23)
   @Column()
   diasemana: number;
 

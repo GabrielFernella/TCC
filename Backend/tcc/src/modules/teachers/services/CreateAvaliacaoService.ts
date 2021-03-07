@@ -17,8 +17,8 @@ interface IRequest {
 @injectable()
 class CreateAvaliacaoService {
   constructor(
-    @inject('TeachersRepository')
-    private teachersRepository: ITeacherRepository,
+    @inject('TeacherRepository')
+    private teacherRepository: ITeacherRepository,
 
     @inject('AvaliacaoProvider')
     private avaliacaoProvider: IAvaliacaoRepository,
@@ -31,7 +31,7 @@ class CreateAvaliacaoService {
     opinion,
   }: IRequest): Promise<Avaliacao> {
     // Procurando se há um user com o mesmo email
-    const findTeacher = await this.teachersRepository.findById(teacher_id);
+    const findTeacher = await this.teacherRepository.findById(teacher_id);
     if (findTeacher) {
       throw new AppError('Teacher not found');
     }
