@@ -15,10 +15,16 @@ class AulaRepository implements IAulaRepository {
   public async create(data: ICreateAulaDTO): Promise<Aula> {
     // Essa função deve ser executada 1 única vez
     const createAula = this.ormRepository.create(data);
-
     await this.ormRepository.save(createAula);
 
     return createAula;
+  }
+
+  public async findByTeacherID(id: string): Promise<Aula[] | undefined> {
+    const findAula = await this.ormRepository.find({
+      teacher_id: id,
+    });
+    return findAula;
   }
 
   public async save(data: Aula): Promise<Aula> {

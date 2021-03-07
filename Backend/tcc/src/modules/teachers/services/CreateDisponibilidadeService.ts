@@ -9,8 +9,8 @@ import Disponibilidade from '../infra/typeorm/entities/Disponibilidade';
 
 interface IRequest {
   teacher_id: string;
-  diaSemana: string;
-  horario: string;
+  diaSemana: number;
+  horario: number;
 }
 
 @injectable()
@@ -33,6 +33,14 @@ class CreateDisponibilidadeService {
     if (findTeacher) {
       throw new AppError('Teacher not found');
     }
+
+    // Validando se já existe uma disponibilidade
+    /* const tableexists = await this.disponibilidadeProvider.findByTeacherID(
+      teacher_id,
+    );
+    if (tableexists) {
+      throw new AppError('Disponibilidade já existe');
+    } */
 
     const cadDisponibilidade = await this.disponibilidadeProvider.create({
       teacher_id,

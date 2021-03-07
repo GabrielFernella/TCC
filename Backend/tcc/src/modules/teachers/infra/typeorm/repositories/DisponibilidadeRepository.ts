@@ -23,6 +23,15 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
     return disponibilidade;
   }
 
+  public async findByTeacherID(
+    id: string,
+  ): Promise<Disponibilidade[] | undefined> {
+    const findDisponibilidade = await this.ormRepository.find({
+      teacher_id: id,
+    });
+    return findDisponibilidade;
+  }
+
   public async save(data: Disponibilidade): Promise<Disponibilidade> {
     return this.ormRepository.save(data);
   }

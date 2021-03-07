@@ -21,6 +21,13 @@ class AvaliacaoRepository implements IAvaliacaoRepository {
     return createAvaliacao;
   }
 
+  public async findByTeacherID(id: string): Promise<Avaliacao[] | undefined> {
+    const findAvaliacao = await this.ormRepository.find({
+      teacher_id: id,
+    });
+    return findAvaliacao;
+  }
+
   public async save(data: Avaliacao): Promise<Avaliacao> {
     return this.ormRepository.save(data);
   }
