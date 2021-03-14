@@ -7,7 +7,10 @@ import DeleteDisponibilidadeService from '@modules/teachers/services/Disponibili
 
 export default class DisponibilidadeController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    // passa o ID do professor para exibir todas as aulas que estão relacionadas ao usuário
+
+    // const { id } = request.params;
+    const { id } = request.user; //
 
     const showDisponibilidadeService = container.resolve(
       ShowDisponibilidadeService,
@@ -40,6 +43,7 @@ export default class DisponibilidadeController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
+    // Passsa o parametro específico da tabela que deseja excluir
     const { id } = request.params;
 
     const deleteDisponibilidadeService = container.resolve(
