@@ -4,8 +4,8 @@ import path from 'path';
 import AppError from '@shared/errors/AppError';
 
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import ITeacherRepository from '../repositories/ITeacherRepository';
-import ITeacherTokensRepository from '../repositories/ITeacherTokensRepository';
+import ITeacherRepository from '../../repositories/ITeacherRepository';
+import ITeacherTokensRepository from '../../repositories/ITeacherTokensRepository';
 
 interface IRequest {
   email: string;

@@ -4,9 +4,9 @@ import { injectable, inject } from 'tsyringe'; // injeção de dependências
 
 import AppError from '@shared/errors/AppError';
 
-import Teacher from '../infra/typeorm/entities/Teacher';
-import ITeacherRepository from '../repositories/ITeacherRepository';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import Teacher from '../../infra/typeorm/entities/Teacher';
+import ITeacherRepository from '../../repositories/ITeacherRepository';
+import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   email: string;

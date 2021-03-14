@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import ICreateDisponibilidadeDTO from '@modules/teachers/dtos/ICreateDisponibilidadeDTO';
 import IDisponibilidadeRepository from '@modules/teachers/repositories/IDisponibilidadeRepository';
 
+import AppError from '@shared/errors/AppError';
 import Disponibilidade from '../entities/Disponibilidade';
 
 class DisponibilidadeRepository implements IDisponibilidadeRepository {
@@ -23,17 +24,34 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
     return disponibilidade;
   }
 
+  public async findByID(id: string): Promise<Disponibilidade | undefined> {
+    const findDisponibilidade = await this.ormRepository.findOne({
+      where: { id },
+    });
+    return findDisponibilidade;
+  }
+
   public async findByTeacherID(
     id: string,
   ): Promise<Disponibilidade[] | undefined> {
     const findDisponibilidade = await this.ormRepository.find({
-      teacher_id: id,
+      where: { teacher_id: id },
     });
     return findDisponibilidade;
   }
 
   public async save(data: Disponibilidade): Promise<Disponibilidade> {
     return this.ormRepository.save(data);
+  }
+
+  public async deleted(id: string): Promise<string> {
+    const deleted = await this.ormRepository.delete(id);
+
+    if (!deleted) {
+      throw new AppError('Disponibilidade not found');
+    }
+    const result = 'Deleted';
+    return result;
   }
 }
 

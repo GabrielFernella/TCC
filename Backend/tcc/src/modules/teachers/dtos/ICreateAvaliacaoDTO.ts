@@ -1,6 +1,6 @@
 export default interface ICreateAvaliacaoDTO {
   teacher_id: string;
-  qtdAulas: number;
-  qtdAvaliacao: number;
+  qtdaulas: number;
+  qtdavaliacao: number;
   opinion: string;
 }

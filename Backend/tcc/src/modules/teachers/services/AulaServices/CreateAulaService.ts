@@ -2,15 +2,15 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import ITeacherRepository from '../repositories/ITeacherRepository';
+import ITeacherRepository from '../../repositories/ITeacherRepository';
 
-import IAulaRepository from '../repositories/IAulaRepository';
-import Aula from '../infra/typeorm/entities/Aula';
+import IAulaRepository from '../../repositories/IAulaRepository';
+import Aula from '../../infra/typeorm/entities/Aula';
 
 interface IRequest {
   teacher_id: string;
   tittle: string;
-  tag: string;
+  tag: string[];
   description: string;
   value: number;
 }
@@ -21,8 +21,8 @@ class CreateAulaService {
     @inject('TeacherRepository')
     private teacherRepository: ITeacherRepository,
 
-    @inject('AulaProvider')
-    private aulaProvider: IAulaRepository,
+    @inject('AulaRepository')
+    private aulaRepository: IAulaRepository,
   ) {}
 
   public async execute({
@@ -38,7 +38,7 @@ class CreateAulaService {
       throw new AppError('Teacher not found');
     }
 
-    const cadAula = await this.aulaProvider.create({
+    const cadAula = await this.aulaRepository.create({
       teacher_id,
       tittle,
       tag,

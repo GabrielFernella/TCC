@@ -10,7 +10,7 @@ import {
 
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
-@Entity('disponibilidade')
+@Entity('disponibilidades')
 class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -27,10 +27,13 @@ class Disponibilidade {
 
   // Vamos computar o dia da seguinte maneira (1,2,3,4,5,6,7) e horários (00 até 23)
   @Column()
-  diasemana: number;
+  diaSemana: number;
 
   @Column()
-  horario: number;
+  horarioentrada: number;
+
+  @Column()
+  horariosaida: number;
 
   @CreateDateColumn()
   created_at: Date;

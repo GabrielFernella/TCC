@@ -3,9 +3,9 @@ import { isAfter, addHours } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
-import ITeacherRepository from '../repositories/ITeacherRepository';
-import ITeacherTokensRepository from '../repositories/ITeacherTokensRepository';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import ITeacherRepository from '../../repositories/ITeacherRepository';
+import ITeacherTokensRepository from '../../repositories/ITeacherTokensRepository';
+import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   token: string;

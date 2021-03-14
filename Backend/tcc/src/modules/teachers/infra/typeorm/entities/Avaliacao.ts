@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
-@Entity('avaliacoes')
+@Entity('avaliacao')
 class Avaliacao {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -29,7 +29,11 @@ export default class CreateDisponibilidade1614778395534
             type: 'varchar',
           },
           {
-            name: 'horario',
+            name: 'horarioentrada',
+            type: 'varchar',
+          },
+          {
+            name: 'horariosaida',
             type: 'varchar',
           },
           {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import CreateTeacherService from '@modules/teachers/services/CreateTeacherService';
+import CreateTeacherService from '@modules/teachers/services/TeacherServices/CreateTeacherService';
 
 export default class TeachersController {
   public async create(request: Request, response: Response): Promise<Response> {
