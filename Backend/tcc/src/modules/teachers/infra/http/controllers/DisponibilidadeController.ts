@@ -9,8 +9,8 @@ export default class DisponibilidadeController {
   public async show(request: Request, response: Response): Promise<Response> {
     // passa o ID do professor para exibir todas as aulas que estão relacionadas ao usuário
 
-    // const { id } = request.params;
-    const { id } = request.user; //
+    const { id } = request.params;
+    // const { id } = request.user; //
 
     const showDisponibilidadeService = container.resolve(
       ShowDisponibilidadeService,
