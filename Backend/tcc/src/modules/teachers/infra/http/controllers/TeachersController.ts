@@ -20,6 +20,6 @@ export default class TeachersController {
       bio,
     });
 
-    return response.json(classToClass(user));
+    return response.status(201).json(classToClass(user));
   }
 }

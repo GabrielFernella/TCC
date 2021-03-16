@@ -2,12 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
+import CreditCard from './CreditCard';
 
 interface ICard {
   number: string;
@@ -42,6 +44,9 @@ class Student {
 
   @Column()
   ban: string;
+
+  @OneToOne(type => CreditCard, student => Student)
+  creditcard: CreditCard;
 
   @CreateDateColumn()
   created_at: Date;

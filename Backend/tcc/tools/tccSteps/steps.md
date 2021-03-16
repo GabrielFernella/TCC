@@ -10,6 +10,7 @@
 2. yarn typeorm migration:run (Rodar as migrations disponíveis)
 3. yarn typeorm migration:revert (só pode alterar uma migration se ela não foi enviada para o sistema)
 4. yarn typeorm migration:show (visualizar todas as migrations)
+5. drop database web_educa  == create database web_educa -- "192.168.56.101",
 
 # Onde parei?
 
