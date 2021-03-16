@@ -1,8 +1,9 @@
 # Lista de Tarefas
 
-1. Terminar implementações do Students, Teachers
-2. Criar os serviços para as entidades
-3. Fazer o CRUD completo para aulas, disponibilidade e avaliacao tendo nota que alguns precisam ser apenas alterados
+1. docker start postgres mongo redis
+2. Terminar implementações do Students, Teachers
+3. Criar os serviços para as entidades
+4. Fazer o CRUD completo para aulas, disponibilidade e avaliacao tendo nota que alguns precisam ser apenas alterados
 
 # Comandos
 
