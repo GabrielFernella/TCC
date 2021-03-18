@@ -1,0 +1,17 @@
+{
+  "git.ignoreLimitWarning": true,
+  "files.exclude": {
+    "node_modules": true,
+    //"tools": true,
+    "package-lock.json": true,
+    "public": true,
+    ".gitattributes": true,
+    ".gitignore": true,
+    "yarn.lock": true,
+    ".editorconfig": true,
+    ".eslintignore": true,
+    ".eslintrc.js": true,
+    ".prettierrc": true,
+    "prettier.config.js": true
+  }
+}
