@@ -4,24 +4,25 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Professor from './Professor';
+import Cartao from './Cartao';
 
-@Entity('disponibilidade')
-export default class Disponibilidade {
+@Entity('pagamento')
+export default class Pagamento {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  diaSemana: string;
+  valor: string;
 
   @Column()
-  horarioEntrada: string;
+  estatus: string;
 
   @Column()
-  horarioSaida: string;
+  comprovante: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -30,9 +31,9 @@ export default class Disponibilidade {
   updated_at: Date;
 
   @Column()
-  professor_id: string;
+  cartao_id: string;
 
-  @ManyToOne(() => Professor, disponibilidade => Disponibilidade)
-  @JoinColumn({ name: 'professor_id' })
-  professor: Professor;
+  @ManyToOne(type => Cartao, pagamento => Pagamento)
+  @JoinColumn({ name: 'cartao_id' })
+  cartao: Cartao;
 }

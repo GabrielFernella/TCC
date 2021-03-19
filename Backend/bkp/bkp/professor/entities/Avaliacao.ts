@@ -7,32 +7,34 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Professor from './Professor';
+import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
 
 @Entity('avaliacao')
-export default class Avaliacao {
+class Avaliacao {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  qtdAulas: number;
+  teacher_id: string;
+
+  @OneToOne(type => Teacher, avaliacao => Avaliacao)
+  @JoinColumn({ name: 'teacher_id' })
+  teacher: Teacher;
 
   @Column()
-  mediaAvaliacao: number;
+  qtdaulas: number;
 
   @Column()
-  oponiao: string;
+  qtdavaliacao: number;
+
+  @Column()
+  opinion: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @Column()
-  professor_id: string;
-
-  @OneToOne(() => Professor, avaliacao => Avaliacao)
-  @JoinColumn({ name: 'professor_id' })
-  professor: Professor;
 }
+
+export default Avaliacao;

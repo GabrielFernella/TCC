@@ -8,13 +8,15 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import { Exclude } from 'class-transformer';
-import Cartao from './Cartao';
-import AlunoToken from './AlunoToken';
 
-@Entity('aluno')
-class Aluno {
+import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
+import Disponibilidade from './Disponibilidade';
+import Avaliacao from './Avaliacao';
+import Aula from './Aula';
+
+@Entity('professor')
+class Professor {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -46,14 +48,20 @@ class Aluno {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Agendamento, aluno => Aluno)
+  @Column()
+  bio: string;
+
+  @OneToMany(() => Agendamento, professor => Professor)
   agendamentos: Agendamento[];
 
-  @OneToOne(() => AlunoToken, aluno => Aluno)
-  alunoTokens: AlunoToken;
+  @OneToMany(() => Aula, professor => Professor)
+  aulas: Aula[];
 
-  @OneToOne(() => Cartao, aluno => Aluno)
-  cartaos: Cartao;
+  @OneToMany(() => Disponibilidade, professor => Professor)
+  disponibilidades: Disponibilidade[];
+
+  @OneToOne(() => Avaliacao, professor => Professor)
+  avaliacao: Avaliacao;
 }
 
-export default Aluno;
+export default Professor;

@@ -1,13 +1,11 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
-@Entity('usuario')
 class Usuario {
   @PrimaryGeneratedColumn('uuid')
   id: string;

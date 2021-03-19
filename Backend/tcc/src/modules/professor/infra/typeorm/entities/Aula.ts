@@ -1,44 +1,47 @@
+import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import Teacher from '@modules/teachers/infra/typeorm/entities/Teacher';
+import Professor from './Professor';
 
-@Entity('aulas')
-class Aula {
+@Entity('aula')
+export default class Aula {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  teacher_id: string;
-
-  @ManyToOne(type => Teacher, aula => Aula)
-  @JoinColumn({ name: 'teacher_id' })
-  teacher: Teacher;
+  titulo: string;
 
   @Column()
-  tittle: string;
-
-  @Column('simple-array')
-  tag: string[];
+  tag: string;
 
   @Column()
-  description: string;
+  descricao: string;
 
-  @Column()
-  value: number;
+  @Column('numeric', { name: 'valor' })
+  valor: string;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-}
 
-export default Aula;
+  @Column()
+  professor_id: string;
+
+  @ManyToOne(() => Professor, aula => Aula)
+  @JoinColumn({ name: 'professor_id' })
+  professor: Professor;
+
+  @OneToMany(() => Agendamento, aula => Aula)
+  agendamentos: Agendamento[];
+}
