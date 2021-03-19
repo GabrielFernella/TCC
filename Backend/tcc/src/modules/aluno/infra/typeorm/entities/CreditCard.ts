@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Student from './Student';
+import Aluno from './Aluno';
 
 @Entity('creditcard')
 class CreditCard {
@@ -17,9 +17,9 @@ class CreditCard {
   @Column()
   student_id: string;
 
-  @ManyToOne(type => Student, creditcard => CreditCard)
+  @ManyToOne(type => Aluno, creditcard => CreditCard)
   @JoinColumn({ name: 'student_id' })
-  student: Student;
+  aluno: Aluno;
 
   @Column()
   cardnumber: string;
