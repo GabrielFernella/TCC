@@ -1,19 +1,18 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateAulaDTO from '@modules/teachers/dtos/ICreateAulaDTO';
-import IAulaRepository from '@modules/teachers/repositories/IAulaRepository';
+import ICreateDisciplinaDTO from '@modules/professor/dtos/ICreateDisciplinaDTO';
+import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
 
-import AppError from '@shared/errors/AppError';
-import Aula from '../entities/Aula';
+import Disciplina from '../entities/Disciplina';
 
-class AulaRepository implements IAulaRepository {
-  private ormRepository: Repository<Aula>;
+class DisciplinaRepository implements IDisciplinaRepository {
+  private ormRepository: Repository<Disciplina>;
 
   constructor() {
-    this.ormRepository = getRepository(Aula);
+    this.ormRepository = getRepository(Disciplina);
   }
 
-  public async findByID(id: string): Promise<Aula | undefined> {
+  public async findByID(id: string): Promise<Disciplina | undefined> {
     const aula = this.ormRepository.findOne({
       where: {
         id,
@@ -23,7 +22,7 @@ class AulaRepository implements IAulaRepository {
     return aula;
   }
 
-  public async create(data: ICreateAulaDTO): Promise<Aula> {
+  public async create(data: ICreateDisciplinaDTO): Promise<Disciplina> {
     // Essa função deve ser executada 1 única vez
     const createAula = this.ormRepository.create(data);
     await this.ormRepository.save(createAula);
@@ -31,21 +30,21 @@ class AulaRepository implements IAulaRepository {
     return createAula;
   }
 
-  public async findByTeacherID(id: string): Promise<Aula[] | undefined> {
+  public async findByTeacherID(id: string): Promise<Disciplina[] | undefined> {
     const findAula = await this.ormRepository.find({
-      teacher_id: id,
+      professor_id: id,
     });
     return findAula;
   }
 
-  public async save(data: Aula): Promise<Aula> {
+  public async save(data: Disciplina): Promise<Disciplina> {
     return this.ormRepository.save(data);
   }
 
   public async updated(
     id: string,
-    data: ICreateAulaDTO,
-  ): Promise<Aula | undefined> {
+    data: ICreateDisciplinaDTO,
+  ): Promise<Disciplina | undefined> {
     await this.ormRepository.update(id, data);
     const teste = await this.ormRepository.findOne(id);
     return teste;
@@ -59,4 +58,4 @@ class AulaRepository implements IAulaRepository {
   }
 }
 
-export default AulaRepository;
+export default DisciplinaRepository;

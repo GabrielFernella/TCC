@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateDisponibilidadeDTO from '@modules/teachers/dtos/ICreateDisponibilidadeDTO';
-import IDisponibilidadeRepository from '@modules/teachers/repositories/IDisponibilidadeRepository';
+import ICreateDisponibilidadeDTO from '@modules/professor/dtos/ICreateDisponibilidadeDTO';
+import IDisponibilidadeRepository from '@modules/professor/repositories/IDisponibilidadeRepository';
 
 import AppError from '@shared/errors/AppError';
 import Disponibilidade from '../entities/Disponibilidade';

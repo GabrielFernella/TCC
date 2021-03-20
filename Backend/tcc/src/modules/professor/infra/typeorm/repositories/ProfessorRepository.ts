@@ -1,24 +1,24 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ITeacherRepository from '@modules/teachers/repositories/ITeacherRepository';
+import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
 
-import ICreateTeatherDTO from '@modules/teachers/dtos/ICreateTeatherDTO';
-import Teacher from '../entities/Teacher';
+import ICreateProfessorDTO from '@modules/professor/dtos/ICreateProfessorDTO';
+import Professor from '../entities/Professor';
 
-class TeachersRepository implements ITeacherRepository {
-  private ormRepository: Repository<Teacher>;
+class ProfessorRepository implements IProfessorRepository {
+  private ormRepository: Repository<Professor>;
 
   constructor() {
-    this.ormRepository = getRepository(Teacher);
+    this.ormRepository = getRepository(Professor);
   }
 
-  public async findById(id: string): Promise<Teacher | undefined> {
+  public async findById(id: string): Promise<Professor | undefined> {
     const findId = await this.ormRepository.findOne(id);
 
     return findId;
   }
 
-  public async findByEmail(email: string): Promise<Teacher | undefined> {
+  public async findByEmail(email: string): Promise<Professor | undefined> {
     const findEmail = await this.ormRepository.findOne({
       where: { email },
     });
@@ -26,7 +26,7 @@ class TeachersRepository implements ITeacherRepository {
     return findEmail;
   }
 
-  public async create(data: ICreateTeatherDTO): Promise<Teacher> {
+  public async create(data: ICreateProfessorDTO): Promise<Professor> {
     const user = this.ormRepository.create(data);
 
     await this.ormRepository.save(user);
@@ -34,9 +34,9 @@ class TeachersRepository implements ITeacherRepository {
     return user;
   }
 
-  public async save(user: Teacher): Promise<Teacher> {
+  public async save(user: Professor): Promise<Professor> {
     return this.ormRepository.save(user);
   }
 }
 
-export default TeachersRepository;
+export default ProfessorRepository;

@@ -6,5 +6,4 @@ export default interface ICreateTeacherDTO {
   avatar: string;
   pix: string;
   bio: string;
-  ban: number;
 }

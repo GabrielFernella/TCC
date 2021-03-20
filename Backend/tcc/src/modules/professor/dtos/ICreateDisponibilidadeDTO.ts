@@ -1,6 +1,6 @@
 export default interface ICreateDisponibilidadeDTO {
   teacher_id: string;
-  diaSemana: number;
+  diaSemana: string;
   horarioentrada: number;
   horariosaida: number;
 }

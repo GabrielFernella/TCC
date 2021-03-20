@@ -1,16 +1,16 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ITeacherTokensRepository from '@modules/teachers/repositories/ITeacherTokensRepository';
-import TeachersToken from '../entities/TeachersToken';
+import ITeacherTokensRepository from '@modules/professor/repositories/IProfessorTokensRepository';
+import ProfessorToken from '../entities/ProfessorToken';
 
-class TeachersTokensRepository implements ITeacherTokensRepository {
-  private ormRepository: Repository<TeachersToken>;
+class ProfessorTokensRepository implements ITeacherTokensRepository {
+  private ormRepository: Repository<ProfessorToken>;
 
   constructor() {
-    this.ormRepository = getRepository(TeachersToken);
+    this.ormRepository = getRepository(ProfessorToken);
   }
 
-  public async findByToken(token: string): Promise<TeachersToken | undefined> {
+  public async findByToken(token: string): Promise<ProfessorToken | undefined> {
     const userToken = await this.ormRepository.findOne({
       where: { token },
     });
@@ -18,9 +18,10 @@ class TeachersTokensRepository implements ITeacherTokensRepository {
     return userToken;
   }
 
-  public async generate(user_id: string): Promise<TeachersToken> {
+  // Ver se esse está certo
+  public async generate(user_id: string): Promise<ProfessorToken> {
     const userToken = this.ormRepository.create({
-      user_id,
+      professor_id: user_id,
     });
 
     await this.ormRepository.save(userToken);
@@ -29,4 +30,4 @@ class TeachersTokensRepository implements ITeacherTokensRepository {
   }
 }
 
-export default TeachersTokensRepository;
+export default ProfessorTokensRepository;

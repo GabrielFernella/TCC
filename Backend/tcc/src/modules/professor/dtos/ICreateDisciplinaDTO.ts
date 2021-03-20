@@ -4,4 +4,6 @@ export default interface ICreateAulaDTO {
   tag: string[];
   description: string;
   value: number;
+  qtdAvaliacao: string;
+  mediaAvaliacao: string;
 }

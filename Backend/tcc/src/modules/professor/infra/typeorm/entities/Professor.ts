@@ -1,52 +1,12 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-
-import { Exclude } from 'class-transformer';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
+import Usuario from '@modules/usuario/infra/typeorm/entities/usuario';
 import Disponibilidade from './Disponibilidade';
 import Disciplina from './Disciplina';
 
 @Entity('professor')
-class Professor {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
-  name: string;
-
-  @Column()
-  cpf: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  @Exclude() // não exibe para o response
-  password: string;
-
-  @Column()
-  avatar: string;
-
-  @Column()
-  pix: string;
-
-  @Column()
-  ban: string;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
+class Professor extends Usuario {
   @Column()
   bio: string;
 
