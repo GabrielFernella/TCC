@@ -4,13 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   UpdateDateColumn,
 } from 'typeorm';
 
 import Aluno from '@modules/aluno/infra/typeorm/entities/Aluno';
 import Pagamento from '@modules/aluno/infra/typeorm/entities/Pagamento';
-import Aula from '@modules/professor/infra/typeorm/entities/Aula';
 import Professor from '@modules/professor/infra/typeorm/entities/Professor';
+import Disciplina from '@modules/professor/infra/typeorm/entities/Disciplina';
 
 @Entity('agendamento')
 export default class Agendamento {
@@ -43,7 +44,7 @@ export default class Agendamento {
   pagamento_id: string;
 
   @Column()
-  aula_id: string;
+  disciplina_id: string;
 
   @Column()
   professor_id: string;
@@ -52,13 +53,13 @@ export default class Agendamento {
   @JoinColumn([{ name: 'aluno_id', referencedColumnName: 'id' }])
   aluno: Aluno;
 
-  @ManyToOne(() => Pagamento, agendamento => Agendamento)
+  @OneToOne(() => Pagamento, agendamento => Agendamento)
   @JoinColumn([{ name: 'pagamento_id', referencedColumnName: 'id' }])
   pagamento: Pagamento;
 
-  @ManyToOne(() => Aula, agendamento => Agendamento)
-  @JoinColumn([{ name: 'aula_id', referencedColumnName: 'id' }])
-  aula: Aula;
+  @ManyToOne(() => Disciplina, agendamento => Agendamento)
+  @JoinColumn([{ name: 'disciplina_id', referencedColumnName: 'id' }])
+  disciplina: Disciplina;
 
   @ManyToOne(() => Professor, agendamento => Agendamento)
   @JoinColumn([{ name: 'professor_id', referencedColumnName: 'id' }])

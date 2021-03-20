@@ -8,7 +8,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Cartao from './Cartao';
+
+import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
+import Aluno from './Aluno';
 
 @Entity('pagamento')
 export default class Pagamento {
@@ -16,13 +18,16 @@ export default class Pagamento {
   id: string;
 
   @Column()
+  status: string;
+
+  @Column()
+  title: string;
+
+  @Column()
+  emailPagador: string;
+
+  @Column()
   valor: string;
-
-  @Column()
-  estatus: string;
-
-  @Column()
-  comprovante: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -31,9 +36,12 @@ export default class Pagamento {
   updated_at: Date;
 
   @Column()
-  cartao_id: string;
+  aluno_id: string;
 
-  @ManyToOne(type => Cartao, pagamento => Pagamento)
-  @JoinColumn({ name: 'cartao_id' })
-  cartao: Cartao;
+  @ManyToOne(type => Aluno, pagamento => Pagamento)
+  @JoinColumn({ name: 'aluno_id' })
+  aluno: Aluno;
+
+  @OneToOne(type => Agendamento, pagamento => Pagamento)
+  agendamento: Agendamento;
 }

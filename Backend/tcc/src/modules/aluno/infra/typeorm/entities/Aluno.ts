@@ -10,7 +10,7 @@ import {
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import { Exclude } from 'class-transformer';
-import Cartao from './Cartao';
+import Pagamento from './Pagamento';
 import AlunoToken from './AlunoToken';
 
 @Entity('aluno')
@@ -52,8 +52,8 @@ class Aluno {
   @OneToOne(() => AlunoToken, aluno => Aluno)
   alunoTokens: AlunoToken;
 
-  @OneToOne(() => Cartao, aluno => Aluno)
-  cartaos: Cartao;
+  @OneToMany(() => Pagamento, aluno => Aluno)
+  pagamento: Pagamento;
 }
 
 export default Aluno;

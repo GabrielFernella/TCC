@@ -12,8 +12,7 @@ import { Exclude } from 'class-transformer';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import Disponibilidade from './Disponibilidade';
-import Avaliacao from './Avaliacao';
-import Aula from './Aula';
+import Disciplina from './Disciplina';
 
 @Entity('professor')
 class Professor {
@@ -54,14 +53,11 @@ class Professor {
   @OneToMany(() => Agendamento, professor => Professor)
   agendamentos: Agendamento[];
 
-  @OneToMany(() => Aula, professor => Professor)
-  aulas: Aula[];
+  @OneToMany(() => Disciplina, professor => Professor)
+  disciplina: Disciplina[];
 
   @OneToMany(() => Disponibilidade, professor => Professor)
   disponibilidades: Disponibilidade[];
-
-  @OneToOne(() => Avaliacao, professor => Professor)
-  avaliacao: Avaliacao;
 }
 
 export default Professor;
