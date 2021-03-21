@@ -2,10 +2,10 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import IHashProvider from '@modules/teachers/providers/HashProvider/models/IHashProvider';
+import IHashProvider from '@modules/aluno/providers/HashProvider/models/IHashProvider';
 
-import Student from '../infra/typeorm/entities/Student';
-import IStudentRepository from '../repositories/IStudentRepository';
+import Aluno from '../infra/typeorm/entities/Aluno';
+import IAlunoRepository from '../repositories/IAlunoRepository';
 
 interface IRequest {
   name: string;
@@ -17,10 +17,10 @@ interface IRequest {
 }
 
 @injectable()
-class CreateStudentService {
+class CreateAlunoService {
   constructor(
-    @inject('StudentRepository')
-    private studentRepository: IStudentRepository,
+    @inject('AlunoRepository')
+    private alunoRepository: IAlunoRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -33,33 +33,32 @@ class CreateStudentService {
     password,
     avatar,
     pix,
-  }: IRequest): Promise<Student> {
+  }: IRequest): Promise<Aluno> {
     // Procurando se há um user com o mesmo CPF
-    const checkUserCpfExists = await this.studentRepository.findByEmail(cpf);
+    const checkUserCpfExists = await this.alunoRepository.findByEmail(cpf);
     if (checkUserCpfExists) {
       throw new AppError('CPF address already used');
     }
 
     // Procurando se há um user com o mesmo email
-    const checkUserExists = await this.studentRepository.findByEmail(email);
+    const checkUserExists = await this.alunoRepository.findByEmail(email);
     if (checkUserExists) {
       throw new AppError('Email address already used');
     }
 
     const hashPassword = await this.hashProvider.generateHash(password);
 
-    const user = await this.studentRepository.create({
+    const user = await this.alunoRepository.create({
       name,
       cpf,
       email,
       password: hashPassword,
       avatar,
       pix,
-      ban: 0,
     });
 
     return user;
   }
 }
 
-export default CreateStudentService;
+export default CreateAlunoService;

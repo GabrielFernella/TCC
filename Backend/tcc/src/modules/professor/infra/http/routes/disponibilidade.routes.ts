@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
-import ensureAuthenticated from '@modules/teachers/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/professor/infra/http/middlewares/ensureAuthenticated';
 import DisponibilidadeController from '../controllers/DisponibilidadeController';
 
 const disponibilidadeRouter = Router();
@@ -21,7 +21,7 @@ disponibilidadeRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      teacher_id: Joi.string().required(),
+      professor_id: Joi.string().required(),
       diaSemana: Joi.number().required(),
       horarioentrada: Joi.number().required(),
       horariosaida: Joi.number().required(),

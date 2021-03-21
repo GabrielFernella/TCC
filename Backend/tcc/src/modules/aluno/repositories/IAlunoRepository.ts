@@ -1,10 +1,10 @@
-import Student from '../infra/typeorm/entities/Student';
+import Aluno from '../infra/typeorm/entities/Aluno';
 
-import ICreateStudentDTO from '../dtos/ICreateStudentDTO';
+import ICreateAlunoDTO from '../dtos/ICreateAlunoDTO';
 
-export default interface IStudentRepository {
-  findById(id: string): Promise<Student | undefined>;
-  findByEmail(email: string): Promise<Student | undefined>;
-  create(data: ICreateStudentDTO): Promise<Student>;
-  save(user: Student): Promise<Student>;
+export default interface IAlunoRepository {
+  findById(id: string): Promise<Aluno | undefined>;
+  findByEmail(email: string): Promise<Aluno | undefined>;
+  create(data: ICreateAlunoDTO): Promise<Aluno>;
+  save(user: Aluno): Promise<Aluno>;
 }

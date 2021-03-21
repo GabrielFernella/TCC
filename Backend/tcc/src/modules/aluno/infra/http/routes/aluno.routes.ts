@@ -4,18 +4,18 @@ import { celebrate, Joi, Segments } from 'celebrate';
 
 // import uploadConfig from '@config/upload';
 
-import TeachersController from '../controllers/TeachersController';
+import AlunoController from '../controllers/AlunoController';
 // import UserAvatarController from '../controllers/UserAvatarController';
 
 // import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
-const teachersRouter = Router();
-const teachersController = new TeachersController();
+const alunoRoute = Router();
+const alunoController = new AlunoController();
 // const userAvatarController = new UserAvatarController();
 
 // const upload = multer(uploadConfig.multer);
 
-teachersRouter.post(
+alunoRoute.post(
   '/',
   celebrate({
     [Segments.BODY]: {
@@ -25,10 +25,9 @@ teachersRouter.post(
       password: Joi.string().required(),
       avatar: Joi.string().required(),
       pix: Joi.string().required(),
-      bio: Joi.string().required(),
     },
   }),
-  teachersController.create,
+  alunoController.create,
 );
 
 /* usersRouter.patch(
@@ -37,4 +36,4 @@ teachersRouter.post(
   upload.single('avatar'),
   userAvatarController.update,
 ); */
-export default teachersRouter;
+export default alunoRoute;

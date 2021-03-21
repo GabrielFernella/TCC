@@ -3,8 +3,8 @@ import { isAfter, addHours } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
-import IStudentRepository from '../repositories/IStudentRepository';
-import IStudentsTokensRepository from '../repositories/IStudentsTokensRepository';
+import IAlunoRepository from '../repositories/IAlunoRepository';
+import IAlunoTokensRepository from '../repositories/IAlunoTokensRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -15,24 +15,24 @@ interface IRequest {
 @injectable()
 class ResetPasswordService {
   constructor(
-    @inject('StudentRepository')
-    private studentRepository: IStudentRepository,
+    @inject('AlunoRepository')
+    private alunoRepository: IAlunoRepository,
 
-    @inject('StudentTokensRepository')
-    private studentTokensRepository: IStudentsTokensRepository,
+    @inject('AlunoTokensRepository')
+    private alunoTokensRepository: IAlunoTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-  ) { }
+  ) {}
 
   public async execute({ token, password }: IRequest): Promise<void> {
-    const userToken = await this.studentTokensRepository.findByToken(token);
+    const userToken = await this.alunoTokensRepository.findByToken(token);
 
     if (!userToken) {
       throw new AppError('User token does not exists');
     }
 
-    const user = await this.studentRepository.findById(userToken.user_id);
+    const user = await this.alunoRepository.findById(userToken.aluno_id);
 
     if (!user) {
       throw new AppError('User does not exists');
@@ -47,7 +47,7 @@ class ResetPasswordService {
 
     user.password = await this.hashProvider.generateHash(password);
 
-    await this.studentRepository.save(user);
+    await this.alunoRepository.save(user);
   }
 }
 

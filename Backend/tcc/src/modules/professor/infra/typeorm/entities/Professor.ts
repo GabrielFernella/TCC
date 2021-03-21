@@ -1,9 +1,10 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import Usuario from '@modules/usuario/infra/typeorm/entities/usuario';
 import Disponibilidade from './Disponibilidade';
 import Disciplina from './Disciplina';
+import ProfessorToken from './ProfessorToken';
 
 @Entity('professor')
 class Professor extends Usuario {
@@ -18,6 +19,9 @@ class Professor extends Usuario {
 
   @OneToMany(() => Disponibilidade, professor => Professor)
   disponibilidades: Disponibilidade[];
+
+  @OneToOne(() => ProfessorToken, professor => Professor)
+  professorToken: ProfessorToken;
 }
 
 export default Professor;

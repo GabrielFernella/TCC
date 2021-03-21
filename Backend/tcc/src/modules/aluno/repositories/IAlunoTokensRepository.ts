@@ -1,6 +1,6 @@
-import StudentToken from '../infra/typeorm/entities/StudentToken';
+import AlunoToken from '../infra/typeorm/entities/AlunoToken';
 
-export default interface IStudentTokensRepository {
-  generate(user_id: string): Promise<StudentToken>;
-  findByToken(token: string): Promise<StudentToken | undefined>;
+export default interface IAlunoTokensRepository {
+  generate(user_id: string): Promise<AlunoToken>;
+  findByToken(token: string): Promise<AlunoToken | undefined>;
 }

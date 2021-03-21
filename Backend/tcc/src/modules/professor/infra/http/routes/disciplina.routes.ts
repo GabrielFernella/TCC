@@ -1,25 +1,26 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
-import ensureAuthenticated from '@modules/teachers/infra/http/middlewares/ensureAuthenticated';
-import AulaController from '../controllers/AulaController';
+import ensureAuthenticated from '@modules/professor/infra/http/middlewares/ensureAuthenticated';
+import DisciplinaController from '../controllers/DisciplinaController';
 
 const aulaRouter = Router();
-const aulaController = new AulaController();
+const disciplinaController = new DisciplinaController();
 
 aulaRouter.use(ensureAuthenticated);
 aulaRouter.post(
+  // Create
   '/',
   celebrate({
     [Segments.BODY]: {
-      teacher_id: Joi.string().required(),
+      professor_id: Joi.string().required(),
       tittle: Joi.string().required(),
       tag: Joi.array().required(), // pode ser um array de string
       description: Joi.string().required(),
       value: Joi.number().required(),
     },
   }),
-  aulaController.create,
+  disciplinaController.create,
 );
 
 export default aulaRouter;

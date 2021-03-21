@@ -1,9 +1,8 @@
-export default interface ICreateStudentDTO {
+export default interface ICreateAlunoDTO {
   name: string;
   cpf: string;
   email: string;
   password: string;
   avatar: string;
   pix: string;
-  ban: number;
 }

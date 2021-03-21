@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import ResetPasswordService from '@modules/students/services/ResetPasswordService';
+import ResetPasswordService from '@modules/aluno/services/ResetPasswordService';
 
 export default class ResetPasswordController {
   public async create(request: Request, response: Response): Promise<Response> {

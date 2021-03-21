@@ -1,10 +1,18 @@
-import Aluno from '../infra/typeorm/entities/Aluno';
+import Pagamento from '../infra/typeorm/entities/Pagamento';
 
-import ICreateStudentDTO from '../dtos/ICreateCreditCardDTO';
+import ICreatePagamentoDTO from '../dtos/ICreatePagamentoDTO';
 
 export default interface IPagamentoRepository {
-  findById(id: string): Promise<Aluno | undefined>;
-  findByEmail(email: string): Promise<Aluno | undefined>;
-  create(data: ICreateStudentDTO): Promise<Aluno>;
-  save(user: Aluno): Promise<Aluno>;
+  findById(id: string): Promise<Pagamento | undefined>;
+  findByEmailPagador(email: string): Promise<Pagamento | undefined>;
+  create(data: ICreatePagamentoDTO): Promise<Pagamento>;
+  save(user: Pagamento): Promise<Pagamento>;
 }
+
+/*
+aluno_id
+status
+title
+emailPagador
+valor
+*/

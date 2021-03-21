@@ -1,31 +1,31 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IStudentRepository from '@modules/students/repositories/IStudentRepository';
+import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
 
-import ICreateStudentDTO from '@modules/students/dtos/ICreateStudentDTO';
-import Student from '../entities/Aluno';
+import ICreateAlunoDTO from '@modules/aluno/dtos/ICreateAlunoDTO';
+import Aluno from '../entities/Aluno';
 
-class StudentRepository implements IStudentRepository {
-  private ormRepository: Repository<Student>;
+class AlunoRepository implements IAlunoRepository {
+  private ormRepository: Repository<Aluno>;
 
   constructor() {
-    this.ormRepository = getRepository(Student);
+    this.ormRepository = getRepository(Aluno);
   }
 
-  public async findById(id: string): Promise<Student | undefined> {
-    const findid = await this.ormRepository.findOne(id);
-    return findid;
+  public async findById(id: string): Promise<Aluno | undefined> {
+    const findId = await this.ormRepository.findOne(id);
+    return findId;
   }
 
-  public async findByEmail(email: string): Promise<Student | undefined> {
-    const findemail = await this.ormRepository.findOne({
+  public async findByEmail(email: string): Promise<Aluno | undefined> {
+    const findEmail = await this.ormRepository.findOne({
       where: { email },
     });
 
-    return findemail;
+    return findEmail;
   }
 
-  public async create(data: ICreateStudentDTO): Promise<Student> {
+  public async create(data: ICreateAlunoDTO): Promise<Aluno> {
     const user = this.ormRepository.create(data);
 
     await this.ormRepository.save(user);
@@ -33,9 +33,9 @@ class StudentRepository implements IStudentRepository {
     return user;
   }
 
-  public async save(user: Student): Promise<Student> {
+  public async save(user: Aluno): Promise<Aluno> {
     return this.ormRepository.save(user);
   }
 }
 
-export default StudentRepository;
+export default AlunoRepository;

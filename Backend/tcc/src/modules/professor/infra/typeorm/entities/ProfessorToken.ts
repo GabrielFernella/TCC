@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Generated,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import Professor from './Professor';
 
 @Entity('professor_token')
 class ProfessorToken {
@@ -16,14 +19,18 @@ class ProfessorToken {
   @Generated('uuid')
   token: string;
 
-  @Column()
-  professor_id: string;
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  professor_id: string;
+
+  @OneToOne(type => Professor, professorToken => ProfessorToken)
+  @JoinColumn({ name: 'professor_id' })
+  professor: Professor;
 }
 
 export default ProfessorToken;

@@ -45,3 +45,11 @@ export default class Pagamento {
   @OneToOne(type => Agendamento, pagamento => Pagamento)
   agendamento: Agendamento;
 }
+
+/*
+aluno_id
+status
+title
+emailPagador
+valor
+*/

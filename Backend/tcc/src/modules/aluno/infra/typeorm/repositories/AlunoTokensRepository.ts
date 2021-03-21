@@ -1,29 +1,29 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IStudentsTokensRepository from '@modules/students/repositories/IStudentsTokensRepository';
-import StudentToken from '../entities/StudentToken';
+import IAlunoTokensRepository from '@modules/aluno/repositories/IAlunoTokensRepository';
+import AlunoToken from '../entities/AlunoToken';
 
-class StudentTokensRepository implements IStudentsTokensRepository {
-  private ormRepository: Repository<StudentToken>;
+class StudentTokensRepository implements IAlunoTokensRepository {
+  private ormRepository: Repository<AlunoToken>;
 
   constructor() {
-    this.ormRepository = getRepository(StudentToken);
+    this.ormRepository = getRepository(AlunoToken);
   }
 
-  public async generate(user_id: string): Promise<StudentToken> {
-    const userToken = this.ormRepository.create({
-      user_id,
+  public async findByToken(token: string): Promise<AlunoToken | undefined> {
+    const userToken = await this.ormRepository.findOne({
+      where: { token },
     });
-
-    await this.ormRepository.save(userToken);
 
     return userToken;
   }
 
-  public async findByToken(token: string): Promise<StudentToken | undefined> {
-    const userToken = await this.ormRepository.findOne({
-      where: { token },
+  public async generate(user_id: string): Promise<AlunoToken> {
+    const userToken = this.ormRepository.create({
+      aluno_id: user_id,
     });
+
+    await this.ormRepository.save(userToken);
 
     return userToken;
   }

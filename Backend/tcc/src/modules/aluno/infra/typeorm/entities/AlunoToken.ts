@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Generated,
+  JoinColumn,
+  OneToOne,
 } from 'typeorm';
+import Aluno from './Aluno';
 
 @Entity('aluno_token')
 class AlunoToken {
@@ -16,14 +19,18 @@ class AlunoToken {
   @Generated('uuid')
   token: string;
 
-  @Column()
-  professor_id: string;
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  aluno_id: string;
+
+  @OneToOne(type => Aluno, alunoToken => AlunoToken)
+  @JoinColumn({ name: 'aluno_id' })
+  aluno: Aluno;
 }
 
 export default AlunoToken;
