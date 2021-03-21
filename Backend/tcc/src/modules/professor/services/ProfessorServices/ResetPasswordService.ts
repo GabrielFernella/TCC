@@ -3,8 +3,8 @@ import { isAfter, addHours } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
-import ITeacherRepository from '../../repositories/ITeacherRepository';
-import ITeacherTokensRepository from '../../repositories/ITeacherTokensRepository';
+import IProfessorRepository from '../../repositories/IProfessorRepository';
+import IProfessorTokensRepository from '../../repositories/IProfessorTokensRepository';
 import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -15,11 +15,11 @@ interface IRequest {
 @injectable()
 class ResetPasswordService {
   constructor(
-    @inject('TeacherRepository')
-    private teacherRepository: ITeacherRepository,
+    @inject('ProfessorRepository')
+    private professorRepository: IProfessorRepository,
 
-    @inject('TeacherTokensRepository')
-    private teachertokensRepository: ITeacherTokensRepository,
+    @inject('ProfessorTokensRepository')
+    private professortokensRepository: IProfessorTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -27,13 +27,15 @@ class ResetPasswordService {
 
   public async execute({ token, password }: IRequest): Promise<void> {
     // Validate token
-    const userToken = await this.teachertokensRepository.findByToken(token);
+    const userToken = await this.professortokensRepository.findByToken(token);
     if (!userToken) {
       throw new AppError('User token does not exists');
     }
 
     // Find User
-    const user = await this.teacherRepository.findById(userToken.user_id);
+    const user = await this.professorRepository.findById(
+      userToken.professor_id,
+    );
     if (!user) {
       throw new AppError('User does not exists');
     }
@@ -47,7 +49,7 @@ class ResetPasswordService {
 
     user.password = await this.hashProvider.generateHash(password);
 
-    await this.teacherRepository.save(user);
+    await this.professorRepository.save(user);
   }
 }
 

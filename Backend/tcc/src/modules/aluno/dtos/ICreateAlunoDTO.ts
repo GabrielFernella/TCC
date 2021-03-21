@@ -5,4 +5,5 @@ export default interface ICreateAlunoDTO {
   password: string;
   avatar: string;
   pix: string;
+  bloqueio: string;
 }

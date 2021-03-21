@@ -55,6 +55,7 @@ class CreateAlunoService {
       password: hashPassword,
       avatar,
       pix,
+      bloqueio: 'false',
     });
 
     return user;

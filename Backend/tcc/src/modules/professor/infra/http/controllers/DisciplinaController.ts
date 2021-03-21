@@ -18,30 +18,30 @@ export default class DisciplinaController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { professor_id, tittle, tag, description, value } = request.body;
+    const { professor_id, titulo, tag, descricao, valor } = request.body;
 
     const createDisciplinaService = container.resolve(CreateDisciplinaService);
 
     await createDisciplinaService.execute({
       professor_id,
-      tittle,
+      titulo,
       tag,
-      description,
-      value,
+      descricao,
+      valor,
     });
 
     return response.status(204).json();
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { professor_id, tittle, tag, description, value } = request.body;
+    const { professor_id, titulo, tag, description, value } = request.body;
     const { id } = request.user;
 
     const disciplina = container.resolve(UpdateDisciplinaService);
 
     const result = disciplina.execute(id, {
       professor_id,
-      tittle,
+      titulo,
       tag,
       description,
       value,
@@ -60,3 +60,13 @@ export default class DisciplinaController {
     return response.status(200).json(result);
   }
 }
+
+/*
+professor_id
+titulo
+tag
+descricao
+valor
+qtdAvaliacao
+mediaAvaliacao
+*/

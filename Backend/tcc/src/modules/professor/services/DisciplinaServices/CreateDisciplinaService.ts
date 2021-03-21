@@ -9,7 +9,7 @@ import Disciplina from '../../infra/typeorm/entities/Disciplina';
 
 interface IRequest {
   professor_id: string;
-  tittle: string;
+  titulo: string;
   tag: string[];
   description: string;
   value: number;
@@ -27,20 +27,20 @@ class CreateDisciplinaService {
 
   public async execute({
     professor_id,
-    tittle,
+    titulo,
     tag,
     description,
     value,
   }: IRequest): Promise<Disciplina> {
     // Procurando se há um user com o mesmo email
     const findTeacher = await this.professorRepository.findById(professor_id);
-    if (findTeacher) {
+    if (!findTeacher) {
       throw new AppError('Professor não encontrado.');
     }
 
     const cadDisciplina = await this.disciplinaRepository.create({
       professor_id,
-      tittle,
+      titulo,
       tag,
       description,
       value,

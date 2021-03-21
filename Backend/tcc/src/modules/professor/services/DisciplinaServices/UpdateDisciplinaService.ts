@@ -7,7 +7,7 @@ import Disciplina from '../../infra/typeorm/entities/Disciplina';
 
 interface IRequest {
   professor_id: string;
-  tittle: string;
+  titulo: string;
   tag: string[];
   description: string;
   value: number;
@@ -22,7 +22,7 @@ class UpdateDisciplinaService {
 
   public async execute(
     id: string,
-    { professor_id, tittle, tag, description, value }: IRequest,
+    { professor_id, titulo, tag, description, value }: IRequest,
   ): Promise<Disciplina> {
     // Procurando se há um user com o mesmo email
     const aula = await this.disciplinaRepository.findByID(id);
@@ -32,7 +32,7 @@ class UpdateDisciplinaService {
 
     const updateDisciplina = await this.disciplinaRepository.updated(id, {
       professor_id,
-      tittle,
+      titulo,
       tag,
       description,
       value,

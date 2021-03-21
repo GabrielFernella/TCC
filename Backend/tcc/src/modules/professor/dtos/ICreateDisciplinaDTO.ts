@@ -1,9 +1,9 @@
 export default interface ICreateAulaDTO {
   professor_id: string;
-  tittle: string;
+  titulo: string;
   tag: string[];
-  description: string;
-  value: number;
+  descricao: string;
+  valor: number;
 }
 
 /*

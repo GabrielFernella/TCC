@@ -29,9 +29,6 @@ class Usuario {
   @Column()
   pix: string;
 
-  @Column()
-  ban: string;
-
   @CreateDateColumn()
   created_at: Date;
 
