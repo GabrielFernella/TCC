@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateDisponibilidadeService from '@modules/teachers/services/DisponibilidadeServices/CreateDisponibilidadeService';
-import ShowDisponibilidadeService from '@modules/teachers/services/DisponibilidadeServices/ShowDisponibilidadeService';
-import DeleteDisponibilidadeService from '@modules/teachers/services/DisponibilidadeServices/DeleteDisponibilidadeService';
+import CreateDisponibilidadeService from '@modules/professor/services/DisponibilidadeServices/CreateDisponibilidadeService';
+import ShowDisponibilidadeService from '@modules/professor/services/DisponibilidadeServices/ShowDisponibilidadeService';
+import DeleteDisponibilidadeService from '@modules/professor/services/DisponibilidadeServices/DeleteDisponibilidadeService';
 
 export default class DisponibilidadeController {
   public async show(request: Request, response: Response): Promise<Response> {
