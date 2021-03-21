@@ -1,46 +1,51 @@
 import { container } from 'tsyringe';
 
-import '@modules/students/providers';
-import '@modules/teachers/providers';
+import '@modules/aluno/providers';
+import '@modules/professor/providers';
 import './providers';
 
-// For Students
-import IStudentsRepository from '@modules/students/repositories/IStudentRepository';
-import StudentRepository from '@modules/students/infra/typeorm/repositories/StudentRepository';
-import IStudentsTokensRepository from '@modules/students/repositories/IStudentsTokensRepository';
-import StudentsTokensRepository from '@modules/students/infra/typeorm/repositories/StudentTokensRepository';
+// For Alunos // alterar
+import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
+import AlunoRepository from '@modules/aluno/infra/typeorm/repositories/AlunoRepository';
+import IAlunoTokensRepository from '@modules/aluno/repositories/IAlunoTokensRepository';
+import AlunoTokensRepository from '@modules/aluno/infra/typeorm/repositories/AlunoTokensRepository';
+import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
+import PagamentoRepository from '@modules/aluno/infra/typeorm/repositories/PagamentoRepository';
 
-// For Teachers
-import ITeacherRepository from '@modules/teachers/repositories/ITeacherRepository';
-import TeachersRepository from '@modules/teachers/infra/typeorm/repositories/TeachersRepository';
-import ITeacherTokensRepository from '@modules/teachers/repositories/ITeacherTokensRepository';
-import TeacherTokensRepository from '@modules/teachers/infra/typeorm/repositories/TeacherTokensRepository';
+// For Professores
+import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
+import ProfessorRepository from '@modules/professor/infra/typeorm/repositories/ProfessorRepository';
+import IProfessorTokensRepository from '@modules/professor/repositories/IProfessorTokensRepository';
+import ProfessorTokensRepository from '@modules/professor/infra/typeorm/repositories/ProfessorTokensRepository';
 
 // Teachars Disponibilidade and Aula
-import IDisponibilidadeRepository from '@modules/teachers/repositories/IDisponibilidadeRepository';
-import DisponibilidadeRepository from '@modules/teachers/infra/typeorm/repositories/DisponibilidadeRepository';
-import IAulaRepository from '@modules/teachers/repositories/IAulaRepository';
-import AulaRepository from '@modules/teachers/infra/typeorm/repositories/AulaRepository';
-import IAvaliacaoRepository from '@modules/teachers/repositories/IAvaliacaoRepository';
-import AvaliacaoRepository from '@modules/teachers/infra/typeorm/repositories/AvaliacaoRepository';
+import IDisponibilidadeRepository from '@modules/professor/repositories/IDisponibilidadeRepository';
+import DisponibilidadeRepository from '@modules/professor/infra/typeorm/repositories/DisponibilidadeRepository';
+import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
+import DisciplinaRepository from '@modules/professor/infra/typeorm/repositories/DisciplinaRepository';
 
 // Injeção de dependência para os alunos
-container.registerSingleton<IStudentsRepository>(
-  'StudentRepository',
-  StudentRepository,
+container.registerSingleton<IAlunoRepository>(
+  'AlunoRepository',
+  AlunoRepository,
 );
-container.registerSingleton<IStudentsTokensRepository>(
-  'StudentTokensRepository',
-  StudentsTokensRepository,
+container.registerSingleton<IAlunoTokensRepository>(
+  'AlunoTokensRepository',
+  AlunoTokensRepository,
+);
+container.registerSingleton<IPagamentoRepository>(
+  'PagamentoRepository',
+  PagamentoRepository,
 );
 
-container.registerSingleton<ITeacherRepository>(
-  'TeacherRepository',
-  TeachersRepository,
+// Injeção de dependência para o professor
+container.registerSingleton<IProfessorRepository>(
+  'ProfessorRepository',
+  ProfessorRepository,
 );
-container.registerSingleton<ITeacherTokensRepository>(
-  'TeacherTokensRepository',
-  TeacherTokensRepository,
+container.registerSingleton<IProfessorTokensRepository>(
+  'ProfessorTokensRepository',
+  ProfessorTokensRepository,
 );
 
 container.registerSingleton<IDisponibilidadeRepository>(
@@ -48,9 +53,7 @@ container.registerSingleton<IDisponibilidadeRepository>(
   DisponibilidadeRepository,
 );
 
-container.registerSingleton<IAulaRepository>('AulaRepository', AulaRepository);
-
-container.registerSingleton<IAvaliacaoRepository>(
-  'AvaliacaoRepository',
-  AvaliacaoRepository,
+container.registerSingleton<IDisciplinaRepository>(
+  'DisciplinaRepository',
+  DisciplinaRepository,
 );

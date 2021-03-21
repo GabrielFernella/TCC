@@ -1,6 +1,6 @@
 # Lista de Tarefas
 
-parei na Service Professor
+parei na Controller Professor
 
 1. docker start postgres mongo redis
 2. Terminar implementações do Students, Teachers

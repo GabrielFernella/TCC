@@ -2,14 +2,14 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import ITeacherRepository from '../../repositories/ITeacherRepository';
+import IProfessorRepository from '../../repositories/IProfessorRepository';
 
 import IDisponibilidadeRepository from '../../repositories/IDisponibilidadeRepository';
 import Disponibilidade from '../../infra/typeorm/entities/Disponibilidade';
 
 interface IRequest {
   teacher_id: string;
-  diaSemana: number;
+  diaSemana: string;
   horarioentrada: number;
   horariosaida: number;
 }
@@ -17,8 +17,8 @@ interface IRequest {
 @injectable()
 class CreateDisponibilidadeService {
   constructor(
-    @inject('TeacherRepository')
-    private teacherRepository: ITeacherRepository,
+    @inject('ProfessorRepository')
+    private professorRepository: IProfessorRepository,
 
     @inject('DisponibilidadeRepository')
     private disponibilidadeRepository: IDisponibilidadeRepository,
@@ -31,7 +31,7 @@ class CreateDisponibilidadeService {
     horariosaida,
   }: IRequest): Promise<Disponibilidade> {
     // Procurando se há um user com o mesmo email
-    const findTeacher = await this.teacherRepository.findById(teacher_id);
+    const findTeacher = await this.professorRepository.findById(teacher_id);
     if (!findTeacher) {
       throw new AppError('Teacher not found');
     }

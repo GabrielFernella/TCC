@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IHashProvider from '@modules/teachers/providers/HashProvider/models/IHashProvider';
-import ITeacherRepository from '../../repositories/ITeacherRepository';
-import Teacher from '../../infra/typeorm/entities/Teacher';
+import IHashProvider from '@modules/professor/providers/HashProvider/models/IHashProvider';
+import IProfessorRepository from '../../repositories/IProfessorRepository';
+import Professor from '../../infra/typeorm/entities/Professor';
 
 interface IRequest {
   name: string;
@@ -16,10 +16,10 @@ interface IRequest {
 }
 
 @injectable()
-class CreateTeacherService {
+class CreateProfessorService {
   constructor(
-    @inject('TeacherRepository')
-    private teacherRepository: ITeacherRepository,
+    @inject('ProfessorRepository')
+    private professorRepository: IProfessorRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -33,16 +33,16 @@ class CreateTeacherService {
     avatar,
     pix,
     bio,
-  }: IRequest): Promise<Teacher> {
+  }: IRequest): Promise<Professor> {
     // Procurando se há um user com o mesmo email
-    const checkUserExists = await this.teacherRepository.findByEmail(email);
+    const checkUserExists = await this.professorRepository.findByEmail(email);
     if (checkUserExists) {
       throw new AppError('Email address already used');
     }
 
     const hashPassword = await this.hashProvider.generateHash(password);
 
-    const user = await this.teacherRepository.create({
+    const user = await this.professorRepository.create({
       name,
       cpf,
       email,
@@ -50,11 +50,10 @@ class CreateTeacherService {
       avatar,
       pix,
       bio,
-      ban: 0,
     });
 
     return user;
   }
 }
 
-export default CreateTeacherService;
+export default CreateProfessorService;

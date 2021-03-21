@@ -4,8 +4,8 @@ import path from 'path';
 import AppError from '@shared/errors/AppError';
 
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import ITeacherRepository from '../../repositories/ITeacherRepository';
-import ITeacherTokensRepository from '../../repositories/ITeacherTokensRepository';
+import IProfessorRepository from '../../repositories/IProfessorRepository';
+import IProfessorTokensRepository from '../../repositories/IProfessorTokensRepository';
 
 interface IRequest {
   email: string;
@@ -14,23 +14,23 @@ interface IRequest {
 @injectable()
 class SendForgotPasswordEmailService {
   constructor(
-    @inject('TeacherRepository')
-    private teacherRepository: ITeacherRepository,
+    @inject('ProfessorRepository')
+    private professorRepository: IProfessorRepository,
 
-    @inject('TeacherTokensRepository')
-    private teacherTokensRepository: ITeacherTokensRepository,
+    @inject('ProfessorTokensRepository')
+    private professorTokensRepository: IProfessorTokensRepository,
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
   ) {}
 
   public async execute({ email }: IRequest): Promise<void> {
-    const user = await this.teacherRepository.findByEmail(email);
+    const user = await this.professorRepository.findByEmail(email);
     if (!user) {
       throw new AppError('User does not exists');
     }
 
-    const { token } = await this.teacherTokensRepository.generate(user.id);
+    const { token } = await this.professorTokensRepository.generate(user.id);
 
     // Buscando o arquivo de template do email de recuperação
     const forgotPasswordTemplate = path.resolve(

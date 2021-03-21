@@ -4,8 +4,8 @@ import { injectable, inject } from 'tsyringe'; // injeção de dependências
 
 import AppError from '@shared/errors/AppError';
 
-import Teacher from '../../infra/typeorm/entities/Teacher';
-import ITeacherRepository from '../../repositories/ITeacherRepository';
+import Professor from '../../infra/typeorm/entities/Professor';
+import IProfessorRepository from '../../repositories/IProfessorRepository';
 import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -14,15 +14,15 @@ interface IRequest {
 }
 
 interface IResponse {
-  user: Teacher;
+  user: Professor;
   token: string;
 }
 
 @injectable()
 class AuthenticateUserService {
   constructor(
-    @inject('TeacherRepository')
-    private teacherRepository: ITeacherRepository,
+    @inject('ProfessorRepository')
+    private professorRepository: IProfessorRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -30,7 +30,7 @@ class AuthenticateUserService {
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     // Validate email
-    const user = await this.teacherRepository.findByEmail(email);
+    const user = await this.professorRepository.findByEmail(email);
     if (!user) {
       throw new AppError('Incorrent email/password combination', 401);
     }
