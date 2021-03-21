@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
 
-import ICreateAlunoDTO from '@modules/aluno/dtos/ICreateAlunoDTO';
+import { ICreateAlunoDTO } from '@modules/aluno/dtos/IAlunoDTO';
 import Aluno from '../entities/Aluno';
 
 class AlunoRepository implements IAlunoRepository {

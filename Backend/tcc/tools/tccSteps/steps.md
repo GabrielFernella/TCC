@@ -1,11 +1,17 @@
-# Lista de Tarefas
+# Vendo agora
 
-parei na Controller Professor
+1. Processo de criação de disciplina.service
+
+# Iniciar aplicação
 
 1. docker start postgres mongo redis
-2. Terminar implementações do Students, Teachers
-3. Criar os serviços para as entidades
-4. Fazer o CRUD completo para aulas, disponibilidade e avaliacao tendo nota que alguns precisam ser apenas alterados
+2. Rodar (yarn typeorm migration:generate -- -n CreatedEntities) && (yarn typeorm migration:run) para criar banco de dados
+
+# Lista de Tarefas
+
+1. Terminar implementações do Students, Teachers
+2. Criar os serviços para as entidades
+3. Fazer o CRUD completo para aulas, disponibilidade e avaliacao tendo nota que alguns precisam ser apenas alterados
 
 # Comandos
 

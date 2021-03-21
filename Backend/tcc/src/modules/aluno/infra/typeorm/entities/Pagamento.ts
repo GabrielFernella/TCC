@@ -18,7 +18,7 @@ export default class Pagamento {
   id: string;
 
   @Column()
-  status: string;
+  statusPagamento: string;
 
   @Column()
   title: string;

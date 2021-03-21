@@ -29,11 +29,11 @@ export default class Disciplina {
   @Column('numeric')
   valor: string;
 
-  @Column()
-  qtdAvaliavao: string;
+  @Column('int')
+  qtdAvaliavao: number;
 
-  @Column()
-  mediaAvaliacao: string;
+  @Column('float')
+  mediaAvaliacao: number;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,6 +1,11 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateDisciplinaDTO from '@modules/professor/dtos/ICreateDisciplinaDTO';
+// import ICreateDisciplinaDTO from '@modules/professor/dtos/ICreateDisciplinaDTO';
+import {
+  ICreateDisciplinaDTO,
+  IAddAvaliacaoDTO,
+} from '@modules/professor/dtos/IDisciplinaDTO';
+
 import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
 
 import Disciplina from '../entities/Disciplina';
@@ -24,10 +29,10 @@ class DisciplinaRepository implements IDisciplinaRepository {
 
   public async create(data: ICreateDisciplinaDTO): Promise<Disciplina> {
     // Essa função deve ser executada 1 única vez
-    const createAula = this.ormRepository.create(data);
-    await this.ormRepository.save(createAula);
+    const createDisciplina = this.ormRepository.create(data);
+    await this.ormRepository.save(createDisciplina);
 
-    return createAula;
+    return createDisciplina;
   }
 
   public async findByTeacherID(id: string): Promise<Disciplina[] | undefined> {
@@ -42,12 +47,16 @@ class DisciplinaRepository implements IDisciplinaRepository {
   }
 
   public async updated(
-    id: string,
+    disciplina_id: string,
     data: ICreateDisciplinaDTO,
   ): Promise<Disciplina | undefined> {
-    await this.ormRepository.update(id, data);
-    const teste = await this.ormRepository.findOne(id);
-    return teste;
+    await this.ormRepository.update(disciplina_id, data);
+    const result = await this.ormRepository.findOne(id);
+    return result;
+  }
+
+  public async addAvaliacao(data: IAddAvaliacaoDTO): Promise<void> {
+    await this.ormRepository.update(data.professor_id, data);
   }
 
   public async deleted(id: string): Promise<string> {
