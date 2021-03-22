@@ -1,7 +1,7 @@
 import Disciplina from '../infra/typeorm/entities/Disciplina';
 
-import ICreateDisciplinaDTO from '../dtos/ICreateDisciplinaDTO';
-import { IAddAvaliacaoDTO } from '../dtos/IDisciplinaDTO';
+// import ICreateDisciplinaDTO from '../dtos/ICreateDisciplinaDTO';
+import { IAddAvaliacaoDTO, ICreateDisciplinaDTO } from '../dtos/IDisciplinaDTO';
 
 export default interface IAulaRepository {
   // Procurar uma disciplina no banco

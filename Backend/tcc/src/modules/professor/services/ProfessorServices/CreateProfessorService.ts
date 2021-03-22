@@ -12,7 +12,7 @@ interface IRequest {
   password: string;
   avatar: string;
   pix: string;
-  bio: string;
+  biografia: string;
 }
 
 @injectable()
@@ -32,7 +32,7 @@ class CreateProfessorService {
     password,
     avatar,
     pix,
-    bio,
+    biografia,
   }: IRequest): Promise<Professor> {
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.professorRepository.findByEmail(email);
@@ -49,7 +49,7 @@ class CreateProfessorService {
       password: hashPassword,
       avatar,
       pix,
-      bio,
+      biografia,
     });
 
     return user;

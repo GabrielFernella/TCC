@@ -11,8 +11,8 @@ interface IRequest {
   professor_id: string;
   titulo: string;
   tag: string[];
-  description: string;
-  value: number;
+  descricao: string;
+  valor: string;
 }
 
 @injectable()
@@ -29,8 +29,8 @@ class CreateDisciplinaService {
     professor_id,
     titulo,
     tag,
-    description,
-    value,
+    descricao,
+    valor,
   }: IRequest): Promise<Disciplina> {
     // Procurando se há um user com o mesmo email
     const findTeacher = await this.professorRepository.findById(professor_id);
@@ -42,8 +42,10 @@ class CreateDisciplinaService {
       professor_id,
       titulo,
       tag,
-      description,
-      value,
+      descricao,
+      valor,
+      qtdAvaliacao: 0,
+      mediaAvaliacao: 0,
     });
 
     return cadDisciplina;

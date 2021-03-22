@@ -5,5 +5,5 @@ export default interface ICreateTeacherDTO {
   password: string;
   avatar: string;
   pix: string;
-  bio: string;
+  biografia: string;
 }

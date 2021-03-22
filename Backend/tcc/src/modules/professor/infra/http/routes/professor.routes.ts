@@ -25,7 +25,7 @@ professorRouter.post(
       password: Joi.string().required(),
       avatar: Joi.string().required(),
       pix: Joi.string().required(),
-      bio: Joi.string().required(),
+      biografia: Joi.string().required(),
     },
   }),
   professorController.create,

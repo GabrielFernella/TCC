@@ -30,7 +30,7 @@ export default class Disciplina {
   valor: string;
 
   @Column('int')
-  qtdAvaliavao: number;
+  qtdAvaliacao: number;
 
   @Column('float')
   mediaAvaliacao: number;
