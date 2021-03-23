@@ -18,7 +18,6 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
   ): Promise<Disponibilidade> {
     // Essa função deve ser executada 1 única vez
     const disponibilidade = this.ormRepository.create(data);
-
     await this.ormRepository.save(disponibilidade);
 
     return disponibilidade;
@@ -31,11 +30,11 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
     return findDisponibilidade;
   }
 
-  public async findByTeacherID(
+  public async findByProfessorID(
     id: string,
   ): Promise<Disponibilidade[] | undefined> {
     const findDisponibilidade = await this.ormRepository.find({
-      where: { teacher_id: id },
+      where: { professor_id: id },
     });
     return findDisponibilidade;
   }
@@ -47,7 +46,8 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
   public async deleted(id: string): Promise<string> {
     const deleted = await this.ormRepository.delete(id);
 
-    if (!deleted) {
+    // Fazendo um teste de validação
+    if (!deleted.raw == null) {
       throw new AppError('Disponibilidade not found');
     }
     const result = 'Deleted';

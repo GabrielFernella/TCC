@@ -13,3 +13,10 @@ export interface IAuthProfessorDTO {
   email: string;
   password: string;
 }
+
+export interface IUpdateProfessorDTO {
+  name: string;
+  avatar: string;
+  pix: string;
+  biografia: string;
+}

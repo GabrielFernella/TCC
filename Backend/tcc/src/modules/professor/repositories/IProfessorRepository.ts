@@ -1,10 +1,17 @@
 import Professor from '../infra/typeorm/entities/Professor';
 
-import { ICreateProfessorDTO } from '../dtos/IProfessorDTO';
+import {
+  ICreateProfessorDTO,
+  IUpdateProfessorDTO,
+} from '../dtos/IProfessorDTO';
 
 export default interface IProfessorRepository {
   findById(id: string): Promise<Professor | undefined>;
   findByEmail(email: string): Promise<Professor | undefined>;
   create(data: ICreateProfessorDTO): Promise<Professor>;
+  updated(
+    professor_id: string,
+    data: IUpdateProfessorDTO,
+  ): Promise<Professor | undefined>;
   save(user: Professor): Promise<Professor>;
 }

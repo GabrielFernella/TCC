@@ -18,14 +18,20 @@ class DisciplinaRepository implements IDisciplinaRepository {
     this.ormRepository = getRepository(Disciplina);
   }
 
+  public async listDisciplina(): Promise<Disciplina[] | []> {
+    const disciplinas = this.ormRepository.find();
+
+    return disciplinas;
+  }
+
   public async findByID(id: string): Promise<Disciplina | undefined> {
-    const aula = this.ormRepository.findOne({
+    const disciplina = this.ormRepository.findOne({
       where: {
         id,
       },
     });
 
-    return aula;
+    return disciplina;
   }
 
   public async create(data: ICreateDisciplinaDTO): Promise<Disciplina> {

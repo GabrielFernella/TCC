@@ -13,7 +13,9 @@ class ShowDisponibilidadeService {
   ) {}
 
   public async execute(id: string): Promise<Disponibilidade[]> {
-    const findTable = await this.disponibilidadeRepository.findByTeacherID(id);
+    const findTable = await this.disponibilidadeRepository.findByProfessorID(
+      id,
+    );
 
     if (!findTable) {
       throw new AppError('Avaliable not found');

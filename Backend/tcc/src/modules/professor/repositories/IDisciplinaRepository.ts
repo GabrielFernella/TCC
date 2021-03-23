@@ -8,6 +8,9 @@ import {
 } from '../dtos/IDisciplinaDTO';
 
 export default interface IAulaRepository {
+  // Listagem de Disciplina
+  listDisciplina(): Promise<Disciplina[]>;
+
   // Procurar uma disciplina no banco
   findByID(id: string): Promise<Disciplina | undefined>;
 

@@ -2,7 +2,10 @@ import { getRepository, Repository } from 'typeorm';
 
 import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
 
-import { ICreateProfessorDTO } from '@modules/professor/dtos/IProfessorDTO';
+import {
+  ICreateProfessorDTO,
+  IUpdateProfessorDTO,
+} from '@modules/professor/dtos/IProfessorDTO';
 import Professor from '../entities/Professor';
 
 class ProfessorRepository implements IProfessorRepository {
@@ -36,6 +39,16 @@ class ProfessorRepository implements IProfessorRepository {
 
   public async save(user: Professor): Promise<Professor> {
     return this.ormRepository.save(user);
+  }
+
+  public async updated(
+    professor_id: string,
+    data: IUpdateProfessorDTO,
+  ): Promise<Professor | undefined> {
+    await this.ormRepository.update(professor_id, data);
+
+    const prof = await this.ormRepository.findOne(professor_id);
+    return prof;
   }
 }
 
