@@ -1,6 +1,8 @@
 # Vendo agora
 
 1. Processo de criação de disciplina.service
+2. Adicione as Rotas, comece por uma entidade específica
+3. Ver parte de busca do id do usuário pelo middleware
 
 # Iniciar aplicação
 

@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateDisponibilidadeDTO from '@modules/professor/dtos/ICreateDisponibilidadeDTO';
+import { ICreateDisponibilidadeDTO } from '@modules/professor/dtos/IDisponibilidadeDTO';
 import IDisponibilidadeRepository from '@modules/professor/repositories/IDisponibilidadeRepository';
 
 import AppError from '@shared/errors/AppError';

@@ -1,6 +1,6 @@
 import Disponibilidade from '../infra/typeorm/entities/Disponibilidade';
 
-import ICreateDisponibilidadeDTO from '../dtos/ICreateDisponibilidadeDTO';
+import { ICreateDisponibilidadeDTO } from '../dtos/IDisponibilidadeDTO';
 
 export default interface IDisponibilidadeRepository {
   findByID(id: string): Promise<Disponibilidade | undefined>;

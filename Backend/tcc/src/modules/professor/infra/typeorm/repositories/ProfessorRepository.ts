@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
 
-import ICreateProfessorDTO from '@modules/professor/dtos/ICreateProfessorDTO';
+import { ICreateProfessorDTO } from '@modules/professor/dtos/IProfessorDTO';
 import Professor from '../entities/Professor';
 
 class ProfessorRepository implements IProfessorRepository {

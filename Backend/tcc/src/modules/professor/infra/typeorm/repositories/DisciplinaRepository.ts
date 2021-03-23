@@ -4,6 +4,7 @@ import { getRepository, Repository } from 'typeorm';
 import {
   ICreateDisciplinaDTO,
   IAddAvaliacaoDTO,
+  IUpdateDisciplinaDTO,
 } from '@modules/professor/dtos/IDisciplinaDTO';
 
 import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
@@ -48,15 +49,19 @@ class DisciplinaRepository implements IDisciplinaRepository {
 
   public async updated(
     disciplina_id: string,
-    data: ICreateDisciplinaDTO,
+    data: IUpdateDisciplinaDTO,
   ): Promise<Disciplina | undefined> {
     await this.ormRepository.update(disciplina_id, data);
     const result = await this.ormRepository.findOne(id);
     return result;
   }
 
-  public async addAvaliacao(data: IAddAvaliacaoDTO): Promise<void> {
-    await this.ormRepository.update(data.professor_id, data);
+  public async addAvaliacao(
+    data: IAddAvaliacaoDTO,
+  ): Promise<Disciplina | undefined> {
+    await this.ormRepository.update(data.disciplina_id, data);
+    const result = await this.ormRepository.findOne(id);
+    return result;
   }
 
   public async deleted(id: string): Promise<string> {

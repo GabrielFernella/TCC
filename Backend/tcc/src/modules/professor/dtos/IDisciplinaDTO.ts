@@ -17,7 +17,7 @@ export interface IUpdateDisciplinaDTO {
 }
 
 export interface IAddAvaliacaoDTO {
-  professor_id: string;
+  disciplina_id: string;
   qtdAvaliacao: number;
   mediaAvaliacao: number;
 }

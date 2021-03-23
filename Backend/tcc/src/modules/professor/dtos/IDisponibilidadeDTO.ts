@@ -1,4 +1,4 @@
-export default interface ICreateDisponibilidadeDTO {
+export interface ICreateDisponibilidadeDTO {
   teacher_id: string;
   diaSemana: string;
   horarioentrada: number;

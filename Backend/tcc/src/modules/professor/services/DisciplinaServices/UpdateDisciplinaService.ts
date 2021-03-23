@@ -2,15 +2,16 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
+import { IUpdateDisciplinaDTO } from '@modules/professor/dtos/IDisciplinaDTO';
 import IDisciplinaRepository from '../../repositories/IDisciplinaRepository';
-import Disciplina from '../../infra/typeorm/entities/Disciplina';
+// import Disciplina from '../../infra/typeorm/entities/Disciplina';
 
 interface IRequest {
   professor_id: string;
   titulo: string;
   tag: string[];
-  description: string;
-  value: number;
+  descricao: string;
+  valor: string;
 }
 
 @injectable()
@@ -22,8 +23,8 @@ class UpdateDisciplinaService {
 
   public async execute(
     id: string,
-    { professor_id, titulo, tag, description, value }: IRequest,
-  ): Promise<Disciplina> {
+    { professor_id, titulo, tag, descricao, valor }: IRequest,
+  ): Promise<IUpdateDisciplinaDTO> {
     // Procurando se há um user com o mesmo email
     const aula = await this.disciplinaRepository.findByID(id);
     if (!aula) {
@@ -34,8 +35,8 @@ class UpdateDisciplinaService {
       professor_id,
       titulo,
       tag,
-      description,
-      value,
+      descricao,
+      valor,
     });
 
     if (!updateDisciplina) {
