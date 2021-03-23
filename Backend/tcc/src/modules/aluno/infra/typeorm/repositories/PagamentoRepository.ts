@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
 
-import ICreatePagamentoDTO from '@modules/aluno/dtos/ICreatePagamentoDTO';
+import { ICreatePagamentoDTO } from '@modules/aluno/dtos/IPagamentoDTO';
 import Pagamento from '../entities/Pagamento';
 
 class PagamentoRepository implements IPagamentoRepository {

@@ -1,6 +1,6 @@
 import Pagamento from '../infra/typeorm/entities/Pagamento';
 
-import ICreatePagamentoDTO from '../dtos/ICreatePagamentoDTO';
+import { ICreatePagamentoDTO } from '../dtos/IPagamentoDTO';
 
 export default interface IPagamentoRepository {
   findById(id: string): Promise<Pagamento | undefined>;

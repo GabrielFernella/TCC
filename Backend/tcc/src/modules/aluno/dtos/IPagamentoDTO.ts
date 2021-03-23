@@ -1,4 +1,4 @@
-export default interface ICreatePagamentoDTO {
+export interface ICreatePagamentoDTO {
   aluno_id: string;
   status: string;
   title: string;
