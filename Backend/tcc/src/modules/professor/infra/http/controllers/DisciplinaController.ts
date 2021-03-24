@@ -5,14 +5,24 @@ import CreateDisciplinaService from '@modules/professor/services/DisciplinaServi
 import FindDisciplinaService from '@modules/professor/services/DisciplinaServices/FindDisciplinaService';
 import UpdateDisciplinaService from '@modules/professor/services/DisciplinaServices/UpdateDisciplinaService';
 import DeleteDisciplinaService from '@modules/professor/services/DisciplinaServices/DeleteDisciplinaService';
+import ListDisciplinaService from '@modules/professor/services/DisciplinaServices/ListDisciplinaService';
+import AddAvaliacaoDisciplinaService from '@modules/professor/services/DisciplinaServices/AddAvaliacaoDisciplinaService';
 
 export default class DisciplinaController {
+  public async list(request: Request, response: Response): Promise<Response> {
+    const disciplinaList = container.resolve(ListDisciplinaService);
+
+    const result = disciplinaList.execute();
+
+    return response.status(204).json(result);
+  }
+
   public async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const { disciplina_id } = request.params;
 
     const disciplina = container.resolve(FindDisciplinaService);
 
-    const result = disciplina.execute(id);
+    const result = disciplina.execute(disciplina_id);
 
     return response.status(204).json(result);
   }
@@ -49,6 +59,23 @@ export default class DisciplinaController {
     });
 
     return response.status(200).json(result);
+  }
+
+  public async addAvaliacao(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { disciplina_id, qtdAvaliacao, mediaAvaliacao } = request.body;
+
+    const disciplinaList = container.resolve(AddAvaliacaoDisciplinaService);
+
+    const result = disciplinaList.execute({
+      disciplina_id,
+      qtdAvaliacao,
+      mediaAvaliacao,
+    });
+
+    return response.status(204).json(result);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
