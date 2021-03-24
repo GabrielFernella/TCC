@@ -22,7 +22,7 @@ class UpdateDisciplinaService {
   ) {}
 
   public async execute(
-    id: string,
+    disciplina_id: string,
     { professor_id, titulo, tag, descricao, valor }: IRequest,
   ): Promise<IUpdateDisciplinaDTO> {
     // Procurando se há um user com o mesmo email
@@ -31,13 +31,16 @@ class UpdateDisciplinaService {
       throw new AppError('Aula not found');
     }
 
-    const updateDisciplina = await this.disciplinaRepository.updated(id, {
-      professor_id,
-      titulo,
-      tag,
-      descricao,
-      valor,
-    });
+    const updateDisciplina = await this.disciplinaRepository.updated(
+      disciplina_id,
+      {
+        professor_id,
+        titulo,
+        tag,
+        descricao,
+        valor,
+      },
+    );
 
     if (!updateDisciplina) {
       throw new AppError('Disciplina not found');

@@ -3,6 +3,7 @@
 1. Processo de criação de disciplina.service
 2. Adicione as Rotas, comece por uma entidade específica
 3. Ver parte de busca do id do usuário pelo middleware
+4. Professor Controller & Disciplina controller
 
 # Iniciar aplicação
 

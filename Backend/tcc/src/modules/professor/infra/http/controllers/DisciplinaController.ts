@@ -34,17 +34,18 @@ export default class DisciplinaController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { professor_id, titulo, tag, description, value } = request.body;
-    const { id } = request.user;
+    // Arrumar as rotas
+    const { disciplina_id, titulo, tag, descricao, valor } = request.body;
+    const professor_id = request.user.id;
 
     const disciplina = container.resolve(UpdateDisciplinaService);
 
-    const result = disciplina.execute(id, {
+    const result = disciplina.execute(disciplina_id, {
       professor_id,
       titulo,
       tag,
-      description,
-      value,
+      descricao,
+      valor,
     });
 
     return response.status(200).json(result);

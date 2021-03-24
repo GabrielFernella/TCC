@@ -17,9 +17,6 @@ class UpdateProfessorService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
-
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
   ) {}
 
   public async execute(

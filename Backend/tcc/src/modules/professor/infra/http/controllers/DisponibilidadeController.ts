@@ -8,9 +8,9 @@ import DeleteDisponibilidadeService from '@modules/professor/services/Disponibil
 export default class DisponibilidadeController {
   public async show(request: Request, response: Response): Promise<Response> {
     // passa o ID do professor para exibir todas as aulas que estão relacionadas ao usuário
-
-    const { id } = request.params;
-    // const { id } = request.user; //
+    // const { id } = request.params;
+    // Talvez tenha alteração aqui #########
+    const { id } = request.user;
 
     const showDisponibilidadeService = container.resolve(
       ShowDisponibilidadeService,
@@ -21,12 +21,9 @@ export default class DisponibilidadeController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const {
-      teacher_id,
-      diaSemana,
-      horarioentrada,
-      horariosaida,
-    } = request.body;
+    // Buscando do middleware
+    const teacher_id = request.user.id;
+    const { diaSemana, horarioentrada, horariosaida } = request.body;
 
     const createDisponibilidadeService = container.resolve(
       CreateDisponibilidadeService,
@@ -44,13 +41,15 @@ export default class DisponibilidadeController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     // Passsa o parametro específico da tabela que deseja excluir
-    const { id } = request.params;
+    const { disponibilidade_id } = request.params;
 
     const deleteDisponibilidadeService = container.resolve(
       DeleteDisponibilidadeService,
     );
 
-    const result = await deleteDisponibilidadeService.execute(id);
+    const result = await deleteDisponibilidadeService.execute(
+      disponibilidade_id,
+    );
     return response.status(202).json(result);
   }
 }
