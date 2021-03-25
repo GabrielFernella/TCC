@@ -7,7 +7,7 @@ import {
   IUpdateDisciplinaDTO,
 } from '../dtos/IDisciplinaDTO';
 
-export default interface IAulaRepository {
+export default interface IDisciplinaRepository {
   // Listagem de Disciplina
   listDisciplina(): Promise<Disciplina[]>;
 

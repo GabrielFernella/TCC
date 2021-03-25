@@ -12,11 +12,13 @@ class FindDisciplinaService {
     private disciplinaRepository: IDisciplinaRepository,
   ) {}
 
-  public async execute(id: string): Promise<Disciplina> {
-    // Procurando se há um user com o mesmo email
-    const findDisciplina = await this.disciplinaRepository.findByID(id);
+  public async execute(disciplina_id: string): Promise<Disciplina> {
+    // Procura a disciplina através do ID
+    const findDisciplina = await this.disciplinaRepository.findByID(
+      disciplina_id,
+    );
     if (!findDisciplina) {
-      throw new AppError('Professor não encontrado.');
+      throw new AppError('Disciplina não encontrada.');
     }
 
     return findDisciplina;
