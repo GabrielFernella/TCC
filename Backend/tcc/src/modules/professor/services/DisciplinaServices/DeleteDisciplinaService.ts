@@ -12,13 +12,13 @@ class DeleteDisciplinaService {
     private disciplinaRepository: IDisciplinaRepository,
   ) {}
 
-  public async execute(id: string): Promise<Disciplina> {
-    const result = await this.disciplinaRepository.findByID(id);
+  public async execute(disciplina_id: string): Promise<Disciplina> {
+    const result = await this.disciplinaRepository.findByID(disciplina_id);
     if (!result) {
       throw new AppError('Disciplina não encontrada');
     }
 
-    await this.disciplinaRepository.deleted(id);
+    await this.disciplinaRepository.deleted(disciplina_id);
 
     return result;
   }

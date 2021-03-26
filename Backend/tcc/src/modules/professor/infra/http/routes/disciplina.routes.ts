@@ -7,8 +7,10 @@ import DisciplinaController from '../controllers/DisciplinaController';
 const disciplinaRouter = Router();
 const disciplinaController = new DisciplinaController();
 
+// Listagem Disciplina
 disciplinaRouter.get('/show', disciplinaController.listAllDisciplina);
 
+// Autenticar Usuário
 disciplinaRouter.use(ensureAuthenticated);
 
 // Show all disciplina do professor_id
@@ -69,7 +71,7 @@ disciplinaRouter.put(
 disciplinaRouter.delete(
   '/delete',
   celebrate({
-    [Segments.PARAMS]: {
+    [Segments.BODY]: {
       disciplina_id: Joi.string().required(),
     },
   }),

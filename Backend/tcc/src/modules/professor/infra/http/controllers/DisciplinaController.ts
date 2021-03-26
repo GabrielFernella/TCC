@@ -21,7 +21,6 @@ export default class DisciplinaController {
     return response.status(204).json(result);
   }
 
-  // Mostrar disciplina do respectivo professor
   public async showDisciplina(
     request: Request,
     response: Response,
@@ -88,11 +87,11 @@ export default class DisciplinaController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const { disciplina_id } = request.body;
 
     const disciplina = container.resolve(DeleteDisciplinaService);
 
-    const result = disciplina.execute(id);
+    const result = disciplina.execute(disciplina_id);
 
     return response.status(200).json(result);
   }
