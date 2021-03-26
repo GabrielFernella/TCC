@@ -7,27 +7,27 @@ import DisciplinaController from '../controllers/DisciplinaController';
 const disciplinaRouter = Router();
 const disciplinaController = new DisciplinaController();
 
-disciplinaRouter.get('/show', disciplinaController.listDisciplina);
+disciplinaRouter.get('/show', disciplinaController.listAllDisciplina);
 
 disciplinaRouter.use(ensureAuthenticated);
 
+// Show all disciplina do professor_id
 disciplinaRouter.get(
-  // Show all discipplina teacher
-  '/list',
+  '/show',
   celebrate({
     [Segments.BODY]: {
-      professor_id: Joi.string().required(),
+      disciplina_id: Joi.string().required(),
     },
   }),
   disciplinaController.showDisciplina,
 );
 
+// Create Dsiciplina
 disciplinaRouter.post(
-  // Create
   '/create',
   celebrate({
     [Segments.BODY]: {
-      professor_id: Joi.string().required(),
+      // professor_id: Joi.string().required(),
       titulo: Joi.string().required(),
       tag: Joi.array().required(), // pode ser um array de string
       descricao: Joi.string().required(),
@@ -37,12 +37,12 @@ disciplinaRouter.post(
   disciplinaController.create,
 );
 
+// Update Disciplina
 disciplinaRouter.put(
-  // Update Disciplina
   '/update',
   celebrate({
     [Segments.BODY]: {
-      professor_id: Joi.string().required(),
+      disciplina_id: Joi.string().required(),
       titulo: Joi.string().required(),
       tag: Joi.array().required(), // pode ser um array de string
       descricao: Joi.string().required(),
@@ -52,25 +52,25 @@ disciplinaRouter.put(
   disciplinaController.update,
 );
 
+// Update Disciplina -> AddAvaliacao
 disciplinaRouter.put(
-  // Update Disciplina
   '/avaliacao',
   celebrate({
     [Segments.BODY]: {
       disciplina_id: Joi.string().required(),
-      qtdAvaliacao: Joi.string().required(),
+      qtdAvaliacao: Joi.number().required(),
       mediaAvaliacao: Joi.number().required(),
     },
   }),
   disciplinaController.addAvaliacao,
 );
 
+// Delete Disciplina #
 disciplinaRouter.delete(
-  // Update Disciplina
   '/delete',
   celebrate({
-    [Segments.BODY]: {
-      professor_id: Joi.string().required(),
+    [Segments.PARAMS]: {
+      disciplina_id: Joi.string().required(),
     },
   }),
   disciplinaController.delete,

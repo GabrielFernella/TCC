@@ -9,7 +9,8 @@ import ListDisciplinaService from '@modules/professor/services/DisciplinaService
 import AddAvaliacaoDisciplinaService from '@modules/professor/services/DisciplinaServices/AddAvaliacaoDisciplinaService';
 
 export default class DisciplinaController {
-  public async listDisciplina(
+  // Listagem Disciplina
+  public async listAllDisciplina(
     request: Request,
     response: Response,
   ): Promise<Response> {
@@ -20,11 +21,12 @@ export default class DisciplinaController {
     return response.status(204).json(result);
   }
 
+  // Mostrar disciplina do respectivo professor
   public async showDisciplina(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { disciplina_id } = request.params;
+    const { disciplina_id } = request.body;
 
     const disciplina = container.resolve(FindDisciplinaService);
 
@@ -34,7 +36,8 @@ export default class DisciplinaController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { professor_id, titulo, tag, descricao, valor } = request.body;
+    const professor_id = request.user.id;
+    const { titulo, tag, descricao, valor } = request.body;
 
     const createDisciplinaService = container.resolve(CreateDisciplinaService);
 
