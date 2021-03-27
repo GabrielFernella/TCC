@@ -16,12 +16,12 @@ export default class DisciplinaController {
   ): Promise<Response> {
     const disciplinaList = container.resolve(ListDisciplinaService);
 
-    const result = disciplinaList.execute();
+    const result = await disciplinaList.execute();
 
-    return response.status(204).json(result);
+    return response.status(200).json(result);
   }
 
-  public async showDisciplina(
+  public async findDisciplina(
     request: Request,
     response: Response,
   ): Promise<Response> {
@@ -29,9 +29,9 @@ export default class DisciplinaController {
 
     const disciplina = container.resolve(FindDisciplinaService);
 
-    const result = disciplina.execute(disciplina_id);
+    const result = await disciplina.execute(disciplina_id);
 
-    return response.status(204).json(result);
+    return response.status(200).json(result);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -40,7 +40,7 @@ export default class DisciplinaController {
 
     const createDisciplinaService = container.resolve(CreateDisciplinaService);
 
-    await createDisciplinaService.execute({
+    const result = await createDisciplinaService.execute({
       professor_id,
       titulo,
       tag,
@@ -48,7 +48,7 @@ export default class DisciplinaController {
       valor,
     });
 
-    return response.status(204).json();
+    return response.status(201).json(result);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -58,15 +58,15 @@ export default class DisciplinaController {
 
     const disciplina = container.resolve(UpdateDisciplinaService);
 
-    const result = disciplina.execute(disciplina_id, {
-      professor_id,
+    const result = await disciplina.execute(professor_id, {
+      disciplina_id,
       titulo,
       tag,
       descricao,
       valor,
     });
 
-    return response.status(200).json(result);
+    return response.status(201).json(result);
   }
 
   public async addAvaliacao(
@@ -87,11 +87,12 @@ export default class DisciplinaController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
+    const professor_id = request.user.id;
     const { disciplina_id } = request.body;
 
     const disciplina = container.resolve(DeleteDisciplinaService);
 
-    const result = disciplina.execute(disciplina_id);
+    const result = disciplina.execute(professor_id, disciplina_id);
 
     return response.status(200).json(result);
   }

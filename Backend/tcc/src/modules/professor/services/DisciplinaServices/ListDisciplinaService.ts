@@ -15,9 +15,6 @@ class ListDisciplinaService {
   public async execute(): Promise<Disciplina[]> {
     // Listando todas as Disciplinas
     const listDisciplina = await this.disciplinaRepository.listDisciplina();
-    /* if (!findDisciplina) {
-      throw new AppError('Disciplina');
-    } */
 
     return listDisciplina;
   }

@@ -8,8 +8,9 @@
 
 # Iniciar aplicação
 
-1. docker start postgres mongo redis
-2. Rodar (yarn typeorm migration:generate -- -n CreatedEntities) && (yarn typeorm migration:run) para criar banco de dados
+1. Faça a porra do .env
+2. docker start postgres mongo redis
+3. Rodar (yarn typeorm migration:generate -- -n CreatedEntities) && (yarn typeorm migration:run) para criar banco de dados
 
 # Lista de Tarefas
 

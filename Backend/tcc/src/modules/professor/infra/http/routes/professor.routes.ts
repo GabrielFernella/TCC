@@ -5,18 +5,16 @@ import { celebrate, Joi, Segments } from 'celebrate';
 // import uploadConfig from '@config/upload';
 
 import ProfessorController from '../controllers/ProfessorController';
-// import UserAvatarController from '../controllers/UserAvatarController';
 
-// import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const professorRouter = Router();
 const professorController = new ProfessorController();
-// const userAvatarController = new UserAvatarController();
 
 // const upload = multer(uploadConfig.multer);
 
 professorRouter.post(
-  '/',
+  '/create',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),

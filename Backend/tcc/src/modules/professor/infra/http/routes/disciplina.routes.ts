@@ -8,21 +8,21 @@ const disciplinaRouter = Router();
 const disciplinaController = new DisciplinaController();
 
 // Listagem Disciplina
-disciplinaRouter.get('/show', disciplinaController.listAllDisciplina);
-
-// Autenticar Usuário
-disciplinaRouter.use(ensureAuthenticated);
+disciplinaRouter.get('/list', disciplinaController.listAllDisciplina);
 
 // Show all disciplina do professor_id
 disciplinaRouter.get(
-  '/show',
+  '/find',
   celebrate({
     [Segments.BODY]: {
       disciplina_id: Joi.string().required(),
     },
   }),
-  disciplinaController.showDisciplina,
+  disciplinaController.findDisciplina,
 );
+
+// Autenticar Usuário
+disciplinaRouter.use(ensureAuthenticated);
 
 // Create Dsiciplina
 disciplinaRouter.post(

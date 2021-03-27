@@ -7,7 +7,7 @@ import IDisciplinaRepository from '../../repositories/IDisciplinaRepository';
 // import Disciplina from '../../infra/typeorm/entities/Disciplina';
 
 interface IRequest {
-  professor_id: string;
+  disciplina_id: string;
   titulo: string;
   tag: string[];
   descricao: string;
@@ -22,19 +22,21 @@ class UpdateDisciplinaService {
   ) {}
 
   public async execute(
-    disciplina_id: string,
-    { professor_id, titulo, tag, descricao, valor }: IRequest,
+    professor_id: string,
+    { disciplina_id, titulo, tag, descricao, valor }: IRequest,
   ): Promise<IUpdateDisciplinaDTO> {
     // Procurando se há um user com o mesmo email
-    const aula = await this.disciplinaRepository.findByID(id);
-    if (!aula) {
-      throw new AppError('Aula not found');
+    const disciplina = await this.disciplinaRepository.findByID(disciplina_id);
+    if (!disciplina) {
+      throw new AppError('Disciplina não encontrada.');
+    }
+    if (disciplina.professor_id !== professor_id) {
+      throw new AppError('Professor não pertence a essa disciplina.');
     }
 
     const updateDisciplina = await this.disciplinaRepository.updated(
       disciplina_id,
       {
-        professor_id,
         titulo,
         tag,
         descricao,

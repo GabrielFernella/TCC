@@ -9,7 +9,6 @@ export interface ICreateDisciplinaDTO {
 }
 
 export interface IUpdateDisciplinaDTO {
-  professor_id: string;
   titulo: string;
   tag: string[];
   descricao: string;

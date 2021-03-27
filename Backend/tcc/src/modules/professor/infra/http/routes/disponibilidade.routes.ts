@@ -8,20 +8,21 @@ const disponibilidadeRouter = Router();
 const disponibilidadeController = new DisponibilidadeController();
 
 disponibilidadeRouter.use(ensureAuthenticated);
+
+// Mostra a disponibilidade do professor
 disponibilidadeRouter.get(
-  '/:id',
+  '/show',
   celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required(),
+    [Segments.BODY]: {
+      professor_id: Joi.string().required(),
     },
   }),
   disponibilidadeController.show,
 );
 disponibilidadeRouter.post(
-  '/',
+  '/create',
   celebrate({
     [Segments.BODY]: {
-      professor_id: Joi.string().required(),
       diaSemana: Joi.number().required(),
       horarioentrada: Joi.number().required(),
       horariosaida: Joi.number().required(),

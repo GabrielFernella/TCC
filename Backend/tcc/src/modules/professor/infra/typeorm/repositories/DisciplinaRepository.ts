@@ -18,14 +18,14 @@ class DisciplinaRepository implements IDisciplinaRepository {
     this.ormRepository = getRepository(Disciplina);
   }
 
-  public async listDisciplina(): Promise<Disciplina[] | []> {
-    const disciplinas = this.ormRepository.find();
+  public async listDisciplina(): Promise<Disciplina[]> {
+    const disciplinas = await this.ormRepository.find();
 
     return disciplinas;
   }
 
   public async findByID(id: string): Promise<Disciplina | undefined> {
-    const disciplina = this.ormRepository.findOne({
+    const disciplina = await this.ormRepository.findOne({
       where: {
         id,
       },
@@ -58,7 +58,7 @@ class DisciplinaRepository implements IDisciplinaRepository {
     data: IUpdateDisciplinaDTO,
   ): Promise<Disciplina | undefined> {
     await this.ormRepository.update(disciplina_id, data);
-    const result = await this.ormRepository.findOne(id);
+    const result = await this.ormRepository.findOne(disciplina_id);
     return result;
   }
 

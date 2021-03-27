@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
-import Usuario from '@modules/usuario/infra/typeorm/entities/usuario';
+import Usuario from '@modules/usuario/infra/typeorm/entities/Usuario';
 import Disponibilidade from './Disponibilidade';
 import Disciplina from './Disciplina';
 import ProfessorToken from './ProfessorToken';

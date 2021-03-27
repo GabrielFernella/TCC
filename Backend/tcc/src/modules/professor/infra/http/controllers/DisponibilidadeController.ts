@@ -8,9 +8,9 @@ import DeleteDisponibilidadeService from '@modules/professor/services/Disponibil
 export default class DisponibilidadeController {
   public async show(request: Request, response: Response): Promise<Response> {
     // passa o ID do professor para exibir todas as aulas que estão relacionadas ao usuário
-    // const { id } = request.params;
+    const { id } = request.body;
     // Talvez tenha alteração aqui #########
-    const { id } = request.user;
+    // const { id } = request.user;
 
     const showDisponibilidadeService = container.resolve(
       ShowDisponibilidadeService,
@@ -41,6 +41,7 @@ export default class DisponibilidadeController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     // Passsa o parametro específico da tabela que deseja excluir
+    const professor_id = request.user.id;
     const { disponibilidade_id } = request.params;
 
     const deleteDisponibilidadeService = container.resolve(
@@ -48,6 +49,7 @@ export default class DisponibilidadeController {
     );
 
     const result = await deleteDisponibilidadeService.execute(
+      professor_id,
       disponibilidade_id,
     );
     return response.status(202).json(result);
