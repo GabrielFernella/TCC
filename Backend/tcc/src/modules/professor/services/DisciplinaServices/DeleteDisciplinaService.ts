@@ -12,14 +12,17 @@ class DeleteDisciplinaService {
     private disciplinaRepository: IDisciplinaRepository,
   ) {}
 
-  public async execute(professor_id: string, disciplina_id: string): Promise<Disciplina> {
+  public async execute(
+    professor_id: string,
+    disciplina_id: string,
+  ): Promise<Disciplina> {
     const result = await this.disciplinaRepository.findByID(disciplina_id);
 
     if (!result) {
       throw new AppError('Disciplina não encontrada');
     }
 
-    if (professor_id != result.professor_id) {
+    if (professor_id !== result.professor_id) {
       throw new AppError('Disciplina não pertence a esse professor');
     }
 

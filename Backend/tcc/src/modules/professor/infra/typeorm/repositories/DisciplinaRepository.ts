@@ -24,10 +24,12 @@ class DisciplinaRepository implements IDisciplinaRepository {
     return disciplinas;
   }
 
-  public async findByID(id: string): Promise<Disciplina | undefined> {
+  public async findByID(
+    disciplina_id: string,
+  ): Promise<Disciplina | undefined> {
     const disciplina = await this.ormRepository.findOne({
       where: {
-        id,
+        id: disciplina_id,
       },
     });
 
@@ -65,13 +67,18 @@ class DisciplinaRepository implements IDisciplinaRepository {
   public async addAvaliacao(
     data: IAddAvaliacaoDTO,
   ): Promise<Disciplina | undefined> {
-    await this.ormRepository.update(data.disciplina_id, data);
-    const result = await this.ormRepository.findOne(id);
+    const { disciplina_id } = data;
+    await this.ormRepository.update(disciplina_id, {
+      mediaAvaliacao: data.mediaAvaliacao,
+      qtdAvaliacao: data.qtdAvaliacao,
+    });
+    const result = await this.ormRepository.findOne(data.disciplina_id);
+
     return result;
   }
 
-  public async deleted(id: string): Promise<string> {
-    await this.ormRepository.delete(id);
+  public async deleted(disciplina_id: string): Promise<string> {
+    await this.ormRepository.delete(disciplina_id);
 
     const result = 'Deleted Column';
     return result;

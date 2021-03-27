@@ -74,16 +74,17 @@ export default class DisciplinaController {
     response: Response,
   ): Promise<Response> {
     const { disciplina_id, qtdAvaliacao, mediaAvaliacao } = request.body;
+    const professor_id = request.user.id;
 
     const disciplinaList = container.resolve(AddAvaliacaoDisciplinaService);
 
-    const result = disciplinaList.execute({
+    const result = await disciplinaList.execute(professor_id, {
       disciplina_id,
       qtdAvaliacao,
       mediaAvaliacao,
     });
 
-    return response.status(204).json(result);
+    return response.status(200).json(result);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
