@@ -8,10 +8,10 @@ import IDisponibilidadeRepository from '../../repositories/IDisponibilidadeRepos
 import Disponibilidade from '../../infra/typeorm/entities/Disponibilidade';
 
 interface IRequest {
-  teacher_id: string;
+  professor_id: string;
   diaSemana: string;
-  horarioentrada: number;
-  horariosaida: number;
+  horarioEntrada: number;
+  horarioSaida: number;
 }
 
 @injectable()
@@ -25,13 +25,13 @@ class CreateDisponibilidadeService {
   ) {}
 
   public async execute({
-    teacher_id,
+    professor_id,
     diaSemana,
-    horarioentrada,
-    horariosaida,
+    horarioEntrada,
+    horarioSaida,
   }: IRequest): Promise<Disponibilidade> {
     // Procurando se há um user com o mesmo email
-    const findTeacher = await this.professorRepository.findById(teacher_id);
+    const findTeacher = await this.professorRepository.findById(professor_id);
     if (!findTeacher) {
       throw new AppError('Teacher not found');
     }
@@ -45,10 +45,10 @@ class CreateDisponibilidadeService {
     } */
 
     const cadDisponibilidade = await this.disponibilidadeRepository.create({
-      teacher_id,
+      professor_id,
       diaSemana,
-      horarioentrada,
-      horariosaida,
+      horarioEntrada,
+      horarioSaida,
     });
 
     return cadDisponibilidade;

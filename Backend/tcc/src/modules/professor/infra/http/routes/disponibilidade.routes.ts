@@ -7,8 +7,6 @@ import DisponibilidadeController from '../controllers/DisponibilidadeController'
 const disponibilidadeRouter = Router();
 const disponibilidadeController = new DisponibilidadeController();
 
-disponibilidadeRouter.use(ensureAuthenticated);
-
 // Mostra a disponibilidade do professor
 disponibilidadeRouter.get(
   '/show',
@@ -19,22 +17,25 @@ disponibilidadeRouter.get(
   }),
   disponibilidadeController.show,
 );
+
+disponibilidadeRouter.use(ensureAuthenticated);
+
 disponibilidadeRouter.post(
   '/create',
   celebrate({
     [Segments.BODY]: {
-      diaSemana: Joi.number().required(),
-      horarioentrada: Joi.number().required(),
-      horariosaida: Joi.number().required(),
+      diaSemana: Joi.string().required(),
+      horarioEntrada: Joi.number().required(),
+      horarioSaida: Joi.number().required(),
     },
   }),
   disponibilidadeController.create,
 );
 disponibilidadeRouter.delete(
-  '/:id',
+  '/delete',
   celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required(),
+    [Segments.BODY]: {
+      disponibilidade_id: Joi.string().required(),
     },
   }),
   disponibilidadeController.delete,
