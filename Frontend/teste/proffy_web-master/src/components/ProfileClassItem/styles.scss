@@ -1,0 +1,70 @@
+.profile-class-item {
+  background: var(--color-box-base);
+  border-radius: 0.8rem;
+  overflow: hidden;
+
+  &:first-of-type {
+    header {
+      padding: 0 0 1rem 0;
+      border-top: none;
+    }
+  }
+  header {
+    padding: 2rem 0 1rem 0;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-line-in-white);
+    border-top: 1px solid var(--color-line-in-white);
+
+    & > div {
+      display: flex;
+      align-items: center;
+      img {
+        width: 8rem;
+        object-fit: cover;
+        height: 8rem;
+        border-radius: 50%;
+      }
+      div {
+        strong {
+          font: 700 2.4rem Archivo;
+          display: block;
+          color: var(--color-text-title);
+        }
+        span {
+          font-size: 1.6rem;
+          display: block;
+          margin-top: 0.4rem;
+        }
+      }
+    }
+    .class-edit {
+      img {
+        cursor: pointer;
+        height: 4rem;
+        width: 4rem;
+        border-radius: 0.8rem;
+        padding: 1.2rem;
+      }
+    }
+  }
+  p {
+    padding: 0;
+    font-size: 1.6rem;
+    line-height: 2.8rem;
+    font-family: Poppins;
+    font-weight: 400;
+  }
+  section.schedule-items {
+    padding: 0;
+  }
+}
+@media (min-width: 600px) {
+  .profile-class-item {
+    section.schedule-items {
+      padding: 0;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // import GlobalStyle from './styles/globals';
-import './styles/globals.css';
+import './assets/styles/global.css';
 
 // import AppProvider from './hooks';
 

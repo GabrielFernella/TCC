@@ -1,35 +1,25 @@
-import React, { InputHTMLAttributes, useCallback } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
-import { currency, number } from "./masks";
-
-import './styles.css';
+import './styles.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
   name: string;
-  label: string;
-  mask?: "currency" | "number";
-  prefix?: string;
+  stacked?: boolean;
 }
 
-const Input:React.FC<InputProps> = ({ mask, name, label, prefix, ...rest }) => {
-  const handleKeyUp = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      if (mask === "currency") {
-        currency(e);
-      }
-      if (mask === "number") {
-        number(e);
-      }
-    },
-    [mask]
-  );
-
-  return(
-    <div className="input-block">
-      <label htmlFor={name}>{label}</label>
-      <input type="text" id={name} onKeyUp={handleKeyUp} {...rest} />
+const Input: React.FunctionComponent<InputProps> = ({
+  label,
+  stacked = false,
+  name,
+  ...rest
+}) => {
+  return (
+    <div className={`input-block ${stacked && 'input-stacked'}`}>
+      {label && <label htmlFor={name}>{label}</label>}
+      <input type="text" id={name} {...rest} />
     </div>
   );
-}
+};
 
 export default Input;

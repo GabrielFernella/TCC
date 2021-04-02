@@ -1,0 +1,48 @@
+section.schedule-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  grid-column-gap: 1.6rem;
+  grid-row-gap: 1.8rem;
+  padding: 0 2rem;
+  margin: 3.2rem 0;
+
+  .schedule-block {
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-line-in-white);
+    border-radius: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0.8rem;
+
+    &.schedule-disabled {
+      opacity: 0.4;
+    }
+
+    div {
+      span {
+        display: inline-block;
+        width: 100%;
+        font: 400 1.2rem Poppins;
+        color: var(--color-text-complement);
+      }
+
+      strong {
+        font: 700 1.6rem Archivo;
+        line-height: 3.2rem;
+      }
+
+      + div {
+        margin-top: 1.2rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  section.schedule-items {
+    padding: 0 3.2rem;
+    //grid-template-columns: repeat(auto-fill, minmax(12.3rem, 1fr));
+  }
+}

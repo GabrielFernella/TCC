@@ -3,16 +3,20 @@ import { Switch } from 'react-router-dom';
 
 import Route from './Route';
 
-import Landing from '../pages/Landing';
-import TeacherForm from '../pages/TeacherForm';
-import TeacherList from '../pages/TeacherList';
+// Feitos
+// import Landing from '../pages/dashboard/Landing';
+// import Login from '../pages/dashboard/Login';
+// import RecuperarSenha from '../pages/professor/RecuperarSenha';
+// import ProfessorForm from '../pages/professor/ProfessorCadForm';
+// import ProfessorDisciplina from '../pages/professor/ProfessorCadDisciplina';
+// import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
+
+import ProfessorDisciplina from '../pages/professor/ProfessorCadDisponibilidade';
 
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={Landing} />
-      <Route path="/study" component={TeacherForm} />
-      <Route path="/give-classes" component={TeacherList} />
+      <Route path="/" exact component={ProfessorDisciplina} />
     </Switch>
   );
 };

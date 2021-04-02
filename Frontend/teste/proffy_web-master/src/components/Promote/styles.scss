@@ -1,0 +1,21 @@
+#ad {
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    height: 2rem;
+    p {
+        color: var(--color-line-in-white);
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    &.dark {
+        background-color: var(--color-background);
+        p{
+            color: var(--color-text-complement);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+    }
+}
