@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import warningIcon from '../../../assets/images/icons/warning.svg';
@@ -6,19 +6,52 @@ import './styles.scss';
 import backgroundImg from '../../../assets/images/success-background.svg';
 import Select from '../../../components/Select';
 import Button from '../../../components/Button';
+import api from '../../../services/api';
+
+interface ScheduleInterface {
+  dia: string;
+  entrada: string;
+  saida: string;
+}
 
 function Disponibilidade() {
   // Deve ser alterado
+
+  // Nessa tela colocaremos 3 conexões com a API, de listar, create e delete
+  // Teremos 2 botões, um para criar e outro para deletar em cada componente
 
   const [diasemana, setDiasemana] = useState('');
   const [horarioEntrada, setHorarioEntrada] = useState('');
   const [horarioSaida, setHorarioSaida] = useState('');
 
-  const scheduleItems = [1, 2, 3];
+  const [scheduleItems, setScheduleItems] = useState<ScheduleInterface[]>([
+    { dia: diasemana, entrada: horarioEntrada, saida: horarioSaida },
+  ]);
 
-  function excluir() {
-    scheduleItems.splice(2, 1);
+  useEffect(() => {
+    api.get('/disponibilidade/show').then(response => {
+      setScheduleItems(response.data);
+    });
+  }, []);
+
+  function incluir(values: ScheduleInterface) {
+    setScheduleItems([values, ...scheduleItems]);
     console.log(scheduleItems);
+  }
+
+  function handleDelete() {
+    api
+      .delete('/classes', {
+        params: {
+          disponibilidade_id: '',
+        },
+      })
+      .then(() => {
+        // history.push('/');
+      })
+      .catch(() => {
+        alert('Não foi possível deletar');
+      });
   }
 
   function handleUpdateProfile() {}
@@ -40,9 +73,10 @@ function Disponibilidade() {
       <main>
         <form onSubmit={handleUpdateProfile}>
           <fieldset>
+            <legend>Seus dados</legend>
             {scheduleItems.map(scheduleItem => {
               return (
-                <div id="personal-info">
+                <div key={scheduleItem.dia} id="personal-info">
                   <div id="diasemana-info">
                     <Select
                       name="diasemana"
@@ -80,14 +114,34 @@ function Disponibilidade() {
                       required
                     />
                   </div>
+
+                  <div id="create-info">
+                    <Button
+                      type="button"
+                      onClick={
+                        () =>
+                          incluir({
+                            dia: diasemana,
+                            entrada: horarioEntrada,
+                            saida: horarioSaida,
+                          })
+                        // eslint-disable-next-line react/jsx-curly-newline
+                      }
+                      className="btnexcluir"
+                      name="create"
+                    >
+                      Create
+                    </Button>
+                  </div>
+
                   <div id="excluir-info">
                     <Button
                       type="button"
-                      onClick={() => excluir}
+                      onClick={() => handleDelete()}
                       className="btnexcluir"
                       name="excluir"
                     >
-                      X
+                      Delete
                     </Button>
                   </div>
                 </div>

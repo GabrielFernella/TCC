@@ -7,10 +7,6 @@
     }
   }
 
-  .btnexcluir {
-    margin-top: 37px;
-  }
-
   .profile-header {
     margin-top: 4rem;
     & > form {
@@ -43,7 +39,6 @@
     margin: -3.2rem auto 3.2rem;
     padding-top: 6.4rem;
     overflow: hidden;
-
     label {
       color: var(--color-text-complement);
     }
@@ -194,28 +189,35 @@
   }*/
 
   #personal-info {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
-    grid-template-areas: 'diasemana diasemana entrada saida create excluir ';
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+      'name name name name cpf cpf'
+      'email email email email password password'
+      'avatar avatar avatar avatar pix pix';
   }
 
-  #diasemana-info {
-    grid-area: diasemana;
+  #name-info {
+    grid-area: name;
   }
 
-  #entrada-info {
-    grid-area: entrada;
+  #cpf-info {
+    grid-area: cpf;
   }
 
-  #saida-info {
-    grid-area: saida;
+  #email-info {
+    grid-area: email;
   }
 
-  #create-info {
-    grid-area: create;
+  #password-info {
+    grid-area: password;
   }
 
-  #excluir-info {
-    grid-area: excluir;
+  #avatar-info {
+    grid-area: avatar;
+  }
+
+  #pix-info {
+    grid-area: pix;
   }
 }

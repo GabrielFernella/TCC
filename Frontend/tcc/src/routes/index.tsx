@@ -11,12 +11,14 @@ import Route from './Route';
 // import ProfessorDisciplina from '../pages/professor/ProfessorCadDisciplina';
 // import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
 
-import ProfessorDisciplina from '../pages/professor/ProfessorCadDisponibilidade';
+// import teste from '../pages/aluno/AlunoCadForm';
+
+import teste from '../pages/aluno/ListDisciplinas';
 
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ProfessorDisciplina} />
+      <Route path="/" exact component={teste} />
     </Switch>
   );
 };
