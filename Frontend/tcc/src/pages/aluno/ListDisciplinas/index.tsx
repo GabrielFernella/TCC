@@ -27,12 +27,12 @@ function ListDisciplina() {
                 <h2>Teste</h2>
                 <div>
                   <h4>Tags:</h4>
-                  <p> tags</p>
+                  <p>tags</p>
                 </div>
 
                 <h4>Descrição:</h4>
                 <p id="desc">
-                  descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição
+                  Descriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescriçãodescrição
                 </p>
 
                 <div>
