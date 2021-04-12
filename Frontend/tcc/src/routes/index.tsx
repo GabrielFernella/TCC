@@ -23,8 +23,14 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ProfessorHome} />
-      <Route path="/aluno" exact component={ProfessorForm} />
+      <Route path="/" exact component={ListDisciplinas} />
+
+      <Route path="/dashboard" exact component={Landing} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/forgot-password" exact component={RecuperarSenha} />
+
+      <Route path="/aluno-form" exact component={AlunoCadForm} />
+      <Route path="/aluno-list-disciplina" exact component={ListDisciplinas} />
 
       <Route path="/prof-home" exact component={ProfessorHome} />
       <Route path="/prof-form" exact component={ProfessorForm} />

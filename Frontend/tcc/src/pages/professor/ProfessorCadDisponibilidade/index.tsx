@@ -59,8 +59,8 @@ function Disponibilidade() {
   console.log(diasemana);
 
   return (
-    <div id="page-teacher-profile" className="container">
-      <PageHeader page="Meu perfil" background={backgroundImg}>
+    <div id="page-disponibilidade" className="container">
+      <PageHeader page="Minhas Disponibilidades" background={backgroundImg}>
         <div className="profile-header">
           <h2>Cadastre suas disponibilidades</h2>
           <p>
@@ -76,7 +76,7 @@ function Disponibilidade() {
             <legend>Seus dados</legend>
             {scheduleItems.map(scheduleItem => {
               return (
-                <div key={scheduleItem.dia} id="personal-info">
+                <div key={scheduleItem.dia} id="disponibilidade-content">
                   <div id="diasemana-info">
                     <Select
                       name="diasemana"
