@@ -1,6 +1,8 @@
 import React from 'react';
 
-import logoImg from '../../assets/images/logo.svg';
+// import logoImg from '../../assets/images/logo.svg';
+import logoImg from '../../assets/images/logoprincipal.png';
+
 import squaredBgImg from '../../assets/images/squared-background.svg';
 
 import './styles.scss';
@@ -22,7 +24,7 @@ const LogoContainer: React.FunctionComponent<{ background?: boolean }> = ({
         <div className="logo-bg-container" style={logoContainerStyle} />
       )}
       <div className="logo-hero">
-        <img src={logoImg} alt="Proffy" />
+        <img src={logoImg} alt="Web Educa" />
         <h2>Sua plataforma de estudos online.</h2>
       </div>
     </div>

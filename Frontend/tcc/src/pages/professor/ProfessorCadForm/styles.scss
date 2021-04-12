@@ -1,4 +1,4 @@
-#page-teacher-profile {
+#page-teacher-form {
   width: 100vw;
   height: 100vh;
   .page-header {
@@ -132,7 +132,7 @@
 }
 
 @media (min-width: 700px) {
-  #page-teacher-profile {
+  #page-teacher-form {
     max-width: 100vw;
 
     .profile-header {
@@ -179,7 +179,7 @@
   }
 
   #subject-info,
-  #personal-info {
+  #form-content {
     display: grid;
     grid-column-gap: 1.6rem;
   }
@@ -188,7 +188,7 @@
     grid-template-columns: 4fr 2fr;
   }*/
 
-  #personal-info {
+  #form-content {
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:

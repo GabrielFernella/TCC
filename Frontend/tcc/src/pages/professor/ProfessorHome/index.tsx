@@ -10,26 +10,29 @@ import Button from '../../../components/Button';
 function ProfessorHome() {
   return (
     <div id="page-home" className="container">
-      <PageHeader page="Meu perfil" background={backgroundImg}>
+      <PageHeader page="Home" background={backgroundImg}>
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
-          <p>Faça seu cadastro e junte-se a outros professores.</p>
+          <p>
+            Navegue pelo menu com facilidade, aqui disponibilizamos os
+            principais recursos da plataforma.
+          </p>
         </div>
       </PageHeader>
 
       <div id="content">
         <div className="menu">
-          <Link to="/aluno">
-            <Button name="MeusAgendamentos">Cad. Disciplina</Button>
+          <Link to="/prof-cad-disciplina">
+            <Button name="disciplina">Cad. Disciplina</Button>
+          </Link>
+          <Link to="/prof-cad-disponibilidade">
+            <Button name="disponibilidade">Cad. Disponibilidade</Button>
           </Link>
           <Link to="/aluno">
-            <Button name="MeusAgendamentos">Cad. Disponibilidade</Button>
+            <Button name="agendamentos">Agendamentos</Button>
           </Link>
-          <Link to="/aluno">
-            <Button name="MeusAgendamentos">Agendamentos</Button>
-          </Link>
-          <Link to="/aluno">
-            <Button name="MeusAgendamentos">Perfil</Button>
+          <Link to="/prof-form">
+            <Button name="perfil">Perfil</Button>
           </Link>
         </div>
       </div>

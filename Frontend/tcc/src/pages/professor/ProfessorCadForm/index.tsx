@@ -76,7 +76,7 @@ function Profile() {
   }, []); */
 
   return (
-    <div id="page-teacher-profile" className="container">
+    <div id="page-teacher-form" className="container">
       <PageHeader page="Meu perfil" background={backgroundImg}>
         <div className="profile-header">
           <h2>Que bom que você deseja dar aulas!</h2>
@@ -88,7 +88,7 @@ function Profile() {
         <form onSubmit={handleUpdateProfile}>
           <fieldset>
             <legend>Seus dados</legend>
-            <div id="personal-info">
+            <div id="form-content">
               <div id="name-info">
                 <Input
                   label="Nome"

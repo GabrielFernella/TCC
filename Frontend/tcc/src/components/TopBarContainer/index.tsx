@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import backIcon from '../../assets/images/icons/back.svg';
 import leaveIcon from '../../assets/images/icons/leave.svg';
-import logoImg from '../../assets/images/logo.svg';
+import logoImg from '../../assets/images/logoprincipal.png'; // logo.svg
 
 import './styles.scss';
 // import { AuthContext } from '../../contexts/auth';
@@ -37,7 +37,7 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
           </Link>
           <p>{title}</p>
 
-          <img src={logoImg} alt="Proffy" />
+          <img src={logoImg} alt="Web Educa" />
         </div>
       )}
     </div>

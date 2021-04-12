@@ -11,6 +11,7 @@ import RecuperarSenha from '../pages/professor/RecuperarSenha';
 import ProfessorForm from '../pages/professor/ProfessorCadForm';
 import ProfessorDisciplina from '../pages/professor/ProfessorCadDisciplina';
 import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
+import ProfessorHome from '../pages/professor/ProfessorHome';
 
 // Processo
 import AlunoCadForm from '../pages/aluno/AlunoCadForm';
@@ -22,8 +23,21 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ListDisciplinas} />
+      <Route path="/" exact component={ProfessorHome} />
       <Route path="/aluno" exact component={ProfessorForm} />
+
+      <Route path="/prof-home" exact component={ProfessorHome} />
+      <Route path="/prof-form" exact component={ProfessorForm} />
+      <Route
+        path="/prof-cad-disciplina"
+        exact
+        component={ProfessorDisciplina}
+      />
+      <Route
+        path="/prof-cad-disponibilidade"
+        exact
+        component={ProfessorCadDisponibilidade}
+      />
     </Switch>
   );
 };

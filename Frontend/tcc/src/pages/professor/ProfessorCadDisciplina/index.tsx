@@ -46,7 +46,7 @@ function Disciplina() {
   };
 
   return (
-    <div id="page-teacher-profile" className="container">
+    <div id="page-disciplina" className="container">
       <PageHeader page="Meu perfil" background={backgroundImg}>
         <div className="profile-header">
           <h2>Mostre para seus alunos do que você manja!</h2>
@@ -58,7 +58,7 @@ function Disciplina() {
         <form onSubmit={handleUpdateProfile}>
           <fieldset>
             <legend>Dados Disciplina</legend>
-            <div id="personal-info">
+            <div id="disciplina-content">
               <div id="titulo-info">
                 <Input
                   label="Disciplina"
