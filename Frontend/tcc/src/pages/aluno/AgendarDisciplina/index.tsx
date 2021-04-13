@@ -4,6 +4,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 import Input from '../../../components/Input';
+import Select from '../../../components/Select';
 
 function ListDisciplina() {
   function select() {
@@ -45,7 +46,7 @@ function ListDisciplina() {
               </p>
 
               <div>
-                <h4>Valor: R$ 30 /hora</h4>
+                <h3>Valor: R$ 30 /hora</h3>
               </div>
             </div>
             <div className="agendar">
@@ -59,8 +60,47 @@ function ListDisciplina() {
                   <h4>Terça</h4>
                   <p>das 14h até 19h</p>
                 </div>
+                <div>
+                  <h4>Segunda</h4>
+                  <p>das 14h até 19h</p>
+                </div>
+                <div>
+                  <h4>Terça</h4>
+                  <p>das 14h até 19h</p>
+                </div>
+                <div>
+                  <h4>Segunda</h4>
+                  <p>das 14h até 19h</p>
+                </div>
+                <div>
+                  <h4>Terça</h4>
+                  <p>das 14h até 19h</p>
+                </div>
+                <div>
+                  <h4>Segunda</h4>
+                  <p>das 14h até 19h</p>
+                </div>
+                <div>
+                  <h4>Terça</h4>
+                  <p>das 14h até 19h</p>
+                </div>
               </div>
               <div id="btn-agendar">
+                <Select
+                  name="diasemana"
+                  label="Dia da semana"
+                  // value={diasemana}
+                  // onChange={e => setDiasemana(e.target.value)}
+                  options={[
+                    { value: '0', label: 'Domingo' },
+                    { value: '1', label: 'Segunda-feira' },
+                    { value: '2', label: 'Terça-feira' },
+                    { value: '3', label: 'Quarta-feira' },
+                    { value: '4', label: 'Quinta-feira' },
+                    { value: '5', label: 'Sexta-feira' },
+                    { value: '6', label: 'Sábado' },
+                  ]}
+                />
                 <Input
                   name="entrada"
                   label="Das"
@@ -75,10 +115,10 @@ function ListDisciplina() {
                   value="value"
                   required
                 />
-                <button type="submit" onClick={select}>
-                  Agendar
-                </button>
               </div>
+              <button type="submit" onClick={select}>
+                Agendar
+              </button>
             </div>
           </fieldset>
 
