@@ -62,19 +62,6 @@
         width: 100%;
         padding-bottom: 1.6rem;
         border-bottom: 1px solid var(--color-line-in-white);
-        button,
-        a {
-          background: none;
-          border: 0;
-          color: var(--color-primary);
-          font: 700 1.6rem Archivo;
-          cursor: pointer;
-          transition: color 0.2s;
-          outline: none;
-          &:hover {
-            color: var(--color-primary-dark);
-          }
-        }
       }
 
       #disciplina {
@@ -98,8 +85,29 @@
           }
         }
 
+        #desc {
+          word-break: break-word;
+        }
+      }
+
+      .agendar {
+        margin-top: 2.4rem;
+
+        #dia-disponibilidade {
+          display: flex;
+          flex-direction: row;
+          //justify-content: space-between;
+
+          div {
+            margin-right: 2.4rem;
+            background-color: #d9cbf8;
+            border-radius: 1rem;
+            padding: 1rem;
+          }
+        }
+
         button {
-          width: 100%;
+          width: 40%;
           height: 5.6rem;
           background: #8257e5;
           border: solid #8257e5;
@@ -117,10 +125,6 @@
           &:hover {
             background: #6c3cdd;
           }
-        }
-
-        #desc {
-          word-break: break-word;
         }
       }
     }
@@ -162,7 +166,7 @@
 
     main {
       fieldset {
-        padding: 0 6.4rem;
+        padding: 0 4.4rem;
       }
       .schedule-item {
         display: grid;
@@ -172,11 +176,16 @@
           margin-top: 0 !important;
         }
       }
-      .schedule-item-delete {
-        span {
-          font-size: 1.4rem;
+
+      .agendar {
+        #btn-agendar {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
         }
       }
+
       footer {
         padding: 4rem 6.4rem;
         display: flex;
