@@ -37,7 +37,7 @@
     max-width: 74rem;
     border-radius: 0.8rem;
     margin: -3.2rem auto 3.2rem;
-    padding-top: 6.4rem;
+    padding-top: 4.4rem;
     overflow: hidden;
     label {
       color: var(--color-text-complement);
@@ -71,14 +71,13 @@
         max-width: 84rem;
         padding: 0.4rem;
         overflow: hidden;
-        margin-top: 2.4rem;
+        //margin-top: 1.4rem;
         transition: 1s;
 
         div {
           display: flex;
           flex-direction: row;
-          margin-top: auto;
-          margin-top: 8px;
+          margin: auto;
 
           p {
             margin-left: 6px;
