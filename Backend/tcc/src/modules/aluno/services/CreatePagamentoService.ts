@@ -24,6 +24,7 @@ class CreateStudentService {
     title,
     emailPagador,
     valor,
+    pixDestinatario,
   }: ICreatePagamentoDTO): Promise<Pagamento> {
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.pagamentoRepository.findByEmailPagador(
@@ -39,6 +40,7 @@ class CreateStudentService {
       title,
       emailPagador,
       valor,
+      pixDestinatario,
     });
 
     return user;
