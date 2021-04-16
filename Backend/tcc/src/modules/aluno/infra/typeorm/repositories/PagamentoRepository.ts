@@ -27,6 +27,16 @@ class PagamentoRepository implements IPagamentoRepository {
     return findemail;
   }
 
+  public async consultStatusPayment(pagamento_id: string): Promise<string> {
+    const payment = await this.findById(pagamento_id);
+
+    if (!payment) {
+      return '';
+    }
+
+    return payment.statusPagamento;
+  }
+
   public async create(data: ICreatePagamentoDTO): Promise<Pagamento> {
     const pagamento = this.ormRepository.create(data);
 
@@ -41,13 +51,3 @@ class PagamentoRepository implements IPagamentoRepository {
 }
 
 export default PagamentoRepository;
-
-/*
-export default interface IPagamentoRepository {
-  findById(id: string): Promise<Aluno | undefined>;
-  findByEmail(email: string): Promise<Aluno | undefined>;
-  create(data: ICreatePagamentoDTO): Promise<Aluno>;
-  save(user: Aluno): Promise<Aluno>;
-}
-
-*/

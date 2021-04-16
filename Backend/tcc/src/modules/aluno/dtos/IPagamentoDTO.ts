@@ -4,6 +4,7 @@ export interface ICreatePagamentoDTO {
   title: string;
   emailPagador: string;
   valor: string;
+  pixDestinatario: string;
 }
 
 interface IStatusPagamento {

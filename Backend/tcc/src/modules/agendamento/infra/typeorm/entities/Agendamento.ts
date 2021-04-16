@@ -23,13 +23,19 @@ export default class Agendamento {
   id: string;
 
   @Column()
-  data: string;
+  date_info: string;
 
   @Column()
   link: string;
 
-  @Column('character varying', { name: 'Nota' })
+  @Column()
+  status: string;
+
+  @Column()
   nota: string;
+
+  @Column()
+  opiniao: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -49,8 +55,8 @@ export default class Agendamento {
   @Column()
   professor_id: string;
 
-  @ManyToOne(() => Aluno, agendamento => Agendamento)
-  @JoinColumn([{ name: 'aluno_id', referencedColumnName: 'id' }])
+  @ManyToOne(() => Aluno)
+  @JoinColumn([{ name: 'aluno_id' }])
   aluno: Aluno;
 
   @OneToOne(() => Pagamento, agendamento => Agendamento)
