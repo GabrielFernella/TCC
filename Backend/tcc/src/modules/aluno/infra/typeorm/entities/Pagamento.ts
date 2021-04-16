@@ -29,6 +29,9 @@ export default class Pagamento {
   @Column()
   valor: string;
 
+  @Column()
+  pixDestinatario: string;
+
   @CreateDateColumn()
   created_at: Date;
 

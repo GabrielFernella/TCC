@@ -9,13 +9,7 @@ import AppError from '@shared/errors/AppError';
 import Pagamento from '../infra/typeorm/entities/Pagamento';
 import IPagamentoRepository from '../repositories/IPagamentoRepository';
 
-interface IRequest {
-  aluno_id: string;
-  status: string;
-  title: string;
-  emailPagador: string;
-  valor: string;
-}
+import { ICreatePagamentoDTO } from '../dtos/IPagamentoDTO';
 
 @injectable()
 class CreateStudentService {
@@ -30,13 +24,13 @@ class CreateStudentService {
     title,
     emailPagador,
     valor,
-  }: IRequest): Promise<Pagamento> {
+  }: ICreatePagamentoDTO): Promise<Pagamento> {
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.pagamentoRepository.findByEmailPagador(
       emailPagador,
     );
     if (!checkUserExists) {
-      throw new AppError('Email address already used');
+      throw new AppError('Email User not found');
     }
 
     const user = await this.pagamentoRepository.create({

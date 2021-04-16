@@ -12,8 +12,8 @@ class PagamentoRepository implements IPagamentoRepository {
     this.ormRepository = getRepository(Pagamento);
   }
 
-  public async findById(id: string): Promise<Pagamento | undefined> {
-    const findId = await this.ormRepository.findOne(id);
+  public async findById(pagamento_id: string): Promise<Pagamento | undefined> {
+    const findId = await this.ormRepository.findOne(pagamento_id);
     return findId;
   }
 
@@ -21,7 +21,7 @@ class PagamentoRepository implements IPagamentoRepository {
     email: string,
   ): Promise<Pagamento | undefined> {
     const findemail = await this.ormRepository.findOne({
-      where: { email },
+      where: { emailPagador: email },
     });
 
     return findemail;
@@ -35,8 +35,8 @@ class PagamentoRepository implements IPagamentoRepository {
     return pagamento;
   }
 
-  public async save(user: Pagamento): Promise<Pagamento> {
-    return this.ormRepository.save(user);
+  public async save(pagamento: Pagamento): Promise<Pagamento> {
+    return this.ormRepository.save(pagamento);
   }
 }
 
