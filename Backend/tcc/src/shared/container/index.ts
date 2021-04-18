@@ -24,6 +24,10 @@ import DisponibilidadeRepository from '@modules/professor/infra/typeorm/reposito
 import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
 import DisciplinaRepository from '@modules/professor/infra/typeorm/repositories/DisciplinaRepository';
 
+// Agendamento
+import IAgendamentoRepository from '@modules/agendamento/repositories/IAgendamentoRepository';
+import AgendamentoRepository from '@modules/agendamento/infra/typeorm/repositories/AgendamentoRepository';
+
 // Injeção de dependência para os alunos
 container.registerSingleton<IAlunoRepository>(
   'AlunoRepository',
@@ -56,4 +60,9 @@ container.registerSingleton<IDisponibilidadeRepository>(
 container.registerSingleton<IDisciplinaRepository>(
   'DisciplinaRepository',
   DisciplinaRepository,
+);
+
+container.registerSingleton<IAgendamentoRepository>(
+  'AgendamentoRepository',
+  AgendamentoRepository,
 );

@@ -35,6 +35,6 @@ class AgendamentoRepository implements IAgendamentoRepository {
   public async save(agendamento: Agendamento): Promise<Agendamento> {
     return this.ormRepository.save(agendamento);
   }
-
-  private ormRepository: Repository<Agendamento>;
 }
+
+export default AgendamentoRepository;
