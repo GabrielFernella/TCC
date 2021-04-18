@@ -20,17 +20,6 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return result;
   }
 
-  public async findByEmailAluno(
-    email: string,
-  ): Promise<Agendamento | undefined> {
-    const findemail = await this.ormRepository.find({
-      where: {},
-      relations: ['aluno'],
-    });
-
-    return findemail;
-  }
-
   public async consultStatusAgendamento(id: string): Promise<string> {
     throw new Error('Method not implemented.');
   }
