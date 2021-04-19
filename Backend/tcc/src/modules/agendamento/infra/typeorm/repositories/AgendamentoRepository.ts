@@ -15,13 +15,22 @@ class AgendamentoRepository implements IAgendamentoRepository {
     this.ormRepository = getRepository(Agendamento);
   }
 
-  public async findById(id: string): Promise<Agendamento | undefined> {
-    const result = await this.ormRepository.findOne(id);
+  public async findById(
+    agendamento_id: string,
+  ): Promise<Agendamento | undefined> {
+    const result = await this.ormRepository.findOne(agendamento_id);
     return result;
   }
 
-  public async consultStatusAgendamento(id: string): Promise<string> {
-    throw new Error('Method not implemented.');
+  public async findByAlunoID(
+    aluno_id: string,
+  ): Promise<Agendamento | undefined> {
+    const result = await this.ormRepository.findOne({
+      where: {
+        aluno_id,
+      },
+    });
+    return result;
   }
 
   public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
