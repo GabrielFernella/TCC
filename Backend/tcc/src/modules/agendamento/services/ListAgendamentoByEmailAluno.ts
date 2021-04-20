@@ -2,26 +2,40 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import IDisciplinaRepository from '../../repositories/IDisciplinaRepository';
-import Disciplina from '../../infra/typeorm/entities/Disciplina';
+import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
+import Aluno from '@modules/aluno/infra/typeorm/entities/Aluno';
+
+import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
+import Agendamento from '../infra/typeorm/entities/Agendamento';
 
 @injectable()
 class FindDisciplinaService {
   constructor(
-    @inject('DisciplinaRepository')
-    private disciplinaRepository: IDisciplinaRepository,
+    @inject('AlunoRepository')
+    private alunoRepository: IAlunoRepository,
+
+    @inject('AgendamentoRepository')
+    private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  public async execute(disciplina_id: string): Promise<Disciplina> {
-    // Procura a disciplina através do ID
-    const findDisciplina = await this.disciplinaRepository.findByID(
-      disciplina_id,
-    );
-    if (!findDisciplina) {
-      throw new AppError('Disciplina não encontrada.');
+  public async execute(email_aluno: string): Promise<Agendamento> {
+    const findAluno = await this.alunoRepository.findByEmail(email_aluno);
+
+    if (!findAluno) {
+      throw new AppError('Aluno não encontrado.');
     }
 
-    return findDisciplina;
+    // Procura a disciplina através do ID
+    const findBayEmailAluno = await this.agendamentoRepository.findByAlunoID(
+      findAluno.id,
+    );
+    if (!findBayEmailAluno) {
+      throw new AppError(
+        'Naõ foi encontrado nenhum agendamento para esse Aluno.',
+      );
+    }
+
+    return findBayEmailAluno;
   }
 }
 
