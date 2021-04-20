@@ -5,6 +5,18 @@ import { classToClass } from 'class-transformer';
 import ListAgendamentoByEmailAluno from '@modules/agendamento/services/ListAgendamentoByEmailAluno';
 
 export default class AgendamentoController {
+  public async listAll(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    // const { agendamento_id } = request.body;
+
+    const listAgendamentos = container.resolve();
+    const agendamentos = listAgendamentos.execute();
+
+    return response.json(agendamentos);
+  }
+
   public async listByEmail(
     request: Request,
     response: Response,
@@ -18,8 +30,21 @@ export default class AgendamentoController {
     return response.json(agendamentos);
   }
 
-  public async list(request: Request, response: Response): Promise<Response> {
-    // const { agendamento_id } = request.body;
+  public async findAgendamento(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { agendamento_id } = request.body;
+
+    const listAgendamentos = container.resolve();
+    const agendamentos = listAgendamentos.execute(agendamento_id);
+
+    return response.json(agendamentos);
+  }
+
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { status } = request.body;
+    const user_id = request.user.id;
 
     const listAgendamentos = container.resolve();
     const agendamentos = listAgendamentos.execute();
