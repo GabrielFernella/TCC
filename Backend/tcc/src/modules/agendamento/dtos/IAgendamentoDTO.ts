@@ -10,14 +10,14 @@ interface IDate {
 
 export interface ICreateAgendamentoDTO {
   date: IDate;
-  status: IStatusAgendamento;
+  status: string;
   link: string;
   nota: string;
   opiniao: string;
-  disciplina: string;
-  professor: string;
-  aluno: string;
-  pagamento: string;
+  disciplina_id: string;
+  professor_id: string;
+  aluno_id: string;
+  pagamento_id: string;
 }
 
 export interface IUpdateAgendamentoDTO {

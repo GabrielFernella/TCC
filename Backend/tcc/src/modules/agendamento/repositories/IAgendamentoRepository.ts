@@ -7,9 +7,10 @@ import {
 
 export default interface IAgendamentoRepository {
   findById(agendamento_id: string): Promise<Agendamento | undefined>;
-  findByAlunoID(aluno_id: string): Promise<Agendamento | undefined>;
+  findByAlunoID(aluno_id: string): Promise<Agendamento[] | undefined>;
+  findByProfessorID(professor_id: string): Promise<Agendamento[] | undefined>;
   // consultStatusAgendamento(id: string): Promise<string>;
   create(data: ICreateAgendamentoDTO): Promise<Agendamento>;
-  update(data: IUpdateAgendamentoDTO): Promise<Agendamento>;
+  updateStatus(id: string, status: string): Promise<Agendamento | undefined>;
   save(user: Agendamento): Promise<Agendamento>;
 }

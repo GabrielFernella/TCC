@@ -24,8 +24,8 @@ class AgendamentoRepository implements IAgendamentoRepository {
 
   public async findByAlunoID(
     aluno_id: string,
-  ): Promise<Agendamento | undefined> {
-    const result = await this.ormRepository.findOne({
+  ): Promise<Agendamento[] | undefined> {
+    const result = await this.ormRepository.find({
       where: {
         aluno_id,
       },
@@ -33,12 +33,39 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return result;
   }
 
-  public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
-    throw new Error('Method not implemented.');
+  public async findByProfessorID(
+    professor_id: string,
+  ): Promise<Agendamento[] | undefined> {
+    const result = await this.ormRepository.find({
+      where: {
+        professor_id,
+      },
+    });
+    return result;
   }
 
-  public async update(data: IUpdateAgendamentoDTO): Promise<Agendamento> {
-    throw new Error('Method not implemented.');
+  public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
+    const createAgendamento = this.ormRepository.create(data);
+    await this.ormRepository.save(createAgendamento);
+
+    return createAgendamento;
+  }
+
+  public async updateStatus(
+    id: string,
+    status: string,
+  ): Promise<Agendamento | undefined> {
+    /* if (
+      !(
+        status === 'processando' ||
+        status === 'confirmacao' ||
+        status === 'efetivado' ||
+        status === 'cancelado'
+      )
+    ) { */
+    await this.ormRepository.update(id, { status });
+    const result = await this.ormRepository.findOne(id);
+    return result;
   }
 
   public async save(agendamento: Agendamento): Promise<Agendamento> {
