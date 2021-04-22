@@ -1,4 +1,7 @@
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -6,10 +9,32 @@ import './styles.scss';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+      text: {
+        // Algum CSS
+        color: 'white',
+        fontSize: 34,
+        size: 'medium',
+      },
+    },
+  }),
+);
+
 function ListDisciplina() {
   function select() {
     alert('teste');
   }
+
+  const classes = useStyles();
   // 58 min
   // rever parte que mostra as disponibilidades
   return (
@@ -87,36 +112,19 @@ function ListDisciplina() {
                 </div>
               </div>
               <div id="btn-agendar">
-                <Select
-                  name="diasemana"
-                  label="Dia da semana"
-                  // value={diasemana}
-                  // onChange={e => setDiasemana(e.target.value)}
-                  options={[
-                    { value: '0', label: 'Domingo' },
-                    { value: '1', label: 'Segunda-feira' },
-                    { value: '2', label: 'Terça-feira' },
-                    { value: '3', label: 'Quarta-feira' },
-                    { value: '4', label: 'Quinta-feira' },
-                    { value: '5', label: 'Sexta-feira' },
-                    { value: '6', label: 'Sábado' },
-                  ]}
-                />
-                <Input
-                  name="entrada"
-                  label="Das"
-                  type="time"
-                  value="value"
-                  pattern="hh:00"
-                  required
-                />
-                <Input
-                  name="saida"
-                  label="Até"
-                  type="time"
-                  value="value"
-                  required
-                />
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="datetime-local"
+                    label="Next appointment"
+                    type="datetime-local"
+                    defaultValue="2017-05-24T10:30"
+                    size="medium"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
               </div>
               <button type="submit" onClick={select}>
                 Agendar
