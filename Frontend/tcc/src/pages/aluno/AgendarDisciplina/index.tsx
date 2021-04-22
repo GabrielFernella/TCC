@@ -10,7 +10,8 @@ function ListDisciplina() {
   function select() {
     alert('teste');
   }
-
+  // 58 min
+  // rever parte que mostra as disponibilidades
   return (
     <div id="page-agendar-disciplina" className="container">
       <PageHeader page="Agendar Disciplina" background={backgroundImg}>
@@ -106,6 +107,7 @@ function ListDisciplina() {
                   label="Das"
                   type="time"
                   value="value"
+                  pattern="hh:00"
                   required
                 />
                 <Input
