@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import Textarea from '../../../components/Textarea';
 import warningIcon from '../../../assets/images/icons/warning.svg';
-// import cameraIcon from '../../assets/images/icons/camera.svg';
+
 import './styles.scss';
 import backgroundImg from '../../../assets/images/success-background.svg';
 // import { AuthContext } from '../../contexts/auth';
-// import api from '../../services/api';
-// import { ClassItemInterace, SubjectInterface } from '../../interfaces';
-// import ProfileClassItem from '../../components/ProfileClassItem';
+import api from '../../../services/api';
 
 function Profile() {
-  // const { setLocalUser, emitMessage } = useContext(AuthContext);
-
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
@@ -23,57 +19,26 @@ function Profile() {
   const [pix, setPix] = useState('');
   const [biografia, setBiografia] = useState('');
 
-  function handleUpdateProfile() {}
-
-  /* async function handleUpdateProfile(e: FormEvent) {
+  function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
-    await updateProfile({ name, whatsapp, email, bio, surname }).then(() => {
-      emitMessage('Seu perfil foi atualizado!');
-    });
-  }
 
-  function uploadAvatar({ image }: { image: any }) {
-    const formData = new FormData();
-    formData.append('image', image);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-
-    return api.post('avatar', formData, config);
-  }
-
-  function imageIsLoaded(e: ProgressEvent<FileReader>) {
-    // @ts-ignore
-    setAvatar(e.target.result);
-  }
-
-  /*useEffect(() => {
-    api.get('subjects').then(response => {
-      setSubjects(response.data);
-    });
-
-    getProfile(true).then(response => {
-      const {
+    api
+      .post('professor/create', {
         name,
+        cpf,
         email,
+        password,
         avatar,
-        surname,
-        bio,
-        whatsapp,
-      } = response.data.user;
-
-      const { classes } = response.data;
-
-      setName(name as string);
-      setSurname(surname as string);
-      setAvatar(avatar as string);
-      setBio(bio as string);
-      setWhatsapp(whatsapp as string);
-      setEmail(email as string);
-    });
-  }, []); */
+        pix,
+        biografia,
+      })
+      .then(() => {
+        alert('Cadastro realizado com sucesso');
+      })
+      .catch(() => {
+        alert('Não foi possível efetuar o cadastro');
+      });
+  }
 
   return (
     <div id="page-teacher-form" className="container">
@@ -85,7 +50,7 @@ function Profile() {
       </PageHeader>
 
       <main>
-        <form onSubmit={handleUpdateProfile}>
+        <form onSubmit={handleCreateProfile}>
           <fieldset>
             <legend>Seus dados</legend>
             <div id="form-content">

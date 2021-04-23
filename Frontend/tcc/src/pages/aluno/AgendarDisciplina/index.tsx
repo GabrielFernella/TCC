@@ -1,40 +1,54 @@
-import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import React, { useState } from 'react';
 
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { DateUtils } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
+// import Calendar from 'react-calendar';
+// import moment from 'moment';
+import dateFnsFormat from 'date-fns/format';
+import dateFnsParse from 'date-fns/parse';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
+
+// calender
+import 'react-calendar/dist/Calendar.css';
 
 import './styles.scss';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-      text: {
-        // Algum CSS
-        color: 'white',
-        fontSize: 34,
-        size: 'medium',
-      },
-    },
-  }),
-);
+function parseDate(dateString: string, format: string, locale: string) {
+  const parsed = dateFnsParse(dateString, format, new Date());
+  if (DateUtils.isDate(parsed)) {
+    return parsed;
+  }
+
+  alert('parsed');
+  return undefined;
+}
+
+function formatDate(date: Date, format: string, locale?: string) {
+  return dateFnsFormat(date, format);
+}
+
+/*
+formatDate?: (date: Date, format: string, locale: string) => string;
+  parseDate?: (str: string, format: string, locale: string) => Date | void;
+
+*/
 
 function ListDisciplina() {
   function select() {
     alert('teste');
   }
 
-  const classes = useStyles();
+  const [dateState, setDateState] = useState(new Date());
+  const changeDate = (e: any) => {
+    setDateState(e);
+  };
+
+  const FORMAT = 'MM/dd/yyyy';
+
   // 58 min
   // rever parte que mostra as disponibilidades
   return (
@@ -112,19 +126,12 @@ function ListDisciplina() {
                 </div>
               </div>
               <div id="btn-agendar">
-                <form className={classes.container} noValidate>
-                  <TextField
-                    id="datetime-local"
-                    label="Next appointment"
-                    type="datetime-local"
-                    defaultValue="2017-05-24T10:30"
-                    size="medium"
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </form>
+                <DayPickerInput
+                  formatDate={formatDate}
+                  format={FORMAT}
+                  parseDate={parseDate}
+                  placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
+                />
               </div>
               <button type="submit" onClick={select}>
                 Agendar

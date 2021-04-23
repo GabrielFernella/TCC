@@ -24,7 +24,7 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={AgendarDisciplina} />
+      <Route path="/" exact component={ProfessorForm} />
 
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/login" exact component={Login} />
@@ -50,23 +50,3 @@ const Routes: React.FC = () => {
 };
 
 export default Routes;
-
-/*
- <Route path="/forgot-pass" component={RecuperarSenha} />
-
-      <Route path="/aluno-cad" component={AlunoCadForm} />
-
-      <Route path="/prof-form" component={ProfessorForm} />
-      <Route path="/prof-disc" component={ProfessorDisciplina} />
-      <Route path="/prof-disp" component={ProfessorCadDisponibilidade} />
-*/
-
-/*
-<Route path="/forgot-pass" component={RecuperarSenha} />
-
-      <Route path="/aluno-cad" component={AlunoCadForm} />
-
-      <Route path="/prof-form" component={ProfessorForm} />
-      <Route path="/prof-disc" component={ProfessorDisciplina} />
-      <Route path="/prof-disp" component={ProfessorCadDisponibilidade} />
-*/
