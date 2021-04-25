@@ -192,9 +192,9 @@
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:
-      'name name name name cpf cpf'
-      'email email email email password password'
-      'avatar avatar avatar avatar pix pix'
+      'name name name email email email'
+      'cpf cpf password password confirmation confirmation'
+      'avatar avatar avatar pix pix pix'
       'biografia biografia biografia biografia biografia biografia'
       'biografia biografia biografia biografia biografia biografia';
   }
@@ -213,6 +213,9 @@
 
   #password-info {
     grid-area: password;
+  }
+  #password-confirmation {
+    grid-area: confirmation;
   }
 
   #avatar-info {

@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import Textarea from '../../../components/Textarea';
@@ -11,16 +12,22 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import api from '../../../services/api';
 
 function Profile() {
+  const history = useHistory();
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConf, setPasswordConf] = useState('');
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
   const [biografia, setBiografia] = useState('');
 
   function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
+
+    if (!(password === passwordConf)) {
+      return alert('Password not match');
+    }
 
     api
       .post('professor/create', {
@@ -38,6 +45,7 @@ function Profile() {
       .catch(() => {
         alert('Não foi possível efetuar o cadastro');
       });
+    return history.push('/home'); // Colocar atalho para voltar a tela principal
   }
 
   return (
@@ -83,8 +91,18 @@ function Profile() {
                 <Input
                   label="Password"
                   name="password"
+                  type="password"
                   value={password || ''}
                   onChange={e => setPassword(e.target.value)}
+                />
+              </div>
+              <div id="password-confirmation">
+                <Input
+                  label="Confirmation Pass."
+                  name="confirmation"
+                  type="password"
+                  value={passwordConf || ''}
+                  onChange={e => setPasswordConf(e.target.value)}
                 />
               </div>
               <div id="avatar-info">
