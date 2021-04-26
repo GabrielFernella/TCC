@@ -45,7 +45,7 @@ function Profile() {
       .catch(() => {
         alert('Não foi possível efetuar o cadastro');
       });
-    return history.push('/home'); // Colocar atalho para voltar a tela principal
+    return history.push('/login');
   }
 
   return (

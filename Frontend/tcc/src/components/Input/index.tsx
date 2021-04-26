@@ -1,4 +1,51 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
+import { useField } from '@unform/core';
+
+import './styles.scss';
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  name: string;
+  stacked?: boolean;
+}
+
+const Input: React.FC<InputProps> = ({
+  label,
+  stacked = false,
+  name,
+  ...rest
+}) => {
+  /* const inputRef = useRef<HTMLInputElement>(null);
+
+  const { fieldName, registerField, defaultValue } = useField(name);
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]); */
+
+  return (
+    <div className={`input-block ${stacked && 'input-stacked'}`}>
+      {label && <label htmlFor={name}>{label}</label>}
+      <input
+        id={name}
+        /* ref={inputRef}
+        defaultValue={defaultValue} */
+        {...rest}
+        type="text"
+      />
+    </div>
+  );
+};
+
+export default Input;
+
+/*
+import React, { InputHTMLAttributes, useEffect } from 'react';
+import { useField } from '@unform/core';
 
 import './styles.scss';
 
@@ -14,6 +61,10 @@ const Input: React.FunctionComponent<InputProps> = ({
   name,
   ...rest
 }) => {
+  const { fieldName, registerField, defaultValue, error } = useField(name);
+
+  useEffect(() => {}, []);
+
   return (
     <div className={`input-block ${stacked && 'input-stacked'}`}>
       {label && <label htmlFor={name}>{label}</label>}
@@ -23,3 +74,6 @@ const Input: React.FunctionComponent<InputProps> = ({
 };
 
 export default Input;
+
+
+*/

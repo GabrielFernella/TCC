@@ -1,6 +1,7 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { FormHandles } from '@unform/core';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import Textarea from '../../../components/Textarea';
@@ -8,24 +9,32 @@ import warningIcon from '../../../assets/images/icons/warning.svg';
 import './styles.scss';
 import backgroundImg from '../../../assets/images/success-background.svg';
 import api from '../../../services/api';
+import { useAuth } from '../../../hooks/auth';
 
 function Disciplina() {
   const history = useHistory();
+  const auth = useAuth();
 
   // Deve ser alterado
   const [titulo, setTitulo] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
+  const [tag, setTag] = useState<string[]>([]);
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
 
   // Chamando a API Cadastro
-  function handleUpdateProfile(e: FormEvent) {
-    api
-      .post('', {
+  async function handleCreateDisciplina(e: FormEvent) {
+    e.preventDefault();
+
+    const newValue = parseInt(valor, 10);
+    console.log(`Bearer ${localStorage.getItem('@WebEduca:token')}`);
+    console.log(`${auth.user.name}`);
+
+    await api
+      .post('disciplina/create', {
         titulo,
-        tags,
+        tag,
         descricao,
-        valor,
+        valor: newValue,
       })
       .then(() => {
         alert('Cadastro realizado com sucesso');
@@ -42,7 +51,7 @@ function Disciplina() {
     e.preventDefault();
 
     const resultado = value.split(',');
-    setTags(resultado);
+    setTag(resultado);
   };
 
   return (
@@ -55,7 +64,7 @@ function Disciplina() {
       </PageHeader>
 
       <main>
-        <form onSubmit={handleUpdateProfile}>
+        <form onSubmit={handleCreateDisciplina}>
           <fieldset>
             <legend>Dados Disciplina</legend>
             <div id="disciplina-content">
@@ -72,7 +81,7 @@ function Disciplina() {
                 <Input
                   label="Tag"
                   name="tag"
-                  value={tags || ''}
+                  value={tag || ''}
                   onChange={e => {
                     changeHandler(e, e.target.value);
                   }}
@@ -93,6 +102,7 @@ function Disciplina() {
                   label="Valor"
                   name="valor"
                   value={valor || ''}
+                  pattern="[0-9]*"
                   onChange={e => setValor(e.target.value)}
                 />
               </div>

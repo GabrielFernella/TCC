@@ -10,11 +10,7 @@ const disponibilidadeController = new DisponibilidadeController();
 // Mostra a disponibilidade do professor
 disponibilidadeRouter.get(
   '/show',
-  celebrate({
-    [Segments.BODY]: {
-      professor_id: Joi.string().required(),
-    },
-  }),
+
   disponibilidadeController.show,
 );
 

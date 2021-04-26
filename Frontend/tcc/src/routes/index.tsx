@@ -1,9 +1,8 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import Route from './Route';
+// import Route from './Route';
 
-// Feitos
 import Landing from '../pages/dashboard/Landing';
 import Login from '../pages/dashboard/Login';
 
@@ -24,7 +23,7 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ProfessorForm} />
+      <Route path="/" exact component={ProfessorDisciplina} />
 
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/login" exact component={Login} />
