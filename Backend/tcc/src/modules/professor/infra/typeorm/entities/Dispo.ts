@@ -14,8 +14,13 @@ export default class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  date: string;
+  @Column({
+    type: 'jsonb',
+    array: true,
+    default: () => 'ARRAY[]::jsonb[]',
+    nullable: true,
+  })
+  date: string[];
 
   @CreateDateColumn()
   created_at: Date;

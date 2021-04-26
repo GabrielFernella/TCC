@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import warningIcon from '../../../assets/images/icons/warning.svg';
@@ -22,8 +23,7 @@ interface ScheduleCreate {
 }
 
 function Disponibilidade() {
-  // Deve ser alterado
-
+  const history = useHistory();
   // Nessa tela colocaremos 3 conexões com a API, de listar, create e delete
   // Teremos 2 botões, um para criar e outro para deletar em cada componente
 
@@ -92,15 +92,16 @@ function Disponibilidade() {
     console.log(scheduleItems);
   }
 
-  function handleDelete() {
-    api
-      .delete('/classes', {
-        params: {
-          disponibilidade_id: '',
+  async function handleDelete(dispo_id?: string) {
+    await api
+      .delete('disponibilidade/delete', {
+        headers: {
+          disponibilidade_id: { dispo_id },
         },
       })
       .then(() => {
-        // history.push('/');
+        alert('Disponibilidade deletada');
+        history.push('/prof-cad-disponibilidade');
       })
       .catch(() => {
         alert('Não foi possível deletar');
@@ -124,7 +125,7 @@ function Disponibilidade() {
       <main>
         <form onSubmit={handleUpdateProfile}>
           <fieldset>
-            <legend>Seus dados</legend>
+            <legend>Suas Disponibilidades</legend>
             {scheduleItems.map(scheduleItem => {
               return (
                 <div key={scheduleItem.id} id="disponibilidade-content">
@@ -157,7 +158,7 @@ function Disponibilidade() {
                   <div id="excluir-info">
                     <Button
                       type="button"
-                      onClick={() => handleDelete()}
+                      onClick={() => handleDelete(scheduleItem.id)}
                       className="btnexcluir"
                       name="excluir"
                     >
@@ -223,17 +224,6 @@ function Disponibilidade() {
                   name="create"
                 >
                   Create
-                </Button>
-              </div>
-
-              <div id="excluir-info">
-                <Button
-                  type="button"
-                  onClick={() => handleDelete()}
-                  className="btnexcluir"
-                  name="excluir"
-                >
-                  Delete
                 </Button>
               </div>
             </div>
