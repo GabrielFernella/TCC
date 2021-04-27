@@ -31,6 +31,13 @@ function Disponibilidade() {
 
   const { user } = useAuth();
 
+  let userID: string;
+  if (!user) {
+    userID = '';
+  } else {
+    userID = user.id;
+  }
+
   const [diaSemana, setDiaSemana] = useState('');
   const [horarioEntrada, setHorarioEntrada] = useState('');
   const [horarioSaida, setHorarioSaida] = useState('');
@@ -42,12 +49,15 @@ function Disponibilidade() {
     api
       .get('disponibilidade/show', {
         headers: {
-          professor_id: user.id,
+          professor_id: userID,
         },
       })
       .then(response => {
         console.log(response.data);
         setScheduleItems(response.data);
+      })
+      .catch(() => {
+        alert('Não foi possível identificar suas disponibilidades');
       });
   }, []);
 
@@ -88,7 +98,7 @@ function Disponibilidade() {
         window.location.reload();
       })
       .catch(() => {
-        alert('Não foi possível deletar');
+        alert('Não foi possível criar uma nova disponibilidade');
       });
   }
 
@@ -103,9 +113,6 @@ function Disponibilidade() {
         alert('Não foi possível deletar');
       });
   }
-
-  function handleUpdateProfile() {}
-
   return (
     <div id="page-disponibilidade" className="container">
       <PageHeader page="Minhas Disponibilidades" background={backgroundImg}>
@@ -119,120 +126,118 @@ function Disponibilidade() {
       </PageHeader>
 
       <main>
-        <form onSubmit={handleUpdateProfile}>
-          <fieldset>
-            <legend>Suas Disponibilidades</legend>
-            {scheduleItems.map(scheduleItem => {
-              return (
-                <div key={scheduleItem.id} id="disponibilidade-content">
-                  <div id="diasemana-info">
-                    <Input
-                      name="diasemana"
-                      label="Dia da semana"
-                      type="text"
-                      disabled
-                      value={scheduleItem.diaSemana}
-                    />
-                  </div>
-                  <div id="entrada-info">
-                    <Input
-                      name="entrada"
-                      label="Das"
-                      disabled
-                      value={scheduleItem.horarioEntrada}
-                    />
-                  </div>
-                  <div id="saida-info">
-                    <Input
-                      name="saida"
-                      label="Até"
-                      disabled
-                      value={scheduleItem.horarioSaida}
-                    />
-                  </div>
-
-                  <div id="excluir-info">
-                    <Button
-                      type="button"
-                      onClick={() => handleDelete(scheduleItem.id)}
-                      className="btnexcluir"
-                      name="excluir"
-                    >
-                      Delete
-                    </Button>
-                  </div>
+        <fieldset>
+          <legend>Suas Disponibilidades</legend>
+          {scheduleItems.map(scheduleItem => {
+            return (
+              <div key={scheduleItem.id} id="disponibilidade-content">
+                <div id="diasemana-info">
+                  <Input
+                    name="diasemana"
+                    label="Dia da semana"
+                    type="text"
+                    disabled
+                    value={scheduleItem.diaSemana}
+                  />
                 </div>
-              );
-            })}
+                <div id="entrada-info">
+                  <Input
+                    name="entrada"
+                    label="Das"
+                    disabled
+                    value={scheduleItem.horarioEntrada}
+                  />
+                </div>
+                <div id="saida-info">
+                  <Input
+                    name="saida"
+                    label="Até"
+                    disabled
+                    value={scheduleItem.horarioSaida}
+                  />
+                </div>
 
-            <div id="disponibilidade-content">
-              <div id="diasemana-info">
-                <Select
-                  name="diasemana"
-                  label="Dia da semana"
-                  value={diaSemana}
-                  onChange={e => setDiaSemana(e.target.value)}
-                  options={[
-                    { value: '0', label: 'Domingo' },
-                    { value: '1', label: 'Segunda-feira' },
-                    { value: '2', label: 'Terça-feira' },
-                    { value: '3', label: 'Quarta-feira' },
-                    { value: '4', label: 'Quinta-feira' },
-                    { value: '5', label: 'Sexta-feira' },
-                    { value: '6', label: 'Sábado' },
-                  ]}
-                />
+                <div id="excluir-info">
+                  <Button
+                    type="button"
+                    onClick={() => handleDelete(scheduleItem.id)}
+                    className="btnexcluir"
+                    name="excluir"
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
-              <div id="entrada-info">
-                <Input
-                  name="entrada"
-                  label="Das"
-                  type="time"
-                  value={horarioEntrada}
-                  onChange={e => setHorarioEntrada(e.target.value)}
-                  required
-                />
-              </div>
-              <div id="saida-info">
-                <Input
-                  name="saida"
-                  label="Até"
-                  type="time"
-                  value={horarioSaida}
-                  onChange={e => setHorarioSaida(e.target.value)}
-                  required
-                />
-              </div>
+            );
+          })}
 
-              <div id="create-info">
-                <Button
-                  type="button"
-                  onClick={
-                    () =>
-                      incluir({
-                        diaSemana,
-                        horarioEntrada,
-                        horarioSaida,
-                      })
-                    // eslint-disable-next-line react/jsx-curly-newline
-                  }
-                  className="btnexcluir"
-                  name="create"
-                >
-                  Create
-                </Button>
-              </div>
+          <div id="disponibilidade-content">
+            <div id="diasemana-info">
+              <Select
+                name="diasemana"
+                label="Dia da semana"
+                value={diaSemana}
+                onChange={e => setDiaSemana(e.target.value)}
+                options={[
+                  { value: '0', label: 'Domingo' },
+                  { value: '1', label: 'Segunda-feira' },
+                  { value: '2', label: 'Terça-feira' },
+                  { value: '3', label: 'Quarta-feira' },
+                  { value: '4', label: 'Quinta-feira' },
+                  { value: '5', label: 'Sexta-feira' },
+                  { value: '6', label: 'Sábado' },
+                ]}
+              />
             </div>
-          </fieldset>
-          <footer>
-            <p>
-              <img src={warningIcon} alt="Aviso importante" />
-              Importante! <br />
-              Preencha todos os dados
-            </p>
-            <button type="submit">Salvar disponibilidade</button>
-          </footer>
-        </form>
+            <div id="entrada-info">
+              <Input
+                name="entrada"
+                label="Das"
+                maxLength={2}
+                type="number"
+                value={horarioEntrada}
+                onChange={e => setHorarioEntrada(e.target.value)}
+                required
+              />
+            </div>
+            <div id="saida-info">
+              <Input
+                name="saida"
+                label="Até"
+                maxLength={2}
+                type="number"
+                value={horarioSaida}
+                onChange={e => setHorarioSaida(e.target.value)}
+                required
+              />
+            </div>
+
+            <div id="create-info">
+              <Button
+                type="button"
+                onClick={
+                  () =>
+                    incluir({
+                      diaSemana,
+                      horarioEntrada,
+                      horarioSaida,
+                    })
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                className="btnexcluir"
+                name="create"
+              >
+                Create
+              </Button>
+            </div>
+          </div>
+        </fieldset>
+        <footer>
+          <p>
+            <img src={warningIcon} alt="Aviso importante" />
+            Importante! Preencha todos os dados
+          </p>
+        </footer>
       </main>
     </div>
   );
