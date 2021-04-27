@@ -9,8 +9,10 @@ import Select from '../../../components/Select';
 import Button from '../../../components/Button';
 import api from '../../../services/api';
 
+import { useAuth } from '../../../hooks/auth';
+
 interface ScheduleInterface {
-  id?: string;
+  id: string;
   diaSemana: string;
   horarioEntrada: string;
   horarioSaida: string;
@@ -27,37 +29,29 @@ function Disponibilidade() {
   // Nessa tela colocaremos 3 conexões com a API, de listar, create e delete
   // Teremos 2 botões, um para criar e outro para deletar em cada componente
 
+  const { user } = useAuth();
+
   const [diaSemana, setDiaSemana] = useState('');
   const [horarioEntrada, setHorarioEntrada] = useState('');
   const [horarioSaida, setHorarioSaida] = useState('');
 
   const [scheduleItems, setScheduleItems] = useState<ScheduleInterface[]>([]);
 
-  // const [result, setResult] = useState<ScheduleInterface[]>([]);
-
   // Carregar todos os horários do professor
   useEffect(() => {
     api
       .get('disponibilidade/show', {
         headers: {
-          professor_id: '790da2dd-ea66-4414-b14b-6412fa246665',
+          professor_id: user.id,
         },
       })
       .then(response => {
-        // const result = response.data;
         console.log(response.data);
         setScheduleItems(response.data);
       });
   }, []);
 
-  // Adicionando uma nova disponibilidade
-  /* useEffect(() => {
-    api.post('disponibilidade/create', {}).then(response => {
-      setScheduleItems(response.data);
-    });
-  }, [incluir]); */
-
-  function incluir(values: ScheduleCreate) {
+  async function incluir(values: ScheduleCreate) {
     let dia = values.diaSemana;
     if (values.diaSemana === '0') {
       dia = 'Domingo';
@@ -81,27 +75,29 @@ function Disponibilidade() {
       dia = 'Sábado';
     }
 
-    setScheduleItems([
-      {
-        diaSemana: dia,
+    console.log(values);
+
+    await api
+      .post('disponibilidade/create', {
+        diaSemana: values.diaSemana,
         horarioEntrada: values.horarioEntrada,
         horarioSaida: values.horarioSaida,
-      },
-      ...scheduleItems,
-    ]);
-    console.log(scheduleItems);
-  }
-
-  async function handleDelete(dispo_id?: string) {
-    await api
-      .delete('disponibilidade/delete', {
-        headers: {
-          disponibilidade_id: { dispo_id },
-        },
       })
       .then(() => {
+        alert('Disponibilidade Criada com sucesso');
+        window.location.reload();
+      })
+      .catch(() => {
+        alert('Não foi possível deletar');
+      });
+  }
+
+  async function handleDelete(dispo_id: string) {
+    await api
+      .delete(`disponibilidade/delete/${dispo_id}`)
+      .then(() => {
         alert('Disponibilidade deletada');
-        history.push('/prof-cad-disponibilidade');
+        window.location.reload();
       })
       .catch(() => {
         alert('Não foi possível deletar');

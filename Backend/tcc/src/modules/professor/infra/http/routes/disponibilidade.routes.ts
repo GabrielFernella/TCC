@@ -27,6 +27,14 @@ disponibilidadeRouter.post(
   }),
   disponibilidadeController.create,
 );
-disponibilidadeRouter.delete('/delete', disponibilidadeController.delete);
+disponibilidadeRouter.delete(
+  '/delete/:disponibilidade_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      disponibilidade_id: Joi.string().uuid().required(),
+    },
+  }),
+  disponibilidadeController.delete,
+);
 
 export default disponibilidadeRouter;
