@@ -35,7 +35,6 @@ const Input: React.FC<InputProps> = ({
         /* ref={inputRef}
         defaultValue={defaultValue} */
         {...rest}
-        type="text"
       />
     </div>
   );

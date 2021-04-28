@@ -44,6 +44,7 @@ function Profile() {
       })
       .catch(() => {
         alert('Não foi possível efetuar o cadastro');
+        return alert('Tente novamente');
       });
     return history.push('/login');
   }
@@ -60,7 +61,7 @@ function Profile() {
       <main>
         <form onSubmit={handleCreateProfile}>
           <fieldset>
-            <legend>Seus dados</legend>
+            <legend>Cadastro Professor</legend>
             <div id="form-content">
               <div id="name-info">
                 <Input
