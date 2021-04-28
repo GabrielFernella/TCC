@@ -11,7 +11,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import api from '../../../services/api';
 import { useAuth } from '../../../hooks/auth';
 
-function Disciplina() {
+const Disciplina: React.FC = () => {
   const history = useHistory();
   const auth = useAuth();
 
@@ -121,6 +121,6 @@ function Disciplina() {
       </main>
     </div>
   );
-}
+};
 
 export default Disciplina;

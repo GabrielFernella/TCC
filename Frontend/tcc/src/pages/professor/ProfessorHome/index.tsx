@@ -7,7 +7,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import './styles.scss';
 import Button from '../../../components/Button';
 
-function ProfessorHome() {
+const ProfessorHome: React.FC = () => {
   return (
     <div id="page-home" className="container">
       <PageHeader page="Home" background={backgroundImg}>
@@ -40,6 +40,6 @@ function ProfessorHome() {
       <footer />
     </div>
   );
-}
+};
 
 export default ProfessorHome;

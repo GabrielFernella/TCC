@@ -24,7 +24,7 @@ interface ScheduleCreate {
   horarioSaida: string;
 }
 
-function Disponibilidade() {
+const Disponibilidade: React.FC = () => {
   const history = useHistory();
   // Nessa tela colocaremos 3 conexões com a API, de listar, create e delete
   // Teremos 2 botões, um para criar e outro para deletar em cada componente
@@ -85,7 +85,13 @@ function Disponibilidade() {
       dia = 'Sábado';
     }
 
-    console.log(values);
+    if (
+      parseInt(values.horarioEntrada) >= 0 &&
+      values.horarioSaida >= 0 &&
+      values.horarioEntrada <= 23 &&
+      values.horarioSaida <= 23
+    )
+      console.log(values);
 
     await api
       .post('disponibilidade/create', {
@@ -193,8 +199,9 @@ function Disponibilidade() {
               <Input
                 name="entrada"
                 label="Das"
+                type="text"
+                pattern="[0-9]*"
                 maxLength={2}
-                type="number"
                 value={horarioEntrada}
                 onChange={e => setHorarioEntrada(e.target.value)}
                 required
@@ -204,8 +211,8 @@ function Disponibilidade() {
               <Input
                 name="saida"
                 label="Até"
+                pattern="[0-9]*"
                 maxLength={2}
-                type="number"
                 value={horarioSaida}
                 onChange={e => setHorarioSaida(e.target.value)}
                 required
@@ -241,6 +248,6 @@ function Disponibilidade() {
       </main>
     </div>
   );
-}
+};
 
 export default Disponibilidade;

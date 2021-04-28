@@ -6,7 +6,7 @@ import giveClassesIcon from '../../../assets/images/icons/give-classes.svg';
 import './styles.scss';
 import LogoContainer from '../../../components/LogoContainer';
 
-function Landing() {
+const Landing: React.FC = () => {
   // const [totalConnections, setTotalConnections] = useState(0);
 
   return (
@@ -40,6 +40,6 @@ function Landing() {
       </div>
     </div>
   );
-}
+};
 
 export default Landing;

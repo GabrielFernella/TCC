@@ -6,7 +6,7 @@ import LogoContainer from '../../../components/LogoContainer';
 import './styles.scss';
 import api from '../../../services/api';
 
-function ForgotPassword() {
+const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
@@ -53,6 +53,6 @@ function ForgotPassword() {
       </WrapperContent>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

@@ -10,7 +10,7 @@ import './styles.scss';
 
 import api from '../../../services/api';
 
-function Profile() {
+const Profile: React.FC = () => {
   const history = useHistory();
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
@@ -137,6 +137,6 @@ function Profile() {
       </main>
     </div>
   );
-}
+};
 
 export default Profile;

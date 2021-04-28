@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { DateUtils } from 'react-day-picker';
@@ -37,8 +37,8 @@ formatDate?: (date: Date, format: string, locale: string) => string;
 
 */
 
-function ListDisciplina() {
-  function select() {
+const ListDisciplina: React.FC = () => {
+  function handleCreateProfile(e: FormEvent) {
     alert('teste');
   }
 
@@ -64,7 +64,7 @@ function ListDisciplina() {
       </PageHeader>
 
       <main>
-        <form onSubmit={ListDisciplina}>
+        <form onSubmit={handleCreateProfile}>
           <fieldset>
             <div id="disciplina">
               <h2>Computação em Nuvem</h2>
@@ -133,9 +133,7 @@ function ListDisciplina() {
                   placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
                 />
               </div>
-              <button type="submit" onClick={select}>
-                Agendar
-              </button>
+              <button type="submit">Agendar</button>
             </div>
           </fieldset>
 
@@ -149,6 +147,6 @@ function ListDisciplina() {
       </main>
     </div>
   );
-}
+};
 
 export default ListDisciplina;

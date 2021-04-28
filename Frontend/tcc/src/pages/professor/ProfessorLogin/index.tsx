@@ -7,7 +7,7 @@ import Input from '../../../components/Input';
 // import { AuthContext } from '../../contexts/auth';
 import './styles.scss';
 
-function Login() {
+const Login: React.FC = () => {
   // const { signIn } = useContext(AuthContext);
   const history = useHistory();
   const [email, setEmail] = useState<string>('');
@@ -78,6 +78,6 @@ function Login() {
       </WrapperContent>
     </div>
   );
-}
+};
 
 export default Login;

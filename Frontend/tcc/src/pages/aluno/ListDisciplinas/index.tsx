@@ -4,7 +4,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 
-function ListDisciplina() {
+const ListDisciplina: React.FC = () => {
   const teste = [1, 2, 3, 4];
   function select() {
     alert('teste');
@@ -67,6 +67,6 @@ function ListDisciplina() {
       </main>
     </div>
   );
-}
+};
 
 export default ListDisciplina;
