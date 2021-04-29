@@ -42,8 +42,9 @@ const Login: React.FC = () => {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    const provider = 'alunosession';
     if (isAble()) {
-      await signIn({ email, password });
+      await signIn({ email, password, provider });
       history.push('/');
     }
   }

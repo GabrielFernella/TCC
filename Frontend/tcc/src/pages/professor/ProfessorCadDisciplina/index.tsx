@@ -1,19 +1,18 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { FormHandles } from '@unform/core';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import Textarea from '../../../components/Textarea';
-import warningIcon from '../../../assets/images/icons/warning.svg';
-import './styles.scss';
-import backgroundImg from '../../../assets/images/success-background.svg';
 import api from '../../../services/api';
-import { useAuth } from '../../../hooks/auth';
+// import { useAuth } from '../../../hooks/auth';
+import warningIcon from '../../../assets/images/icons/warning.svg';
+import backgroundImg from '../../../assets/images/success-background.svg';
+
+import './styles.scss';
 
 const Disciplina: React.FC = () => {
   const history = useHistory();
-  const auth = useAuth();
 
   // Deve ser alterado
   const [titulo, setTitulo] = useState('');
@@ -26,8 +25,6 @@ const Disciplina: React.FC = () => {
     e.preventDefault();
 
     const newValue = parseInt(valor, 10);
-    console.log(`Bearer ${localStorage.getItem('@WebEduca:token')}`);
-    console.log(`${auth.user.name}`);
 
     await api
       .post('disciplina/create', {

@@ -1,23 +1,31 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useCallback, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { FormHandles } from '@unform/core';
 import WrapperContent from '../../../components/WrapperContent';
 import LogoContainer from '../../../components/LogoContainer';
 import Input from '../../../components/Input';
+
 // import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 // import { AuthContext } from '../../contexts/auth';
 import './styles.scss';
+import { useAuth } from '../../../hooks/auth';
 
 const Login: React.FC = () => {
-  // const { signIn } = useContext(AuthContext);
+  const formRef = useRef<FormHandles>(null);
+
+  const { signIn, user } = useAuth();
   const history = useHistory();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  async function handleSignIn(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    const provider = 'profsession';
+
     if (isAble()) {
-      // await signIn({ email, password });
-      history.push('/professor');
+      await signIn({ email, password, provider });
+      history.push('/');
     }
   }
 
@@ -30,37 +38,33 @@ const Login: React.FC = () => {
       <WrapperContent className="page-content-right">
         <LogoContainer />
         <div className="login-container">
-          <form className="form-80" onSubmit={e => handleSignIn(e)}>
+          <form onSubmit={handleSubmit}>
             <fieldset>
               <legend>
                 <p>Fazer login</p>
                 <Link to="/signup">Criar uma conta</Link>
               </legend>
+
               <Input
                 name="email"
                 placeholder="E-mail"
-                stacked
-                value={String(email)}
-                onChange={e => {
-                  setEmail(e.target.value);
-                }}
+                value={email || ''}
+                onChange={e => setEmail(e.target.value)}
               />
               <Input
                 name="password"
                 type="password"
                 placeholder="Senha"
-                stacked
-                value={String(password)}
-                onChange={e => {
-                  setPassword(e.target.value);
-                }}
+                value={password || ''}
+                onChange={e => setPassword(e.target.value)}
               />
+
               <div className="login-tools">
                 <div />
                 <Link to="/forgot-password">Esqueci minha senha</Link>
               </div>
               <button
-                className={`login-submit ${isAble() && 'login-submit-active'}`}
+                className={`login-submit ${'login-submit-active'}`}
                 disabled={!isAble()}
                 type="submit"
               >

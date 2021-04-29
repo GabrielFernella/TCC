@@ -17,6 +17,7 @@ interface AuthState {
 interface SignInCredentials {
   email: string;
   password: string;
+  provider: string;
 }
 
 interface AuthContextData {
@@ -42,11 +43,17 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('profsession', {
+  const signIn = useCallback(async ({ email, password, provider }) => {
+    /* const response = await api.post('profsession', {
+      email,
+      password,
+    }); */
+
+    const response = await api.post(provider, {
       email,
       password,
     });
+
     console.log('Salvando no Storage');
 
     const { token, user } = response.data;
