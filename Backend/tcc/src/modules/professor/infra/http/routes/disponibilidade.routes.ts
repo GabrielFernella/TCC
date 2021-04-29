@@ -20,7 +20,7 @@ disponibilidadeRouter.post(
   '/create',
   celebrate({
     [Segments.BODY]: {
-      diaSemana: Joi.string().required(),
+      diaSemana: Joi.number().required(),
       horarioEntrada: Joi.number().required(),
       horarioSaida: Joi.number().required(),
     },

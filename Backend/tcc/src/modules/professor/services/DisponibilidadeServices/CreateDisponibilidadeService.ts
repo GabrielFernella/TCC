@@ -9,7 +9,7 @@ import Disponibilidade from '../../infra/typeorm/entities/Disponibilidade';
 
 interface IRequest {
   professor_id: string;
-  diaSemana: string;
+  diaSemana: number;
   horarioEntrada: number;
   horarioSaida: number;
 }

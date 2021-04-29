@@ -1,5 +1,5 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+// import { useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import warningIcon from '../../../assets/images/icons/warning.svg';
@@ -25,7 +25,7 @@ interface ScheduleCreate {
 }
 
 const Disponibilidade: React.FC = () => {
-  const history = useHistory();
+  // const history = useHistory();
   // Nessa tela colocaremos 3 conexões com a API, de listar, create e delete
   // Teremos 2 botões, um para criar e outro para deletar em cada componente
 
@@ -53,7 +53,6 @@ const Disponibilidade: React.FC = () => {
         },
       })
       .then(response => {
-        console.log(response.data);
         setScheduleItems(response.data);
       })
       .catch(() => {
@@ -61,51 +60,61 @@ const Disponibilidade: React.FC = () => {
       });
   }, []);
 
+  function validateDay(day: string) {
+    switch (day) {
+      case '0':
+        return 'Domingo';
+      case '1':
+        return 'Segunda-feira';
+      case '2':
+        return 'Terça-feira';
+      case '3':
+        return 'Quarta-feira';
+      case '4':
+        return 'Quinta-feira';
+      case '5':
+        return 'Sexta-feira';
+      case '6':
+        return 'Sábado';
+      default:
+        return 'Inválid';
+    }
+  }
+
   async function incluir(values: ScheduleCreate) {
-    let dia = values.diaSemana;
-    if (values.diaSemana === '0') {
-      dia = 'Domingo';
-    }
-    if (values.diaSemana === '1') {
-      dia = 'Segunda';
-    }
-    if (values.diaSemana === '2') {
-      dia = 'Terça';
-    }
-    if (values.diaSemana === '3') {
-      dia = 'Quarta';
-    }
-    if (values.diaSemana === '4') {
-      dia = 'Quinta';
-    }
-    if (values.diaSemana === '5') {
-      dia = 'Sexta';
-    }
-    if (values.diaSemana === '6') {
-      dia = 'Sábado';
-    }
+    const dia = parseInt(values.diaSemana, 10);
+    const entrada = parseInt(values.horarioEntrada, 10);
+    const saida = parseInt(values.horarioSaida, 10);
 
+    // Efetuando intervalo de horas
     if (
-      parseInt(values.horarioEntrada) >= 0 &&
-      values.horarioSaida >= 0 &&
-      values.horarioEntrada <= 23 &&
-      values.horarioSaida <= 23
-    )
-      console.log(values);
+      !(
+        entrada >= 0 &&
+        saida >= 0 &&
+        entrada <= 23 &&
+        saida <= 23 &&
+        dia >= 0 &&
+        dia <= 6
+      )
+    ) {
+      alert('Intervalo de horas inválidas');
+    } else {
+      await api
+        .post('disponibilidade/create', {
+          diaSemana: dia,
+          horarioEntrada: entrada,
+          horarioSaida: saida,
+        })
+        .then(() => {
+          alert('Disponibilidade Criada com sucesso');
 
-    await api
-      .post('disponibilidade/create', {
-        diaSemana: values.diaSemana,
-        horarioEntrada: values.horarioEntrada,
-        horarioSaida: values.horarioSaida,
-      })
-      .then(() => {
-        alert('Disponibilidade Criada com sucesso');
-        window.location.reload();
-      })
-      .catch(() => {
-        alert('Não foi possível criar uma nova disponibilidade');
-      });
+          // Alterar essa parte depois
+          window.location.reload();
+        })
+        .catch(() => {
+          alert('Não foi possível criar uma nova disponibilidade');
+        });
+    }
   }
 
   async function handleDelete(dispo_id: string) {
@@ -121,7 +130,11 @@ const Disponibilidade: React.FC = () => {
   }
   return (
     <div id="page-disponibilidade" className="container">
-      <PageHeader page="Minhas Disponibilidades" background={backgroundImg}>
+      <PageHeader
+        page="Minhas Disponibilidades"
+        background={backgroundImg}
+        to="/login"
+      >
         <div className="profile-header">
           <h2>Cadastre suas disponibilidades</h2>
           <p>
@@ -143,7 +156,7 @@ const Disponibilidade: React.FC = () => {
                     label="Dia da semana"
                     type="text"
                     disabled
-                    value={scheduleItem.diaSemana}
+                    value={validateDay(scheduleItem.diaSemana)}
                   />
                 </div>
                 <div id="entrada-info">

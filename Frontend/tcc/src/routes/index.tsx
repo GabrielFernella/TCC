@@ -20,6 +20,20 @@ import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
 // Testes
 import teste from '../pages/professor/ProfessorHome';
 
+/*
+Landing
+Login
+RecuperarSenha
+ProfessorForm
+ProfessorDisciplina
+ProfessorCadDisponibilidade
+ProfessorHome
+
+AlunoCadForm
+ListDisciplinas
+AgendarDisciplina
+*/
+
 const Routes: React.FC = () => {
   return (
     <Switch>

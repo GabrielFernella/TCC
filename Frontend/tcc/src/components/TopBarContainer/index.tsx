@@ -11,12 +11,21 @@ interface TopBarContainerProps {
   profile?: boolean;
   title?: string;
   transparent?: boolean;
+  to?: string;
+}
+
+function validPath(path?: string) {
+  if (path) {
+    return path;
+  }
+  return '/';
 }
 
 const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
   profile = false,
   title,
   transparent = false,
+  to,
 }) => {
   return (
     <div
@@ -32,7 +41,7 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
         </div>
       ) : (
         <div className="top-bar-container">
-          <Link to="/">
+          <Link to={validPath(to)}>
             <img src={backIcon} alt="Voltar" />
           </Link>
           <p>{title}</p>

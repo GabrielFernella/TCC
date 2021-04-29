@@ -27,6 +27,7 @@ export default class DisponibilidadeController {
     );
 
     const result = await showDisponibilidadeService.execute(id.toString());
+
     return response.status(200).json(result);
   }
 
