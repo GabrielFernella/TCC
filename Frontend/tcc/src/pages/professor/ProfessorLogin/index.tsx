@@ -1,6 +1,6 @@
-import React, { FormEvent, useCallback, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FormHandles } from '@unform/core';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 import WrapperContent from '../../../components/WrapperContent';
 import LogoContainer from '../../../components/LogoContainer';
 import Input from '../../../components/Input';
@@ -11,13 +11,23 @@ import './styles.scss';
 import { useAuth } from '../../../hooks/auth';
 
 const Login: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
   const { signIn, user } = useAuth();
   const history = useHistory();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  // Carregar todos os horários do professor
+  useEffect(() => {
+    toast('Acesse sua conta ou crie uma!');
+    if (
+      localStorage.getItem('@WebEduca:token') &&
+      localStorage.getItem('@WebEduca:user') &&
+      user
+    ) {
+      history.push('/prof-home');
+    }
+  }, [user]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,7 +35,9 @@ const Login: React.FC = () => {
 
     if (isAble()) {
       await signIn({ email, password, provider });
-      history.push('/');
+      if (user) {
+        history.push('/prof-home');
+      }
     }
   }
 
@@ -35,6 +47,7 @@ const Login: React.FC = () => {
 
   return (
     <div id="page-login">
+      <Toaster />
       <WrapperContent className="page-content-right">
         <LogoContainer />
         <div className="login-container">

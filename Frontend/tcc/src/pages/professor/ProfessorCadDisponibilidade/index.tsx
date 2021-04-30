@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
 import warningIcon from '../../../assets/images/icons/warning.svg';
-import './styles.scss';
 import backgroundImg from '../../../assets/images/success-background.svg';
 import Select from '../../../components/Select';
 import Button from '../../../components/Button';
 import api from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
+import './styles.scss';
 
 interface ScheduleInterface {
   id: string;
@@ -56,7 +57,8 @@ const Disponibilidade: React.FC = () => {
         setScheduleItems(response.data);
       })
       .catch(() => {
-        alert('Não foi possível identificar suas disponibilidades');
+        // alert('Não foi possível identificar suas disponibilidades');
+        toast.error('Não foi possível identificar suas disponibilidades');
       });
   }, []);
 
@@ -97,7 +99,8 @@ const Disponibilidade: React.FC = () => {
         dia <= 6
       )
     ) {
-      alert('Intervalo de horas inválidas');
+      // alert('Intervalo de horas inválidas');
+      toast.error('Intervalo de horas inválidas');
     } else {
       await api
         .post('disponibilidade/create', {
@@ -106,13 +109,13 @@ const Disponibilidade: React.FC = () => {
           horarioSaida: saida,
         })
         .then(() => {
-          alert('Disponibilidade Criada com sucesso');
+          toast.success('Disponibilidade Criada com sucesso');
 
           // Alterar essa parte depois
           window.location.reload();
         })
         .catch(() => {
-          alert('Não foi possível criar uma nova disponibilidade');
+          toast.error('Não foi possível criar uma nova disponibilidade');
         });
     }
   }
@@ -121,15 +124,17 @@ const Disponibilidade: React.FC = () => {
     await api
       .delete(`disponibilidade/delete/${dispo_id}`)
       .then(() => {
-        alert('Disponibilidade deletada');
+        toast.success('Disponibilidade deletada');
+
         window.location.reload();
       })
       .catch(() => {
-        alert('Não foi possível deletar');
+        toast.error('Não foi possível deletar');
       });
   }
   return (
     <div id="page-disponibilidade" className="container">
+      <Toaster />
       <PageHeader
         page="Minhas Disponibilidades"
         background={backgroundImg}

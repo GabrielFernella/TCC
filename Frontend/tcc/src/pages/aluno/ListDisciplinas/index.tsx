@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
+import api from '../../../services/api';
 
 const ListDisciplina: React.FC = () => {
+  const [disciplina, setDisciplina] = useState<[]>([]);
+
+  // Carregar todas as disciplinas
+  useEffect(() => {
+    api
+      .get('disciplina/list')
+      .then(response => {
+        setDisciplina(response.data);
+      })
+      .catch(() => {
+        toast.error('Não foi possível carregar as disciplinas');
+      });
+  }, []);
+
+  // LIXO
   const teste = [1, 2, 3, 4];
   function select() {
     alert('teste');

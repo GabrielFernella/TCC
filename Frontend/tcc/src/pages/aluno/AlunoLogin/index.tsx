@@ -1,51 +1,43 @@
-import React, { FormEvent, useCallback, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-
-import { useAuth } from '../../../hooks/auth';
-
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 import WrapperContent from '../../../components/WrapperContent';
 import LogoContainer from '../../../components/LogoContainer';
 import Input from '../../../components/Input';
 
+// import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
+// import { AuthContext } from '../../contexts/auth';
 import './styles.scss';
-
-/* interface SignInFormData {
-  email: string;
-  password: string;
-} */
+import { useAuth } from '../../../hooks/auth';
 
 const Login: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
   const history = useHistory();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  /* const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
-      try {
-        formRef.current?.setErrors({});
-
-        await signIn({ email, password });
-
-        history.push('/prof-home');
-      } catch (err) {
-        formRef.current?.setErrors(err);
-      }
-    },
-    [signIn, history],
-  ); */
+  // Carregar todos os horários do professor
+  useEffect(() => {
+    toast('Acesse sua conta ou crie uma!');
+    if (
+      localStorage.getItem('@WebEduca:token') &&
+      localStorage.getItem('@WebEduca:user') &&
+      user
+    ) {
+      history.push('/aluno-home');
+    }
+  }, [user]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const provider = 'alunosession';
+
     if (isAble()) {
       await signIn({ email, password, provider });
-      history.push('/');
+      if (user) {
+        history.push('/aluno-home');
+      }
     }
   }
 
@@ -55,6 +47,7 @@ const Login: React.FC = () => {
 
   return (
     <div id="page-login">
+      <Toaster />
       <WrapperContent className="page-content-right">
         <LogoContainer />
         <div className="login-container">
@@ -94,7 +87,7 @@ const Login: React.FC = () => {
             <div className="login-footer">
               <div className="signup">
                 <p>Não tem conta?</p>
-                <Link to="/form-professor">Cadastre-se como professor</Link>
+                <Link to="/form-aluno">Cadastre-se como Aluno</Link>
               </div>
             </div>
           </form>
