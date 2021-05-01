@@ -13,6 +13,14 @@ import Pagamento from '@modules/aluno/infra/typeorm/entities/Pagamento';
 import Professor from '@modules/professor/infra/typeorm/entities/Professor';
 import Disciplina from '@modules/professor/infra/typeorm/entities/Disciplina';
 
+export enum StatusAula{
+  Agendada = 0,
+  Confirmada = 1,
+  EmProgresso = 2,
+  Efetivada = 3,
+  Canceladas = 4
+}
+
 @Entity('agendamento')
 export default class Agendamento {
   @Column('uuid', {
@@ -23,13 +31,19 @@ export default class Agendamento {
   id: string;
 
   @Column()
-  date_info: string;
+  data: Date;
+
+  @Column()
+  entrada: number;
+
+  @Column()
+  saida: number;
 
   @Column()
   link: string;
 
   @Column()
-  status: string;
+  status: StatusAula = StatusAula.Agendada;
 
   @Column()
   nota: string;

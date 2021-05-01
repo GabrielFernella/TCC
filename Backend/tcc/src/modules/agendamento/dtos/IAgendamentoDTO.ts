@@ -3,9 +3,9 @@ interface IStatusAgendamento {
 }
 
 interface IDate {
-  date: string;
-  entrada: string;
-  saida: string;
+  day: Date;
+  hourStart: number;
+  hourEnd: number;
 }
 
 export interface ICreateAgendamentoDTO {

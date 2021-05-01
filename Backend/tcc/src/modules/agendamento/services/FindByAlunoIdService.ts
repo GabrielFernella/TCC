@@ -17,7 +17,7 @@ class FindByAlunoIdService {
 
     if (!findByAluno) {
       throw new AppError(
-        'Naõ foi encontrado nenhum agendamento para esse Aluno',
+        'Não foi encontrado nenhum agendamento para esse Aluno',
       );
     }
 

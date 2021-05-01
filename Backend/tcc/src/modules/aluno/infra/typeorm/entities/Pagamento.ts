@@ -12,13 +12,23 @@ import {
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import Aluno from './Aluno';
 
+export enum StatusPagamento
+{
+  EmEspera = 0,
+  ProcessamentoCartao = 1,
+  Recusado = 2,
+  ProcessamentoPix = 3,
+  PixIncorreto = 4,
+  Finalizado = 5
+}
+
 @Entity('pagamento')
 export default class Pagamento {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  statusPagamento: string;
+  statusPagamento: StatusPagamento = StatusPagamento.EmEspera;
 
   @Column()
   title: string;

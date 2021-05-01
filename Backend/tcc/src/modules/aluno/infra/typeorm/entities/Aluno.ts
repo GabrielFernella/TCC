@@ -8,8 +8,10 @@ import AlunoToken from './AlunoToken';
 @Entity('aluno')
 class Aluno extends Usuario {
   @Column()
-  bloqueio: string;
+  bloqueio: boolean = false;
 
+
+  //TODO -> Refatorar para ficar no Usuário
   @OneToMany(() => Agendamento, aluno => Aluno)
   agendamentos: Agendamento[];
 
