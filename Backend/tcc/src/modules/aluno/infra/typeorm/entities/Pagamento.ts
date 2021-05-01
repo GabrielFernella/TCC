@@ -37,7 +37,7 @@ export default class Pagamento {
   emailPagador: string;
 
   @Column()
-  valor: string;
+  valor: number;
 
   @Column()
   pixDestinatario: string;

@@ -10,7 +10,7 @@ export default interface IPagamentoRepository {
   findByEmailPagador(email: string): Promise<Pagamento | undefined>;
   consultStatusPayment(id: string): Promise<string>;
   create(data: ICreatePagamentoDTO): Promise<Pagamento>;
-  create(data: IUpdatePagamentoDTO): Promise<Pagamento>;
+  update(data: IUpdatePagamentoDTO): Promise<Pagamento>;
   save(user: Pagamento): Promise<Pagamento>;
 }
 

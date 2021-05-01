@@ -16,6 +16,8 @@ import Agendamento, { StatusAula } from '../infra/typeorm/entities/Agendamento';
 import { ICreateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 import Professor from '@modules/professor/infra/typeorm/entities/Professor';
 import Aluno from '@modules/aluno/infra/typeorm/entities/Aluno';
+import { ICreatePagamentoDTO } from '@modules/aluno/dtos/IPagamentoDTO';
+import { StatusPagamento } from '@modules/aluno/infra/typeorm/entities/Pagamento';
 
 @injectable()
 class CreateAgendamentoService {
@@ -42,6 +44,10 @@ class CreateAgendamentoService {
   public async execute(dto: ICreateAgendamentoDTO): Promise<Agendamento> {
 
     let dateAtual = new Date();
+    let alunoEmail = "";
+    let pixProfessor = "";
+    let valorDisciplina = 0;
+    let titleDisciplina = "";
 
     //Validar se a data ainda vai ocorrer
     if(dateAtual > dto.date.day)
@@ -61,10 +67,13 @@ class CreateAgendamentoService {
       throw new AppError('Disciplina Inválida!');
     }
 
-    this.disciplinaRepository.findByID(dto.disciplina_id).then(disciplina =>{
-      if(disciplina){
+    await this.disciplinaRepository.findByID(dto.disciplina_id).then(disciplina =>{
+      if(!disciplina){
         throw new AppError('Não foi possível obter o aluno!');
       }
+
+      valorDisciplina = disciplina.valor;
+      titleDisciplina = disciplina.titulo;
     })
 
     //VALIDACOES ALUNO
@@ -73,7 +82,7 @@ class CreateAgendamentoService {
       throw new AppError('Aluno Inválido!');
     }
 
-    this.alunoRepository.findById(dto.aluno_id).then(aluno =>{
+    await this.alunoRepository.findById(dto.aluno_id).then(aluno =>{
       
       if(!aluno){
         throw new AppError('Não foi possível obter o aluno!');
@@ -92,6 +101,8 @@ class CreateAgendamentoService {
       {
         throw new AppError('Aluno já tem um agendamento neste horário!');
       }
+
+      alunoEmail = aluno.email;
     });
 
     //VALIDACOES PROFESSOR
@@ -101,7 +112,7 @@ class CreateAgendamentoService {
       throw new AppError('Professor Inválido!');
     }
 
-    this.professorRepository.findById(dto.professor_id).then(professor =>{
+    await this.professorRepository.findById(dto.professor_id).then(professor =>{
 
       if(!professor){
         throw new AppError('Não foi possível obter o professor!');
@@ -113,7 +124,21 @@ class CreateAgendamentoService {
         throw new AppError('Professor já tem um agendamento neste horário!');
       }
 
+      pixProfessor = professor.pix;
     })
+
+    //Criar Pagamento
+
+    const pagamento = await this.pagamentoRepository.create({
+      aluno_id: dto.aluno_id,
+      status: StatusPagamento.EmEspera,
+      emailPagador: alunoEmail,
+      pixDestinatario: pixProfessor,
+      title: titleDisciplina,
+      valor: valorDisciplina
+    });
+
+    dto.pagamento_id = pagamento.id;
 
     const result = await this.agendamentoRepository.create(dto);
 

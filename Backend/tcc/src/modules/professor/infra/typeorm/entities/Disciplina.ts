@@ -27,7 +27,7 @@ export default class Disciplina {
   descricao: string;
 
   @Column('numeric')
-  valor: string;
+  valor: number;
 
   @Column('int')
   qtdAvaliacao: number;

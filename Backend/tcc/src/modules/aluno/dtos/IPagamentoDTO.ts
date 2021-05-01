@@ -1,18 +1,16 @@
+import { StatusPagamento } from "../infra/typeorm/entities/Pagamento";
+
 export interface ICreatePagamentoDTO {
   aluno_id: string;
-  status: IStatusPagamento;
+  status: StatusPagamento;
   title: string;
   emailPagador: string;
-  valor: string;
+  valor: number;
   pixDestinatario: string;
 }
 
-interface IStatusPagamento {
-  status: 'processando' | 'efetivado' | 'cancelado';
-}
-
 export interface IUpdatePagamentoDTO {
-  status: IStatusPagamento;
+  status: StatusPagamento;
 }
 
 /*
