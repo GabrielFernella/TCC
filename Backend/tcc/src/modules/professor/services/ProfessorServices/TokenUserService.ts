@@ -20,7 +20,7 @@ class TokenUserService {
   ) {}
 
   public async execute(testToken: string): Promise<string> {
-    console.log(testToken);
+    // console.log(testToken);
     // Procurando o token se está disponível no banco
     /* const methToken = await this.professorTokensRepository.findByToken(
       testToken,
