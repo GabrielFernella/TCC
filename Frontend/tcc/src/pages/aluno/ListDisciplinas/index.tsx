@@ -6,14 +6,39 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import './styles.scss';
 import api from '../../../services/api';
 
+interface IResponse {
+  disciplina: {
+    id: string;
+    titulo: string;
+    tag: string[];
+    descricao: string;
+    valor: string;
+  };
+  professor: {
+    id?: string;
+    nome?: string;
+    avatar?: string;
+    email?: string;
+  };
+  disponibilidade: [
+    {
+      id: string;
+      diaSemana: string;
+      horarioEntrada: string;
+      horarioSaida: string;
+    },
+  ];
+}
+
 const ListDisciplina: React.FC = () => {
-  const [disciplina, setDisciplina] = useState<[]>([]);
+  const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Carregar todas as disciplinas
   useEffect(() => {
     api
       .get('disciplina/list')
       .then(response => {
+        // console.log(response.data);
         setDisciplina(response.data);
       })
       .catch(() => {
@@ -21,14 +46,35 @@ const ListDisciplina: React.FC = () => {
       });
   }, []);
 
-  // LIXO
-  const teste = [1, 2, 3, 4];
-  function select() {
-    alert('teste');
+  // Validações
+  function validateDay(day: string) {
+    switch (day) {
+      case '0':
+        return 'Domingo';
+      case '1':
+        return 'Segunda-feira';
+      case '2':
+        return 'Terça-feira';
+      case '3':
+        return 'Quarta-feira';
+      case '4':
+        return 'Quinta-feira';
+      case '5':
+        return 'Sexta-feira';
+      case '6':
+        return 'Sábado';
+      default:
+        return 'Inválid';
+    }
+  }
+
+  function select(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção:  ${disciplina_id}`);
   }
 
   return (
     <div id="page-teacher-profile" className="container">
+      <Toaster />
       <PageHeader page="Diciplinas" background={backgroundImg}>
         <div className="profile-header">
           <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
@@ -39,35 +85,39 @@ const ListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
-            {teste.map(test => (
-              <div key={test} id="card">
-                <h2>Computação em Nuvem</h2>
+            {disciplina.map(list => (
+              <div key={list.disciplina.id} id="card">
+                <h2>{list.disciplina.titulo}</h2>
 
-                <h3> + Gabriel Oliveira Santos</h3>
+                <h3> + {list.professor.nome}</h3>
 
                 <div>
                   <h4>Tags:</h4>
-                  <p>tags</p>
+                  <p>
+                    {list.disciplina.tag.map(t => (
+                      <i key={t.toString()}>{t.toString()},&nbsp;</i>
+                    ))}
+                  </p>
                 </div>
 
                 <h4>Descrição:</h4>
-                <p id="desc">
-                  Nós aproveitamos o poder da mudança para criar novo e
-                  extraordinário valor, colocando cloud no coração dos seus
-                  negócios. Nossa abordagem põe as necessidades da sua empresa
-                  em primeiro lugar. Desenvolvemos soluções específicas de
-                  indústria para que você migre para a nuvem e usufrua dela
-                  agora.
-                </p>
+                <p id="desc">{list.disciplina.descricao}</p>
 
                 <h4>Disponibilidades:</h4>
-                <p>Segunda-feira, Terça-feira, Sexta-feira, Sabado, Domingo</p>
+                <p>
+                  {list.disponibilidade.map(dispo =>
+                    validateDay(dispo.diaSemana),
+                  )}
+                </p>
 
                 <div>
-                  <h4>Valor: R$ 30 /hora</h4>
+                  <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
                 </div>
 
-                <button type="button" onClick={select}>
+                <button
+                  type="button"
+                  onClick={() => select(list.disciplina.titulo)}
+                >
                   Ver disponibilidade
                 </button>
               </div>

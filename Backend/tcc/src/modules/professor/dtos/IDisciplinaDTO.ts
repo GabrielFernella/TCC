@@ -3,7 +3,7 @@ export interface ICreateDisciplinaDTO {
   titulo: string;
   tag: string[];
   descricao: string;
-  valor: string;
+  valor: number;
   qtdAvaliacao: number;
   mediaAvaliacao: number;
 }
@@ -12,7 +12,7 @@ export interface IUpdateDisciplinaDTO {
   titulo: string;
   tag: string[];
   descricao: string;
-  valor: string;
+  valor: number;
 }
 
 export interface IAddAvaliacaoDTO {

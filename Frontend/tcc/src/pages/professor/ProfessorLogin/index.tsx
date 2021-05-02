@@ -9,9 +9,10 @@ import Input from '../../../components/Input';
 // import { AuthContext } from '../../contexts/auth';
 import './styles.scss';
 import { useAuth } from '../../../hooks/auth';
+import api from '../../../services/api';
 
 const Login: React.FC = () => {
-  const { signIn, user } = useAuth();
+  const { signIn, user, response } = useAuth();
   const history = useHistory();
 
   const [email, setEmail] = useState<string>('');
@@ -19,25 +20,34 @@ const Login: React.FC = () => {
 
   // Carregar todos os horários do professor
   useEffect(() => {
-    toast('Acesse sua conta ou crie uma!');
-    if (
-      localStorage.getItem('@WebEduca:token') &&
-      localStorage.getItem('@WebEduca:user') &&
-      user
-    ) {
-      history.push('/prof-home');
-    }
-  }, [user]);
+    api
+      .get('profsession')
+      .then(res => {
+        return history.push('/prof-home');
+      })
+      .catch(() => {
+        toast('Tente se autenticar');
+      });
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const provider = 'profsession';
 
     if (isAble()) {
-      await signIn({ email, password, provider });
-      if (user) {
-        history.push('/prof-home');
-      }
+      // Autenticando
+      await api
+        .post(provider, {
+          email,
+          password,
+        })
+        .then(async () => {
+          await signIn({ email, password, provider });
+          history.push('/prof-home');
+        })
+        .catch(() => {
+          toast.error('Usuário ou senha inválidos');
+        });
     }
   }
 

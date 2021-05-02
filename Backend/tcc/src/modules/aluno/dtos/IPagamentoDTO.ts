@@ -1,4 +1,4 @@
-import { StatusPagamento } from "../infra/typeorm/entities/Pagamento";
+import { StatusPagamento } from '../infra/typeorm/entities/Pagamento';
 
 export interface ICreatePagamentoDTO {
   aluno_id: string;

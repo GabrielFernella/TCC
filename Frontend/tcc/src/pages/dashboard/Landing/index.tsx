@@ -22,11 +22,11 @@ const Landing: React.FC = () => {
           />
 
           <div className="buttons-container">
-            <Link to="/alunologin" className="btnAluno">
+            <Link to="/aluno-login" className="btnAluno">
               <img src={studyIcon} alt="Aluno" />
               Aluno
             </Link>
-            <Link to="/professor-login" className="btnProfessor">
+            <Link to="/prof-login" className="btnProfessor">
               <img src={giveClassesIcon} alt="Professor" />
               Professor
             </Link>

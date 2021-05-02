@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
+import ensureAuthenticated from '@modules/agendamento/infra/http/middlewares/ensureAuthenticated';
 import SessionsController from '../controllers/SessionsController';
 
-const studentAuthRouter = Router();
+const AuthRouter = Router();
 const sessionsController = new SessionsController();
 
-studentAuthRouter.post(
+AuthRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
@@ -17,4 +18,8 @@ studentAuthRouter.post(
   sessionsController.create,
 );
 
-export default studentAuthRouter;
+AuthRouter.use(ensureAuthenticated);
+
+AuthRouter.get('/', sessionsController.getToken);
+
+export default AuthRouter;

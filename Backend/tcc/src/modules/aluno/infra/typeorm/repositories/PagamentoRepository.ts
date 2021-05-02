@@ -2,8 +2,11 @@ import { getRepository, Repository } from 'typeorm';
 
 import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
 
-import { ICreatePagamentoDTO } from '@modules/aluno/dtos/IPagamentoDTO';
-import Pagamento from '../entities/Pagamento';
+import {
+  ICreatePagamentoDTO,
+  IUpdatePagamentoDTO,
+} from '@modules/aluno/dtos/IPagamentoDTO';
+import Pagamento, { StatusPagamento } from '../entities/Pagamento';
 
 class PagamentoRepository implements IPagamentoRepository {
   private ormRepository: Repository<Pagamento>;
@@ -27,20 +30,31 @@ class PagamentoRepository implements IPagamentoRepository {
     return findemail;
   }
 
-  public async consultStatusPayment(pagamento_id: string): Promise<string> {
+  /* public async consultStatusPayment(
+    pagamento_id: string,
+  ): Promise<StatusPagamento | undefined> {
     const payment = await this.findById(pagamento_id);
 
-    if (!payment) {
-      return '';
-    }
-
     return payment.statusPagamento;
-  }
+  } */
 
   public async create(data: ICreatePagamentoDTO): Promise<Pagamento> {
     const pagamento = this.ormRepository.create(data);
 
     await this.ormRepository.save(pagamento);
+
+    return pagamento;
+  }
+
+  public async updateStatus(
+    pagamento_id: string,
+    status: StatusPagamento,
+  ): Promise<Pagamento | undefined> {
+    await this.ormRepository.update(pagamento_id, { statusPagamento: status });
+
+    const pagamento = await this.ormRepository.findOne({
+      where: { id: pagamento_id },
+    });
 
     return pagamento;
   }

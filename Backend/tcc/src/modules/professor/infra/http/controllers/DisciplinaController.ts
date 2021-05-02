@@ -18,6 +18,10 @@ export default class DisciplinaController {
 
     const result = await disciplinaList.execute();
 
+    if (!result) {
+      return response.status(404).json(result);
+    }
+
     return response.status(200).json(result);
   }
 

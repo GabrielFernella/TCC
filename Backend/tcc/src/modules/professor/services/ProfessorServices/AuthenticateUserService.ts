@@ -4,6 +4,7 @@ import { injectable, inject } from 'tsyringe'; // injeção de dependências
 
 import AppError from '@shared/errors/AppError';
 
+import IProfessorTokensRepository from '@modules/professor/repositories/IProfessorTokensRepository';
 import Professor from '../../infra/typeorm/entities/Professor';
 import IProfessorRepository from '../../repositories/IProfessorRepository';
 import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
@@ -23,6 +24,9 @@ class AuthenticateUserService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
+
+    @inject('ProfessorTokensRepository')
+    private professorTokensRepository: IProfessorTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -51,6 +55,8 @@ class AuthenticateUserService {
       subject: user.id,
       expiresIn,
     });
+
+    // await this.professorTokensRepository.generate(user.id);
 
     return {
       user,

@@ -16,7 +16,7 @@ interface IResponse {
     avatar?: string;
     email?: string;
   };
-  disponibilidade?: Disponibilidade[];
+  disponibilidade: Disponibilidade[];
 }
 
 @injectable()
@@ -33,49 +33,52 @@ class ListDisciplinaService {
   ) {}
 
   public async execute(): Promise<IResponse[]> {
-    const responseJson: IResponse[] = [];
+    let values: IResponse;
 
-    try {
-      // Listando todas as Disciplinas
-      const listDisciplina = await this.disciplinaRepository.listDisciplina();
+    // Listando todas as Disciplinas
+    const listDisciplina = await this.disciplinaRepository.listDisciplina();
 
-      if (listDisciplina.length === 0) {
-        throw new AppError('Disciplinas não encontradas.');
+    if (listDisciplina.length === 0) {
+      throw new AppError('Disciplinas não encontradas.');
+    }
+
+    const teste = listDisciplina.map(async disciplina => {
+      // Buscando Professor
+      const findTeacher = await this.professorRepository.findById(
+        disciplina.professor_id,
+      );
+      if (!findTeacher) {
+        throw new AppError('Professor não encontrado.');
       }
 
-      listDisciplina.map(async disciplina => {
-        // Buscando Profesasync sor
-        const findTeacher = await this.professorRepository.findById(
-          disciplina.professor_id,
-        );
-        if (!findTeacher) {
-          throw new AppError('Disciplina não encontrada.');
-        }
+      // Buscando disciplina
+      const findDisponibilidade = await this.disponibilidadeRepository.findByProfessorID(
+        disciplina.professor_id,
+      );
+      if (!findDisponibilidade) {
+        throw new AppError('Disponibilidade não encontrada.');
+      }
 
-        // Buscando disciplina
-        const findDisponibilidade = await this.disponibilidadeRepository.findByProfessorID(
-          disciplina.professor_id,
-        );
-        if (!findDisponibilidade) {
-          throw new AppError('Disciplina não encontrada.');
-        }
+      values = {
+        disciplina,
+        professor: {
+          id: findTeacher?.id,
+          nome: findTeacher?.name,
+          email: findTeacher?.email,
+          avatar: findTeacher?.avatar,
+        },
+        disponibilidade: findDisponibilidade,
+      };
 
-        // Copulando o response com todas as informações
-        await responseJson.push({
-          disciplina,
-          professor: {
-            id: findTeacher?.id,
-            nome: findTeacher?.name,
-            email: findTeacher?.email,
-            avatar: findTeacher?.avatar,
-          },
-          disponibilidade: findDisponibilidade,
-        });
-      });
-    } catch (error) {
-      throw new AppError('Disciplina não encontrada.');
-    }
-    return responseJson;
+      return values;
+    });
+
+    const result = (async () => {
+      const resultado = await Promise.all(teste);
+      return resultado;
+    })();
+
+    return result;
   }
 }
 

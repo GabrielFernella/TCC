@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import React, { createContext, useCallback, useContext, useState } from 'react';
 
 import api from '../services/api';
@@ -22,6 +23,7 @@ interface SignInCredentials {
 
 interface AuthContextData {
   user: User;
+  response: AxiosResponse | undefined;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
   updateUser(user: User): void;
@@ -30,6 +32,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
+  const [rest, setRest] = useState<AxiosResponse>();
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@WebEduca:token');
     const user = localStorage.getItem('@WebEduca:user');
@@ -44,15 +47,11 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ email, password, provider }) => {
-    /* const response = await api.post('profsession', {
-      email,
-      password,
-    }); */
-
     const response = await api.post(provider, {
       email,
       password,
     });
+    setRest(response);
 
     console.log('Salvando no Storage');
 
@@ -87,7 +86,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{ user: data.user, response: rest, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>

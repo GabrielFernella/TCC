@@ -8,6 +8,7 @@ import Aluno from '../infra/typeorm/entities/Aluno';
 import IAlunoRepository from '../repositories/IAlunoRepository';
 
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import IAlunoTokensRepository from '../repositories/IAlunoTokensRepository';
 
 interface IRequest {
   email: string;
@@ -24,6 +25,9 @@ class AuthenticateUserService {
   constructor(
     @inject('AlunoRepository')
     private alunoRepository: IAlunoRepository,
+
+    @inject('AlunoTokensRepository')
+    private alunoTokensRepository: IAlunoTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -52,6 +56,8 @@ class AuthenticateUserService {
       subject: user.id,
       expiresIn,
     });
+
+    await this.alunoTokensRepository.generate(user.id);
 
     return {
       user,

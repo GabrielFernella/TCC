@@ -13,12 +13,12 @@ import Pagamento from '@modules/aluno/infra/typeorm/entities/Pagamento';
 import Professor from '@modules/professor/infra/typeorm/entities/Professor';
 import Disciplina from '@modules/professor/infra/typeorm/entities/Disciplina';
 
-export enum StatusAula{
+export enum StatusAula {
   Agendada = 0,
   Confirmada = 1,
   EmProgresso = 2,
   Efetivada = 3,
-  Canceladas = 4
+  Canceladas = 4,
 }
 
 @Entity('agendamento')
