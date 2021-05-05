@@ -8,6 +8,7 @@ interface PageHeaderProps {
   background?: string;
   page?: string;
   to?: string;
+  home?: string;
 }
 
 const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
@@ -16,7 +17,8 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
   background,
   page,
   children,
-  to,
+  // to,
+  home,
 }) => {
   const headerContentStyle = {
     backgroundImage: `url(${background})`,
@@ -27,7 +29,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
       className="page-header"
       style={(background as CSSProperties) && headerContentStyle}
     >
-      <TopBarContainer title={page} to={to} />
+      <TopBarContainer title={page} home={home} />
       <div className="header-content">
         <strong>{title}</strong>
         {description && <p>{description}</p>}
