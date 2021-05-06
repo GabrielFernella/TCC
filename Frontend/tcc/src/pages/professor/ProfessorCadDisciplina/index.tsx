@@ -1,5 +1,6 @@
-import React, { FormEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
@@ -11,7 +12,16 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 
-const Disciplina: React.FC = () => {
+interface IProps {
+  location: {
+    state?: {
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      variaveis: Object;
+    };
+  };
+}
+
+const Disciplina: React.FC<IProps> = props => {
   const history = useHistory();
 
   // Deve ser alterado
@@ -19,6 +29,30 @@ const Disciplina: React.FC = () => {
   const [tag, setTag] = useState<string[]>([]);
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
+
+  const [id, setId] = useState('');
+  const [flag, setFlag] = useState(false);
+  const [updateDisciplina, setUpdateDisciplina] = useState({});
+
+  // Fazendo um Update se for necessário
+  useEffect(() => {
+    console.log(props.location.state);
+    if (flag) {
+      api
+        .get('disciplina/find', {
+          headers: {
+            disciplina_id: id,
+          },
+        })
+        .then(response => {
+          setUpdateDisciplina(response.data);
+        })
+        .catch(() => {
+          // alert('Não foi possível identificar suas disponibilidades');
+          toast.error('Não foi possível identificar suas disponibilidades');
+        });
+    }
+  }, []);
 
   // Chamando a API Cadastro
   async function handleCreateDisciplina(e: FormEvent) {

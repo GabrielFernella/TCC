@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../../../hooks/auth';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -8,6 +8,14 @@ import './styles.scss';
 import Button from '../../../components/Button';
 
 const ProfessorHome: React.FC = () => {
+  const { signOut } = useAuth();
+  const history = useHistory();
+
+  function handleDeleteUser() {
+    signOut();
+    history.push('/');
+  }
+
   return (
     <div id="page-home" className="container">
       <PageHeader page="Home" background={backgroundImg}>
@@ -25,15 +33,23 @@ const ProfessorHome: React.FC = () => {
           <Link to="/prof-cad-disciplina">
             <Button name="disciplina">Cad. Disciplina</Button>
           </Link>
-          <Link to="/prof-cad-disponibilidade">
+          <Link to="/prof-list-disciplina">
+            <Button name="disponibilidade">Lista Disponibilidade</Button>
+          </Link>
+          <Link to="/prof-disponibilidade">
             <Button name="disponibilidade">Cad. Disponibilidade</Button>
           </Link>
+
           <Link to="/aluno">
             <Button name="agendamentos">Agendamentos</Button>
           </Link>
           <Link to="/prof-form">
             <Button name="perfil">Perfil</Button>
           </Link>
+
+          <Button name="perfil" onClick={handleDeleteUser}>
+            Logout
+          </Button>
         </div>
       </div>
 

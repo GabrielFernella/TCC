@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
@@ -17,8 +16,7 @@ interface IResponse {
   };
 }
 
-const ProfessorListDisciplina: React.FC = () => {
-  const [teste, setTeste] = useState('Teste');
+const ProfessorAgendamentos: React.FC = () => {
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Carregar todas as disciplinas
@@ -39,7 +37,7 @@ const ProfessorListDisciplina: React.FC = () => {
   }
 
   return (
-    <div id="list-disciplina-professor" className="container">
+    <div id="list-professor-agendamentos" className="container">
       <Toaster />
       <PageHeader
         page="Diciplinas"
@@ -54,15 +52,6 @@ const ProfessorListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
-            <Link
-              to={{
-                pathname: '/prof-cad-disciplina',
-                state: { variaveis: 'Id dessa porra', flag: true },
-              }}
-            >
-              <button type="button">Entrar</button>
-            </Link>
-
             {disciplina.map(list => (
               <div key={list.disciplina.id} id="card">
                 <h2>{list.disciplina.titulo}</h2>
@@ -112,23 +101,4 @@ const ProfessorListDisciplina: React.FC = () => {
   );
 };
 
-export default ProfessorListDisciplina;
-
-/*
-Formas de mandar parametros
-
-history.push({
-          pathname: '/secondpage',
-          search: '?query=abc',
-          state: { detail: 'some_value' }
-      });
-
-    <Link
-              to={{
-                pathname: '/prof-cad-disciplina',
-                state: { variaveis: 'Id dessa porra', flag: true },
-              }}
-            >
-
-
-*/
+export default ProfessorAgendamentos;

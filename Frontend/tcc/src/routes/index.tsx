@@ -6,11 +6,13 @@ import { Switch, Route } from 'react-router-dom';
 
 import Landing from '../pages/dashboard/Landing';
 
+// Professor
 import RecuperarSenha from '../pages/professor/RecuperarSenha';
 import ProfessorForm from '../pages/professor/ProfessorCadForm';
 import ProfessorCadDisciplina from '../pages/professor/ProfessorCadDisciplina';
 import ProfessorListDisciplinas from '../pages/professor/ProfessorListDisciplinas';
 import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
+import ProfessorAgendamentos from '../pages/professor/ProfessorAgendamentos';
 import ProfessorHome from '../pages/professor/ProfessorHome';
 import ProfessorLogin from '../pages/professor/ProfessorLogin';
 
@@ -27,7 +29,7 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ProfessorListDisciplinas} />
+      <Route path="/" exact component={ProfessorCadDisciplina} />
 
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/forgot-password" exact component={RecuperarSenha} />
@@ -41,6 +43,7 @@ const Routes: React.FC = () => {
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} />
       <Route path="/prof-form" exact component={ProfessorForm} />
+      <Route path="/prof-agenda" exact component={ProfessorAgendamentos} />
       <Route
         path="/prof-cad-disciplina"
         exact
