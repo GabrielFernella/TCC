@@ -24,6 +24,11 @@ disciplinaRouter.get(
 // Autenticar Usuário
 disciplinaRouter.use(ensureAuthenticated);
 
+disciplinaRouter.get(
+  '/list/prof',
+  disciplinaController.findDisciplinaByProfessor,
+);
+
 // Create Dsiciplina
 disciplinaRouter.post(
   '/create',
@@ -68,15 +73,7 @@ disciplinaRouter.put(
 );
 
 // Delete Disciplina #
-disciplinaRouter.delete(
-  '/delete',
-  celebrate({
-    [Segments.BODY]: {
-      disciplina_id: Joi.string().required(),
-    },
-  }),
-  disciplinaController.delete,
-);
+disciplinaRouter.delete('/delete', disciplinaController.delete);
 
 export default disciplinaRouter;
 

@@ -12,7 +12,7 @@ interface IRequest {
   titulo: string;
   tag: string[];
   descricao: string;
-  valor: string;
+  valor: number;
 }
 
 @injectable()

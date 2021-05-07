@@ -29,7 +29,7 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={ProfessorCadDisciplina} />
+      <Route path="/" exact component={ProfessorHome} />
 
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/forgot-password" exact component={RecuperarSenha} />

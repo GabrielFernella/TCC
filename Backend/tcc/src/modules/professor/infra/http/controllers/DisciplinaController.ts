@@ -3,10 +3,15 @@ import { container } from 'tsyringe';
 
 import CreateDisciplinaService from '@modules/professor/services/DisciplinaServices/CreateDisciplinaService';
 import FindDisciplinaService from '@modules/professor/services/DisciplinaServices/FindDisciplinaService';
+import FindDisciplinaByProfessorService from '@modules/professor/services/DisciplinaServices/FindDisciplinaByProfessorService';
 import UpdateDisciplinaService from '@modules/professor/services/DisciplinaServices/UpdateDisciplinaService';
 import DeleteDisciplinaService from '@modules/professor/services/DisciplinaServices/DeleteDisciplinaService';
 import ListDisciplinaService from '@modules/professor/services/DisciplinaServices/ListDisciplinaService';
 import AddAvaliacaoDisciplinaService from '@modules/professor/services/DisciplinaServices/AddAvaliacaoDisciplinaService';
+
+interface IHeaders {
+  id: string;
+}
 
 export default class DisciplinaController {
   // Listagem Disciplina
@@ -18,9 +23,26 @@ export default class DisciplinaController {
 
     const result = await disciplinaList.execute();
 
-    if (!result) {
+    /* if (!result) {
       return response.status(404).json(result);
+    } */
+
+    return response.status(200).json(result);
+  }
+
+  public async findDisciplinaByProfessor(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.user;
+
+    const disciplina = container.resolve(FindDisciplinaByProfessorService);
+
+    if (!id) {
+      return response.status(404).json({ message: 'Professor não encontrado' });
     }
+
+    const result = await disciplina.execute(id);
 
     return response.status(200).json(result);
   }
@@ -93,13 +115,13 @@ export default class DisciplinaController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const professor_id = request.user.id;
-    const { disciplina_id } = request.body;
+    const { disciplina_id } = request.params;
 
     const disciplina = container.resolve(DeleteDisciplinaService);
 
-    const result = disciplina.execute(professor_id, disciplina_id);
+    await disciplina.execute(professor_id, disciplina_id);
 
-    return response.status(200).json(result);
+    return response.status(200).json({ message: 'Excluido com sucesso' });
   }
 }
 

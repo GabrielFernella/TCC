@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
+import { useAuth } from '../../../hooks/auth';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -8,25 +9,26 @@ import './styles.scss';
 import api from '../../../services/api';
 
 interface IResponse {
-  disciplina: {
-    id: string;
-    titulo: string;
-    tag: string[];
-    descricao: string;
-    valor: string;
-  };
+  id: string;
+  titulo: string;
+  tag: string[];
+  descricao: string;
+  valor: string;
 }
 
 const ProfessorListDisciplina: React.FC = () => {
+  const history = useHistory();
+  const { user } = useAuth();
+
   const [teste, setTeste] = useState('Teste');
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Carregar todas as disciplinas
   useEffect(() => {
     api
-      .get('disciplina/list')
+      .get('disciplina/list/prof')
       .then(response => {
-        // console.log(response.data);
+        console.log(response.data);
         setDisciplina(response.data);
       })
       .catch(() => {
@@ -35,7 +37,28 @@ const ProfessorListDisciplina: React.FC = () => {
   }, []);
 
   function select(disciplina_id: string) {
-    toast.success(`Você escolheu uma opção:  ${disciplina_id}`);
+    history.push({
+      pathname: '/prof-cad-disciplina',
+      // search: '?query=abc',
+      state: { disciplina: disciplina_id },
+    });
+  }
+
+  function deleted(disciplina_id: string) {
+    console.log(disciplina_id);
+
+    api
+      .delete('disciplina/delete', {
+        params: {
+          disciplina_id,
+        },
+      })
+      .then(() => {
+        return toast.success('Disciplina excluída');
+      })
+      .catch(() => {
+        return toast.error('Não foi possível carregar as disciplinas');
+      });
   }
 
   return (
@@ -54,46 +77,31 @@ const ProfessorListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
-            <Link
-              to={{
-                pathname: '/prof-cad-disciplina',
-                state: { variaveis: 'Id dessa porra', flag: true },
-              }}
-            >
-              <button type="button">Entrar</button>
-            </Link>
-
             {disciplina.map(list => (
-              <div key={list.disciplina.id} id="card">
-                <h2>{list.disciplina.titulo}</h2>
+              <div key={list.id} id="card">
+                <h2>{list.titulo}</h2>
 
                 <div>
                   <h4>Tags:</h4>
                   <p>
-                    {list.disciplina.tag.map(t => (
+                    {list.tag.map(t => (
                       <i key={t.toString()}>{t.toString()},&nbsp;</i>
                     ))}
                   </p>
                 </div>
 
                 <h4>Descrição:</h4>
-                <p id="desc">{list.disciplina.descricao}</p>
+                <p id="desc">{list.descricao}</p>
 
                 <div>
-                  <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
+                  <h4>Valor: R$ {list.valor} /hora</h4>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => select(list.disciplina.titulo)}
-                >
+                <button type="button" onClick={() => select(list.id)}>
                   Alterar
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => select(list.disciplina.titulo)}
-                >
+                <button type="button" onClick={() => deleted(list.id)}>
                   Deletar
                 </button>
               </div>
