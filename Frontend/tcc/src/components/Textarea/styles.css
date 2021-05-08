@@ -34,3 +34,7 @@
   right: 1.6rem;
   bottom: 7px;
 }
+
+::placeholder {
+  opacity: 0.5;
+}

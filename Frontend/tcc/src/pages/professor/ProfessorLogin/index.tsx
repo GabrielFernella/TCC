@@ -97,7 +97,7 @@ const Login: React.FC = () => {
             <div className="login-footer">
               <div className="signup">
                 <p>Não tem conta?</p>
-                <Link to="/form-professor">Cadastre-se como professor</Link>
+                <Link to="/prof-form">Cadastre-se como professor</Link>
               </div>
             </div>
           </form>

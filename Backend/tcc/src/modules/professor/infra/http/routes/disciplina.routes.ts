@@ -10,11 +10,11 @@ const disciplinaController = new DisciplinaController();
 // Listagem Disciplina
 disciplinaRouter.get('/list', disciplinaController.listAllDisciplina);
 
-// Show all disciplina do professor_id
+// Show uma disciplina do professor_id
 disciplinaRouter.get(
-  '/find',
+  '/find/:disciplina_id',
   celebrate({
-    [Segments.BODY]: {
+    [Segments.PARAMS]: {
       disciplina_id: Joi.string().required(),
     },
   }),
@@ -73,7 +73,15 @@ disciplinaRouter.put(
 );
 
 // Delete Disciplina #
-disciplinaRouter.delete('/delete', disciplinaController.delete);
+disciplinaRouter.delete(
+  '/delete/:disciplina_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      disciplina_id: Joi.string().uuid().required(),
+    },
+  }),
+  disciplinaController.delete,
+);
 
 export default disciplinaRouter;
 

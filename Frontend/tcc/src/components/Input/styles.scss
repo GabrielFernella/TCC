@@ -25,6 +25,10 @@
     font: 1.6rem Archivo;
   }
 
+  ::placeholder {
+    opacity: 0.5;
+  }
+
   input[disabled] {
     background: none;
     border: none;

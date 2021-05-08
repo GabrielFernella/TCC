@@ -20,10 +20,9 @@ const ProfessorListDisciplina: React.FC = () => {
   const history = useHistory();
   const { user } = useAuth();
 
-  const [teste, setTeste] = useState('Teste');
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
-  // Carregar todas as disciplinas
+  // Listar todas as disciplinas do Professor
   useEffect(() => {
     api
       .get('disciplina/list/prof')
@@ -38,9 +37,9 @@ const ProfessorListDisciplina: React.FC = () => {
 
   function select(disciplina_id: string) {
     history.push({
-      pathname: '/prof-cad-disciplina',
+      pathname: '/prof-up-disciplina',
       // search: '?query=abc',
-      state: { disciplina: disciplina_id },
+      state: { flag: true, disciplina_id },
     });
   }
 
@@ -48,11 +47,7 @@ const ProfessorListDisciplina: React.FC = () => {
     console.log(disciplina_id);
 
     api
-      .delete('disciplina/delete', {
-        params: {
-          disciplina_id,
-        },
-      })
+      .delete(`disciplina/delete/${disciplina_id}`)
       .then(() => {
         return toast.success('Disciplina excluída');
       })
@@ -111,9 +106,13 @@ const ProfessorListDisciplina: React.FC = () => {
 
         <footer>
           <p>
-            Selecione uma das disciplinas e veja a disponibilidade para
-            agendamento!
+            Importante! <br />
+            Preencha todos os dados
           </p>
+
+          <Link to="/prof-cad-disciplina">
+            <button type="button">Nova disciplina</button>
+          </Link>
         </footer>
       </main>
     </div>

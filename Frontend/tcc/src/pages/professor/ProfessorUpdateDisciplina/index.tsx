@@ -1,8 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
-// recursos
-import toast, { Toaster } from 'react-hot-toast'; // Toast
+import toast from 'react-hot-toast';
 
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
@@ -14,7 +12,24 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 
-const Disciplina: React.FC = () => {
+interface IDisciplina {
+  id: string;
+  titulo: string;
+  tag: [];
+  descricao: string;
+  valor: string;
+}
+
+interface IProps {
+  location: {
+    state: {
+      flag: boolean;
+      disciplina_id: string;
+    };
+  };
+}
+
+const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
   const history = useHistory();
 
   // Deve ser alterado
@@ -23,62 +38,94 @@ const Disciplina: React.FC = () => {
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
 
-  // Chamando a API Cadastro
-  async function handleCreateDisciplina(e: FormEvent) {
+  const [id, setId] = useState('');
+  const [flagin, setFlagin] = useState(false);
+  const [updateDisciplina, setUpdateDisciplina] = useState<IDisciplina>();
+  // Fazendo um Update se for necessário
+  useEffect(() => {
+    const { flag, disciplina_id } = props.location.state;
+    setFlagin(flag);
+    setId(disciplina_id);
+    console.log(flag, disciplina_id);
+
+    syncProperties(flag, disciplina_id);
+  }, []);
+
+  const syncProperties = async (flag: boolean, disc_id: string) => {
+    if (flag === true) {
+      await api
+        .get(`disciplina/find/${disc_id}`, {
+          headers: {
+            disciplina_id: disc_id,
+          },
+        })
+        .then(response => {
+          setUpdateDisciplina(response.data);
+        })
+        .catch(() => {
+          toast.error('Não foi possível identificar suas disponibilidades');
+        });
+    }
+  };
+
+  // Chamando API de Update
+  async function handleUpdateDisciplina(e: FormEvent) {
     e.preventDefault();
+
+    if (updateDisciplina) {
+      setId(id === '' ? updateDisciplina.id : id);
+      setTitulo(titulo === '' ? updateDisciplina.titulo : titulo);
+      setTag(tag === [] ? updateDisciplina.tag : tag);
+      setDescricao(descricao === '' ? updateDisciplina.descricao : descricao);
+      setValor(valor === '' ? updateDisciplina.valor : valor);
+    }
 
     const newValue = parseInt(valor, 10);
 
     await api
-      .post('disciplina/create', {
+      .put('disciplina/update', {
+        disciplina_id: id,
         titulo,
         tag,
         descricao,
         valor: newValue,
       })
       .then(() => {
-        toast.success('Disciplina cadastrada com sucesso!');
+        alert('Update realizado com sucesso');
         history.push('/prof-list-disciplina');
       })
       .catch(() => {
-        toast.error('Erro so cadastrar disciplina.');
+        alert('Erro no Update');
       });
   }
 
   // Adicionando Tags
   const changeHandler = (e: FormEvent, value: string) => {
     e.preventDefault();
+
     const resultado = value.split(',');
     setTag(resultado);
   };
 
-  // console.log(valor);
-
   return (
     <div id="page-disciplina" className="container">
-      <Toaster />
-      <PageHeader
-        page="Meu perfil"
-        background={backgroundImg}
-        home="/prof-home"
-      >
+      <PageHeader page="Meu perfil" background={backgroundImg} to="/prof-home">
         <div className="profile-header">
           <h2>Mostre para seus alunos do que você manja!</h2>
-          <p>Adicione aqui a disciplina que deseja ministrar.</p>
+          <p>Adicione aqui a disciplina que deseja atuar.</p>
         </div>
       </PageHeader>
 
       <main>
-        <form onSubmit={handleCreateDisciplina}>
+        <form onSubmit={handleUpdateDisciplina}>
           <fieldset>
             <legend>Dados Disciplina</legend>
             <div id="disciplina-content">
               <div id="titulo-info">
                 <Input
-                  required
-                  label="Titulo disciplina *"
+                  label="Disciplina"
                   name="disciplina"
-                  placeholder="Desenvolvimento"
+                  placeholder={updateDisciplina?.titulo}
                   value={titulo || ''}
                   onChange={e => setTitulo(e.target.value)}
                 />
@@ -86,10 +133,9 @@ const Disciplina: React.FC = () => {
 
               <div id="tag-info">
                 <Input
-                  required
-                  label="Tag *"
+                  label="Tag"
                   name="tag"
-                  placeholder="tag , tag"
+                  placeholder={updateDisciplina?.tag.toString()}
                   value={tag || ''}
                   onChange={e => {
                     changeHandler(e, e.target.value);
@@ -99,10 +145,9 @@ const Disciplina: React.FC = () => {
 
               <div id="descricao-info">
                 <Textarea
-                  required
-                  label="Descricao *"
+                  label="Descricao"
                   name="descricao"
-                  placeholder="Deixe aqui uma descrição bem detalhada da disciplina"
+                  placeholder={updateDisciplina?.descricao}
                   value={descricao || ''}
                   onChange={e => setDescricao(e.target.value)}
                 />
@@ -110,13 +155,11 @@ const Disciplina: React.FC = () => {
 
               <div id="valor-info">
                 <Input
-                  required
-                  prefix="R$"
-                  label="Valor *"
+                  label="Valor"
                   name="valor"
-                  mask="money"
-                  placeholder="R$ 30"
+                  placeholder={updateDisciplina?.valor}
                   value={valor || ''}
+                  pattern="[0-9]*"
                   onChange={e => setValor(e.target.value)}
                 />
               </div>
@@ -137,4 +180,4 @@ const Disciplina: React.FC = () => {
   );
 };
 
-export default Disciplina;
+export default ProfessorUpdateDisciplina;

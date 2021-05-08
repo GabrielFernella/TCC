@@ -51,7 +51,7 @@ export default class DisciplinaController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { disciplina_id } = request.body;
+    const { disciplina_id } = request.params;
 
     const disciplina = container.resolve(FindDisciplinaService);
 
@@ -116,6 +116,7 @@ export default class DisciplinaController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const professor_id = request.user.id;
     const { disciplina_id } = request.params;
+    console.log(disciplina_id);
 
     const disciplina = container.resolve(DeleteDisciplinaService);
 

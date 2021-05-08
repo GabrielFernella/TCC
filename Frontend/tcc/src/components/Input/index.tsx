@@ -1,78 +1,44 @@
-import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
-import { useField } from '@unform/core';
+import React, { InputHTMLAttributes, useCallback } from 'react';
+
+import { currency, money, number } from './masks';
 
 import './styles.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
   name: string;
-  stacked?: boolean;
+  label?: string;
+  mask?: 'currency' | 'number' | 'money';
+  prefix?: string;
 }
 
 const Input: React.FC<InputProps> = ({
-  label,
-  stacked = false,
+  mask,
   name,
+  label,
+  prefix,
   ...rest
 }) => {
-  /* const inputRef = useRef<HTMLInputElement>(null);
-
-  const { fieldName, registerField, defaultValue } = useField(name);
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
-    });
-  }, [fieldName, registerField]); */
+  const handleKeyUp = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      if (mask === 'currency') {
+        currency(e);
+      }
+      if (mask === 'money') {
+        money(e);
+      }
+      if (mask === 'number') {
+        number(e);
+      }
+    },
+    [mask],
+  );
 
   return (
-    <div className={`input-block ${stacked && 'input-stacked'}`}>
-      {label && <label htmlFor={name}>{label}</label>}
-      <input
-        id={name}
-        /* ref={inputRef}
-        defaultValue={defaultValue} */
-        {...rest}
-      />
+    <div className="input-block">
+      <label htmlFor={name}>{label}</label>
+      <input type="text" id={name} onKeyUp={handleKeyUp} {...rest} />
     </div>
   );
 };
 
 export default Input;
-
-/*
-import React, { InputHTMLAttributes, useEffect } from 'react';
-import { useField } from '@unform/core';
-
-import './styles.scss';
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  name: string;
-  stacked?: boolean;
-}
-
-const Input: React.FunctionComponent<InputProps> = ({
-  label,
-  stacked = false,
-  name,
-  ...rest
-}) => {
-  const { fieldName, registerField, defaultValue, error } = useField(name);
-
-  useEffect(() => {}, []);
-
-  return (
-    <div className={`input-block ${stacked && 'input-stacked'}`}>
-      {label && <label htmlFor={name}>{label}</label>}
-      <input type="text" id={name} {...rest} />
-    </div>
-  );
-};
-
-export default Input;
-
-
-*/
