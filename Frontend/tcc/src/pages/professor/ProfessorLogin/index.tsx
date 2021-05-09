@@ -69,12 +69,14 @@ const Login: React.FC = () => {
               </legend>
 
               <Input
+                required
                 name="email"
                 placeholder="E-mail"
                 value={email || ''}
                 onChange={e => setEmail(e.target.value)}
               />
               <Input
+                required
                 name="password"
                 type="password"
                 placeholder="Senha"

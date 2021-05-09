@@ -157,6 +157,7 @@ const Disponibilidade: React.FC = () => {
               <div key={scheduleItem.id} id="disponibilidade-content">
                 <div id="diasemana-info">
                   <Input
+                    required
                     name="diasemana"
                     label="Dia da semana"
                     type="text"
@@ -166,6 +167,7 @@ const Disponibilidade: React.FC = () => {
                 </div>
                 <div id="entrada-info">
                   <Input
+                    required
                     name="entrada"
                     label="Das"
                     disabled
@@ -174,6 +176,7 @@ const Disponibilidade: React.FC = () => {
                 </div>
                 <div id="saida-info">
                   <Input
+                    required
                     name="saida"
                     label="Até"
                     disabled

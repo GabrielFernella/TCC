@@ -1,5 +1,5 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 // recursos
 import toast, { Toaster } from 'react-hot-toast'; // Toast
@@ -27,22 +27,27 @@ const Disciplina: React.FC = () => {
   async function handleCreateDisciplina(e: FormEvent) {
     e.preventDefault();
 
-    const newValue = parseInt(valor, 10);
+    if (titulo && tag && descricao && valor) {
+      const newValue = parseInt(valor, 10);
 
-    await api
-      .post('disciplina/create', {
-        titulo,
-        tag,
-        descricao,
-        valor: newValue,
-      })
-      .then(() => {
-        toast.success('Disciplina cadastrada com sucesso!');
-        history.push('/prof-list-disciplina');
-      })
-      .catch(() => {
-        toast.error('Erro so cadastrar disciplina.');
-      });
+      await api
+        .post('disciplina/create', {
+          titulo,
+          tag,
+          descricao,
+          valor: newValue,
+        })
+        .then(() => {
+          toast.success('Disciplina cadastrada com sucesso!');
+          setInterval(toast, 1000);
+          history.push('/prof-list-disciplina');
+        })
+        .catch(() => {
+          toast.error('Erro so cadastrar disciplina.');
+        });
+    } else {
+      toast.error('Confira de todos os campos estão devidamente preenchidos.');
+    }
   }
 
   // Adicionando Tags
@@ -51,8 +56,6 @@ const Disciplina: React.FC = () => {
     const resultado = value.split(',');
     setTag(resultado);
   };
-
-  // console.log(valor);
 
   return (
     <div id="page-disciplina" className="container">

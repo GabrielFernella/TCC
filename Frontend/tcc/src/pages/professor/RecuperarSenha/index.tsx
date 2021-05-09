@@ -1,5 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
+
 import Input from '../../../components/Input';
 import WrapperContent from '../../../components/WrapperContent';
 import LogoContainer from '../../../components/LogoContainer';
@@ -18,6 +20,7 @@ const ForgotPassword: React.FC = () => {
         email,
       })
       .then(() => {
+        toast.success('Disciplina cadastrada com sucesso!');
         history.push('/professor-login');
       });
       */
@@ -27,6 +30,8 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <div id="page-login">
+      <Toaster />
+
       <WrapperContent className="page-content-left">
         <LogoContainer />
         <div className="signup-container">

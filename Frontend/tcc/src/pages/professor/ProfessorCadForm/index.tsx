@@ -1,5 +1,6 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
@@ -26,31 +27,48 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
-      return alert('Password not match');
+      toast.error('Password não confere');
     }
 
-    api
-      .post('professor/create', {
-        name,
-        cpf,
-        email,
-        password,
-        avatar,
-        pix,
-        biografia,
-      })
-      .then(() => {
-        alert('Cadastro realizado com sucesso');
-      })
-      .catch(() => {
-        alert('Não foi possível efetuar o cadastro');
-        return alert('Tente novamente');
-      });
-    return history.push('/login');
+    if (
+      name &&
+      cpf &&
+      email &&
+      password &&
+      passwordConf &&
+      avatar &&
+      pix &&
+      biografia
+    ) {
+      api
+        .post('professor/create', {
+          name,
+          cpf,
+          email,
+          password,
+          avatar,
+          pix,
+          biografia,
+        })
+        .then(() => {
+          toast.success('Cadastro realizado com sucesso!');
+          setInterval(toast, 1000);
+          history.push('/prof-login');
+        })
+        .catch(() => {
+          toast.error('Não foi possível efetuar o cadastro, tente novamente');
+        });
+    } else {
+      toast.error(
+        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
+      );
+    }
   }
 
   return (
     <div id="page-teacher-form" className="container">
+      <Toaster />
+
       <PageHeader page="Meu perfil" background={backgroundImg}>
         <div className="profile-header">
           <h2>Que bom que você deseja dar aulas!</h2>
@@ -65,6 +83,8 @@ const Profile: React.FC = () => {
             <div id="form-content">
               <div id="name-info">
                 <Input
+                  required
+                  placeholder="Ricardo"
                   label="Nome"
                   name="name"
                   value={name || ''}
@@ -73,6 +93,8 @@ const Profile: React.FC = () => {
               </div>
               <div id="cpf-info">
                 <Input
+                  required
+                  placeholder="999.999.999-99"
                   label="CPF"
                   name="cpf"
                   value={cpf || ''}
@@ -81,6 +103,8 @@ const Profile: React.FC = () => {
               </div>
               <div id="email-info">
                 <Input
+                  required
+                  placeholder="ricardo@email.com"
                   label="E-mail"
                   name="email"
                   value={email || ''}
@@ -108,6 +132,8 @@ const Profile: React.FC = () => {
               </div>
               <div id="avatar-info">
                 <Input
+                  required
+                  placeholder="http://avatar.com/myavatar"
                   label="Avatar (URL)"
                   name="avatar"
                   value={avatar || ''}
@@ -116,6 +142,8 @@ const Profile: React.FC = () => {
               </div>
               <div id="pix-info">
                 <Input
+                  required
+                  placeholder="E-mail ou Telefone ou CPF"
                   label="PIX"
                   name="pix"
                   value={pix || ''}
@@ -125,6 +153,8 @@ const Profile: React.FC = () => {
 
               <div id="biografia-info">
                 <Textarea
+                  required
+                  placeholder="Fale um pouco sobre você"
                   label="Biografia"
                   name="biografia"
                   value={biografia || ''}

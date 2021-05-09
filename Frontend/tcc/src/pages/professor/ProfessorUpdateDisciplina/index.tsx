@@ -52,19 +52,26 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
   }, []);
 
   const syncProperties = async (flag: boolean, disc_id: string) => {
-    if (flag === true) {
-      await api
-        .get(`disciplina/find/${disc_id}`, {
-          headers: {
-            disciplina_id: disc_id,
-          },
-        })
-        .then(response => {
-          setUpdateDisciplina(response.data);
-        })
-        .catch(() => {
-          toast.error('Não foi possível identificar suas disponibilidades');
-        });
+    if (flag) {
+      if (flag === true) {
+        await api
+          .get(`disciplina/find/${disc_id}`, {
+            headers: {
+              disciplina_id: disc_id,
+            },
+          })
+          .then(response => {
+            setUpdateDisciplina(response.data);
+          })
+          .catch(() => {
+            toast.error('Não foi possível identificar suas disponibilidades');
+          });
+      }
+    } else {
+      toast.error(
+        'Nenhuma Flag passada por parâmetro ou flag inválida, volte a lista e tente novamente ',
+      );
+      history.push('/prof-list-disciplina');
     }
   };
 
