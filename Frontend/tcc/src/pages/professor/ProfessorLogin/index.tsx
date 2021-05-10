@@ -20,14 +20,19 @@ const Login: React.FC = () => {
 
   // Carregar todos os horários do professor
   useEffect(() => {
-    api
+    if (user) {
+      history.push('/prof-home');
+    }
+    toast('Tente se autenticar');
+
+    /* api
       .get('profsession')
       .then(res => {
         return history.push('/prof-home');
       })
       .catch(() => {
         toast('Tente se autenticar');
-      });
+      }); */
   }, []);
 
   async function handleSubmit(e: FormEvent) {

@@ -62,6 +62,11 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
           })
           .then(response => {
             setUpdateDisciplina(response.data);
+            setId(response.data.id);
+            setTitulo(response.data.titulo);
+            setTag(response.data.tag);
+            setDescricao(response.data.descricao);
+            setValor(response.data.valor);
           })
           .catch(() => {
             toast.error('Não foi possível identificar suas disponibilidades');
@@ -79,14 +84,6 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
   async function handleUpdateDisciplina(e: FormEvent) {
     e.preventDefault();
 
-    if (updateDisciplina) {
-      setId(id === '' ? updateDisciplina.id : id);
-      setTitulo(titulo === '' ? updateDisciplina.titulo : titulo);
-      setTag(tag === [] ? updateDisciplina.tag : tag);
-      setDescricao(descricao === '' ? updateDisciplina.descricao : descricao);
-      setValor(valor === '' ? updateDisciplina.valor : valor);
-    }
-
     const newValue = parseInt(valor, 10);
 
     await api
@@ -98,11 +95,13 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
         valor: newValue,
       })
       .then(() => {
-        alert('Update realizado com sucesso');
+        toast.success('Atualização realizada com sucesso!');
         history.push('/prof-list-disciplina');
       })
       .catch(() => {
-        alert('Erro no Update');
+        toast.error(
+          'Não foi possível atualizar sua disciplina, tente novamente.',
+        );
       });
   }
 
@@ -166,6 +165,7 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
                   name="valor"
                   placeholder={updateDisciplina?.valor}
                   value={valor || ''}
+                  mask="money"
                   pattern="[0-9]*"
                   onChange={e => setValor(e.target.value)}
                 />

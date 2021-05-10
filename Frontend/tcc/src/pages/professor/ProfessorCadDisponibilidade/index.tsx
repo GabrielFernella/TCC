@@ -157,7 +157,6 @@ const Disponibilidade: React.FC = () => {
               <div key={scheduleItem.id} id="disponibilidade-content">
                 <div id="diasemana-info">
                   <Input
-                    required
                     name="diasemana"
                     label="Dia da semana"
                     type="text"
@@ -167,16 +166,15 @@ const Disponibilidade: React.FC = () => {
                 </div>
                 <div id="entrada-info">
                   <Input
-                    required
                     name="entrada"
                     label="Das"
+                    mask="money"
                     disabled
                     value={scheduleItem.horarioEntrada}
                   />
                 </div>
                 <div id="saida-info">
                   <Input
-                    required
                     name="saida"
                     label="Até"
                     disabled
@@ -201,6 +199,7 @@ const Disponibilidade: React.FC = () => {
           <div id="disponibilidade-content">
             <div id="diasemana-info">
               <Select
+                required
                 name="diasemana"
                 label="Dia da semana"
                 value={diaSemana}
@@ -218,18 +217,20 @@ const Disponibilidade: React.FC = () => {
             </div>
             <div id="entrada-info">
               <Input
+                required
                 name="entrada"
                 label="Das"
                 type="text"
                 pattern="[0-9]*"
+                mask="money"
                 maxLength={2}
                 value={horarioEntrada}
                 onChange={e => setHorarioEntrada(e.target.value)}
-                required
               />
             </div>
             <div id="saida-info">
               <Input
+                mask="money"
                 name="saida"
                 label="Até"
                 pattern="[0-9]*"

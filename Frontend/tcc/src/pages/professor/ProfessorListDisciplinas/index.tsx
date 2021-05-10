@@ -49,10 +49,11 @@ const ProfessorListDisciplina: React.FC = () => {
     api
       .delete(`disciplina/delete/${disciplina_id}`)
       .then(() => {
-        return toast.success('Disciplina excluída');
+        toast.success('Disciplina excluída');
+        window.location.reload();
       })
       .catch(() => {
-        return toast.error('Não foi possível carregar as disciplinas');
+        toast.error('Não foi possível carregar as disciplinas');
       });
   }
 

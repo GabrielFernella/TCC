@@ -11,8 +11,8 @@ const ProfessorHome: React.FC = () => {
   const { signOut } = useAuth();
   const history = useHistory();
 
-  function handleDeleteUser() {
-    signOut();
+  async function handleDeleteUser() {
+    await signOut();
     history.push('/');
   }
 
