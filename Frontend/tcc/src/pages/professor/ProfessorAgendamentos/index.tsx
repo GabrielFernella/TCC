@@ -7,6 +7,13 @@ import './styles.scss';
 import api from '../../../services/api';
 
 interface IResponse {
+  id: string;
+  date: Date;
+  link: string;
+  status: string;
+  nota: string;
+  opiniao: string;
+
   disciplina: {
     id: string;
     titulo: string;
@@ -14,10 +21,30 @@ interface IResponse {
     descricao: string;
     valor: string;
   };
+  professor: {
+    id?: string;
+    nome?: string;
+    avatar?: string;
+    email?: string;
+  };
+  aluno: {
+    id?: string;
+    nome?: string;
+    avatar?: string;
+    email?: string;
+  };
+  disponibilidade: [
+    {
+      id: string;
+      diaSemana: string;
+      horarioEntrada: string;
+      horarioSaida: string;
+    },
+  ];
 }
 
 const ProfessorAgendamentos: React.FC = () => {
-  const [disciplina, setDisciplina] = useState<IResponse[]>([]);
+  const [agendamentos, setAgendamentos] = useState<IResponse[]>([]);
 
   // Carregar todas as disciplinas
   useEffect(() => {
@@ -25,10 +52,10 @@ const ProfessorAgendamentos: React.FC = () => {
       .get('disciplina/list')
       .then(response => {
         // console.log(response.data);
-        setDisciplina(response.data);
+        setAgendamentos(response.data);
       })
       .catch(() => {
-        toast.error('Não foi possível carregar as disciplinas');
+        toast.error('Não foi possível carregar os agendamentos');
       });
   }, []);
 
@@ -40,21 +67,23 @@ const ProfessorAgendamentos: React.FC = () => {
     <div id="list-professor-agendamentos" className="container">
       <Toaster />
       <PageHeader
-        page="Diciplinas"
+        page="Agendamentos"
         background={backgroundImg}
         home="/prof-home"
       >
         <div className="profile-header">
-          <h2>Essas são todas as suas disciplinas</h2>
+          <h2>Essas são todos os seus agendamentos</h2>
         </div>
       </PageHeader>
 
       <main>
         <fieldset>
           <div id="list-info">
-            {disciplina.map(list => (
-              <div key={list.disciplina.id} id="card">
-                <h2>{list.disciplina.titulo}</h2>
+            {agendamentos.map(list => (
+              <div key={list.id} id="card">
+                <h2>Disciplina: {list.disciplina.titulo}</h2>
+                <h2>Data: {list.date}</h2>
+                <h2>Aluno: {list.aluno.nome}</h2>
 
                 <div>
                   <h4>Tags:</h4>
@@ -79,10 +108,7 @@ const ProfessorAgendamentos: React.FC = () => {
                   Alterar
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => select(list.disciplina.titulo)}
-                >
+                <button type="button" onClick={() => select(list.id)}>
                   Deletar
                 </button>
               </div>

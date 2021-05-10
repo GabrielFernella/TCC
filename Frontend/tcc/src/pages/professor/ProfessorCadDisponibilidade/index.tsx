@@ -138,7 +138,7 @@ const Disponibilidade: React.FC = () => {
       <PageHeader
         page="Minhas Disponibilidades"
         background={backgroundImg}
-        to="/login"
+        home="/prof-home"
       >
         <div className="profile-header">
           <h2>Cadastre suas disponibilidades</h2>

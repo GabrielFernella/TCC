@@ -115,7 +115,11 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
 
   return (
     <div id="page-disciplina" className="container">
-      <PageHeader page="Meu perfil" background={backgroundImg} to="/prof-home">
+      <PageHeader
+        page="Meu perfil"
+        background={backgroundImg}
+        home="/prof-home"
+      >
         <div className="profile-header">
           <h2>Mostre para seus alunos do que você manja!</h2>
           <p>Adicione aqui a disciplina que deseja atuar.</p>

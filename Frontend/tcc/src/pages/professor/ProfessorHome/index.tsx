@@ -18,7 +18,7 @@ const ProfessorHome: React.FC = () => {
 
   return (
     <div id="page-home" className="container">
-      <PageHeader page="Home" background={backgroundImg}>
+      <PageHeader page="Home" background={backgroundImg} home="/prof-home">
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
           <p>
