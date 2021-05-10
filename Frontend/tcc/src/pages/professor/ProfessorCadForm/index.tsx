@@ -87,6 +87,7 @@ const Profile: React.FC = () => {
                   placeholder="Ricardo"
                   label="Nome"
                   name="name"
+                  maxLength={255}
                   value={name || ''}
                   onChange={e => setName(e.target.value)}
                 />
@@ -97,6 +98,8 @@ const Profile: React.FC = () => {
                   placeholder="999.999.999-99"
                   label="CPF"
                   name="cpf"
+                  mask="money"
+                  maxLength={11}
                   value={cpf || ''}
                   onChange={e => setCpf(e.target.value)}
                 />
@@ -108,6 +111,7 @@ const Profile: React.FC = () => {
                   label="E-mail"
                   name="email"
                   value={email || ''}
+                  maxLength={255}
                   type="email"
                   onChange={e => setEmail(e.target.value)}
                 />
@@ -117,6 +121,7 @@ const Profile: React.FC = () => {
                   label="Password"
                   name="password"
                   type="password"
+                  maxLength={32}
                   value={password || ''}
                   onChange={e => setPassword(e.target.value)}
                 />
@@ -126,6 +131,7 @@ const Profile: React.FC = () => {
                   label="Confirmation Pass."
                   name="confirmation"
                   type="password"
+                  maxLength={32}
                   value={passwordConf || ''}
                   onChange={e => setPasswordConf(e.target.value)}
                 />
@@ -157,6 +163,7 @@ const Profile: React.FC = () => {
                   placeholder="Fale um pouco sobre você"
                   label="Biografia"
                   name="biografia"
+                  maxLength={500}
                   value={biografia || ''}
                   onChange={e => setBiografia(e.target.value)}
                 />
