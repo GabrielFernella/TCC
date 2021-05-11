@@ -109,8 +109,7 @@
         button {
           width: 100%;
           height: 5.6rem;
-          background: #8257e5;
-          border: solid #8257e5;
+
           color: var(--color-button-text);
           //border: 0;
           border-radius: 0.8rem;
@@ -122,8 +121,27 @@
           text-decoration: none;
           transition: background-color 0.5s;
           margin-top: 3.2rem;
+          margin: 10px;
+        }
+        #alterar {
+          background: #8257e5;
+          border: solid #8257e5;
           &:hover {
             background: #6c3cdd;
+          }
+        }
+        #deletar {
+          background: red;
+          border: solid red;
+          &:hover {
+            background: rgb(216, 17, 17);
+          }
+        }
+        #aceitar {
+          background: var(--color-secundary-dark);
+          border: solid var(--color-secundary-dark);
+          &:hover {
+            background: #029b47;
           }
         }
 

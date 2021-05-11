@@ -118,9 +118,15 @@ const ProfessorAgendamentos: React.FC = () => {
         <fieldset>
           <div id="list-info">
             <div key={agendamentos.id} id="card">
-              <h2>Disciplina: {agendamentos.disciplina.titulo}</h2>
-              <h2>Data: {agendamentos.date}</h2>
-              <h2>Aluno: {agendamentos.aluno.nome}</h2>
+              <div className="states">
+                <h2>Data: {agendamentos.date}</h2>&ensp;&ensp;
+                <h2>Status: {agendamentos.status}</h2>
+              </div>
+
+              <h3>Disciplina: {agendamentos.disciplina.titulo}</h3>
+              <h3>Aluno: {agendamentos.aluno.nome}</h3>
+
+              <h4>Link de acesso: {agendamentos.link}</h4>
 
               <div>
                 <h4>Tags:</h4>
@@ -134,20 +140,35 @@ const ProfessorAgendamentos: React.FC = () => {
               <h4>Descrição:</h4>
               <p id="desc">{agendamentos.disciplina.descricao}</p>
 
-              <div>
-                <h4>Valor: R$ {agendamentos.disciplina.valor} /hora</h4>
+              <h4>Valor: R$ {agendamentos.disciplina.valor} /hora</h4>
+
+              <div className="buttons">
+                {agendamentos.status === 'pendente' ? (
+                  <button
+                    type="button"
+                    id="aceitar"
+                    onClick={() => select(agendamentos.disciplina.titulo)}
+                  >
+                    Aceitar
+                  </button>
+                ) : null}
+
+                <button
+                  type="button"
+                  id="alterar"
+                  onClick={() => select(agendamentos.disciplina.titulo)}
+                >
+                  Verificar
+                </button>
+
+                <button
+                  type="button"
+                  id="deletar"
+                  onClick={() => select(agendamentos.id)}
+                >
+                  Deletar
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => select(agendamentos.disciplina.titulo)}
-              >
-                Alterar
-              </button>
-
-              <button type="button" onClick={() => select(agendamentos.id)}>
-                Deletar
-              </button>
             </div>
           </div>
         </fieldset>
@@ -164,3 +185,7 @@ const ProfessorAgendamentos: React.FC = () => {
 };
 
 export default ProfessorAgendamentos;
+
+/*
+
+*/
