@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
@@ -15,10 +17,10 @@ interface IResponse {
     valor: string;
   };
   professor: {
-    id?: string;
-    nome?: string;
-    avatar?: string;
-    email?: string;
+    id: string;
+    nome: string;
+    avatar: string;
+    email: string;
   };
   disponibilidade: [
     {
@@ -31,6 +33,7 @@ interface IResponse {
 }
 
 const ListDisciplina: React.FC = () => {
+  const history = useHistory();
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Carregar todas as disciplinas
@@ -68,14 +71,22 @@ const ListDisciplina: React.FC = () => {
     }
   }
 
-  function select(disciplina_id: string) {
-    toast.success(`Você escolheu uma opção:  ${disciplina_id}`);
+  function select(dados: IResponse) {
+    history.push({
+      pathname: '/agendamento',
+      // search: '?query=abc',
+      state: { dados },
+    });
   }
 
   return (
     <div id="page-teacher-profile" className="container">
       <Toaster />
-      <PageHeader page="Diciplinas" background={backgroundImg}>
+      <PageHeader
+        page="Diciplinas"
+        background={backgroundImg}
+        home="/aluno-home"
+      >
         <div className="profile-header">
           <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
           <p>Escolha uma das disciplinas</p>
@@ -114,10 +125,7 @@ const ListDisciplina: React.FC = () => {
                   <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => select(list.disciplina.titulo)}
-                >
+                <button type="button" onClick={() => select(list)}>
                   Ver disponibilidade
                 </button>
               </div>

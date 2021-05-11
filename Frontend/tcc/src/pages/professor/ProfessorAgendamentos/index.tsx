@@ -126,21 +126,9 @@ const ProfessorAgendamentos: React.FC = () => {
               <h3>Disciplina: {agendamentos.disciplina.titulo}</h3>
               <h3>Aluno: {agendamentos.aluno.nome}</h3>
 
-              <h4>Link de acesso: {agendamentos.link}</h4>
+              <h3>Link de acesso: {agendamentos.link}</h3>
 
-              <div>
-                <h4>Tags:</h4>
-                <p>
-                  {agendamentos.disciplina.tag.map(t => (
-                    <i key={t.toString()}>{t.toString()},&nbsp;</i>
-                  ))}
-                </p>
-              </div>
-
-              <h4>Descrição:</h4>
-              <p id="desc">{agendamentos.disciplina.descricao}</p>
-
-              <h4>Valor: R$ {agendamentos.disciplina.valor} /hora</h4>
+              <h3>Valor: R$ {agendamentos.disciplina.valor} /hora</h3>
 
               <div className="buttons">
                 {agendamentos.status === 'pendente' ? (

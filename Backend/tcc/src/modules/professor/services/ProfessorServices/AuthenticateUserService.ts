@@ -25,9 +25,6 @@ class AuthenticateUserService {
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
 
-    @inject('ProfessorTokensRepository')
-    private professorTokensRepository: IProfessorTokensRepository,
-
     @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}

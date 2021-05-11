@@ -5,7 +5,7 @@ export interface ICreateAlunoDTO {
   password: string;
   avatar: string;
   pix: string;
-  bloqueio: string;
+  bloqueio: boolean;
 }
 
 export interface IAuthAluno {

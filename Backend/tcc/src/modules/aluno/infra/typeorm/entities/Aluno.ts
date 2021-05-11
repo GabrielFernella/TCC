@@ -1,17 +1,16 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
-import Usuario from '@modules/usuario/infra/typeorm/entities/Usuario';
+import Usuario from '@modules/usuario/infra/typeorm/entities/usuario';
 import Pagamento from './Pagamento';
 import AlunoToken from './AlunoToken';
 
 @Entity('aluno')
 class Aluno extends Usuario {
-  @Column()
-  bloqueio: boolean = false;
+  @Column({ nullable: true })
+  bloqueio: boolean;
 
-
-  //TODO -> Refatorar para ficar no Usuário
+  // TODO -> Refatorar para ficar no Usuário
   @OneToMany(() => Agendamento, aluno => Aluno)
   agendamentos: Agendamento[];
 

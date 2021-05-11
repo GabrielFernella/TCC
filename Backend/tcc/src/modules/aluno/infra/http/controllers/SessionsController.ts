@@ -2,13 +2,13 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import AuthenticateUserService from '@modules/aluno/services/AuthenticateUserService';
+import AuthenticateAlunoService from '@modules/aluno/services/AuthenticateAlunoService';
 
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
 
-    const authenticateUser = container.resolve(AuthenticateUserService);
+    const authenticateUser = container.resolve(AuthenticateAlunoService);
 
     const { user, token } = await authenticateUser.execute({
       email,

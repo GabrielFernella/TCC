@@ -1,16 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 import Button from '../../../components/Button';
+import { useAuth } from '../../../hooks/auth';
 
 const ProfessorHome: React.FC = () => {
+  const { signOut } = useAuth();
+  const history = useHistory();
+
+  async function handleDeleteUser() {
+    await signOut();
+    history.push('/');
+  }
+
   return (
     <div id="page-home" className="container">
-      <PageHeader page="Home" background={backgroundImg}>
+      <PageHeader page="Home" background={backgroundImg} home="aluno-home">
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
           <p>
@@ -34,6 +43,9 @@ const ProfessorHome: React.FC = () => {
           <Link to="/prof-form">
             <Button name="perfil">Perfil</Button>
           </Link>
+          <Button name="perfil" onClick={handleDeleteUser}>
+            Logout
+          </Button>
         </div>
       </div>
 

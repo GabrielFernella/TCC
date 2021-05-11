@@ -9,6 +9,7 @@ import Input from '../../../components/Input';
 // import { AuthContext } from '../../contexts/auth';
 import './styles.scss';
 import { useAuth } from '../../../hooks/auth';
+import api from '../../../services/api';
 
 const Login: React.FC = () => {
   const { signIn, user } = useAuth();
@@ -19,25 +20,39 @@ const Login: React.FC = () => {
 
   // Carregar todos os horários do professor
   useEffect(() => {
-    toast('Acesse sua conta ou crie uma!');
-    if (
-      localStorage.getItem('@WebEduca:token') &&
-      localStorage.getItem('@WebEduca:user') &&
-      user
-    ) {
+    if (user) {
       history.push('/aluno-home');
     }
-  }, [user]);
+    toast('Tente se autenticar');
+
+    /* api
+      .get('profsession')
+      .then(res => {
+        return history.push('/prof-home');
+      })
+      .catch(() => {
+        toast('Tente se autenticar');
+      }); */
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const provider = 'alunosession';
 
     if (isAble()) {
-      await signIn({ email, password, provider });
-      if (user) {
-        history.push('/aluno-home');
-      }
+      // Autenticando
+      await api
+        .post(provider, {
+          email,
+          password,
+        })
+        .then(async () => {
+          await signIn({ email, password, provider });
+          history.push('/aluno-home');
+        })
+        .catch(() => {
+          toast.error('Usuário ou senha inválidos');
+        });
     }
   }
 
@@ -59,12 +74,14 @@ const Login: React.FC = () => {
               </legend>
 
               <Input
+                required
                 name="email"
                 placeholder="E-mail"
                 value={email || ''}
                 onChange={e => setEmail(e.target.value)}
               />
               <Input
+                required
                 name="password"
                 type="password"
                 placeholder="Senha"
@@ -87,7 +104,7 @@ const Login: React.FC = () => {
             <div className="login-footer">
               <div className="signup">
                 <p>Não tem conta?</p>
-                <Link to="/form-aluno">Cadastre-se como Aluno</Link>
+                <Link to="/aluno-form">Cadastre-se como aluno</Link>
               </div>
             </div>
           </form>
