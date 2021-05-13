@@ -100,6 +100,7 @@ const Profile: React.FC = () => {
                   name="cpf"
                   mask="money"
                   maxLength={11}
+                  minLength={10}
                   value={cpf || ''}
                   onChange={e => setCpf(e.target.value)}
                 />
@@ -118,6 +119,7 @@ const Profile: React.FC = () => {
               </div>
               <div id="password-info">
                 <Input
+                  required
                   label="Password"
                   name="password"
                   type="password"
@@ -128,6 +130,7 @@ const Profile: React.FC = () => {
               </div>
               <div id="password-confirmation">
                 <Input
+                  required
                   label="Confirmation Pass."
                   name="confirmation"
                   type="password"

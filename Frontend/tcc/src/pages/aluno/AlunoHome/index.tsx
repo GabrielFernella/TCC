@@ -8,7 +8,7 @@ import './styles.scss';
 import Button from '../../../components/Button';
 import { useAuth } from '../../../hooks/auth';
 
-const ProfessorHome: React.FC = () => {
+const AlunoHome: React.FC = () => {
   const { signOut } = useAuth();
   const history = useHistory();
 
@@ -18,7 +18,7 @@ const ProfessorHome: React.FC = () => {
   }
 
   return (
-    <div id="page-home" className="container">
+    <div id="page-home-aluno" className="container">
       <PageHeader page="Home" background={backgroundImg} home="aluno-home">
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
@@ -32,15 +32,18 @@ const ProfessorHome: React.FC = () => {
       <div id="content">
         <div className="menu">
           <Link to="/list-disciplina">
-            <Button name="disciplinas">Disciplinas</Button>
+            <Button name="disciplinas">Ver Disciplinas</Button>
           </Link>
-          <Link to="/agendamento">
-            <Button name="agendamentos">Agendamentos</Button>
+          <Link to="/agendar">
+            <Button name="agendamentos">Agendar</Button>
+          </Link>
+          <Link to="/aluno-agenda">
+            <Button name="agendamentos">Meus agendamentos</Button>
           </Link>
           <Link to="/prof-cad-disciplina">
             <Button name="pendencias">Pendencias</Button>
           </Link>
-          <Link to="/prof-form">
+          <Link to="/aluno-form">
             <Button name="perfil">Perfil</Button>
           </Link>
           <Button name="perfil" onClick={handleDeleteUser}>
@@ -54,4 +57,4 @@ const ProfessorHome: React.FC = () => {
   );
 };
 
-export default ProfessorHome;
+export default AlunoHome;

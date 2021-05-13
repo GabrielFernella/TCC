@@ -35,11 +35,12 @@ const Routes: React.FC = () => {
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/forgot-password" exact component={RecuperarSenha} />
 
-      <Route path="/aluno-form" exact component={AlunoCadForm} />
       <Route path="/aluno-login" exact component={AlunoLogin} />
       <Route path="/aluno-home" exact component={AlunoHome} />
+      <Route path="/aluno-form" exact component={AlunoCadForm} />
       <Route path="/list-disciplina" exact component={ListDisciplinas} />
-      <Route path="/agendamento" exact component={AgendarDisciplina} />
+      <Route path="/aluno-agenda" exact component={Landing} />
+      <Route path="/agendar" exact component={AgendarDisciplina} />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} />
