@@ -1,25 +1,15 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
 import 'moment/locale/pt-br';
-import { DatePicker, DatePickerInput } from 'rc-datepicker';
+import './styles.scss';
+import DatePicker from 'react-date-picker';
 
-// import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { DateUtils } from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
 import toast, { Toaster } from 'react-hot-toast';
-// import Calendar from 'react-calendar';
-// import moment from 'moment';
-import dateFnsFormat from 'date-fns/format';
-import dateFnsParse from 'date-fns/parse';
+
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
-// calender
-// import 'react-calendar/dist/Calendar.css';
-
-import './styles.scss';
 import Input from '../../../components/Input';
-import Select from '../../../components/Select';
 import api from '../../../services/api';
 
 interface IProps {
@@ -79,7 +69,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   const [hora, setHora] = useState('');
   const [dia, setDia] = useState(0);
 
-  const date = '2015-06-26';
+  const [value, onChange] = useState(new Date());
 
   useEffect(() => {
     try {
@@ -123,8 +113,6 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   const changeDate = (e: any) => {
     setDateState(e);
   };
-
-  const FORMAT = 'MM/dd/yyyy';
 
   // 58 min
   // rever parte que mostra as disponibilidades
@@ -182,12 +170,11 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
               </div>
               <br />
               <br />
+
               <div id="btn-agendar">
-                <DatePickerInput
-                  onChange={e => setDia(e.getDay())}
-                  value={date}
-                  className="my-custom-datepicker-component"
-                />
+                <div>
+                  <DatePicker onChange={() => onChange} value={value} />
+                </div>
 
                 <Input
                   name="saida"
@@ -199,7 +186,9 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
                   required
                 />
               </div>
-              <button type="submit">Agendar</button>
+              <button className="button" type="submit">
+                Agendar
+              </button>
             </div>
           </fieldset>
 

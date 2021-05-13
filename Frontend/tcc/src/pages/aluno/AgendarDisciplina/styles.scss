@@ -104,7 +104,7 @@
           }
         }
 
-        button {
+        .button {
           width: 100%;
           height: 5.6rem;
           background: #8257e5;
@@ -122,6 +122,27 @@
           margin-top: 3.2rem;
           &:hover {
             background: #6c3cdd;
+          }
+        }
+
+        #agenda {
+          .react-datepicker__today-button {
+            background: none;
+            border-top: 1px solid;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            padding: 5px 0;
+            clear: left;
+          }
+        }
+
+        /* basic modern patch */
+
+        #reset-this-root {
+          all: initial;
+          * {
+            all: unset;
           }
         }
       }

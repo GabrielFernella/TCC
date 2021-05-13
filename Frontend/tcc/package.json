@@ -19,6 +19,8 @@
     "polished": "^4.0.2",
     "rc-datepicker": "^5.0.16",
     "react": "^16.13.1",
+    "react-date-picker": "^8.1.1",
+    "react-datepicker": "^3.8.0",
     "react-day-picker": "^7.4.10",
     "react-dom": "^16.13.1",
     "react-hot-toast": "^1.0.2",
@@ -52,6 +54,7 @@
   },
   "devDependencies": {
     "@types/react-calendar": "^3.1.4",
+    "@types/react-datepicker": "^3.1.8",
     "@types/react-input-mask": "^3.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/styled-components": "^5.1.3",
