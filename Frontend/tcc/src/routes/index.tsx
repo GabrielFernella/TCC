@@ -9,6 +9,8 @@ import Landing from '../pages/dashboard/Landing';
 // Professor
 import RecuperarSenha from '../pages/professor/RecuperarSenha';
 import ProfessorForm from '../pages/professor/ProfessorCadForm';
+import ProfessorUpdateForm from '../pages/professor/ProfessorUpdateForm';
+
 import ProfessorCadDisciplina from '../pages/professor/ProfessorCadDisciplina';
 import ProfessorUpdateDisciplina from '../pages/professor/ProfessorUpdateDisciplina';
 import ProfessorListDisciplinas from '../pages/professor/ProfessorListDisciplinas';
@@ -30,7 +32,7 @@ import teste from '../pages/professor/ProfessorHome';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={AgendarDisciplina} />
+      <Route path="/" exact component={Landing} />
 
       <Route path="/dashboard" exact component={Landing} />
       <Route path="/forgot-password" exact component={RecuperarSenha} />
@@ -45,6 +47,8 @@ const Routes: React.FC = () => {
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} />
       <Route path="/prof-form" exact component={ProfessorForm} />
+      <Route path="/prof-up-form" exact component={ProfessorUpdateForm} />
+
       <Route path="/prof-agenda" exact component={ProfessorAgendamentos} />
       <Route
         path="/prof-cad-disciplina"

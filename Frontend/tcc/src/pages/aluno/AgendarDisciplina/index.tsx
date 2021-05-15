@@ -173,7 +173,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <div id="btn-agendar">
                 <div>
-                  <DatePicker onChange={() => onChange} value={value} />
+                  <DatePicker value={value} onChange={() => onChange} />
                 </div>
 
                 <Input

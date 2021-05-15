@@ -39,7 +39,7 @@ const Disciplina: React.FC = () => {
         })
         .then(() => {
           toast.success('Disciplina cadastrada com sucesso!');
-          setInterval(toast, 1000);
+          // setInterval(toast, 1000);
           history.push('/prof-list-disciplina');
         })
         .catch(() => {

@@ -53,6 +53,8 @@ const Login: React.FC = () => {
         .catch(() => {
           toast.error('Usuário ou senha inválidos');
         });
+    } else {
+      toast.error('Usuário ou senha inválidos');
     }
   }
 
@@ -95,7 +97,7 @@ const Login: React.FC = () => {
               </div>
               <button
                 className={`login-submit ${'login-submit-active'}`}
-                disabled={!isAble()}
+                // disabled={!isAble()}
                 type="submit"
               >
                 Entrar

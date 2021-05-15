@@ -43,7 +43,7 @@ const ProfessorHome: React.FC = () => {
           <Link to="/prof-agenda">
             <Button name="agendamentos">Agendamentos</Button>
           </Link>
-          <Link to="/prof-form">
+          <Link to="/prof-up-form">
             <Button name="perfil">Perfil</Button>
           </Link>
 

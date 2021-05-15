@@ -133,6 +133,7 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
             <div id="disciplina-content">
               <div id="titulo-info">
                 <Input
+                  required
                   label="Disciplina"
                   name="disciplina"
                   placeholder={updateDisciplina?.titulo}
@@ -143,6 +144,7 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <div id="tag-info">
                 <Input
+                  required
                   label="Tag"
                   name="tag"
                   placeholder={updateDisciplina?.tag.toString()}
@@ -155,6 +157,7 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <div id="descricao-info">
                 <Textarea
+                  required
                   label="Descricao"
                   name="descricao"
                   placeholder={updateDisciplina?.descricao}
@@ -165,12 +168,14 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <div id="valor-info">
                 <Input
+                  required
                   label="Valor"
                   name="valor"
                   placeholder={updateDisciplina?.valor}
                   value={valor || ''}
                   mask="money"
                   pattern="[0-9]*"
+                  maxLength={6}
                   onChange={e => setValor(e.target.value)}
                 />
               </div>

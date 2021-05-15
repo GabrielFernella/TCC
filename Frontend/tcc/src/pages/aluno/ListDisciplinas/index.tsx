@@ -73,7 +73,7 @@ const ListDisciplina: React.FC = () => {
 
   function select(dados: IResponse) {
     history.push({
-      pathname: '/agendamento',
+      pathname: '/agendar',
       // search: '?query=abc',
       state: { dados },
     });

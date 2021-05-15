@@ -96,7 +96,8 @@ const Disponibilidade: React.FC = () => {
         entrada <= 23 &&
         saida <= 23 &&
         dia >= 0 &&
-        dia <= 6
+        dia <= 6 &&
+        entrada < saida
       )
     ) {
       // alert('Intervalo de horas inválidas');
@@ -230,6 +231,7 @@ const Disponibilidade: React.FC = () => {
             </div>
             <div id="saida-info">
               <Input
+                required
                 mask="money"
                 name="saida"
                 label="Até"
@@ -237,7 +239,6 @@ const Disponibilidade: React.FC = () => {
                 maxLength={2}
                 value={horarioSaida}
                 onChange={e => setHorarioSaida(e.target.value)}
-                required
               />
             </div>
 
