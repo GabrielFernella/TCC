@@ -28,46 +28,34 @@ const ProfessorListDisciplina: React.FC = () => {
 
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
+  // Find disciplina
   function findDisciplina() {
-    const titulo = disciplina.map(procura => {
-      return procura.titulo === find ? add(procura) : 0;
+    disciplina.filter(value => {
+      if (value.titulo === find) {
+        return listagem.push(value);
+      }
+
+      value.tag.filter(tags => {
+        if (tags === find) {
+          return listagem.push(value);
+        }
+        return '';
+      });
+
+      return '';
     });
 
-    function add(value: IResponse) {
-      listagem.push(value);
-    }
-
-    if (listagem.length >= 1) {
+    if (listagem.length !== 0) {
       setDisciplina(listagem);
-    }
-
-    if (titulo[0] === 0) {
+    } else {
       listDisciplinas();
     }
-
-    console.log(titulo);
-
-    /*
-    titulo.map(index => {
-      return titulo[index] === 1 ? setDisciplina(listagem) : '';
-    });
-    */
   }
 
-  /* useEffect(() => {
-    const value = disciplina.filter(teste => {
-      return teste.titulo.search(find) ? teste : '';
-    });
-    listagem.push(value);
-
-    // findDisciplina(disciplina, find);
-  }, [find]); */
-
-  /* function findDisciplina(disciplina: IResponse[], find: string) {
-    const teste = disciplina.map(procura => {
-      procura.titulo === find ? listagem.push : listagem;
-    });
-  } */
+  function clearFind() {
+    setFind('');
+    listDisciplinas();
+  }
 
   // Listar todas as disciplinas do Professor
   useEffect(() => {
@@ -78,7 +66,7 @@ const ProfessorListDisciplina: React.FC = () => {
     api
       .get('disciplina/list/prof')
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         setDisciplina(response.data);
       })
       .catch(() => {
@@ -101,7 +89,8 @@ const ProfessorListDisciplina: React.FC = () => {
       .delete(`disciplina/delete/${disciplina_id}`)
       .then(() => {
         toast.success('Disciplina excluída');
-        window.location.reload();
+        listDisciplinas();
+        // window.location.reload();
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -119,23 +108,27 @@ const ProfessorListDisciplina: React.FC = () => {
         <div className="profile-header">
           <h2>Essas são todas as suas disciplinas</h2>
         </div>
-        <div>
-          <Input
-            // label="Find"
-            name="name"
-            maxLength={255}
-            value={find || ''}
-            onChange={e => setFind(e.target.value)}
-          />
-          <button type="button" onClick={findDisciplina}>
-            Procurar
-          </button>
-        </div>
       </PageHeader>
 
       <main>
         <fieldset>
           <div id="list-info">
+            <div id="searchButton">
+              <Input
+                // label="Find"
+                name="name"
+                maxLength={255}
+                value={find || ''}
+                onChange={e => setFind(e.target.value)}
+              />
+              <button type="button" id="clear" onClick={clearFind}>
+                Clear
+              </button>
+              <button type="button" onClick={findDisciplina}>
+                Procurar
+              </button>
+            </div>
+
             {disciplina.map(list => (
               <div key={list.id} id="card">
                 <h2>{list.titulo}</h2>
@@ -202,4 +195,23 @@ history.push({
             >
 
 
+*/
+
+/*
+//Teste 2
+const titulo = disciplina.map(procura => {
+      return procura.titulo === find ? add(procura) : 0;
+    });
+
+    function add(value: IResponse) {
+      listagem.push(value);
+    }
+
+    if (listagem.length >= 1) {
+      setDisciplina(listagem);
+    }
+
+    if (titulo[0] === 0) {
+      listDisciplinas();
+    }
 */
