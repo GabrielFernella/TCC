@@ -44,6 +44,38 @@ class CreateDisponibilidadeService {
       throw new AppError('Disponibilidade já existe');
     } */
 
+    if (
+      !(
+        diaSemana === 0 ||
+        diaSemana === 1 ||
+        diaSemana === 2 ||
+        diaSemana === 3 ||
+        diaSemana === 4 ||
+        diaSemana === 5 ||
+        diaSemana === 6
+      )
+    ) {
+      throw new AppError('Date not permitted');
+    }
+
+    const validateDataAndHours = await this.disponibilidadeRepository.findByProfessorID(
+      professor_id,
+    );
+
+    // Validação temporária
+    validateDataAndHours?.map(valid => {
+      if (diaSemana === parseInt(valid.diaSemana, 10)) {
+        throw new AppError('Date not permitted');
+      }
+    });
+
+    /* //Validar se os horários não convergem
+    validateDataAndHours?.map(valid => {
+      if (valid.diaSemana === diaSemana) {
+        ...
+      }
+    }); */
+
     const cadDisponibilidade = await this.disponibilidadeRepository.create({
       professor_id,
       diaSemana,

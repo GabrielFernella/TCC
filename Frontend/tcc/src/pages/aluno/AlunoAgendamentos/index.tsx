@@ -43,10 +43,10 @@ interface IResponse {
   ];
 }
 
-const ProfessorAgendamentos: React.FC = () => {
+const AlunoAgendamentos: React.FC = () => {
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     id: '101010',
-    date: '20/10/97',
+    date: '20/10/2021',
     link: 'http://link.com',
     nota: '10',
     opiniao: 'Aula muito legal',
@@ -56,7 +56,7 @@ const ProfessorAgendamentos: React.FC = () => {
       titulo: 'guitar',
       tag: ['teste', 'teste'],
       descricao: 'string',
-      valor: 'string',
+      valor: '100',
     },
     professor: {
       id: 'string',
@@ -66,7 +66,7 @@ const ProfessorAgendamentos: React.FC = () => {
     },
     aluno: {
       id: 'string',
-      nome: 'string',
+      nome: 'Fulano da silva',
       avatar: 'string',
       email: 'string',
     },
@@ -97,8 +97,26 @@ const ProfessorAgendamentos: React.FC = () => {
     // setAgendamentos(teste);
   }, []);
 
+  function alterColor(value: string) {
+    if (value === 'pendente') {
+      return { color: '#6C3CDD' };
+    }
+    if (value === 'cancelado') {
+      return { color: 'red' };
+    }
+    return { color: 'green' };
+  }
+
   function select(disciplina_id: string) {
-    toast.success(`Você escolheu uma opção:  ${disciplina_id}`);
+    toast.success(`Você escolheu uma opção: Visualizar  ${disciplina_id}`);
+  }
+
+  function cancelar(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção: Cancelar  ${disciplina_id}`);
+  }
+
+  function aceitar(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção: Aceitar  ${disciplina_id}`);
   }
 
   return (
@@ -120,7 +138,13 @@ const ProfessorAgendamentos: React.FC = () => {
             <div key={agendamentos.id} id="card">
               <div className="states">
                 <h2>Data: {agendamentos.date}</h2>&ensp;&ensp;
-                <h2>Status: {agendamentos.status}</h2>
+                <h2>
+                  Status:
+                  <span style={alterColor(agendamentos.status)}>
+                    {' '}
+                    {agendamentos.status}
+                  </span>
+                </h2>
               </div>
 
               <h3>Disciplina: {agendamentos.disciplina.titulo}</h3>
@@ -135,7 +159,7 @@ const ProfessorAgendamentos: React.FC = () => {
                   <button
                     type="button"
                     id="aceitar"
-                    onClick={() => select(agendamentos.disciplina.titulo)}
+                    onClick={() => aceitar(agendamentos.disciplina.titulo)}
                   >
                     Aceitar
                   </button>
@@ -146,16 +170,18 @@ const ProfessorAgendamentos: React.FC = () => {
                   id="alterar"
                   onClick={() => select(agendamentos.disciplina.titulo)}
                 >
-                  Verificar
+                  Visualizar
                 </button>
 
-                <button
-                  type="button"
-                  id="deletar"
-                  onClick={() => select(agendamentos.id)}
-                >
-                  Deletar
-                </button>
+                {agendamentos.status === 'pendente' ? (
+                  <button
+                    type="button"
+                    id="deletar"
+                    onClick={() => cancelar(agendamentos.disciplina.titulo)}
+                  >
+                    Cancelar
+                  </button>
+                ) : null}
               </div>
             </div>
           </div>
@@ -172,8 +198,4 @@ const ProfessorAgendamentos: React.FC = () => {
   );
 };
 
-export default ProfessorAgendamentos;
-
-/*
-
-*/
+export default AlunoAgendamentos;

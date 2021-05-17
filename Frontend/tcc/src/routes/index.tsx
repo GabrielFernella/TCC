@@ -15,7 +15,7 @@ import ProfessorCadDisciplina from '../pages/professor/ProfessorCadDisciplina';
 import ProfessorUpdateDisciplina from '../pages/professor/ProfessorUpdateDisciplina';
 import ProfessorListDisciplinas from '../pages/professor/ProfessorListDisciplinas';
 import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
-import ProfessorAgendamentos from '../pages/professor/ProfessorAgendamentos';
+import ProfessorListAgendamentos from '../pages/professor/ProfessorListAgendamentos';
 import ProfessorHome from '../pages/professor/ProfessorHome';
 import ProfessorLogin from '../pages/professor/ProfessorLogin';
 
@@ -23,6 +23,7 @@ import ProfessorLogin from '../pages/professor/ProfessorLogin';
 import AlunoCadForm from '../pages/aluno/AlunoCadForm';
 import AlunoLogin from '../pages/aluno/AlunoLogin';
 import AlunoHome from '../pages/aluno/AlunoHome';
+import AlunoAgendamentos from '../pages/aluno/AlunoAgendamentos';
 import ListDisciplinas from '../pages/aluno/ListDisciplinas';
 import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
 
@@ -41,7 +42,7 @@ const Routes: React.FC = () => {
       <Route path="/aluno-home" exact component={AlunoHome} />
       <Route path="/aluno-form" exact component={AlunoCadForm} />
       <Route path="/list-disciplina" exact component={ListDisciplinas} />
-      <Route path="/aluno-agenda" exact component={Landing} />
+      <Route path="/aluno-agenda" exact component={AlunoAgendamentos} />
       <Route path="/agendar" exact component={AgendarDisciplina} />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
@@ -49,7 +50,7 @@ const Routes: React.FC = () => {
       <Route path="/prof-form" exact component={ProfessorForm} />
       <Route path="/prof-up-form" exact component={ProfessorUpdateForm} />
 
-      <Route path="/prof-agenda" exact component={ProfessorAgendamentos} />
+      <Route path="/prof-agenda" exact component={ProfessorListAgendamentos} />
       <Route
         path="/prof-cad-disciplina"
         exact

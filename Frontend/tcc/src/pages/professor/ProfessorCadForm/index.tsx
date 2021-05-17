@@ -52,7 +52,6 @@ const Profile: React.FC = () => {
         })
         .then(() => {
           toast.success('Cadastro realizado com sucesso!');
-          setInterval(toast, 1000);
           history.push('/prof-login');
         })
         .catch(() => {

@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast'; // Toast
 
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
@@ -24,30 +25,36 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
-      return alert('Password not match');
+      toast.error('Password não confere');
     }
 
-    api
-      .post('aluno/create', {
-        name,
-        cpf,
-        email,
-        password,
-        avatar,
-        pix,
-      })
-      .then(() => {
-        alert('Cadastro realizado com sucesso');
-      })
-      .catch(() => {
-        alert('Não foi possível efetuar o cadastro');
-        return alert('Tente nocamente');
-      });
-    return history.push('/aluno-login');
+    if (name && cpf && email && password && passwordConf && avatar && pix) {
+      api
+        .post('aluno/create', {
+          name,
+          cpf,
+          email,
+          password,
+          avatar,
+          pix,
+        })
+        .then(() => {
+          toast.success('Cadastro realizado com sucesso!');
+          history.push('/aluno-login');
+        })
+        .catch(() => {
+          toast.error('Não foi possível efetuar o cadastro, tente novamente');
+        });
+    } else {
+      toast.error(
+        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
+      );
+    }
   }
 
   return (
     <div id="page-aluno-profile" className="container">
+      <Toaster />
       <PageHeader
         page="Meu perfil"
         background={backgroundImg}
@@ -82,11 +89,11 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="999.999.999-99"
+                  label="CPF"
+                  name="cpf"
                   mask="money"
                   maxLength={11}
                   minLength={10}
-                  label="CPF"
-                  name="cpf"
                   value={cpf || ''}
                   onChange={e => setCpf(e.target.value)}
                 />

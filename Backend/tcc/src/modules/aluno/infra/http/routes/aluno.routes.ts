@@ -16,7 +16,7 @@ const alunoController = new AlunoController();
 // const upload = multer(uploadConfig.multer);
 
 alunoRoute.post(
-  '/',
+  '/create',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),

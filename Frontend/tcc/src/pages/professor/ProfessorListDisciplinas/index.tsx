@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { useAuth } from '../../../hooks/auth';
+
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
+
+import Input from '../../../components/Input';
 
 import './styles.scss';
 import api from '../../../services/api';
@@ -20,10 +23,58 @@ const ProfessorListDisciplina: React.FC = () => {
   const history = useHistory();
   const { user } = useAuth();
 
+  const listagem: IResponse[] = [];
+  const [find, setFind] = useState('');
+
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
+
+  function findDisciplina() {
+    const titulo = disciplina.map(procura => {
+      return procura.titulo === find ? add(procura) : 0;
+    });
+
+    function add(value: IResponse) {
+      listagem.push(value);
+    }
+
+    if (listagem.length >= 1) {
+      setDisciplina(listagem);
+    }
+
+    if (titulo[0] === 0) {
+      listDisciplinas();
+    }
+
+    console.log(titulo);
+
+    /*
+    titulo.map(index => {
+      return titulo[index] === 1 ? setDisciplina(listagem) : '';
+    });
+    */
+  }
+
+  /* useEffect(() => {
+    const value = disciplina.filter(teste => {
+      return teste.titulo.search(find) ? teste : '';
+    });
+    listagem.push(value);
+
+    // findDisciplina(disciplina, find);
+  }, [find]); */
+
+  /* function findDisciplina(disciplina: IResponse[], find: string) {
+    const teste = disciplina.map(procura => {
+      procura.titulo === find ? listagem.push : listagem;
+    });
+  } */
 
   // Listar todas as disciplinas do Professor
   useEffect(() => {
+    listDisciplinas();
+  }, []);
+
+  function listDisciplinas() {
     api
       .get('disciplina/list/prof')
       .then(response => {
@@ -33,7 +84,7 @@ const ProfessorListDisciplina: React.FC = () => {
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
       });
-  }, []);
+  }
 
   function select(disciplina_id: string) {
     history.push({
@@ -67,6 +118,18 @@ const ProfessorListDisciplina: React.FC = () => {
       >
         <div className="profile-header">
           <h2>Essas são todas as suas disciplinas</h2>
+        </div>
+        <div>
+          <Input
+            // label="Find"
+            name="name"
+            maxLength={255}
+            value={find || ''}
+            onChange={e => setFind(e.target.value)}
+          />
+          <button type="button" onClick={findDisciplina}>
+            Procurar
+          </button>
         </div>
       </PageHeader>
 
