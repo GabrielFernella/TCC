@@ -30,6 +30,16 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
     return findDisponibilidade;
   }
 
+  public async findByDay(
+    id: string,
+    day: number,
+  ): Promise<Disponibilidade[] | undefined> {
+    const findDisponibilidade = await this.ormRepository.find({
+      where: { professor_id: id, diaSemana: day },
+    });
+    return findDisponibilidade;
+  }
+
   public async findByProfessorID(
     id: string,
   ): Promise<Disponibilidade[] | undefined> {

@@ -15,13 +15,13 @@ export default class Disponibilidade {
   id: string;
 
   @Column()
-  diaSemana: string;
+  diaSemana: number;
 
   @Column()
-  horarioEntrada: string;
+  horarioEntrada: number;
 
   @Column()
-  horarioSaida: string;
+  horarioSaida: number;
 
   @CreateDateColumn()
   created_at: Date;

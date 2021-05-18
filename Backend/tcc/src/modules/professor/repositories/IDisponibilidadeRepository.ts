@@ -4,6 +4,7 @@ import { ICreateDisponibilidadeDTO } from '../dtos/IDisponibilidadeDTO';
 
 export default interface IDisponibilidadeRepository {
   findByID(id: string): Promise<Disponibilidade | undefined>;
+  findByDay(id: string, day: number): Promise<Disponibilidade[] | undefined>;
   create(data: ICreateDisponibilidadeDTO): Promise<Disponibilidade>;
   findByProfessorID(id: string): Promise<Disponibilidade[] | undefined>;
   save(data: Disponibilidade): Promise<Disponibilidade>;

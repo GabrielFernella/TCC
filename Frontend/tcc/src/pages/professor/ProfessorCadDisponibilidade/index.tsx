@@ -115,8 +115,11 @@ const Disponibilidade: React.FC = () => {
           // Alterar essa parte depois
           window.location.reload();
         })
-        .catch(() => {
-          toast.error('Não foi possível criar uma nova disponibilidade');
+        .catch(error => {
+          toast.error(
+            `Não foi possível criar uma nova disponibilidade:  ${error.response.data.message}`,
+          );
+          console.log(error.response.data.message);
         });
     }
   }

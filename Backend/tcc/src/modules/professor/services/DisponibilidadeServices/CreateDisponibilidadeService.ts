@@ -29,20 +29,12 @@ class CreateDisponibilidadeService {
     diaSemana,
     horarioEntrada,
     horarioSaida,
-  }: IRequest): Promise<Disponibilidade> {
+  }: IRequest): Promise<Disponibilidade[] | undefined> {
     // Procurando se há um user com o mesmo email
     const findTeacher = await this.professorRepository.findById(professor_id);
     if (!findTeacher) {
       throw new AppError('Teacher not found');
     }
-
-    // Validando se já existe uma disponibilidade
-    /* const tableexists = await this.disponibilidadeProvider.findByTeacherID(
-      teacher_id,
-    );
-    if (tableexists) {
-      throw new AppError('Disponibilidade já existe');
-    } */
 
     if (
       !(
@@ -62,29 +54,51 @@ class CreateDisponibilidadeService {
       professor_id,
     );
 
-    // Validação temporária
-    validateDataAndHours?.map(valid => {
-      if (diaSemana === parseInt(valid.diaSemana, 10)) {
-        throw new AppError('Date not permitted');
-      }
-    });
+    if (horarioEntrada > horarioSaida) {
+      throw new AppError('Horas inválidas');
+    }
 
-    /* //Validar se os horários não convergem
-    validateDataAndHours?.map(valid => {
-      if (valid.diaSemana === diaSemana) {
-        ...
-      }
-    }); */
+    const findDay = await this.disponibilidadeRepository.findByDay(
+      professor_id,
+      diaSemana,
+    );
 
-    const cadDisponibilidade = await this.disponibilidadeRepository.create({
+    if (findDay) {
+      throw new AppError('Dia já cadastrado');
+    }
+
+    await this.disponibilidadeRepository.create({
       professor_id,
       diaSemana,
       horarioEntrada,
       horarioSaida,
     });
 
-    return cadDisponibilidade;
+    return validateDataAndHours;
   }
 }
 
 export default CreateDisponibilidadeService;
+
+/*
+ // Validação temporária
+    validateDataAndHours?.map(async valid => {
+      if (diaSemana === parseInt(valid.diaSemana, 10)) {
+        if (
+          (horarioEntrada < parseInt(valid.horarioEntrada, 10) &&
+            horarioSaida < parseInt(valid.horarioEntrada, 10)) ||
+          (horarioEntrada > parseInt(valid.horarioSaida, 10) &&
+            horarioSaida > parseInt(valid.horarioSaida, 10))
+        ) {
+          await this.disponibilidadeRepository.create({
+            professor_id,
+            diaSemana,
+            horarioEntrada,
+            horarioSaida,
+          });
+          flag = true;
+          console.log(professor_id, diaSemana, horarioEntrada, horarioSaida);
+        }
+      }
+    });
+*/

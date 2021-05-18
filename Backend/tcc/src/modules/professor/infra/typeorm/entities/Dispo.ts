@@ -9,18 +9,19 @@ import {
 } from 'typeorm';
 import Professor from './Professor';
 
-@Entity('dispo')
+@Entity('disponibilidades')
 export default class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({
-    type: 'jsonb',
-    array: true,
-    default: () => 'ARRAY[]::jsonb[]',
-    nullable: true,
-  })
-  date: string[];
+  @Column()
+  segunda: number;
+
+  @Column()
+  horarioEntrada: number;
+
+  @Column()
+  horarioSaida: number;
 
   @CreateDateColumn()
   created_at: Date;
