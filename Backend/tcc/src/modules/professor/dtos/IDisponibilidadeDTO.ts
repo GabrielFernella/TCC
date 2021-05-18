@@ -4,3 +4,9 @@ export interface ICreateDisponibilidadeDTO {
   horarioEntrada: number;
   horarioSaida: number;
 }
+
+export interface IUpdateDisponibilidadeDTO {
+  disponibilidade_id: string;
+  horarioEntrada: number;
+  horarioSaida: number;
+}

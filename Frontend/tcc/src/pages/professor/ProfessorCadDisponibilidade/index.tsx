@@ -235,10 +235,11 @@ const Disponibilidade: React.FC = () => {
             <div id="saida-info">
               <Input
                 required
-                mask="money"
                 name="saida"
-                label="Até"
+                label="Das"
+                type="text"
                 pattern="[0-9]*"
+                mask="money"
                 maxLength={2}
                 value={horarioSaida}
                 onChange={e => setHorarioSaida(e.target.value)}

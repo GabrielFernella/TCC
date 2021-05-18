@@ -30,6 +30,7 @@ class CreateDisponibilidadeService {
     horarioEntrada,
     horarioSaida,
   }: IRequest): Promise<Disponibilidade[] | undefined> {
+    let result: Disponibilidade | undefined;
     // Procurando se há um user com o mesmo email
     const findTeacher = await this.professorRepository.findById(professor_id);
     if (!findTeacher) {
@@ -50,10 +51,6 @@ class CreateDisponibilidadeService {
       throw new AppError('Date not permitted');
     }
 
-    const validateDataAndHours = await this.disponibilidadeRepository.findByProfessorID(
-      professor_id,
-    );
-
     if (horarioEntrada > horarioSaida) {
       throw new AppError('Horas inválidas');
     }
@@ -64,15 +61,41 @@ class CreateDisponibilidadeService {
     );
 
     if (findDay) {
-      throw new AppError('Dia já cadastrado');
+      if (
+        horarioEntrada < findDay.horarioEntrada &&
+        horarioSaida < findDay.horarioEntrada
+      ) {
+        result = await this.disponibilidadeRepository.updateDate({
+          disponibilidade_id: findDay.id,
+          horarioEntrada,
+          horarioSaida: findDay.horarioSaida,
+        });
+      }
+
+      if (
+        horarioEntrada > findDay.horarioSaida &&
+        horarioSaida > findDay.horarioSaida
+      ) {
+        result = await this.disponibilidadeRepository.updateDate({
+          disponibilidade_id: findDay.id,
+          horarioEntrada: findDay.horarioSaida,
+          horarioSaida,
+        });
+      } else {
+        throw new AppError('Horas invalid');
+      }
+    } else {
+      result = await this.disponibilidadeRepository.create({
+        professor_id,
+        diaSemana,
+        horarioEntrada,
+        horarioSaida,
+      });
     }
 
-    await this.disponibilidadeRepository.create({
+    const validateDataAndHours = await this.disponibilidadeRepository.findByProfessorID(
       professor_id,
-      diaSemana,
-      horarioEntrada,
-      horarioSaida,
-    });
+    );
 
     return validateDataAndHours;
   }

@@ -1,6 +1,9 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { ICreateDisponibilidadeDTO } from '@modules/professor/dtos/IDisponibilidadeDTO';
+import {
+  ICreateDisponibilidadeDTO,
+  IUpdateDisponibilidadeDTO,
+} from '@modules/professor/dtos/IDisponibilidadeDTO';
 import IDisponibilidadeRepository from '@modules/professor/repositories/IDisponibilidadeRepository';
 
 import AppError from '@shared/errors/AppError';
@@ -33,10 +36,28 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
   public async findByDay(
     id: string,
     day: number,
-  ): Promise<Disponibilidade[] | undefined> {
-    const findDisponibilidade = await this.ormRepository.find({
+  ): Promise<Disponibilidade | undefined> {
+    const findDisponibilidade = await this.ormRepository.findOne({
       where: { professor_id: id, diaSemana: day },
     });
+    return findDisponibilidade;
+  }
+
+  public async updateDate({
+    disponibilidade_id: id,
+    horarioEntrada,
+    horarioSaida,
+  }: IUpdateDisponibilidadeDTO): Promise<Disponibilidade | undefined> {
+    await this.ormRepository.update(id, {
+      horarioEntrada,
+      horarioSaida,
+    });
+    console.log('Here');
+
+    const findDisponibilidade = await this.ormRepository.findOne({
+      where: { id },
+    });
+
     return findDisponibilidade;
   }
 
