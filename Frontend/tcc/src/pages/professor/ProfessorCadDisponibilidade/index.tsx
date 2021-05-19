@@ -47,6 +47,10 @@ const Disponibilidade: React.FC = () => {
 
   // Carregar todos os horários do professor
   useEffect(() => {
+    listDisponibilidade();
+  }, []);
+
+  function listDisponibilidade() {
     api
       .get('disponibilidade/show', {
         headers: {
@@ -60,7 +64,7 @@ const Disponibilidade: React.FC = () => {
         // alert('Não foi possível identificar suas disponibilidades');
         toast.error('Não foi possível identificar suas disponibilidades');
       });
-  }, []);
+  }
 
   function validateDay(day: string) {
     switch (day) {
@@ -112,8 +116,7 @@ const Disponibilidade: React.FC = () => {
         .then(() => {
           toast.success('Disponibilidade Criada com sucesso');
 
-          // Alterar essa parte depois
-          window.location.reload();
+          listDisponibilidade();
         })
         .catch(error => {
           toast.error(
@@ -130,7 +133,7 @@ const Disponibilidade: React.FC = () => {
       .then(() => {
         toast.success('Disponibilidade deletada');
 
-        window.location.reload();
+        listDisponibilidade();
       })
       .catch(() => {
         toast.error('Não foi possível deletar');

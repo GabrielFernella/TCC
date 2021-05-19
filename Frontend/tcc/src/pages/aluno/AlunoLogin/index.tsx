@@ -48,6 +48,7 @@ const Login: React.FC = () => {
         })
         .then(async () => {
           await signIn({ email, password, provider });
+
           history.push('/aluno-home');
         })
         .catch(() => {

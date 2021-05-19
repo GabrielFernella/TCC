@@ -12,7 +12,7 @@ import { useAuth } from '../../../hooks/auth';
 import api from '../../../services/api';
 
 const Login: React.FC = () => {
-  const { signIn, user, response } = useAuth();
+  const { signIn, user, providers } = useAuth();
   const history = useHistory();
 
   const [email, setEmail] = useState<string>('');
@@ -20,6 +20,7 @@ const Login: React.FC = () => {
 
   // Carregar todos os horários do professor
   useEffect(() => {
+    console.log(providers);
     if (user) {
       history.push('/prof-home');
     }
@@ -48,6 +49,7 @@ const Login: React.FC = () => {
         })
         .then(async () => {
           await signIn({ email, password, provider });
+
           history.push('/prof-home');
         })
         .catch(() => {

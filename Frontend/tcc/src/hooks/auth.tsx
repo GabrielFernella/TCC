@@ -8,6 +8,7 @@ interface User {
   name: string;
   email: string;
   avatar_url: string;
+  provider: 'professor' | 'aluno';
 }
 
 interface AuthState {
@@ -22,6 +23,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
+  providers: string;
   user: User;
   response: AxiosResponse | undefined;
   signIn(credentials: SignInCredentials): Promise<void>;
@@ -33,6 +35,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [rest, setRest] = useState<AxiosResponse>();
+  const [providers, setProviders] = useState('');
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@WebEduca:token');
     const user = localStorage.getItem('@WebEduca:user');
@@ -59,6 +62,12 @@ const AuthProvider: React.FC = ({ children }) => {
 
     localStorage.setItem('@WebEduca:token', token);
     localStorage.setItem('@WebEduca:user', JSON.stringify(user));
+    if (provider === 'profsession') {
+      setProviders('profsession');
+    }
+    if (provider === 'alunosession') {
+      setProviders('alunosession');
+    }
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -68,6 +77,10 @@ const AuthProvider: React.FC = ({ children }) => {
   const signOut = useCallback(() => {
     localStorage.removeItem('@WebEduca:token');
     localStorage.removeItem('@WebEduca:user');
+
+    /* if (localStorage.getItem('@WebEduca:provider')) {
+      localStorage.removeItem('@WebEduca:provider');
+    } */
 
     setData({} as AuthState);
   }, []);
@@ -86,7 +99,14 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, response: rest, signIn, signOut, updateUser }}
+      value={{
+        providers,
+        user: data.user,
+        response: rest,
+        signIn,
+        signOut,
+        updateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

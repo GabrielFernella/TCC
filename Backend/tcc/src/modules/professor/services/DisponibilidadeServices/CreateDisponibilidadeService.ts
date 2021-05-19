@@ -61,37 +61,15 @@ class CreateDisponibilidadeService {
     );
 
     if (findDay) {
-      if (
-        horarioEntrada < findDay.horarioEntrada &&
-        horarioSaida < findDay.horarioEntrada
-      ) {
-        result = await this.disponibilidadeRepository.updateDate({
-          disponibilidade_id: findDay.id,
-          horarioEntrada,
-          horarioSaida: findDay.horarioSaida,
-        });
-      }
-
-      if (
-        horarioEntrada > findDay.horarioSaida &&
-        horarioSaida > findDay.horarioSaida
-      ) {
-        result = await this.disponibilidadeRepository.updateDate({
-          disponibilidade_id: findDay.id,
-          horarioEntrada: findDay.horarioSaida,
-          horarioSaida,
-        });
-      } else {
-        throw new AppError('Horas invalid');
-      }
-    } else {
-      result = await this.disponibilidadeRepository.create({
-        professor_id,
-        diaSemana,
-        horarioEntrada,
-        horarioSaida,
-      });
+      throw new AppError('Dia já cadastrado');
     }
+
+    await this.disponibilidadeRepository.create({
+      professor_id,
+      diaSemana,
+      horarioEntrada,
+      horarioSaida,
+    });
 
     const validateDataAndHours = await this.disponibilidadeRepository.findByProfessorID(
       professor_id,
@@ -124,4 +102,39 @@ export default CreateDisponibilidadeService;
         }
       }
     });
+*/
+
+/*
+if (findDay) {
+      if (
+        horarioEntrada < findDay.horarioEntrada &&
+        horarioSaida < findDay.horarioEntrada
+      ) {
+        result = await this.disponibilidadeRepository.updateDate({
+          disponibilidade_id: findDay.id,
+          horarioEntrada,
+          horarioSaida: findDay.horarioSaida,
+        });
+      }
+
+      if (
+        horarioEntrada > findDay.horarioSaida &&
+        horarioSaida > findDay.horarioSaida
+      ) {
+        result = await this.disponibilidadeRepository.updateDate({
+          disponibilidade_id: findDay.id,
+          horarioEntrada,
+          horarioSaida: findDay.horarioSaida,
+        });
+      }
+    } else {
+      result = await this.disponibilidadeRepository.create({
+        professor_id,
+        diaSemana,
+        horarioEntrada,
+        horarioSaida,
+      });
+    }
+
+
 */

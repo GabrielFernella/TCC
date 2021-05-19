@@ -90,7 +90,6 @@ const ProfessorListDisciplina: React.FC = () => {
       .then(() => {
         toast.success('Disciplina excluída');
         listDisciplinas();
-        // window.location.reload();
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -149,13 +148,15 @@ const ProfessorListDisciplina: React.FC = () => {
                   <h4>Valor: R$ {list.valor} /hora</h4>
                 </div>
 
-                <button type="button" onClick={() => select(list.id)}>
-                  Alterar
-                </button>
+                <div id="btns">
+                  <button type="button" onClick={() => select(list.id)}>
+                    Alterar
+                  </button>
 
-                <button type="button" onClick={() => deleted(list.id)}>
-                  Deletar
-                </button>
+                  <button type="button" onClick={() => deleted(list.id)}>
+                    Deletar
+                  </button>
+                </div>
               </div>
             ))}
           </div>

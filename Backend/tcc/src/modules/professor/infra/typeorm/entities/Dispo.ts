@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import Professor from './Professor';
 
-@Entity('disponibilidades')
+// @Entity('disponibilidades')
 export default class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
