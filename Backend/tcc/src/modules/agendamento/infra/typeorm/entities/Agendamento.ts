@@ -48,7 +48,7 @@ export default class Agendamento {
   @Column()
   nota: string;
 
-  @Column()
+  @Column('text')
   opiniao: string;
 
   @CreateDateColumn()

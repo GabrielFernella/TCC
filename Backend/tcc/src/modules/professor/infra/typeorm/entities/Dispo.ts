@@ -1,4 +1,4 @@
-import {
+/* import {
   Column,
   CreateDateColumn,
   Entity,
@@ -36,3 +36,4 @@ export default class Disponibilidade {
   @JoinColumn({ name: 'professor_id' })
   professor: Professor;
 }
+*/

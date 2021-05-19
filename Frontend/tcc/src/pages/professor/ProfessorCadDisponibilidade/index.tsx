@@ -14,7 +14,7 @@ import './styles.scss';
 
 interface ScheduleInterface {
   id: string;
-  diaSemana: string;
+  diaSemana: number;
   horarioEntrada: string;
   horarioSaida: string;
 }
@@ -66,21 +66,21 @@ const Disponibilidade: React.FC = () => {
       });
   }
 
-  function validateDay(day: string) {
+  function validateDay(day: number) {
     switch (day) {
-      case '0':
+      case 0:
         return 'Domingo';
-      case '1':
+      case 1:
         return 'Segunda-feira';
-      case '2':
+      case 2:
         return 'Terça-feira';
-      case '3':
+      case 3:
         return 'Quarta-feira';
-      case '4':
+      case 4:
         return 'Quinta-feira';
-      case '5':
+      case 5:
         return 'Sexta-feira';
-      case '6':
+      case 6:
         return 'Sábado';
       default:
         return 'Inválid';

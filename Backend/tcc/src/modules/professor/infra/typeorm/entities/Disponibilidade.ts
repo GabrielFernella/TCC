@@ -14,13 +14,13 @@ export default class Disponibilidade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('int')
   diaSemana: number;
 
-  @Column()
+  @Column('int')
   horarioEntrada: number;
 
-  @Column()
+  @Column('int')
   horarioSaida: number;
 
   @CreateDateColumn()

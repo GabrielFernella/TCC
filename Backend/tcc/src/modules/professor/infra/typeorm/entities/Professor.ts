@@ -8,7 +8,7 @@ import ProfessorToken from './ProfessorToken';
 
 @Entity('professor')
 class Professor extends Usuario {
-  @Column()
+  @Column('text')
   biografia: string;
 
   @OneToMany(() => Agendamento, professor => Professor)

@@ -23,16 +23,16 @@ export default class Disciplina {
   @Column('simple-array')
   tag: string[];
 
-  @Column()
+  @Column('text')
   descricao: string;
 
-  @Column('numeric')
+  @Column()
   valor: number;
 
   @Column('int')
   qtdAvaliacao: number;
 
-  @Column('float')
+  @Column()
   mediaAvaliacao: number;
 
   @CreateDateColumn()
