@@ -31,13 +31,14 @@ const ProfessorListDisciplina: React.FC = () => {
   // Find disciplina
   function findDisciplina() {
     disciplina.filter(value => {
-      if (value.titulo === find) {
-        return listagem.push(value);
+      if (value.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()) {
+        listagem.push(value);
       }
 
       value.tag.filter(tags => {
-        if (tags === find) {
-          return listagem.push(value);
+        const newTag = tags.replace(/\s/g, '');
+        if (newTag === find) {
+          listagem.push(value);
         }
         return '';
       });
@@ -118,7 +119,7 @@ const ProfessorListDisciplina: React.FC = () => {
                 name="name"
                 maxLength={255}
                 value={find || ''}
-                onChange={e => setFind(e.target.value)}
+                onChange={e => setFind(e.target.value.toLocaleLowerCase())}
               />
               <button type="button" id="clear" onClick={clearFind}>
                 Clear
