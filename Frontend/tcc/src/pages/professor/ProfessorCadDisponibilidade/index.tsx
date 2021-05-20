@@ -239,7 +239,7 @@ const Disponibilidade: React.FC = () => {
               <Input
                 required
                 name="saida"
-                label="Das"
+                label="Até"
                 type="text"
                 pattern="[0-9]*"
                 mask="money"

@@ -7,6 +7,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 import api from '../../../services/api';
+import Input from '../../../components/Input';
 
 interface IResponse {
   disciplina: {
@@ -36,8 +37,15 @@ const ListDisciplina: React.FC = () => {
   const history = useHistory();
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
+  const listagem: IResponse[] = [];
+  const [find, setFind] = useState('');
+
   // Carregar todas as disciplinas
   useEffect(() => {
+    listDisciplinas();
+  }, []);
+
+  function listDisciplinas() {
     api
       .get('disciplina/list')
       .then(response => {
@@ -47,7 +55,39 @@ const ListDisciplina: React.FC = () => {
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
       });
-  }, []);
+  }
+
+  // Find disciplina
+  function findDisciplina() {
+    disciplina.filter(value => {
+      if (
+        value.disciplina.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()
+      ) {
+        listagem.push(value);
+      }
+
+      value.disciplina.tag.filter(tags => {
+        const newTag = tags.replace(/\s/g, '');
+        if (newTag === find) {
+          listagem.push(value);
+        }
+        return '';
+      });
+
+      return '';
+    });
+
+    if (listagem.length !== 0) {
+      setDisciplina(listagem);
+    } else {
+      listDisciplinas();
+    }
+  }
+
+  function clearFind() {
+    setFind('');
+    listDisciplinas();
+  }
 
   // Validações
   function validateDay(day: string) {
@@ -96,6 +136,21 @@ const ListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
+            <div id="searchButton">
+              <Input
+                // label="Find"
+                name="name"
+                maxLength={255}
+                value={find || ''}
+                onChange={e => setFind(e.target.value.toLocaleLowerCase())}
+              />
+              <button type="button" id="clear" onClick={clearFind}>
+                Clear
+              </button>
+              <button type="button" onClick={findDisciplina}>
+                Procurar
+              </button>
+            </div>
             {disciplina.map(list => (
               <div key={list.disciplina.id} id="card">
                 <h2>{list.disciplina.titulo}</h2>

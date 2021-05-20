@@ -108,6 +108,7 @@ const ProfessorListDisciplina: React.FC = () => {
         <div className="profile-header">
           <h2>Essas são todas as suas disciplinas</h2>
         </div>
+        <p>Aqui iremos mostrar todas as disciplinas cadastradas em seu nome</p>
       </PageHeader>
 
       <main>
