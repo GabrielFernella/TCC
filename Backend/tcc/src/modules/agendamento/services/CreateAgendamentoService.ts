@@ -18,6 +18,7 @@ import { ICreateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 import Agendamento, { StatusAula } from '../infra/typeorm/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
+
 @injectable()
 class CreateAgendamentoService {
   constructor(
@@ -46,6 +47,7 @@ class CreateAgendamentoService {
     let pixProfessor = '';
     let valorDisciplina = 0;
     let titleDisciplina = '';
+    const hourEnd = dto.date.hourStart + 1;
 
     // Validar se a data ainda vai ocorrer
     if (dateAtual > dto.date.day) {
@@ -53,7 +55,7 @@ class CreateAgendamentoService {
     }
 
     // Validar se a hora de entrada é maior do que a de saída
-    if (dto.date.hourEnd > dto.date.hourStart) {
+    if (hourEnd > dto.date.hourStart) {
       throw new AppError('Hora de Saída maior que hora de entrada!');
     }
 
@@ -95,7 +97,7 @@ class CreateAgendamentoService {
         aluno.agendamentos.filter(
           a =>
             a.data === dto.date.day &&
-            (a.entrada === dto.date.hourStart || a.saida === dto.date.hourEnd),
+            (a.entrada === dto.date.hourStart || a.saida === hourEnd),
         )
       ) {
         throw new AppError('Aluno já tem um agendamento neste horário!');
@@ -123,10 +125,22 @@ class CreateAgendamentoService {
             a =>
               a.data === dto.date.day &&
               (a.entrada === dto.date.hourStart ||
-                a.saida === dto.date.hourEnd),
+                a.saida === hourEnd),
           )
         ) {
           throw new AppError('Professor já tem um agendamento neste horário!');
+        }
+
+        // Validar se Professor contém a disponibilidade para esta aula
+        if(
+          !professor.disponibilidades.filter(
+            d => d.diaSemana === dto.date.day.getDay() && //Dia da semana Igual
+            dto.date.hourStart >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
+            hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
+          )
+        )
+        {
+          throw new AppError('Disponibilidade Inválida!')
         }
 
         pixProfessor = professor.pix;

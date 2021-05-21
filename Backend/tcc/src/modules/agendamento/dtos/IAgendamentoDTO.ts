@@ -5,7 +5,6 @@ interface IStatusAgendamento {
 interface IDate {
   day: Date;
   hourStart: number;
-  hourEnd: number;
 }
 
 export interface ICreateAgendamentoDTO {
