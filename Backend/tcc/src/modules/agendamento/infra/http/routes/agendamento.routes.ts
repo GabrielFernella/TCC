@@ -2,45 +2,50 @@ import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 import ensureAuthenticated from '@modules/professor/infra/http/middlewares/ensureAuthenticated';
-import DisciplinaController from '../controllers/DisciplinaController';
+import AgendamentoController from '../controllers/AgendamentoController';
 
-const disciplinaRouter = Router();
-const disciplinaController = new DisciplinaController();
+const agendamentoRouter = Router();
+const agendamentoController = new AgendamentoController();
 
 // Listagem Disciplina
-disciplinaRouter.get('/list', disciplinaController.listAllDisciplina);
+agendamentoRouter.get('/list', agendamentoController.listAllByProfessor);
 
 // Show all disciplina do professor_id
-disciplinaRouter.get(
+agendamentoRouter.get(
   '/find',
   celebrate({
     [Segments.BODY]: {
       disciplina_id: Joi.string().required(),
     },
   }),
-  disciplinaController.findDisciplina,
+  agendamentoController.create,
 );
 
-// Autenticar Usuário
-disciplinaRouter.use(ensureAuthenticated);
 
 // Create Dsiciplina
-disciplinaRouter.post(
+agendamentoRouter.post(
   '/create',
   celebrate({
     [Segments.BODY]: {
-      // professor_id: Joi.string().required(),
-      titulo: Joi.string().required(),
-      tag: Joi.array().required(), // pode ser um array de string
-      descricao: Joi.string().required(),
-      valor: Joi.number().required(),
+      date: Joi.string().required(),
+      link: Joi.string().required(),
+      status: Joi.number().required(),
+      nota: Joi.string().required(),
+      opiniao: Joi.string().required(),
+      aluno_id: Joi.string().required(),
+      professor_id: Joi.string().required(),
+      disciplina_id: Joi.string().required(),
     },
   }),
-  disciplinaController.create,
+  agendamentoController.create,
 );
 
+
+// Autenticar Usuário
+agendamentoRouter.use(ensureAuthenticated);
+
 // Update Disciplina
-disciplinaRouter.put(
+agendamentoRouter.put(
   '/update',
   celebrate({
     [Segments.BODY]: {
@@ -51,11 +56,11 @@ disciplinaRouter.put(
       valor: Joi.number().required(),
     },
   }),
-  disciplinaController.update,
+  agendamentoController.create,
 );
 
 // Update Disciplina -> AddAvaliacao
-disciplinaRouter.put(
+agendamentoRouter.put(
   '/avaliacao',
   celebrate({
     [Segments.BODY]: {
@@ -64,21 +69,21 @@ disciplinaRouter.put(
       mediaAvaliacao: Joi.number().required(),
     },
   }),
-  disciplinaController.addAvaliacao,
+  agendamentoController.create,
 );
 
 // Delete Disciplina #
-disciplinaRouter.delete(
+agendamentoRouter.delete(
   '/delete',
   celebrate({
     [Segments.BODY]: {
       disciplina_id: Joi.string().required(),
     },
   }),
-  disciplinaController.delete,
+  agendamentoController.create,
 );
 
-export default disciplinaRouter;
+export default agendamentoRouter;
 
 /*
 professor_id

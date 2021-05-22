@@ -1,3 +1,5 @@
+import { StatusAula } from "../infra/typeorm/entities/Agendamento";
+
 interface IStatusAgendamento {
   status: 'processando' | 'confirmacao' | 'efetivado' | 'cancelado';
 }
@@ -9,7 +11,18 @@ interface IDate {
 
 export interface ICreateAgendamentoDTO {
   date: IDate;
-  status: string;
+  status: StatusAula;
+  link: string;
+  nota: string;
+  opiniao: string;
+  disciplina_id: string;
+  professor_id: string;
+  aluno_id: string;
+}
+
+export interface ICreateAgendamentoDTO2 {
+  date: IDate;
+  status: StatusAula;
   link: string;
   nota: string;
   opiniao: string;

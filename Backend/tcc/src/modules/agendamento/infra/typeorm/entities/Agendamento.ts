@@ -43,7 +43,7 @@ export default class Agendamento {
   link: string;
 
   @Column()
-  status: StatusAula = StatusAula.Agendada;
+  status: StatusAula;
 
   @Column()
   nota: string;

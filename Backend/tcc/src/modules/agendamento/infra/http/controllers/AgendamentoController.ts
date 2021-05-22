@@ -79,11 +79,10 @@ export default class AgendamentoController {
       disciplina_id,
       professor_id,
       aluno_id,
-      pagamento_id,
     } = request.body;
 
     const listAgendamentos = container.resolve(CreateAgendamentoService);
-    const agendamento = listAgendamentos.execute({
+    const agendamento = await listAgendamentos.execute({
       date,
       status,
       link,
@@ -92,7 +91,6 @@ export default class AgendamentoController {
       disciplina_id,
       professor_id,
       aluno_id,
-      pagamento_id,
     });
 
     return response.json(classToClass(agendamento));

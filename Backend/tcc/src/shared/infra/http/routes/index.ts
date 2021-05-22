@@ -13,6 +13,10 @@ import professorPasswordRouter from '@modules/professor/infra/http/routes/passwo
 import disponibilidadeRouter from '@modules/professor/infra/http/routes/disponibilidade.routes';
 import disciplinaRouter from '@modules/professor/infra/http/routes/disciplina.routes';
 
+import agendamentoRouter from '@modules/agendamento/infra/http/routes/agendamento.routes';
+
+
+
 // Routes
 const routes = Router();
 
@@ -26,5 +30,7 @@ routes.use('/profpass', professorPasswordRouter);
 
 routes.use('/disponibilidade', disponibilidadeRouter);
 routes.use('/disciplina', disciplinaRouter);
+
+routes.use('/agendamento', agendamentoRouter);
 
 export default routes;

@@ -5,6 +5,7 @@ import IAgendamentoRepository from '@modules/agendamento/repositories/IAgendamen
 import {
   ICreateAgendamentoDTO,
   IUpdateAgendamentoDTO,
+  ICreateAgendamentoDTO2,
 } from '@modules/agendamento/dtos/IAgendamentoDTO';
 import Agendamento from '../entities/Agendamento';
 
@@ -13,6 +14,9 @@ class AgendamentoRepository implements IAgendamentoRepository {
 
   constructor() {
     this.ormRepository = getRepository(Agendamento);
+  }
+  create2(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
+    throw new Error('Method not implemented.');
   }
 
   public async findById(
@@ -44,7 +48,7 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return result;
   }
 
-  public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
+  public async create(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
     const createAgendamento = this.ormRepository.create(data);
     await this.ormRepository.save(createAgendamento);
 
@@ -63,7 +67,7 @@ class AgendamentoRepository implements IAgendamentoRepository {
         status === 'cancelado'
       )
     ) { */
-    await this.ormRepository.update(id, { status });
+    //await this.ormRepository.update(id, { status });
     const result = await this.ormRepository.findOne(id);
     return result;
   }

@@ -39,7 +39,7 @@ class CreateAgendamentoService {
 
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
-  ) {}
+  ) { }
 
   public async execute(dto: ICreateAgendamentoDTO): Promise<Agendamento> {
     const dateAtual = new Date();
@@ -92,16 +92,20 @@ class CreateAgendamentoService {
         throw new AppError('Aluno está bloqueado pelo sistema!');
       }
 
-      // Validar se Aluno contém uma aula no mesmo horário
-      if (
-        aluno.agendamentos.filter(
-          a =>
-            a.data === dto.date.day &&
-            (a.entrada === dto.date.hourStart || a.saida === hourEnd),
+      // Validar se Aluno contém uma aula no mesmo horário(alterado)
+      if (aluno.agendamentos) {
+        const result = aluno.agendamentos.filter(a => {
+          if (a.data === dto.date.day && (a.entrada === dto.date.hourStart || a.saida === hourEnd)) {
+            return true
+          }
+          return false
+        }
         )
-      ) {
-        throw new AppError('Aluno já tem um agendamento neste horário!');
+        if (result.length >= 1) {
+          throw new AppError('Aluno já tem um agendamento neste horário!');
+        }
       }
+
 
       alunoEmail = aluno.email;
     });
@@ -120,28 +124,32 @@ class CreateAgendamentoService {
         }
 
         // Validar se Professor contém uma aula no mesmo horário
-        if (
-          professor.agendamentos.filter(
-            a =>
-              a.data === dto.date.day &&
-              (a.entrada === dto.date.hourStart ||
-                a.saida === hourEnd),
-          )
-        ) {
-          throw new AppError('Professor já tem um agendamento neste horário!');
+        if (professor.agendamentos) {
+          if (
+            professor.agendamentos.filter(
+              a =>
+                a.data === dto.date.day &&
+                (a.entrada === dto.date.hourStart ||
+                  a.saida === hourEnd),
+            )
+          ) {
+            throw new AppError('Professor já tem um agendamento neste horário!');
+          }
         }
 
+
         // Validar se Professor contém a disponibilidade para esta aula
-        if(
+
+        if (
           !professor.disponibilidades.filter(
             d => d.diaSemana === dto.date.day.getDay() && //Dia da semana Igual
-            dto.date.hourStart >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
-            hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
+              dto.date.hourStart >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
+              hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
           )
-        )
-        {
+        ) {
           throw new AppError('Disponibilidade Inválida!')
         }
+
 
         pixProfessor = professor.pix;
       });
@@ -157,7 +165,7 @@ class CreateAgendamentoService {
       valor: valorDisciplina,
     });
 
-    const result = await this.agendamentoRepository.create({
+    const result = await this.agendamentoRepository.create2({
       ...dto,
       pagamento_id: pagamento.id,
     });
