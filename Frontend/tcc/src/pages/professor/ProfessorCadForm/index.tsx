@@ -68,7 +68,7 @@ const Profile: React.FC = () => {
     <div id="page-teacher-form" className="container">
       <Toaster />
 
-      <PageHeader page="Meu perfil" background={backgroundImg}>
+      <PageHeader page="Cadastro Professor" background={backgroundImg}>
         <div className="profile-header">
           <h2>Que bom que você deseja dar aulas!</h2>
           <p>Faça seu cadastro e junte-se a outros professores.</p>
@@ -84,9 +84,9 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="Ricardo"
-                  label="Nome"
+                  label="Nome *"
                   name="name"
-                  maxLength={255}
+                  maxLength={120}
                   value={name || ''}
                   onChange={e => setName(e.target.value)}
                 />
@@ -95,7 +95,7 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="999.999.999-99"
-                  label="CPF"
+                  label="CPF *"
                   name="cpf"
                   mask="money"
                   maxLength={11}
@@ -108,10 +108,10 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="ricardo@email.com"
-                  label="E-mail"
+                  label="E-mail *"
                   name="email"
                   value={email || ''}
-                  maxLength={255}
+                  maxLength={100}
                   type="email"
                   onChange={e => setEmail(e.target.value)}
                 />
@@ -119,7 +119,7 @@ const Profile: React.FC = () => {
               <div id="password-info">
                 <Input
                   required
-                  label="Password"
+                  label="Senha *"
                   name="password"
                   type="password"
                   maxLength={32}
@@ -130,7 +130,7 @@ const Profile: React.FC = () => {
               <div id="password-confirmation">
                 <Input
                   required
-                  label="Confirmation Pass."
+                  label="Confirmar senha *"
                   name="confirmation"
                   type="password"
                   maxLength={32}
@@ -142,7 +142,7 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="http://avatar.com/myavatar"
-                  label="Avatar (URL)"
+                  label="Avatar (URL) *"
                   name="avatar"
                   value={avatar || ''}
                   onChange={e => setAvatar(e.target.value)}
@@ -152,9 +152,10 @@ const Profile: React.FC = () => {
                 <Input
                   required
                   placeholder="E-mail ou Telefone ou CPF"
-                  label="PIX"
+                  label="PIX * (Chave PIX )"
                   name="pix"
                   value={pix || ''}
+                  maxLength={100}
                   onChange={e => setPix(e.target.value)}
                 />
               </div>

@@ -56,11 +56,13 @@
         padding: 1.6rem;
         margin: 1.4rem;
         transition: 1s;
+        min-width: 200px;
+        max-width: 200px;
       }
 
       button:hover {
         background: #5b22e0;
-        margin-bottom: 4rem;
+        //margin-bottom: 4rem;
       }
     }
   }
@@ -72,6 +74,9 @@
 
     .profile-header {
       margin-top: 7rem;
+      p{
+        max-width: 100%;
+      }
     }
 
     .page-header {
@@ -83,6 +88,7 @@
     #content {
       .menu {
         display: block;
+        
       }
     }
   }

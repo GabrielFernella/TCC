@@ -159,6 +159,7 @@ const Disponibilidade: React.FC = () => {
       <main>
         <fieldset>
           <legend>Suas Disponibilidades</legend>
+
           {scheduleItems.map(scheduleItem => {
             return (
               <div key={scheduleItem.id} id="disponibilidade-content">
@@ -272,7 +273,7 @@ const Disponibilidade: React.FC = () => {
         <footer>
           <p>
             <img src={warningIcon} alt="Aviso importante" />
-            Importante! Preencha todos os dados
+            Importante! Não é permitido cadastrar o mesmo dia da semana com horários distintos, delete o cadastrado e crie um novo.
           </p>
         </footer>
       </main>

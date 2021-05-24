@@ -71,7 +71,9 @@ export default class AgendamentoController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const {
-      date,
+      data,
+      entrada,
+      saida,
       status,
       link,
       nota,
@@ -83,7 +85,9 @@ export default class AgendamentoController {
 
     const listAgendamentos = container.resolve(CreateAgendamentoService);
     const agendamento = await listAgendamentos.execute({
-      date,
+      data,
+      entrada,
+      saida,
       status,
       link,
       nota,

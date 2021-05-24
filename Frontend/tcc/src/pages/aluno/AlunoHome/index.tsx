@@ -32,13 +32,10 @@ const AlunoHome: React.FC = () => {
       <div id="content">
         <div className="menu">
           <Link to="/list-disciplina">
-            <Button name="disciplinas">Ver Disciplinas</Button>
-          </Link>
-          <Link to="/agendar">
-            <Button name="agendamentos">Agendar</Button>
+            <Button name="disciplinas">Disciplinas</Button>
           </Link>
           <Link to="/aluno-agenda">
-            <Button name="agendamentos">Meus agendamentos</Button>
+            <Button name="agendamentos">Agendamentos</Button>
           </Link>
           <Link to="/prof-cad-disciplina">
             <Button name="pendencias">Pendencias</Button>
@@ -47,7 +44,7 @@ const AlunoHome: React.FC = () => {
             <Button name="perfil">Perfil</Button>
           </Link>
           <Button name="perfil" onClick={handleDeleteUser}>
-            Logout
+            Sair
           </Button>
         </div>
       </div>

@@ -47,15 +47,15 @@ class CreateAgendamentoService {
     let pixProfessor = '';
     let valorDisciplina = 0;
     let titleDisciplina = '';
-    const hourEnd = dto.date.hourStart + 1;
+    const hourEnd = dto.entrada + 1;
 
     // Validar se a data ainda vai ocorrer
-    if (dateAtual > dto.date.day) {
+    if (dateAtual > dto.data) {
       throw new AppError('Data atual maior que data do agendamento!');
     }
 
     // Validar se a hora de entrada é maior do que a de saída
-    if (hourEnd > dto.date.hourStart) {
+    if (hourEnd > dto.entrada) {
       throw new AppError('Hora de Saída maior que hora de entrada!');
     }
 
@@ -95,7 +95,7 @@ class CreateAgendamentoService {
       // Validar se Aluno contém uma aula no mesmo horário(alterado)
       if (aluno.agendamentos) {
         const result = aluno.agendamentos.filter(a => {
-          if (a.data === dto.date.day && (a.entrada === dto.date.hourStart || a.saida === hourEnd)) {
+          if (a.data.getDay() === dto.data.getDay() && (a.entrada === dto.entrada || a.saida === hourEnd)) {
             return true
           }
           return false
@@ -118,7 +118,7 @@ class CreateAgendamentoService {
 
     await this.professorRepository
       .findById(dto.professor_id)
-      .then(professor => {
+      .then(async professor => {
         if (!professor) {
           throw new AppError('Não foi possível obter o professor!');
         }
@@ -128,8 +128,8 @@ class CreateAgendamentoService {
           if (
             professor.agendamentos.filter(
               a =>
-                a.data === dto.date.day &&
-                (a.entrada === dto.date.hourStart ||
+                a.data.getDay() === dto.data.getDay() &&
+                (a.entrada === dto.entrada ||
                   a.saida === hourEnd),
             )
           ) {
@@ -137,18 +137,18 @@ class CreateAgendamentoService {
           }
         }
 
-
         // Validar se Professor contém a disponibilidade para esta aula
-
+        const validadeDisponibilidade = professor.disponibilidades.filter(
+          d => d.diaSemana === dto.data.getDay() && //Dia da semana Igual
+            dto.entrada >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
+            hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
+        )
         if (
-          !professor.disponibilidades.filter(
-            d => d.diaSemana === dto.date.day.getDay() && //Dia da semana Igual
-              dto.date.hourStart >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
-              hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
-          )
+          !validadeDisponibilidade
         ) {
           throw new AppError('Disponibilidade Inválida!')
         }
+
 
 
         pixProfessor = professor.pix;

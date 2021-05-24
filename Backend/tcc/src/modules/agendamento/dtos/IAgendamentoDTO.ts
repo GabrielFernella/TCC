@@ -10,7 +10,9 @@ interface IDate {
 }
 
 export interface ICreateAgendamentoDTO {
-  date: IDate;
+  data: Date;
+  entrada: number;
+  saida: number;
   status: StatusAula;
   link: string;
   nota: string;
@@ -21,7 +23,9 @@ export interface ICreateAgendamentoDTO {
 }
 
 export interface ICreateAgendamentoDTO2 {
-  date: IDate;
+  data: Date;
+  entrada: number;
+  saida: number;
   status: StatusAula;
   link: string;
   nota: string;

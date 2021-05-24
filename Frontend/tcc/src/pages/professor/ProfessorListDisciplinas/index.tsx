@@ -114,6 +114,7 @@ const ProfessorListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
+          <p>Filtre por título ou por tag que melhor se encaixe com o que procura</p>
             <div id="searchButton">
               <Input
                 // label="Find"
@@ -123,7 +124,7 @@ const ProfessorListDisciplina: React.FC = () => {
                 onChange={e => setFind(e.target.value.toLocaleLowerCase())}
               />
               <button type="button" id="clear" onClick={clearFind}>
-                Clear
+                Limpar
               </button>
               <button type="button" onClick={findDisciplina}>
                 Procurar
@@ -166,8 +167,7 @@ const ProfessorListDisciplina: React.FC = () => {
 
         <footer>
           <p>
-            Importante! <br />
-            Preencha todos os dados
+            Selecione alguma opção para poder alterar ou crie uma nova disciplina.
           </p>
 
           <Link to="/prof-cad-disciplina">

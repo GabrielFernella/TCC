@@ -15,8 +15,11 @@ class AgendamentoRepository implements IAgendamentoRepository {
   constructor() {
     this.ormRepository = getRepository(Agendamento);
   }
-  create2(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
-    throw new Error('Method not implemented.');
+  public async create2(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
+    const createAgendamento = this.ormRepository.create(data);
+    await this.ormRepository.save(createAgendamento);
+
+    return createAgendamento;
   }
 
   public async findById(

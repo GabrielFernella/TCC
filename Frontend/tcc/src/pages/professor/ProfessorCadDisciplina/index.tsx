@@ -61,7 +61,7 @@ const Disciplina: React.FC = () => {
     <div id="page-disciplina" className="container">
       <Toaster />
       <PageHeader
-        page="Meu perfil"
+        page="Cadastro Disciplina"
         background={backgroundImg}
         home="/prof-home"
       >
@@ -74,12 +74,12 @@ const Disciplina: React.FC = () => {
       <main>
         <form onSubmit={handleCreateDisciplina}>
           <fieldset>
-            <legend>Dados Disciplina</legend>
+            <legend>Cadastro Disciplina</legend>
             <div id="disciplina-content">
               <div id="titulo-info">
                 <Input
                   required
-                  label="Titulo disciplina *"
+                  label="Título disciplina *"
                   name="disciplina"
                   placeholder="Desenvolvimento"
                   value={titulo || ''}
@@ -92,7 +92,7 @@ const Disciplina: React.FC = () => {
                   required
                   label="Tag *"
                   name="tag"
-                  placeholder="tag , tag"
+                  placeholder="tag , tag (palavras chave relacionado a disciplina, separar por vírgula)"
                   value={tag || ''}
                   onChange={e => {
                     changeHandler(e, e.target.value);

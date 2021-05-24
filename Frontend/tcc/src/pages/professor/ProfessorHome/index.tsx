@@ -22,33 +22,31 @@ const ProfessorHome: React.FC = () => {
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
           <p>
-            Navegue pelo menu com facilidade, aqui disponibilizamos os
-            principais recursos da plataforma.
+            Navegue pelo menu com facilidade, aqui disponibilizamos os principais recursos da plataforma.
           </p>
         </div>
       </PageHeader>
 
       <div id="content">
         <div className="menu">
-          <Link to="/prof-cad-disciplina">
-            <Button name="disciplina">Cad. Disciplina</Button>
-          </Link>
-          <Link to="/prof-list-disciplina">
-            <Button name="disponibilidade">Lista Disponibilidade</Button>
-          </Link>
-          <Link to="/prof-disponibilidade">
-            <Button name="disponibilidade">Cad. Disponibilidade</Button>
-          </Link>
 
+          <Link to="/prof-list-disciplina">
+            <Button name="disponibilidade">Disciplinas</Button>
+          </Link>
           <Link to="/prof-agenda">
             <Button name="agendamentos">Agendamentos</Button>
           </Link>
+          <Link to="/prof-disponibilidade">
+            <Button name="disponibilidade">Disponibilidade</Button>
+          </Link>
+
+          
           <Link to="/prof-up-form">
             <Button name="perfil">Perfil</Button>
           </Link>
 
           <Button name="perfil" onClick={handleDeleteUser}>
-            Logout
+            Sair
           </Button>
         </div>
       </div>
@@ -59,3 +57,10 @@ const ProfessorHome: React.FC = () => {
 };
 
 export default ProfessorHome;
+
+
+/*
+          <Link to="/prof-cad-disciplina">
+            <Button name="disciplina">Cad. Disciplina</Button>
+          </Link>
+*/
