@@ -11,7 +11,7 @@ import Input from '../../../components/Input';
 import './styles.scss';
 import api from '../../../services/api';
 
-interface IResponse {
+interface IResponse{
   id: string;
   titulo: string;
   tag: string[];
@@ -29,15 +29,16 @@ const ProfessorListDisciplina: React.FC = () => {
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Find disciplina
-  function findDisciplina() {
-    disciplina.filter(value => {
+  function findDisciplina(find: string) {
+
+    disciplina.filter(async value => {
       if (value.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()) {
         listagem.push(value);
       }
 
       value.tag.filter(tags => {
         const newTag = tags.replace(/\s/g, '');
-        if (newTag === find) {
+        if (newTag.toLowerCase() === find.toLocaleLowerCase()) {
           listagem.push(value);
         }
         return '';
@@ -50,6 +51,7 @@ const ProfessorListDisciplina: React.FC = () => {
       setDisciplina(listagem);
     } else {
       listDisciplinas();
+      listagem.length = 0;
     }
   }
 
@@ -121,12 +123,12 @@ const ProfessorListDisciplina: React.FC = () => {
                 name="name"
                 maxLength={255}
                 value={find || ''}
-                onChange={e => setFind(e.target.value.toLocaleLowerCase())}
+                onChange={e => setFind(e.target.value)}
               />
               <button type="button" id="clear" onClick={clearFind}>
                 Limpar
               </button>
-              <button type="button" onClick={findDisciplina}>
+              <button type="button" onClick={() => findDisciplina(find)}>
                 Procurar
               </button>
             </div>

@@ -13,6 +13,7 @@ interface IHeaders {
   id: string;
 }
 
+
 export default class DisciplinaController {
   // Listagem Disciplina
   public async listAllDisciplina(

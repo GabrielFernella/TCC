@@ -58,7 +58,7 @@ const ListDisciplina: React.FC = () => {
   }
 
   // Find disciplina
-  function findDisciplina() {
+  function findDisciplina(find: string) {
     disciplina.filter(value => {
       if (
         value.disciplina.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()
@@ -68,7 +68,7 @@ const ListDisciplina: React.FC = () => {
 
       value.disciplina.tag.filter(tags => {
         const newTag = tags.replace(/\s/g, '');
-        if (newTag === find) {
+        if (newTag.toLowerCase() === find.toLocaleLowerCase()) {
           listagem.push(value);
         }
         return '';
@@ -142,12 +142,12 @@ const ListDisciplina: React.FC = () => {
                 name="name"
                 maxLength={255}
                 value={find || ''}
-                onChange={e => setFind(e.target.value.toLocaleLowerCase())}
+                onChange={e => setFind(e.target.value)}
               />
               <button type="button" id="clear" onClick={clearFind}>
                 Clear
               </button>
-              <button type="button" onClick={findDisciplina}>
+              <button type="button" onClick={() => findDisciplina(find)}>
                 Procurar
               </button>
             </div>
