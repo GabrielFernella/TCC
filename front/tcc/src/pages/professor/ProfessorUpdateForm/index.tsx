@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { useAuth } from '../../../hooks/auth';
@@ -12,6 +12,15 @@ import './styles.scss';
 import backgroundImg from '../../../assets/images/success-background.svg';
 // import { AuthContext } from '../../contexts/auth';
 import api from '../../../services/api';
+
+interface IUser{
+  name: string;
+  cpf: string;
+  email: string;
+  avatar: string;
+  pix: string;
+  biografia: string;
+}
 
 const UpdateProfessor: React.FC = () => {
   const { user } = useAuth();
@@ -27,6 +36,29 @@ const UpdateProfessor: React.FC = () => {
   const [biografia, setBiografia] = useState('');
 
   console.log(user);
+
+  useEffect(()=> {
+    handleShowProfile()
+  },[])
+
+  function handleShowProfile(){
+    api
+    .get(`professor/show/${user.id}`)
+    .then(response => {
+      //toast.success('Cadastro realizado com sucesso!');
+
+      setName(response.data.name);
+      setCpf(response.data.cpf);
+      setEmail(response.data.email);
+      setAvatar(response.data.avatar);
+      setPix(response.data.pix);
+      setBiografia(response.data.biografia);
+
+    })
+    .catch(() => {
+      toast.error('Ocorreu um erro ao carregar seus dados');
+    });
+  }
 
   function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
@@ -74,7 +106,7 @@ const UpdateProfessor: React.FC = () => {
     <div id="page-teacher-form" className="container">
       <Toaster />
 
-      <PageHeader page="Meu perfil" background={backgroundImg}>
+      <PageHeader page="Meu perfil" background={backgroundImg} home="/prof-home">
         <div className="profile-header">
           <h2>Que bom que você deseja dar aulas!</h2>
           <p>Faça seu cadastro e junte-se a outros professores.</p>
@@ -122,26 +154,7 @@ const UpdateProfessor: React.FC = () => {
                   onChange={e => setEmail(e.target.value)}
                 />
               </div>
-              <div id="password-info">
-                <Input
-                  label="Password"
-                  name="password"
-                  type="password"
-                  maxLength={32}
-                  value={password || ''}
-                  onChange={e => setPassword(e.target.value)}
-                />
-              </div>
-              <div id="password-confirmation">
-                <Input
-                  label="Confirmation Pass."
-                  name="confirmation"
-                  type="password"
-                  maxLength={32}
-                  value={passwordConf || ''}
-                  onChange={e => setPasswordConf(e.target.value)}
-                />
-              </div>
+            
               <div id="avatar-info">
                 <Input
                   placeholder="http://avatar.com/myavatar"
@@ -189,3 +202,27 @@ const UpdateProfessor: React.FC = () => {
 };
 
 export default UpdateProfessor;
+
+
+/*
+  <div id="password-info">
+                <Input
+                  label="Password"
+                  name="password"
+                  type="password"
+                  maxLength={32}
+                  value={password || ''}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </div>
+              <div id="password-confirmation">
+                <Input
+                  label="Confirmation Pass."
+                  name="confirmation"
+                  type="password"
+                  maxLength={32}
+                  value={passwordConf || ''}
+                  onChange={e => setPasswordConf(e.target.value)}
+                />
+              </div>
+*/

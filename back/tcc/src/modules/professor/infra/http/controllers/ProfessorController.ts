@@ -2,10 +2,24 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
+import ShowProfessorService from '@modules/professor/services/ProfessorServices/ShowProfessorService';
 import CreateProfessorService from '@modules/professor/services/ProfessorServices/CreateProfessorService';
 import UpdateProfessorService from '@modules/professor/services/ProfessorServices/UpdateProfessorService';
 
+
 export default class TeachersController {
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { professor_id } = request.params;
+
+    const showUser = container.resolve(ShowProfessorService);
+
+    const user = await showUser.execute(professor_id);
+
+    return response.status(200).json(classToClass(user));
+  }
+
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, cpf, email, password, avatar, pix, biografia } = request.body;
 

@@ -26,30 +26,32 @@ const Profile: React.FC = () => {
 
     if (!(password === passwordConf)) {
       toast.error('Password não confere');
+    }else{
+      if (name && cpf && email && password && passwordConf && avatar && pix) {
+        api
+          .post('aluno/create', {
+            name,
+            cpf,
+            email,
+            password,
+            avatar,
+            pix,
+          })
+          .then(() => {
+            toast.success('Cadastro realizado com sucesso!');
+            history.push('/aluno-login');
+          })
+          .catch(() => {
+            toast.error('Não foi possível efetuar o cadastro, tente novamente');
+          });
+      } else {
+        toast.error(
+          'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
+        );
+      }
     }
 
-    if (name && cpf && email && password && passwordConf && avatar && pix) {
-      api
-        .post('aluno/create', {
-          name,
-          cpf,
-          email,
-          password,
-          avatar,
-          pix,
-        })
-        .then(() => {
-          toast.success('Cadastro realizado com sucesso!');
-          history.push('/aluno-login');
-        })
-        .catch(() => {
-          toast.error('Não foi possível efetuar o cadastro, tente novamente');
-        });
-    } else {
-      toast.error(
-        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
-      );
-    }
+   
   }
 
   return (

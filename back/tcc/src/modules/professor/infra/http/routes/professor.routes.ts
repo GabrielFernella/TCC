@@ -12,6 +12,12 @@ const professorRouter = Router();
 const professorController = new ProfessorController();
 
 // const upload = multer(uploadConfig.multer);
+// '/find/:disciplina_id',
+professorRouter.get('/show/:professor_id', celebrate({
+  [Segments.PARAMS]: {
+    professor_id: Joi.string().required()
+  }
+}), professorController.show)
 
 professorRouter.post(
   '/create',
