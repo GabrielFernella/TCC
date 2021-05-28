@@ -5,11 +5,15 @@ import { celebrate, Joi, Segments } from 'celebrate';
 // import uploadConfig from '@config/upload';
 
 import ProfessorController from '../controllers/ProfessorController';
+import ResetPasswordController from '../controllers/ResetPasswordController';
+
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const professorRouter = Router();
 const professorController = new ProfessorController();
+const resetPasswordController = new ResetPasswordController();
+
 
 // const upload = multer(uploadConfig.multer);
 // '/find/:disciplina_id',
@@ -34,6 +38,16 @@ professorRouter.post(
   }),
   professorController.create,
 );
+
+professorRouter.use(ensureAuthenticated);
+
+professorRouter.post('/reset', celebrate({
+  [Segments.BODY]: {
+    token: Joi.string().uuid().required(),
+    password: Joi.string().required(),
+    password_confirmation: Joi.string().valid(Joi.ref('password')),
+  }
+}), resetPasswordController.create)
 
 /* usersRouter.patch(
   '/avatar',

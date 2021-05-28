@@ -25,9 +25,12 @@ class AuthenticateUserService {
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
 
+    @inject('ProfessorTokensRepository')
+    private professorTokensRepository: IProfessorTokensRepository,
+
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-  ) {}
+  ) { }
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     // Validate email
@@ -53,7 +56,7 @@ class AuthenticateUserService {
       expiresIn,
     });
 
-    // await this.professorTokensRepository.generate(user.id);
+    await this.professorTokensRepository.generate(user.id);
 
     return {
       user,
