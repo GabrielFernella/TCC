@@ -30,7 +30,7 @@ class ListDisciplinaService {
 
     @inject('DisponibilidadeRepository')
     private disponibilidadeRepository: IDisponibilidadeRepository,
-  ) {}
+  ) { }
 
   public async execute(): Promise<IResponse[]> {
     let values: IResponse;

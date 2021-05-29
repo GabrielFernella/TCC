@@ -11,34 +11,39 @@ class AddAvaliacaoDisciplinaService {
   constructor(
     @inject('DisciplinaRepository')
     private disciplinaRepository: IDisciplinaRepository,
-  ) {}
+  ) { }
 
   public async execute(
     professor_id: string,
     data: IAddAvaliacaoDTO,
   ): Promise<Disciplina> {
-    // Procurando se há essa disciplina
+    try {
+      // Procurando se há essa disciplina
 
-    const findDisciplina = await this.disciplinaRepository.findByID(
-      data.disciplina_id,
-    );
-
-    if (!findDisciplina) {
-      throw new AppError('Disciplina não encontrada.');
-    }
-    if (findDisciplina.professor_id !== professor_id) {
-      throw new AppError(
-        'Esse professor não pertence a disciplina selecionada.',
+      const findDisciplina = await this.disciplinaRepository.findByID(
+        data.disciplina_id,
       );
-    }
-    // Chamando a repository
-    const updateDisciplina = await this.disciplinaRepository.addAvaliacao(data);
 
-    if (!updateDisciplina) {
-      throw new AppError('Disciplina not found');
-    }
+      if (!findDisciplina) {
+        throw new AppError('Disciplina não encontrada.');
+      }
+      if (findDisciplina.professor_id !== professor_id) {
+        throw new AppError(
+          'Esse professor não pertence a disciplina selecionada.',
+        );
+      }
+      // Chamando a repository
+      const updateDisciplina = await this.disciplinaRepository.addAvaliacao(data);
 
-    return updateDisciplina;
+      if (!updateDisciplina) {
+        throw new AppError('Disciplina not found');
+      }
+
+      return updateDisciplina;
+
+    } catch (error) {
+      throw new AppError('Erro ao adicionar a avaliação.');
+    }
   }
 }
 

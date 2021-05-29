@@ -16,5 +16,5 @@ export default interface IPagamentoRepository {
   create(data: ICreatePagamentoDTO): Promise<Pagamento>;
 
   // update uma disciplina no banco
-  create(data: IUpdatePagamentoDTO): Promise<Pagamento>;
+  update(data: IUpdatePagamentoDTO): Promise<Pagamento>;
 }

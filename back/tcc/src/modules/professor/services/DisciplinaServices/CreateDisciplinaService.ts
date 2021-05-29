@@ -23,7 +23,7 @@ class CreateDisciplinaService {
 
     @inject('DisciplinaRepository')
     private disciplinaRepository: IDisciplinaRepository,
-  ) {}
+  ) { }
 
   public async execute({
     professor_id,

@@ -17,18 +17,18 @@ class TokenUserService {
 
     @inject('ProfessorTokensRepository')
     private professorTokensRepository: IProfessorTokensRepository,
-  ) {}
+  ) { }
 
   public async execute(testToken: string): Promise<string> {
     // console.log(testToken);
     // Procurando o token se está disponível no banco
-    /* const methToken = await this.professorTokensRepository.findByToken(
+    const methToken = await this.professorTokensRepository.findByToken(
       testToken,
     );
 
     if (!methToken) {
       throw new AppError('Token not found', 401);
-    } */
+    }
 
     return testToken;
   }

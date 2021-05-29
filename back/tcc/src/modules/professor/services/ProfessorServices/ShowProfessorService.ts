@@ -13,19 +13,19 @@ class ShowProfessorService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
-
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
   ) { }
 
   public async execute(professor_id: string): Promise<Professor> {
-    // Validate email
-    const user = await this.professorRepository.findById(professor_id);
-    if (!user) {
-      throw new AppError('Professor not found', 401);
-    }
+    try {
+      const user = await this.professorRepository.findById(professor_id);
+      if (!user) {
+        throw new AppError('Professor not found', 401);
+      }
+      return user;
 
-    return user;
+    } catch (error) {
+      throw new AppError('Professor_id não existe');
+    }
   }
 }
 
