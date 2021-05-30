@@ -26,6 +26,7 @@ import AlunoHome from '../pages/aluno/AlunoHome';
 import AlunoAgendamentos from '../pages/aluno/AlunoAgendamentos';
 import ListDisciplinas from '../pages/aluno/ListDisciplinas';
 import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
+import ListPendencias from '../pages/aluno/ListPendencias';
 
 // Testes
 import teste from '../pages/professor/ProfessorHome';
@@ -44,6 +45,7 @@ const Routes: React.FC = () => {
       <Route path="/list-disciplina" exact component={ListDisciplinas} />
       <Route path="/aluno-agenda" exact component={AlunoAgendamentos} />
       <Route path="/agendar" exact component={AgendarDisciplina} />
+      <Route path="/pendencias" exact component={ListPendencias} />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} />

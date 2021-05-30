@@ -33,7 +33,7 @@ interface IResponse {
   ];
 }
 
-const ListDisciplina: React.FC = () => {
+const ListPendencias: React.FC = () => {
   const history = useHistory();
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
@@ -49,8 +49,13 @@ const ListDisciplina: React.FC = () => {
     api
       .get('disciplina/list')
       .then(response => {
-        // console.log(response.data);
-        setDisciplina(response.data);
+        let disciplinas =response.data;
+        
+        setDisciplina(disciplinas.sort(function (listagem: IResponse, listagem2: IResponse){
+          let a = listagem.disciplina.titulo.toUpperCase();
+          let b = listagem2.disciplina.titulo.toUpperCase();
+          return a===b ? 0 : a > b ? 1 : -1;
+        }));
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -111,7 +116,6 @@ const ListDisciplina: React.FC = () => {
     }
   }
 
-
   function select(dados: IResponse) {
     history.push({
       pathname: '/agendar',
@@ -152,43 +156,40 @@ const ListDisciplina: React.FC = () => {
                 Procurar
               </button>
             </div>
-            
-            {
-    disciplina.map(list => (
-    <div key={list.disciplina.id} id="card">
-      <h2>{list.disciplina.titulo}</h2>
+            {disciplina.map(list => (
+              <div key={list.disciplina.id} id="card">
+                <h2>{list.disciplina.titulo}</h2>
 
-      <h3> + {list.professor.nome}</h3>
+                <h3> + {list.professor.nome}</h3>
 
-      <div>
-        <h4>Tags:</h4>
-        <p>
-          {list.disciplina.tag.map(t => (
-            <i key={t.toString()}>{t.toString()},&nbsp;</i>
-          ))}
-        </p>
-      </div>
+                <div>
+                  <h4>Tags:</h4>
+                  <p>
+                    {list.disciplina.tag.map(t => (
+                      <i key={t.toString()}>{t.toString()},&nbsp;</i>
+                    ))}
+                  </p>
+                </div>
 
-      <h4>Descrição:</h4>
-      <p id="desc">{list.disciplina.descricao}</p>
+                <h4>Descrição:</h4>
+                <p id="desc">{list.disciplina.descricao}</p>
 
-      <h4>Disponibilidades:</h4>
-      <p>
-        {list.disponibilidade.map(dispo =>
-          validateDay(dispo.diaSemana),
-        )}
-      </p>
+                <h4>Disponibilidades:</h4>
+                <p>
+                  {list.disponibilidade.map(dispo =>
+                    validateDay(dispo.diaSemana),
+                  )}
+                </p>
 
-      <div>
-        <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
-      </div>
+                <div>
+                  <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
+                </div>
 
-      <button type="button" onClick={() => select(list)}>
-        Ver disponibilidade
-      </button>
-    </div>
-  ))}
-            
+                <button type="button" onClick={() => select(list)}>
+                  Ver disponibilidade
+                </button>
+              </div>
+            ))}
           </div>
         </fieldset>
 
@@ -203,4 +204,4 @@ const ListDisciplina: React.FC = () => {
   );
 };
 
-export default ListDisciplina;
+export default ListPendencias;

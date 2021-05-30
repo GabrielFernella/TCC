@@ -7,7 +7,10 @@ interface User {
   id: string;
   name: string;
   email: string;
-  avatar_url: string;
+  cpf: string;
+  avatar: string;
+  pix: string;
+  biografia: string;
   provider: 'professor' | 'aluno';
 }
 

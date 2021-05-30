@@ -27,7 +27,7 @@ class AuthenticateAlunoService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-  ) {}
+  ) { }
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     // Validate email

@@ -49,6 +49,7 @@ const ProfessorHome: React.FC = () => {
             Sair
           </Button>
         </div>
+
       </div>
 
       <footer />
@@ -63,4 +64,16 @@ export default ProfessorHome;
           <Link to="/prof-cad-disciplina">
             <Button name="disciplina">Cad. Disciplina</Button>
           </Link>
+*/
+
+/*
+
+        <div>
+          <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
+          <div id='cards'>teste</div>
+          <div id='cards'>teste</div>
+          <div id='cards'>teste</div>
+          <div id='cards'>teste</div>
+          <div id='cards'>teste</div>
+        </div>
 */

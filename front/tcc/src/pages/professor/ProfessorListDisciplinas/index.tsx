@@ -69,8 +69,13 @@ const ProfessorListDisciplina: React.FC = () => {
     api
       .get('disciplina/list/prof')
       .then(response => {
-        // console.log(response.data);
-        setDisciplina(response.data);
+        let disciplinas =response.data;
+        
+        setDisciplina(disciplinas.sort(function (listagem: IResponse, listagem2: IResponse){
+          let a = listagem.titulo.toUpperCase();
+          let b = listagem2.titulo.toUpperCase();
+          return a===b ? 0 : a > b ? 1 : -1;
+        }));
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');

@@ -4,7 +4,7 @@ import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
-import api from '../../../services/api';
+//import api from '../../../services/api';
 
 interface IResponse {
   id: string;

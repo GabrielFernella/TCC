@@ -222,6 +222,7 @@ const Disponibilidade: React.FC = () => {
                   { value: '6', label: 'Sábado' },
                 ]}
               />
+              
             </div>
             <div id="entrada-info">
               <Input

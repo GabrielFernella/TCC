@@ -1,13 +1,9 @@
-#list-disciplina-professor {
+#page-teacher-profile {
   width: 100vw;
   height: 100vh;
   .page-header {
     .header-content {
       margin-bottom: 6.4rem;
-    }
-    p {
-      max-width: 100%;
-      //font-size: larger;
     }
   }
 
@@ -41,10 +37,8 @@
     max-width: 74rem;
     border-radius: 0.8rem;
     margin: -3.2rem auto 3.2rem;
-    padding-top: 2.4rem;
-
+    padding-top: 6.4rem;
     overflow: hidden;
-
     label {
       color: var(--color-text-complement);
     }
@@ -163,12 +157,6 @@
           }
         }
 
-        #btns {
-          button {
-            margin: 10px;
-          }
-        }
-
         #desc {
           word-break: break-word;
         }
@@ -192,33 +180,12 @@
           margin-right: 2rem;
         }
       }
-      button {
-        width: 100%;
-        height: 5.6rem;
-        background: #8257e5;
-        border: solid #8257e5;
-        color: var(--color-button-text);
-        //border: 0;
-        border-radius: 0.8rem;
-        cursor: pointer;
-        font: 700 1.6rem Archivo;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: background-color 0.5s;
-        margin-top: 3.2rem;
-        &:hover {
-          background: #6c3cdd;
-        }
-      }
     }
   }
-  
 }
 
 @media (min-width: 700px) {
-  #list-disciplina-professor {
+  #page-teacher-profile {
     max-width: 100vw;
 
     .profile-header {
@@ -262,7 +229,6 @@
         }
       }
     }
-    transition: 1s;
   }
 
   #subject-info,

@@ -37,7 +37,7 @@ const AlunoHome: React.FC = () => {
           <Link to="/aluno-agenda">
             <Button name="agendamentos">Agendamentos</Button>
           </Link>
-          <Link to="/prof-cad-disciplina">
+          <Link to="/pendencias">
             <Button name="pendencias">Pendencias</Button>
           </Link>
           <Link to="/aluno-form">

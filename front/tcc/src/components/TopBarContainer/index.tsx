@@ -4,6 +4,9 @@ import backIcon from '../../assets/images/icons/back.svg';
 import leaveIcon from '../../assets/images/icons/leave.svg';
 import logoImg from '../../assets/images/logoprincipal.png'; // logo.svg
 
+
+import { useAuth } from '../../hooks/auth';
+
 import './styles.scss';
 // import { AuthContext } from '../../contexts/auth';
 
@@ -36,6 +39,7 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
   home,
 }) => {
   const history = useHistory();
+  const { user } = useAuth();
   return (
     <div
       className={`holder-top-bar ${!profile || (transparent && 'holder-dark')}`}
@@ -45,7 +49,7 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
           <Link to="/profile" className="profile-button">
             <img src="" alt="Perfil" />
           </Link>
-          <p>{title}</p>
+          <p>{title}-{user.name}</p>
           <img src={leaveIcon} alt="Sair" />
         </div>
       ) : (
@@ -53,7 +57,7 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
           <button type="button" onClick={() => history.goBack()}>
             <img src={backIcon} alt="Voltar" />
           </button>
-          <p>{title}</p>
+          <p>{title} - {user?.name}</p>
           <Link to={HomePath(home)}>
             <img id="imgWeb" src={logoImg} alt="Web Educa" />
           </Link>

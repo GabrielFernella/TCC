@@ -23,7 +23,7 @@ const Profile: React.FC = () => {
   const [pix, setPix] = useState('');
   const [biografia, setBiografia] = useState('');
 
-  function handleCreateProfile(e: FormEvent) {
+  async function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
@@ -40,7 +40,7 @@ const Profile: React.FC = () => {
         pix &&
         biografia
       ) {
-        api
+        await api
           .post('professor/create', {
             name,
             cpf,
@@ -54,13 +54,14 @@ const Profile: React.FC = () => {
             toast.success('Cadastro realizado com sucesso!');
             history.push('/prof-login');
           })
-          .catch(() => {
-            toast.error('Não foi possível efetuar o cadastro, tente novamente');
+          .catch(error => {
+            toast.error('Não foi possível efetuar o cadastro, tente novamente. Error: '+ error.response.data.message);
           });
       } else {
         toast.error(
           'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
         );
+        
       }
 
     }

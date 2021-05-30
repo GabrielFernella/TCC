@@ -21,14 +21,14 @@ const Profile: React.FC = () => {
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
 
-  function handleCreateProfile(e: FormEvent) {
+  async function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
       toast.error('Password não confere');
     }else{
       if (name && cpf && email && password && passwordConf && avatar && pix) {
-        api
+        await api
           .post('aluno/create', {
             name,
             cpf,
@@ -41,8 +41,8 @@ const Profile: React.FC = () => {
             toast.success('Cadastro realizado com sucesso!');
             history.push('/aluno-login');
           })
-          .catch(() => {
-            toast.error('Não foi possível efetuar o cadastro, tente novamente');
+          .catch(error => {
+            toast.error('Não foi possível efetuar o cadastro, tente novamente'+ error.response.data.message);
           });
       } else {
         toast.error(

@@ -56,7 +56,7 @@ class AuthenticateUserService {
       expiresIn,
     });
 
-    await this.professorTokensRepository.generate(user.id);
+    //await this.professorTokensRepository.generate(user.id);
 
     return {
       user,
