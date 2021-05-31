@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import CreateAlunoService from '@modules/aluno/services/CreateAlunoService';
+import UpdateAlunoService from '@modules/aluno/services/UpdateAlunoService';
 
 export default class AlunoController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -20,5 +21,20 @@ export default class AlunoController {
     });
 
     return response.json(classToClass(user));
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    // Buscando o id do middleware, evita que p usuário acesse sem permissão
+    const { id } = request.user;
+    const { avatar, pix } = request.body;
+
+    const updateUser = container.resolve(UpdateAlunoService);
+
+    const updated = await updateUser.execute(id, {
+      avatar,
+      pix,
+    });
+
+    return response.status(201).json(classToClass(updated));
   }
 }

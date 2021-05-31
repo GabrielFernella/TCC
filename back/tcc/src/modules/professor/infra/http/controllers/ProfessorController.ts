@@ -6,9 +6,7 @@ import ShowProfessorService from '@modules/professor/services/ProfessorServices/
 import CreateProfessorService from '@modules/professor/services/ProfessorServices/CreateProfessorService';
 import UpdateProfessorService from '@modules/professor/services/ProfessorServices/UpdateProfessorService';
 
-
 export default class TeachersController {
-
   public async show(request: Request, response: Response): Promise<Response> {
     const { professor_id } = request.params;
 
@@ -18,7 +16,6 @@ export default class TeachersController {
 
     return response.status(200).json(classToClass(user));
   }
-
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, cpf, email, password, avatar, pix, biografia } = request.body;

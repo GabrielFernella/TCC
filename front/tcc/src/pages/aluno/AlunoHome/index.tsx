@@ -40,7 +40,7 @@ const AlunoHome: React.FC = () => {
           <Link to="/pendencias">
             <Button name="pendencias">Pendencias</Button>
           </Link>
-          <Link to="/aluno-form">
+          <Link to="/aluno-up-form">
             <Button name="perfil">Perfil</Button>
           </Link>
           <Button name="perfil" onClick={handleDeleteUser}>

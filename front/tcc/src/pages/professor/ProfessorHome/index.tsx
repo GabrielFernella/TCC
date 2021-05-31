@@ -16,6 +16,8 @@ const ProfessorHome: React.FC = () => {
     history.push('/');
   }
 
+
+
   return (
     <div id="page-home" className="container">
       <PageHeader page="Home" background={backgroundImg} home="/prof-home">
@@ -45,14 +47,27 @@ const ProfessorHome: React.FC = () => {
             <Button name="perfil">Perfil</Button>
           </Link>
 
-          <Button name="perfil" onClick={handleDeleteUser}>
+          <Button name="perfil" onClick={
+            e =>
+            window.confirm("Você deseja realmente sair?") && handleDeleteUser()
+          }>
             Sair
           </Button>
+        </div>
+
+        <div id="listCards">
+          <div className='cards'> <p>Mensagem de Gabriel fernella: Boa noite professor, gostaria que fosse abordado Boa noite professor, gostaria que fosse abordado Boa noite professor, gostaria que fosse abordado</p></div>
+         <div className='cards'> <p>Mensagem de Samanta: Boa noite professor, gostaria que fosse abordado</p></div>
+          <div className='cards' id='green'> <p>Agendamento Realizado: Java 05/10/2021</p></div>
+          <div className='cards' id='red'> <p>Agendamento Cancelado de Gabriel fernella: Java 05/10/2021</p></div>
+          <div className='cards' id='green'> <p>Agendamento Realizado: Java 05/10/2021</p></div>
         </div>
 
       </div>
 
       <footer />
+      <br />
+      <br />
     </div>
   );
 };
@@ -70,10 +85,10 @@ export default ProfessorHome;
 
         <div>
           <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
-          <div id='cards'>teste</div>
-          <div id='cards'>teste</div>
-          <div id='cards'>teste</div>
-          <div id='cards'>teste</div>
-          <div id='cards'>teste</div>
+          <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
+          <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
+          <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
+          <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
+         <div id='cards'> Mensagem: Boa noite professor, gostaria que fosse abordado</div>
         </div>
 */

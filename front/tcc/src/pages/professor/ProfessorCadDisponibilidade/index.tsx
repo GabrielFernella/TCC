@@ -159,6 +159,7 @@ const Disponibilidade: React.FC = () => {
       <main>
         <fieldset>
           <legend>Suas Disponibilidades</legend>
+          <p>Seleciona um dia e especifico e horário (ex: Segunda-feira das 09 até 15)</p> <br />
 
           {scheduleItems.map(scheduleItem => {
             return (

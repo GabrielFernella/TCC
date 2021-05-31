@@ -30,6 +30,17 @@ alunoRoute.post(
   alunoController.create,
 );
 
+alunoRoute.put(
+  '/update',
+  celebrate({
+    [Segments.BODY]: {
+      avatar: Joi.string().required(),
+      pix: Joi.string().required(),
+    },
+  }),
+  alunoController.update,
+);
+
 /* usersRouter.patch(
   '/avatar',
   ensureAuthenticated,

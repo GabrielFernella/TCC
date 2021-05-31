@@ -12,3 +12,8 @@ export interface IAuthAluno {
   email: string;
   password: string;
 }
+
+export interface IUpdateAlunoDTO {
+  avatar: string;
+  pix: string;
+}

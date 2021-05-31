@@ -21,6 +21,7 @@ import ProfessorLogin from '../pages/professor/ProfessorLogin';
 
 // Aluno
 import AlunoCadForm from '../pages/aluno/AlunoCadForm';
+import AlunoUpdateForm from '../pages/aluno/AlunoUpdateForm';
 import AlunoLogin from '../pages/aluno/AlunoLogin';
 import AlunoHome from '../pages/aluno/AlunoHome';
 import AlunoAgendamentos from '../pages/aluno/AlunoAgendamentos';
@@ -42,6 +43,7 @@ const Routes: React.FC = () => {
       <Route path="/aluno-login" exact component={AlunoLogin} />
       <Route path="/aluno-home" exact component={AlunoHome} />
       <Route path="/aluno-form" exact component={AlunoCadForm} />
+      <Route path="/aluno-up-form" exact component={AlunoUpdateForm} />
       <Route path="/list-disciplina" exact component={ListDisciplinas} />
       <Route path="/aluno-agenda" exact component={AlunoAgendamentos} />
       <Route path="/agendar" exact component={AgendarDisciplina} />

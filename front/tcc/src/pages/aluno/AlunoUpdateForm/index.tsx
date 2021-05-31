@@ -1,27 +1,17 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
-import { useAuth } from '../../../hooks/auth';
 
 import PageHeader from '../../../components/PageHeader';
 import Input from '../../../components/Input';
-import Textarea from '../../../components/Textarea';
 import warningIcon from '../../../assets/images/icons/warning.svg';
+import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
-import backgroundImg from '../../../assets/images/success-background.svg';
-// import { AuthContext } from '../../contexts/auth';
+
 import api from '../../../services/api';
 
-interface IUser{
-  avatar: string;
-  pix: string;
-  biografia: string;
-}
-
-const UpdateProfessor: React.FC = () => {
-  const { user } = useAuth();
-
+const AlunoUpdateForm: React.FC = () => {
   const history = useHistory();
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
@@ -30,95 +20,83 @@ const UpdateProfessor: React.FC = () => {
   const [passwordConf, setPasswordConf] = useState('');
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
-  const [biografia, setBiografia] = useState('');
 
-  console.log(user);
-
-  useEffect(()=> {
-    handleShowProfile()
-  },[])
-
-  function handleShowProfile(){
-    api
-    .get(`professor/show/${user.id}`)
-    .then(response => {
-      //toast.success('Cadastro realizado com sucesso!');
-
-      setName(response.data.name);
-      setCpf(response.data.cpf);
-      setEmail(response.data.email);
-      setAvatar(response.data.avatar);
-      setPix(response.data.pix);
-      setBiografia(response.data.biografia);
-
-    })
-    .catch(() => {
-      toast.error('Ocorreu um erro ao carregar seus dados');
-    });
-  }
-
-  function handleCreateProfile(e: FormEvent) {
+  async function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
 
-    /*if (!(password === passwordConf)) {
+    if (!(password === passwordConf)) {
       toast.error('Password não confere');
-    }*/
-
-    if (
+    } else if (
+      name &&
+      cpf &&
+      email &&
+      password &&
+      passwordConf &&
       avatar &&
-      pix &&
-      biografia
+      pix
     ) {
-      api
-        .put('professor/update', {
+      await api
+        .post('aluno/create', {
           name,
+          cpf,
+          email,
+          password,
           avatar,
           pix,
-          biografia,
         })
         .then(() => {
-          toast.success('Atualização realizada com sucesso!');
+          toast.success('Cadastro realizado com sucesso!');
+          history.push('/aluno-login');
         })
-        .catch(() => {
-          toast.error('Não foi possível efetuar a atualização, tente novamente');
+        .catch(error => {
+          toast.error(
+            `Não foi possível efetuar o cadastro, tente novamente${error.response.data.message}`,
+          );
         });
     } else {
       toast.error(
-        'Não foi possível efetuar a atualização, um ou mais campos devem estar faltando. Tente novamente',
+        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
       );
     }
   }
 
   return (
-    <div id="page-teacher-form" className="container">
+    <div id="page-aluno-profile" className="container">
       <Toaster />
-
-      <PageHeader page="Meu perfil" background={backgroundImg} home="/prof-home">
+      <PageHeader
+        page="Meu perfil"
+        background={backgroundImg}
+        home="/aluno-home"
+      >
         <div className="profile-header">
-          <h2>Que bom que você deseja dar aulas!</h2>
-          <p>Faça seu cadastro e junte-se a outros professores.</p>
+          <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
+          <p>
+            Faça seu cadastro e junte-se a uma comunidade incrível de
+            professores e alunos.
+          </p>
         </div>
       </PageHeader>
 
       <main>
         <form onSubmit={handleCreateProfile}>
           <fieldset>
-            <legend>Perfil Professor</legend>
-            <div id="form-content">
+            <legend>Cadastro Aluno</legend>
+            <div id="cad-aluno">
               <div id="name-info">
                 <Input
-                  disabled
+                  required
                   placeholder="Ricardo"
                   label="Nome"
                   name="name"
                   maxLength={255}
                   value={name || ''}
                   onChange={e => setName(e.target.value)}
+                  disabled
                 />
               </div>
               <div id="cpf-info">
                 <Input
-                  disabled
+                  required
                   placeholder="999.999.999-99"
                   label="CPF"
                   name="cpf"
@@ -127,11 +105,12 @@ const UpdateProfessor: React.FC = () => {
                   minLength={10}
                   value={cpf || ''}
                   onChange={e => setCpf(e.target.value)}
+                  disabled
                 />
               </div>
               <div id="email-info">
                 <Input
-                  disabled
+                  required
                   placeholder="ricardo@email.com"
                   label="E-mail"
                   name="email"
@@ -139,11 +118,13 @@ const UpdateProfessor: React.FC = () => {
                   maxLength={255}
                   type="email"
                   onChange={e => setEmail(e.target.value)}
+                  disabled
                 />
               </div>
-            
+
               <div id="avatar-info">
                 <Input
+                  required
                   placeholder="http://avatar.com/myavatar"
                   label="Avatar (URL)"
                   name="avatar"
@@ -153,22 +134,12 @@ const UpdateProfessor: React.FC = () => {
               </div>
               <div id="pix-info">
                 <Input
+                  required
                   placeholder="E-mail ou Telefone ou CPF"
                   label="PIX"
                   name="pix"
                   value={pix || ''}
                   onChange={e => setPix(e.target.value)}
-                />
-              </div>
-
-              <div id="biografia-info">
-                <Textarea
-                  placeholder="Fale um pouco sobre você"
-                  label="Biografia"
-                  name="biografia"
-                  maxLength={500}
-                  value={biografia || ''}
-                  onChange={e => setBiografia(e.target.value)}
                 />
               </div>
             </div>
@@ -188,12 +159,12 @@ const UpdateProfessor: React.FC = () => {
   );
 };
 
-export default UpdateProfessor;
-
+export default AlunoUpdateForm;
 
 /*
-  <div id="password-info">
+   <div id="password-info">
                 <Input
+                  required
                   label="Password"
                   name="password"
                   type="password"
@@ -204,6 +175,7 @@ export default UpdateProfessor;
               </div>
               <div id="password-confirmation">
                 <Input
+                  required
                   label="Confirmation Pass."
                   name="confirmation"
                   type="password"
