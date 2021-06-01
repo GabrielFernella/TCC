@@ -16,22 +16,20 @@ const ProfessorHome: React.FC = () => {
     history.push('/');
   }
 
-
-
   return (
     <div id="page-home" className="container">
       <PageHeader page="Home" background={backgroundImg} home="/prof-home">
         <div className="profile-header">
           <h2>Bem-vindo ao Web Educa</h2>
           <p>
-            Navegue pelo menu com facilidade, aqui disponibilizamos os principais recursos da plataforma.
+            Navegue pelo menu com facilidade, aqui disponibilizamos os
+            principais recursos da plataforma.
           </p>
         </div>
       </PageHeader>
 
       <div id="content">
         <div className="menu">
-
           <Link to="/prof-list-disciplina">
             <Button name="disponibilidade">Disciplinas</Button>
           </Link>
@@ -42,27 +40,50 @@ const ProfessorHome: React.FC = () => {
             <Button name="disponibilidade">Disponibilidade</Button>
           </Link>
 
-          
           <Link to="/prof-up-form">
             <Button name="perfil">Perfil</Button>
           </Link>
 
-          <Button name="perfil" onClick={
-            e =>
-            window.confirm("Você deseja realmente sair?") && handleDeleteUser()
-          }>
+          <Button
+            name="perfil"
+            onClick={e => {
+              window.confirm('Você deseja realmente sair?') &&
+                handleDeleteUser();
+            }}
+          >
             Sair
           </Button>
         </div>
 
         <div id="listCards">
-          <div className='cards'> <p>Mensagem de Gabriel fernella: Boa noite professor, gostaria que fosse abordado Boa noite professor, gostaria que fosse abordado Boa noite professor, gostaria que fosse abordado</p></div>
-         <div className='cards'> <p>Mensagem de Samanta: Boa noite professor, gostaria que fosse abordado</p></div>
-          <div className='cards' id='green'> <p>Agendamento Realizado: Java 05/10/2021</p></div>
-          <div className='cards' id='red'> <p>Agendamento Cancelado de Gabriel fernella: Java 05/10/2021</p></div>
-          <div className='cards' id='green'> <p>Agendamento Realizado: Java 05/10/2021</p></div>
+          <div className="cards">
+            {' '}
+            <p>
+              Mensagem de Gabriel fernella: Boa noite professor, gostaria que
+              fosse abordado Boa noite professor, gostaria que fosse abordado
+              Boa noite professor, gostaria que fosse abordado
+            </p>
+          </div>
+          <div className="cards">
+            {' '}
+            <p>
+              Mensagem de Samanta: Boa noite professor, gostaria que fosse
+              abordado
+            </p>
+          </div>
+          <div className="cards" id="green">
+            {' '}
+            <p>Agendamento Realizado: Java 05/10/2021</p>
+          </div>
+          <div className="cards" id="red">
+            {' '}
+            <p>Agendamento Cancelado de Gabriel fernella: Java 05/10/2021</p>
+          </div>
+          <div className="cards" id="green">
+            {' '}
+            <p>Agendamento Realizado: Java 05/10/2021</p>
+          </div>
         </div>
-
       </div>
 
       <footer />
@@ -73,7 +94,6 @@ const ProfessorHome: React.FC = () => {
 };
 
 export default ProfessorHome;
-
 
 /*
           <Link to="/prof-cad-disciplina">

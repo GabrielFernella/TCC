@@ -43,7 +43,13 @@ const AlunoHome: React.FC = () => {
           <Link to="/aluno-up-form">
             <Button name="perfil">Perfil</Button>
           </Link>
-          <Button name="perfil" onClick={handleDeleteUser}>
+          <Button
+            name="perfil"
+            onClick={e => {
+              window.confirm('Você deseja realmente sair?') &&
+                handleDeleteUser();
+            }}
+          >
             Sair
           </Button>
         </div>

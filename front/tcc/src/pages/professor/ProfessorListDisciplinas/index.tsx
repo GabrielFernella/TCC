@@ -11,7 +11,7 @@ import Input from '../../../components/Input';
 import './styles.scss';
 import api from '../../../services/api';
 
-interface IResponse{
+interface IResponse {
   id: string;
   titulo: string;
   tag: string[];
@@ -29,16 +29,15 @@ const ProfessorListDisciplina: React.FC = () => {
   const [disciplina, setDisciplina] = useState<IResponse[]>([]);
 
   // Find disciplina
-  function findDisciplina(find: string) {
-
+  function findDisciplina(finds: string) {
     disciplina.filter(async value => {
-      if (value.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()) {
+      if (value.titulo.toLocaleLowerCase() === finds.toLocaleLowerCase()) {
         listagem.push(value);
       }
 
       value.tag.filter(tags => {
         const newTag = tags.replace(/\s/g, '');
-        if (newTag.toLowerCase() === find.toLocaleLowerCase()) {
+        if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
           listagem.push(value);
         }
         return '';
@@ -69,13 +68,22 @@ const ProfessorListDisciplina: React.FC = () => {
     api
       .get('disciplina/list/prof')
       .then(response => {
-        let disciplinas =response.data;
-        
-        setDisciplina(disciplinas.sort(function (listagem: IResponse, listagem2: IResponse){
-          let a = listagem.titulo.toUpperCase();
-          let b = listagem2.titulo.toUpperCase();
-          return a===b ? 0 : a > b ? 1 : -1;
-        }));
+        const disciplinas = response.data;
+
+        setDisciplina(
+          disciplinas.sort(function (list: IResponse, list2: IResponse) {
+            const a = list.titulo.toUpperCase();
+            const b = list2.titulo.toUpperCase();
+            // return a === b ? 0 : a > b ? 1 : -1;
+            if (a === b) {
+              return 0;
+            }
+            if (a > b) {
+              return 1;
+            }
+            return -1;
+          }),
+        );
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -121,7 +129,10 @@ const ProfessorListDisciplina: React.FC = () => {
       <main>
         <fieldset>
           <div id="list-info">
-          <p>Filtre por título ou por tag que melhor se encaixe com o que procura</p>
+            <p>
+              Filtre por título ou por tag que melhor se encaixe com o que
+              procura
+            </p>
             <div id="searchButton">
               <Input
                 // label="Find"
@@ -174,7 +185,8 @@ const ProfessorListDisciplina: React.FC = () => {
 
         <footer>
           <p>
-            Selecione alguma opção para poder alterar ou crie uma nova disciplina.
+            Selecione alguma opção para poder alterar ou crie uma nova
+            disciplina.
           </p>
 
           <Link to="/prof-cad-disciplina">

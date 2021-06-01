@@ -50,7 +50,21 @@ const ListDisciplina: React.FC = () => {
       .get('disciplina/list')
       .then(response => {
         // console.log(response.data);
-        setDisciplina(response.data);
+        // setDisciplina(response.data);
+        setDisciplina(
+          disciplina.sort(function (list: IResponse, list2: IResponse) {
+            const a = list.disciplina.titulo.toUpperCase();
+            const b = list2.disciplina.titulo.toUpperCase();
+            // return a === b ? 0 : a > b ? 1 : -1;
+            if (a === b) {
+              return 0;
+            }
+            if (a > b) {
+              return 1;
+            }
+            return -1;
+          }),
+        );
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -58,17 +72,18 @@ const ListDisciplina: React.FC = () => {
   }
 
   // Find disciplina
-  function findDisciplina(find: string) {
+  function findDisciplina(finds: string) {
     disciplina.filter(value => {
       if (
-        value.disciplina.titulo.toLocaleLowerCase() === find.toLocaleLowerCase()
+        value.disciplina.titulo.toLocaleLowerCase() ===
+        finds.toLocaleLowerCase()
       ) {
         listagem.push(value);
       }
 
       value.disciplina.tag.filter(tags => {
         const newTag = tags.replace(/\s/g, '');
-        if (newTag.toLowerCase() === find.toLocaleLowerCase()) {
+        if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
           listagem.push(value);
         }
         return '';
@@ -111,7 +126,6 @@ const ListDisciplina: React.FC = () => {
     }
   }
 
-
   function select(dados: IResponse) {
     history.push({
       pathname: '/agendar',
@@ -152,43 +166,41 @@ const ListDisciplina: React.FC = () => {
                 Procurar
               </button>
             </div>
-            
-            {
-    disciplina.map(list => (
-    <div key={list.disciplina.id} id="card">
-      <h2>{list.disciplina.titulo}</h2>
 
-      <h3> + {list.professor.nome}</h3>
+            {disciplina.map(list => (
+              <div key={list.disciplina.id} id="card">
+                <h2>{list.disciplina.titulo}</h2>
 
-      <div>
-        <h4>Tags:</h4>
-        <p>
-          {list.disciplina.tag.map(t => (
-            <i key={t.toString()}>{t.toString()},&nbsp;</i>
-          ))}
-        </p>
-      </div>
+                <h3> + {list.professor.nome}</h3>
 
-      <h4>Descrição:</h4>
-      <p id="desc">{list.disciplina.descricao}</p>
+                <div>
+                  <h4>Tags:</h4>
+                  <p>
+                    {list.disciplina.tag.map(t => (
+                      <i key={t.toString()}>{t.toString()},&nbsp;</i>
+                    ))}
+                  </p>
+                </div>
 
-      <h4>Disponibilidades:</h4>
-      <p>
-        {list.disponibilidade.map(dispo =>
-          validateDay(dispo.diaSemana),
-        )}
-      </p>
+                <h4>Descrição:</h4>
+                <p id="desc">{list.disciplina.descricao}</p>
 
-      <div>
-        <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
-      </div>
+                <h4>Disponibilidades:</h4>
+                <p>
+                  {list.disponibilidade.map(dispo =>
+                    validateDay(dispo.diaSemana),
+                  )}
+                </p>
 
-      <button type="button" onClick={() => select(list)}>
-        Ver disponibilidade
-      </button>
-    </div>
-  ))}
-            
+                <div>
+                  <h4>Valor: R$ {list.disciplina.valor} /hora</h4>
+                </div>
+
+                <button type="button" onClick={() => select(list)}>
+                  Ver disponibilidade
+                </button>
+              </div>
+            ))}
           </div>
         </fieldset>
 
