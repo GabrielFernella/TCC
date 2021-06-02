@@ -4,8 +4,19 @@ import { classToClass } from 'class-transformer';
 
 import CreateAlunoService from '@modules/aluno/services/CreateAlunoService';
 import UpdateAlunoService from '@modules/aluno/services/UpdateAlunoService';
+import ShowAlunoService from '@modules/aluno/services/ShowAlunoService';
 
 export default class AlunoController {
+  public async show(request: Request, response: Response): Promise<Response> {
+    const aluno_id = request.user.id;
+
+    const showUser = container.resolve(ShowAlunoService);
+
+    const user = await showUser.execute(aluno_id);
+
+    return response.json(classToClass(user));
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, cpf, email, password, avatar, pix } = request.body;
 

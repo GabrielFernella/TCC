@@ -17,7 +17,7 @@ class TokenUserService {
 
     @inject('ProfessorTokensRepository')
     private professorTokensRepository: IProfessorTokensRepository,
-  ) { }
+  ) {}
 
   public async execute(testToken: string): Promise<string> {
     // console.log(testToken);

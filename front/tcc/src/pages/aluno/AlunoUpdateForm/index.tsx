@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 
@@ -21,41 +21,44 @@ const AlunoUpdateForm: React.FC = () => {
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
 
-  async function handleCreateProfile(e: FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    handleShowProfile();
+  }, []);
 
-    if (!(password === passwordConf)) {
-      toast.error('Password não confere');
-    } else if (
-      name &&
-      cpf &&
-      email &&
-      password &&
-      passwordConf &&
-      avatar &&
-      pix
-    ) {
-      await api
-        .post('aluno/create', {
-          name,
-          cpf,
-          email,
-          password,
+  function handleShowProfile() {
+    api
+      .get(`aluno/show`)
+      .then(response => {
+        setName(response.data.name);
+        setCpf(response.data.cpf);
+        setEmail(response.data.email);
+        setAvatar(response.data.avatar);
+        setPix(response.data.pix);
+      })
+      .catch(() => {
+        toast.error('Ocorreu um erro ao carregar seus dados');
+      });
+  }
+
+  function handleUpdateProfile(e: FormEvent) {
+    e.preventDefault();
+    if (avatar && pix) {
+      api
+        .put('aluno/update', {
           avatar,
           pix,
         })
         .then(() => {
-          toast.success('Cadastro realizado com sucesso!');
-          history.push('/aluno-login');
+          toast.success('Atualização realizada com sucesso!');
         })
-        .catch(error => {
+        .catch(() => {
           toast.error(
-            `Não foi possível efetuar o cadastro, tente novamente${error.response.data.message}`,
+            'Não foi possível efetuar a atualização, tente novamente',
           );
         });
     } else {
       toast.error(
-        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
+        'Não foi possível efetuar a atualização, um ou mais campos devem estar faltando. Tente novamente',
       );
     }
   }
@@ -78,7 +81,7 @@ const AlunoUpdateForm: React.FC = () => {
       </PageHeader>
 
       <main>
-        <form onSubmit={handleCreateProfile}>
+        <form onSubmit={handleUpdateProfile}>
           <fieldset>
             <legend>Cadastro Aluno</legend>
             <div id="cad-aluno">

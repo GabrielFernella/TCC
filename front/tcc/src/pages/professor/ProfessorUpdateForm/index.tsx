@@ -13,7 +13,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 // import { AuthContext } from '../../contexts/auth';
 import api from '../../../services/api';
 
-interface IUser{
+interface IUser {
   avatar: string;
   pix: string;
   biografia: string;
@@ -34,41 +34,36 @@ const UpdateProfessor: React.FC = () => {
 
   console.log(user);
 
-  useEffect(()=> {
-    handleShowProfile()
-  },[])
+  useEffect(() => {
+    handleShowProfile();
+  }, []);
 
-  function handleShowProfile(){
+  function handleShowProfile() {
     api
-    .get(`professor/show/${user.id}`)
-    .then(response => {
-      //toast.success('Cadastro realizado com sucesso!');
+      .get(`professor/show/${user.id}`)
+      .then(response => {
+        // toast.success('Cadastro realizado com sucesso!');
 
-      setName(response.data.name);
-      setCpf(response.data.cpf);
-      setEmail(response.data.email);
-      setAvatar(response.data.avatar);
-      setPix(response.data.pix);
-      setBiografia(response.data.biografia);
-
-    })
-    .catch(() => {
-      toast.error('Ocorreu um erro ao carregar seus dados');
-    });
+        setName(response.data.name);
+        setCpf(response.data.cpf);
+        setEmail(response.data.email);
+        setAvatar(response.data.avatar);
+        setPix(response.data.pix);
+        setBiografia(response.data.biografia);
+      })
+      .catch(() => {
+        toast.error('Ocorreu um erro ao carregar seus dados');
+      });
   }
 
   function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
 
-    /*if (!(password === passwordConf)) {
+    /* if (!(password === passwordConf)) {
       toast.error('Password não confere');
-    }*/
+    } */
 
-    if (
-      avatar &&
-      pix &&
-      biografia
-    ) {
+    if (avatar && pix && biografia) {
       api
         .put('professor/update', {
           name,
@@ -80,7 +75,9 @@ const UpdateProfessor: React.FC = () => {
           toast.success('Atualização realizada com sucesso!');
         })
         .catch(() => {
-          toast.error('Não foi possível efetuar a atualização, tente novamente');
+          toast.error(
+            'Não foi possível efetuar a atualização, tente novamente',
+          );
         });
     } else {
       toast.error(
@@ -93,7 +90,11 @@ const UpdateProfessor: React.FC = () => {
     <div id="page-teacher-form" className="container">
       <Toaster />
 
-      <PageHeader page="Meu perfil" background={backgroundImg} home="/prof-home">
+      <PageHeader
+        page="Meu perfil"
+        background={backgroundImg}
+        home="/prof-home"
+      >
         <div className="profile-header">
           <h2>Que bom que você deseja dar aulas!</h2>
           <p>Faça seu cadastro e junte-se a outros professores.</p>
@@ -141,7 +142,7 @@ const UpdateProfessor: React.FC = () => {
                   onChange={e => setEmail(e.target.value)}
                 />
               </div>
-            
+
               <div id="avatar-info">
                 <Input
                   placeholder="http://avatar.com/myavatar"
@@ -189,7 +190,6 @@ const UpdateProfessor: React.FC = () => {
 };
 
 export default UpdateProfessor;
-
 
 /*
   <div id="password-info">

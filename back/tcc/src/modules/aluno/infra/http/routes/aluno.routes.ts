@@ -5,6 +5,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 // import uploadConfig from '@config/upload';
 
 import AlunoController from '../controllers/AlunoController';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 // import UserAvatarController from '../controllers/UserAvatarController';
 
 // import ensureAuthenticated from '../middlewares/ensureAuthenticated';
@@ -29,6 +30,11 @@ alunoRoute.post(
   }),
   alunoController.create,
 );
+
+// Autenticar Usuário
+alunoRoute.use(ensureAuthenticated);
+
+alunoRoute.get('/show', alunoController.show);
 
 alunoRoute.put(
   '/update',
