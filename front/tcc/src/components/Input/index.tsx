@@ -1,13 +1,13 @@
 import React, { InputHTMLAttributes, useCallback } from 'react';
 
-import { currency, money, number, moeda } from './masks';
+import { currency, money, number, moeda, cpf } from './masks';
 
 import './styles.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
-  mask?: 'currency' | 'number' | 'money' | 'moeda';
+  mask?: 'currency' | 'number' | 'money' | 'moeda' | 'cpf';
   prefix?: string;
 }
 
@@ -31,6 +31,9 @@ const Input: React.FC<InputProps> = ({
       }
       if (mask === 'moeda') {
         moeda(e);
+      }
+      if (mask === 'cpf') {
+        cpf(e);
       }
     },
     [mask],

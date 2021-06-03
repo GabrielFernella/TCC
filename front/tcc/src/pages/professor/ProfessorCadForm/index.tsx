@@ -28,45 +28,40 @@ const Profile: React.FC = () => {
 
     if (!(password === passwordConf)) {
       toast.error('Password não confere');
-    }else{
-
-      if (
-        name &&
-        cpf &&
-        email &&
-        password &&
-        passwordConf &&
-        avatar &&
-        pix &&
-        biografia
-      ) {
-        await api
-          .post('professor/create', {
-            name,
-            cpf,
-            email,
-            password,
-            avatar,
-            pix,
-            biografia,
-          })
-          .then(() => {
-            toast.success('Cadastro realizado com sucesso!');
-            history.push('/prof-login');
-          })
-          .catch(error => {
-            toast.error('Não foi possível efetuar o cadastro, tente novamente. Error: '+ error.response.data.message);
-          });
-      } else {
-        toast.error(
-          'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
-        );
-        
-      }
-
+    } else if (
+      name &&
+      cpf &&
+      email &&
+      password &&
+      passwordConf &&
+      avatar &&
+      pix &&
+      biografia
+    ) {
+      await api
+        .post('professor/create', {
+          name,
+          cpf: cpf.replace(/\D/g, ''),
+          email,
+          password,
+          avatar,
+          pix,
+          biografia,
+        })
+        .then(() => {
+          toast.success('Cadastro realizado com sucesso!');
+          history.push('/prof-login');
+        })
+        .catch(error => {
+          toast.error(
+            `Não foi possível efetuar o cadastro, tente novamente. Error: ${error.response.data.message}`,
+          );
+        });
+    } else {
+      toast.error(
+        'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
+      );
     }
-
-
   }
 
   return (
@@ -102,11 +97,18 @@ const Profile: React.FC = () => {
                   placeholder="999.999.999-99"
                   label="CPF *"
                   name="cpf"
-                  mask="money"
-                  maxLength={11}
-                  minLength={10}
+                  mask="cpf"
+                  maxLength={14}
+                  // minLength={10}
                   value={cpf || ''}
-                  onChange={e => setCpf(e.target.value)}
+                  onChange={e => {
+                    setCpf(
+                      e.target.value.replace(
+                        /(\d{3})(\d{3})(\d{3})(\d{2})/,
+                        '$1.$2.$3-$4',
+                      ),
+                    );
+                  }}
                 />
               </div>
               <div id="email-info">

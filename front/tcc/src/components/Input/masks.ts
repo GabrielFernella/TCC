@@ -1,5 +1,3 @@
-import currancy from 'currency.js';
-
 export function currency(e: React.FormEvent<HTMLInputElement>) {
   let { value } = e.currentTarget;
   value = value.replace(/\D/g, '');
@@ -41,5 +39,15 @@ export function moeda(e: React.FormEvent<HTMLInputElement>) {
     .replace(/\D/g, '')
     .replace(/(\d)(\d{2})$/, '$1,$2')
     .replace(/(?=(\d{3})+(\D))\B/g, '.');
+  return e;
+}
+/// ^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$/
+
+export function cpf(e: React.FormEvent<HTMLInputElement>) {
+  const { value } = e.currentTarget;
+  e.currentTarget.value = value.replace(
+    /(\d{3})(\d{3})(\d{3})(\d{2})/,
+    '$1.$2.$3-$4',
+  );
   return e;
 }
