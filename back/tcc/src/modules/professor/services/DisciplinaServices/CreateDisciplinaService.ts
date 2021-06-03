@@ -23,7 +23,7 @@ class CreateDisciplinaService {
 
     @inject('DisciplinaRepository')
     private disciplinaRepository: IDisciplinaRepository,
-  ) { }
+  ) {}
 
   public async execute({
     professor_id,
@@ -38,12 +38,14 @@ class CreateDisciplinaService {
       throw new AppError('Professor não encontrado.');
     }
 
+    const newValue = valor / 100;
+
     const cadDisciplina = await this.disciplinaRepository.create({
       professor_id,
       titulo,
       tag,
       descricao,
-      valor,
+      valor: newValue || valor,
       qtdAvaliacao: 0,
       mediaAvaliacao: 0,
     });

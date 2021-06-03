@@ -34,13 +34,15 @@ class UpdateDisciplinaService {
       throw new AppError('Professor não pertence a essa disciplina.');
     }
 
+    const newValue = valor / 100;
+
     const updateDisciplina = await this.disciplinaRepository.updated(
       disciplina_id,
       {
         titulo,
         tag,
         descricao,
-        valor,
+        valor: newValue,
       },
     );
 

@@ -7,6 +7,7 @@ import {
   Generated,
   JoinColumn,
   OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import Aluno from './Aluno';
 
@@ -28,7 +29,7 @@ class AlunoToken {
   @Column()
   aluno_id: string;
 
-  @OneToOne(type => Aluno, alunoToken => AlunoToken)
+  @ManyToOne(type => Aluno, alunoToken => AlunoToken)
   @JoinColumn({ name: 'aluno_id' })
   aluno: Aluno;
 }

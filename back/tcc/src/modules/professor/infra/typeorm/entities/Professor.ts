@@ -11,6 +11,9 @@ class Professor extends Usuario {
   @Column('text')
   biografia: string;
 
+  @Column({ nullable: true, default: false })
+  bloqueio: boolean;
+
   @OneToMany(() => Agendamento, professor => Professor)
   agendamentos: Agendamento[];
 

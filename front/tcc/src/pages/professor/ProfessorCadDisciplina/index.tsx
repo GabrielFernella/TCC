@@ -28,7 +28,7 @@ const Disciplina: React.FC = () => {
     e.preventDefault();
 
     if (titulo && tag && descricao && valor) {
-      const newValue = parseInt(valor, 10);
+      const newValue = parseInt(valor.replace(/\D/g, ''), 10);
 
       await api
         .post('disciplina/create', {
@@ -117,10 +117,17 @@ const Disciplina: React.FC = () => {
                   prefix="R$"
                   label="Valor *"
                   name="valor"
-                  mask="money"
-                  placeholder="R$ 30"
+                  mask="moeda"
+                  placeholder="R$ 30,00"
                   value={valor || ''}
-                  onChange={e => setValor(e.target.value)}
+                  onChange={e => {
+                    setValor(
+                      e.target.value
+                        .replace(/\D/g, '')
+                        .replace(/(\d)(\d{2})$/, '$1,$2')
+                        .replace(/(?=(\d{3})+(\D))\B/g, '.'),
+                    );
+                  }}
                 />
               </div>
             </div>

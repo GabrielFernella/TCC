@@ -84,8 +84,7 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
   async function handleUpdateDisciplina(e: FormEvent) {
     e.preventDefault();
 
-    const newValue = parseInt(valor, 10);
-    console.log(newValue);
+    const newValue = parseInt(valor.replace(/\D/g, ''), 10);
 
     await api
       .put('disciplina/update', {
@@ -169,24 +168,19 @@ const ProfessorUpdateDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <div id="valor-info">
                 <Input
-                  // pattern="^(\$?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?|\.\d{2})?$"
-                  type="money"
-                  step="0.01"
-                  min="0.01"
                   required
                   label="Valor"
                   name="valor"
                   placeholder={updateDisciplina?.valor}
                   value={valor || ''}
                   mask="moeda"
-                  // pattern="[0-9]*"
-                  // maxLength={6}
-
                   onChange={e => {
-                    setValor(e.target.value);
-                    const newValue = valor;
-                    console.log(newValue);
-                    // console.log(valor);
+                    setValor(
+                      e.target.value
+                        .replace(/\D/g, '')
+                        .replace(/(\d)(\d{2})$/, '$1,$2')
+                        .replace(/(?=(\d{3})+(\D))\B/g, '.'),
+                    );
                   }}
                 />
               </div>

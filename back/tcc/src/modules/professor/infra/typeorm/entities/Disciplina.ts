@@ -26,7 +26,7 @@ export default class Disciplina {
   @Column('text')
   descricao: string;
 
-  @Column({ type: 'money' })
+  @Column({ type: 'numeric' })
   valor: number;
 
   @Column('int')
@@ -34,6 +34,9 @@ export default class Disciplina {
 
   @Column()
   mediaAvaliacao: number;
+
+  @Column({ default: true })
+  ativado: boolean;
 
   @CreateDateColumn()
   created_at: Date;
