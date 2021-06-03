@@ -26,7 +26,7 @@ export default class Disciplina {
   @Column('text')
   descricao: string;
 
-  @Column()
+  @Column({ type: 'money' })
   valor: number;
 
   @Column('int')

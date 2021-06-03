@@ -19,3 +19,12 @@ export default {
     },
   },
 } as IMailConfig;
+
+/*
+export default {
+  host: 'smtp.gmail.com',
+  port: 587,
+  user: 'gmail.com',
+  pass: '',
+};
+*/

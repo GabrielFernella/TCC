@@ -6,7 +6,7 @@
     "package-lock.json": true,
     "public": true,
     ".gitattributes": true,
-    ".gitignore": true,
+    ".gitignore": false,
     "yarn.lock": true,
     ".editorconfig": true,
     ".eslintignore": true,

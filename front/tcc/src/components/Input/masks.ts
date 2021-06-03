@@ -31,3 +31,20 @@ export function number(e: React.FormEvent<HTMLInputElement>) {
   }
   return e;
 }
+
+export function moeda(e: React.FormEvent<HTMLInputElement>) {
+  let { value } = e.currentTarget;
+  value = value.replace(/\D/g, '');
+  value = value.replace(/(\d)(\d{2})$/, '$1,$2');
+  value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
+
+  e.currentTarget.value = `${value}`;
+  return e;
+}
+
+const filterFloat = function (value: string) {
+  // eslint-disable-next-line no-useless-escape
+  if (/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value))
+    return Number(value);
+  return NaN;
+};
