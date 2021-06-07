@@ -4,7 +4,7 @@ import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
-//import api from '../../../services/api';
+// import api from '../../../services/api';
 
 interface IResponse {
   id: string;
@@ -125,7 +125,7 @@ const AlunoAgendamentos: React.FC = () => {
       <PageHeader
         page="Agendamentos"
         background={backgroundImg}
-        home="/prof-home"
+        home="/aluno-home"
       >
         <div className="profile-header">
           <h2>Essas são todos os seus agendamentos</h2>

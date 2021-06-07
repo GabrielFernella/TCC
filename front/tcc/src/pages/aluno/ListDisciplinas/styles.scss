@@ -125,6 +125,20 @@
           margin-left: 10px;
         }
 
+        h3 {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+          img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 2rem;
+          }
+        }
+
         div {
           display: flex;
           flex-direction: row;

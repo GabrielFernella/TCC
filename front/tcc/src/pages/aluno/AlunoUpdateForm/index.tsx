@@ -49,7 +49,9 @@ const AlunoUpdateForm: React.FC = () => {
           pix,
         })
         .then(() => {
-          toast.success('Atualização realizada com sucesso!');
+          toast.success(
+            'Atualização realizada com sucesso! Para efetivar algumas alterações é necessário que entre no sistema novamente',
+          );
         })
         .catch(() => {
           toast.error(

@@ -49,21 +49,18 @@ const ListDisciplina: React.FC = () => {
     api
       .get('disciplina/list')
       .then(response => {
-        // console.log(response.data);
-        // setDisciplina(response.data);
         const disciplinas = response.data;
         setDisciplina(
-          disciplinas.sort(function (list: IResponse, list2: IResponse) {
+          disciplinas.sort((list: IResponse, list2: IResponse) => {
             const a = list.disciplina.titulo.toUpperCase();
             const b = list2.disciplina.titulo.toUpperCase();
-            // return a === b ? 0 : a > b ? 1 : -1;
-            if (a === b) {
-              return 0;
-            }
             if (a > b) {
               return 1;
             }
-            return -1;
+            if (b > a) {
+              return -1;
+            }
+            return 0;
           }),
         );
       })
@@ -83,7 +80,7 @@ const ListDisciplina: React.FC = () => {
       }
 
       value.disciplina.tag.filter(tags => {
-        const newTag = tags.replace(/\s/g, '');
+        const newTag = tags.replace(/\s/g, ''); // Alterar para pegar o espaço antes do string
         if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
           listagem.push(value);
         }
@@ -172,7 +169,10 @@ const ListDisciplina: React.FC = () => {
               <div key={list.disciplina.id} id="card">
                 <h2>{list.disciplina.titulo}</h2>
 
-                <h3> + {list.professor.nome}</h3>
+                <h3>
+                  <img src={list.professor.avatar} alt="" /> +{' '}
+                  {list.professor.nome}
+                </h3>
 
                 <div>
                   <h4>Tags:</h4>
@@ -189,7 +189,9 @@ const ListDisciplina: React.FC = () => {
                 <h4>Disponibilidades:</h4>
                 <p>
                   {list.disponibilidade.map(dispo => (
-                    <> {validateDay(dispo.diaSemana)} &nbsp; </>
+                    <span key={dispo.id}>
+                      {validateDay(dispo.diaSemana)} &nbsp;{' '}
+                    </span>
                   ))}
                 </p>
 

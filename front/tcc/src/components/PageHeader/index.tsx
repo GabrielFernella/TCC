@@ -2,7 +2,6 @@ import React, { CSSProperties } from 'react';
 import './styles.scss';
 import TopBarContainer from '../TopBarContainer';
 
-
 interface PageHeaderProps {
   title?: string;
   description?: string;
@@ -21,7 +20,6 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = ({
   // to,
   home,
 }) => {
-
   const headerContentStyle = {
     backgroundImage: `url(${background})`,
     backgroundSize: 'contain',
