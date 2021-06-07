@@ -26,8 +26,6 @@ const UpdateProfessor: React.FC = () => {
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConf, setPasswordConf] = useState('');
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
   const [biografia, setBiografia] = useState('');
