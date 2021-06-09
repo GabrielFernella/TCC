@@ -49,13 +49,18 @@ const ListPendencias: React.FC = () => {
     api
       .get('disciplina/list')
       .then(response => {
-        let disciplinas =response.data;
-        
-        setDisciplina(disciplinas.sort(function (listagem: IResponse, listagem2: IResponse){
-          let a = listagem.disciplina.titulo.toUpperCase();
-          let b = listagem2.disciplina.titulo.toUpperCase();
-          return a===b ? 0 : a > b ? 1 : -1;
-        }));
+        const disciplinas = response.data;
+
+        setDisciplina(
+          disciplinas.sort(function (
+            listagem: IResponse,
+            listagem2: IResponse,
+          ) {
+            const a = listagem.disciplina.titulo.toUpperCase();
+            const b = listagem2.disciplina.titulo.toUpperCase();
+            return a === b ? 0 : a > b ? 1 : -1;
+          }),
+        );
       })
       .catch(() => {
         toast.error('Não foi possível carregar as disciplinas');
@@ -128,7 +133,7 @@ const ListPendencias: React.FC = () => {
     <div id="page-teacher-profile" className="container">
       <Toaster />
       <PageHeader
-        page="Diciplinas"
+        page="Pendencias"
         background={backgroundImg}
         home="/aluno-home"
       >

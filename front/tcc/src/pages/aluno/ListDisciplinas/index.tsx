@@ -77,15 +77,16 @@ const ListDisciplina: React.FC = () => {
         finds.toLocaleLowerCase()
       ) {
         listagem.push(value);
+      } else {
+        value.disciplina.tag.filter(tags => {
+          // const newTag = tags.replace(/\s/g, ''); // Alterar para pegar o espaço antes do string
+          const newTag = tags.trim();
+          if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
+            return listagem.push(value);
+          }
+          return '';
+        });
       }
-
-      value.disciplina.tag.filter(tags => {
-        const newTag = tags.replace(/\s/g, ''); // Alterar para pegar o espaço antes do string
-        if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
-          listagem.push(value);
-        }
-        return '';
-      });
 
       return '';
     });
@@ -99,6 +100,7 @@ const ListDisciplina: React.FC = () => {
 
   function clearFind() {
     setFind('');
+    // setDisciplina([]);
     listDisciplinas();
   }
 

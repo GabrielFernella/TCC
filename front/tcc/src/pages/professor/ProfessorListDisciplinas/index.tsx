@@ -33,15 +33,16 @@ const ProfessorListDisciplina: React.FC = () => {
     disciplina.filter(async value => {
       if (value.titulo.toLocaleLowerCase() === finds.toLocaleLowerCase()) {
         listagem.push(value);
+      } else {
+        value.tag.filter(tags => {
+          // const newTag = tags.replace(/\s/g, '');
+          const newTag = tags.trim();
+          if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
+            listagem.push(value);
+          }
+          return '';
+        });
       }
-
-      value.tag.filter(tags => {
-        const newTag = tags.replace(/\s/g, '');
-        if (newTag.toLowerCase() === finds.toLocaleLowerCase()) {
-          listagem.push(value);
-        }
-        return '';
-      });
 
       return '';
     });
@@ -99,7 +100,7 @@ const ProfessorListDisciplina: React.FC = () => {
   }
 
   function deleted(disciplina_id: string) {
-    console.log(disciplina_id);
+    // console.log(disciplina_id);
 
     api
       .delete(`disciplina/delete/${disciplina_id}`)
