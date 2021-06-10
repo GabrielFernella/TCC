@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
 // Students imports
+import echoRouter from '@modules/notifications/infra/http/routes/echo.routes';
+
 import alunoRouter from '@modules/aluno/infra/http/routes/aluno.routes';
 import alunoAuthRouter from '@modules/aluno/infra/http/routes/alunoAuth.routes';
 import alunoPasswordRouter from '@modules/aluno/infra/http/routes/password.routes';
@@ -15,10 +17,9 @@ import disciplinaRouter from '@modules/professor/infra/http/routes/disciplina.ro
 
 import agendamentoRouter from '@modules/agendamento/infra/http/routes/agendamento.routes';
 
-
-
 // Routes
 const routes = Router();
+routes.use('/echo', echoRouter);
 
 routes.use('/aluno', alunoRouter);
 routes.use('/alunosession', alunoAuthRouter);

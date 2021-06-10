@@ -32,7 +32,7 @@ class CreateDisciplinaService {
     descricao,
     valor,
   }: IRequest): Promise<Disciplina> {
-    // Procurando se há um user com o mesmo email
+    // ======================================= Procurando se há um user com o mesmo email
     const findTeacher = await this.professorRepository.findById(professor_id);
     if (!findTeacher) {
       throw new AppError('Professor não encontrado.');
@@ -40,10 +40,28 @@ class CreateDisciplinaService {
 
     const newValue = valor / 100;
 
+    const tags = tag.map(t => {
+      return t.trim();
+    });
+
+    // ======================================= validando se há tags repetidas
+    let count = 0;
+    tags.map(t => {
+      if (tags.indexOf(t) === 0) {
+        count += 1;
+      }
+      return '';
+    });
+
+    if (count >= 2) {
+      throw new AppError('Tags Repetidas.');
+    }
+
+    // ======================================= Cadastrando Disciplina
     const cadDisciplina = await this.disciplinaRepository.create({
       professor_id,
       titulo,
-      tag,
+      tag: tags,
       descricao,
       valor: newValue || valor,
       qtdAvaliacao: 0,

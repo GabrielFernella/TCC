@@ -92,7 +92,7 @@ const Disciplina: React.FC = () => {
                   required
                   label="Tag *"
                   name="tag"
-                  placeholder="tag , tag (palavras chave relacionado a disciplina, separar por vírgula)"
+                  placeholder="tag , tag (palavras chave relacionado a disciplina, separar por vírgula, não repetir)"
                   value={tag || ''}
                   onChange={e => {
                     changeHandler(e, e.target.value);

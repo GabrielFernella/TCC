@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     if (user) {
       history.push('/prof-home');
     }
-    toast('Tente se autenticar');
+    // toast('Tente se autenticar');
 
     /* api
       .get('profsession')
