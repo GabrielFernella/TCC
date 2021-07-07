@@ -26,7 +26,12 @@ class DeleteDisciplinaService {
       throw new AppError('Disciplina não pertence a esse professor');
     }
 
-    await this.disciplinaRepository.deleted(disciplina_id);
+    result.ativado = false;
+
+    // Ao invés de excluir apenas flegaremos a disciplina como Inativa
+    await this.disciplinaRepository.save(result);
+
+    // await this.disciplinaRepository.deleted(disciplina_id);
 
     return result;
   }

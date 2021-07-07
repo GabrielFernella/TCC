@@ -30,7 +30,7 @@ class ListDisciplinaService {
 
     @inject('DisponibilidadeRepository')
     private disponibilidadeRepository: IDisponibilidadeRepository,
-  ) { }
+  ) {}
 
   public async execute(): Promise<IResponse[]> {
     let values: IResponse;
@@ -73,8 +73,12 @@ class ListDisciplinaService {
       return values;
     });
 
+    const response = await Promise.all(teste);
+
+    const valueFinal = response.filter(t => t.disciplina.ativado === true);
+
     const result = (async () => {
-      const resultado = await Promise.all(teste);
+      const resultado = await Promise.all(valueFinal);
       return resultado;
     })();
 

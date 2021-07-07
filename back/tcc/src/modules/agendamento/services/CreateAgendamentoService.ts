@@ -18,7 +18,6 @@ import { ICreateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 import Agendamento, { StatusAula } from '../infra/typeorm/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
-
 @injectable()
 class CreateAgendamentoService {
   constructor(
@@ -39,7 +38,7 @@ class CreateAgendamentoService {
 
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
-  ) { }
+  ) {}
 
   public async execute(dto: ICreateAgendamentoDTO): Promise<Agendamento> {
     const dateAtual = new Date();
@@ -95,17 +94,18 @@ class CreateAgendamentoService {
       // Validar se Aluno contém uma aula no mesmo horário(alterado)
       if (aluno.agendamentos) {
         const result = aluno.agendamentos.filter(a => {
-          if (a.data.getDay() === dto.data.getDay() && (a.entrada === dto.entrada || a.saida === hourEnd)) {
-            return true
+          if (
+            a.data.getDay() === dto.data.getDay() &&
+            (a.entrada === dto.entrada || a.saida === hourEnd)
+          ) {
+            return true;
           }
-          return false
-        }
-        )
+          return false;
+        });
         if (result.length >= 1) {
           throw new AppError('Aluno já tem um agendamento neste horário!');
         }
       }
-
 
       alunoEmail = aluno.email;
     });
@@ -129,27 +129,25 @@ class CreateAgendamentoService {
             professor.agendamentos.filter(
               a =>
                 a.data.getDay() === dto.data.getDay() &&
-                (a.entrada === dto.entrada ||
-                  a.saida === hourEnd),
+                (a.entrada === dto.entrada || a.saida === hourEnd),
             )
           ) {
-            throw new AppError('Professor já tem um agendamento neste horário!');
+            throw new AppError(
+              'Professor já tem um agendamento neste horário!',
+            );
           }
         }
 
         // Validar se Professor contém a disponibilidade para esta aula
         const validadeDisponibilidade = professor.disponibilidades.filter(
-          d => d.diaSemana === dto.data.getDay() && //Dia da semana Igual
-            dto.entrada >= d.horarioEntrada && //Hora de entrada do agendamento maior ou igual à disponibilidade
-            hourEnd <= d.horarioSaida //Hora de saida do agendamento menor ou igual à disponibilidade
-        )
-        if (
-          !validadeDisponibilidade
-        ) {
-          throw new AppError('Disponibilidade Inválida!')
+          d =>
+            d.diaSemana === dto.data.getDay() && // Dia da semana Igual
+            dto.entrada >= d.horarioEntrada && // Hora de entrada do agendamento maior ou igual à disponibilidade
+            hourEnd <= d.horarioSaida, // Hora de saida do agendamento menor ou igual à disponibilidade
+        );
+        if (!validadeDisponibilidade) {
+          throw new AppError('Disponibilidade Inválida!');
         }
-
-
 
         pixProfessor = professor.pix;
       });

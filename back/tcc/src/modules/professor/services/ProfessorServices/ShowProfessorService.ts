@@ -13,7 +13,7 @@ class ShowProfessorService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
-  ) { }
+  ) {}
 
   public async execute(professor_id: string): Promise<Professor> {
     try {
@@ -22,7 +22,6 @@ class ShowProfessorService {
         throw new AppError('Professor not found', 401);
       }
       return user;
-
     } catch (error) {
       throw new AppError('Professor_id não existe');
     }
