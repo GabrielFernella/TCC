@@ -81,10 +81,20 @@ class CreateDisciplinaService {
     await this.notificationRepository.create({
       recipient_id: cadDisciplina.professor_id,
       content: 'Disciplina cadastrada com sucesso',
+      type: 'green',
     });
+
+    const user = await this.professorRepository.findById(
+      cadDisciplina.professor_id,
+    );
+
+    if (!user) {
+      throw new AppError('Usuário não encontrado.');
+    }
 
     const forgotPasswordTemplate = path.resolve(
       __dirname,
+      '..',
       '..',
       'views',
       'forgot_password.hbs',
@@ -93,15 +103,15 @@ class CreateDisciplinaService {
     // Envio de email
     await this.mailProvider.sendMail({
       to: {
-        email: cadDisciplina.professor.email,
-        name: cadDisciplina.professor.name,
+        email: user.email,
+        name: user.name,
       },
       subject: 'Teste',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
-          name: cadDisciplina.professor.name,
-          link: `sua chave é: ${cadDisciplina.professor.email}`,
+          name: user.name,
+          link: `sua chave é: ${user.email}`,
         },
       },
     });

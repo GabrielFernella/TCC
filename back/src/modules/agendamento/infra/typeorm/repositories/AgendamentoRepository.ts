@@ -3,7 +3,6 @@ import { getRepository, Repository } from 'typeorm';
 import IAgendamentoRepository from '@modules/agendamento/repositories/IAgendamentoRepository';
 
 import {
-  ICreateAgendamentoDTO,
   IUpdateAgendamentoDTO,
   ICreateAgendamentoDTO2,
 } from '@modules/agendamento/dtos/IAgendamentoDTO';
@@ -14,12 +13,6 @@ class AgendamentoRepository implements IAgendamentoRepository {
 
   constructor() {
     this.ormRepository = getRepository(Agendamento);
-  }
-  public async create2(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
-    const createAgendamento = this.ormRepository.create(data);
-    await this.ormRepository.save(createAgendamento);
-
-    return createAgendamento;
   }
 
   public async findById(
@@ -70,7 +63,7 @@ class AgendamentoRepository implements IAgendamentoRepository {
         status === 'cancelado'
       )
     ) { */
-    //await this.ormRepository.update(id, { status });
+    // await this.ormRepository.update(id, { status });
     const result = await this.ormRepository.findOne(id);
     return result;
   }

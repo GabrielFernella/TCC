@@ -1,4 +1,4 @@
-import { StatusAula } from "../infra/typeorm/entities/Agendamento";
+import { StatusAula } from '../infra/typeorm/entities/Agendamento';
 
 interface IStatusAgendamento {
   status: 'processando' | 'confirmacao' | 'efetivado' | 'cancelado';
@@ -9,7 +9,7 @@ interface IDate {
   hourStart: number;
 }
 
-export interface ICreateAgendamentoDTO {
+export interface ICreateAgendamentoDTOTeste {
   data: Date;
   entrada: number;
   saida: number;

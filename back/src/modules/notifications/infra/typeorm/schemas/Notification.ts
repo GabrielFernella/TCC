@@ -15,6 +15,9 @@ class Notification {
   @Column()
   content: string;
 
+  @Column()
+  type: string;
+
   @Column('uuid')
   recipient_id: string;
 

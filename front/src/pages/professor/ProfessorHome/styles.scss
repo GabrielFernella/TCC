@@ -42,7 +42,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
     width: 100%;
     max-width: 74rem;
     border-radius: 0.8rem;
@@ -72,36 +72,33 @@
       }
     }
 
-    #listCards{
+    #listCards {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-     
-        .cards {
-          background: #d4c2ff;
-          
-          //background: var(--color-input-background);
-          max-height: 6.5rem ;
-          width: 80%;
-          max-width: 74rem;
-          border-radius: 0.8rem;
-          //border: solid #d4c2ff;
-          //margin: -3.2rem auto 3.2rem;
-          padding: 1.2rem;
-          overflow: hidden;
-          margin-top: 2.4rem;
-          transition: 1s;
-          
-          
-  
-  
-          &:hover {
-            //background: #d9cdf5;
-            //border: solid #b9a6e7;
-            margin-left: 10px;
-          }
+      width: 100%;
+
+      .cards {
+        background: #d4c2ff;
+
+        //background: var(--color-input-background);
+        max-height: 6.5rem;
+        width: 80%;
+        //max-width: 74rem;
+        border-radius: 0.8rem;
+        //border: solid #d4c2ff;
+        //margin: -3.2rem auto 3.2rem;
+        padding: 1.2rem;
+        overflow: hidden;
+        margin-top: 2.4rem;
+        transition: margin-left 0.5s;
+
+        &:hover {
+          margin-left: -20px;
+        }
       }
+
       #green {
         background: #b8ffe2;
       }
@@ -110,8 +107,6 @@
         background: #ffb8bc;
       }
     }
-
-    
   }
 }
 
@@ -121,7 +116,7 @@
 
     .profile-header {
       margin-top: 7rem;
-      p{
+      p {
         max-width: 100%;
       }
     }
@@ -135,7 +130,6 @@
     #content {
       .menu {
         display: block;
-        
       }
     }
   }

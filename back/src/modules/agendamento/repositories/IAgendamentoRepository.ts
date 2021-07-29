@@ -1,9 +1,8 @@
 import Agendamento from '../infra/typeorm/entities/Agendamento';
 
 import {
-  ICreateAgendamentoDTO,
   IUpdateAgendamentoDTO,
-  ICreateAgendamentoDTO2
+  ICreateAgendamentoDTO2,
 } from '../dtos/IAgendamentoDTO';
 
 export default interface IAgendamentoRepository {
@@ -11,8 +10,7 @@ export default interface IAgendamentoRepository {
   findByAlunoID(aluno_id: string): Promise<Agendamento[] | undefined>;
   findByProfessorID(professor_id: string): Promise<Agendamento[] | undefined>;
   // consultStatusAgendamento(id: string): Promise<string>;
-  create(data: ICreateAgendamentoDTO): Promise<Agendamento>;
-  create2(data: ICreateAgendamentoDTO2): Promise<Agendamento>;
+  create(data: ICreateAgendamentoDTO2): Promise<Agendamento>;
   updateStatus(id: string, status: string): Promise<Agendamento | undefined>;
   save(user: Agendamento): Promise<Agendamento>;
 }

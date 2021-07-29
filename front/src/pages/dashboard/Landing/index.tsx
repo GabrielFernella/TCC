@@ -14,7 +14,7 @@ const Landing: React.FC = () => {
 
   useEffect(() => {
     api
-      .get('echo')
+      .get('notification/echo')
       .then(() => {
         toast.success('Server Connected');
       })
