@@ -1,28 +1,28 @@
 import { StatusAula } from '../infra/typeorm/entities/Agendamento';
 
-interface IStatusAgendamento {
-  status: 'processando' | 'confirmacao' | 'efetivado' | 'cancelado';
-}
+/* export interface IStatusAgendamento {
+  status: 'processando' | 'agendado' | 'efetivado' | 'cancelado';
+} */
 
 interface IDate {
   day: Date;
   hourStart: number;
 }
 
-export interface ICreateAgendamentoDTOTeste {
+/* export interface IAgendamentoDTO {
   data: Date;
   entrada: number;
   saida: number;
-  status: StatusAula;
-  link: string;
-  nota: string;
-  opiniao: string;
+  //status: StatusAula;
+  //link: string;
+  //nota: string;
+  //opiniao: string;
   disciplina_id: string;
   professor_id: string;
   aluno_id: string;
-}
+} */
 
-export interface ICreateAgendamentoDTO2 {
+export interface ICreateAgendamentoDTO {
   data: Date;
   entrada: number;
   saida: number;
@@ -36,6 +36,6 @@ export interface ICreateAgendamentoDTO2 {
   pagamento_id: string;
 }
 
-export interface IUpdateAgendamentoDTO {
-  status: IStatusAgendamento;
+export interface IUpdateStatusAgendamentoDTO {
+  status: StatusAula;
 }

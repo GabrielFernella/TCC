@@ -35,7 +35,7 @@ export default class Pagamento {
   @Column()
   emailPagador: string;
 
-  @Column()
+  @Column({ type: 'numeric' })
   valor: number;
 
   @Column()

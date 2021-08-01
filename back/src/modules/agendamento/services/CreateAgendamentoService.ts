@@ -18,6 +18,14 @@ import { ICreateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 import Agendamento, { StatusAula } from '../infra/typeorm/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
+export interface IAgendamentoDTO {
+  data: Date;
+  entrada: number;
+  disciplina_id: string;
+  professor_id: string;
+  aluno_id: string;
+}
+
 @injectable()
 class CreateAgendamentoService {
   constructor(
@@ -40,10 +48,10 @@ class CreateAgendamentoService {
     private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  public async execute(dto: ICreateAgendamentoDTO): Promise<Agendamento> {
+  public async execute(dto: IAgendamentoDTO): Promise<Agendamento> {
     const dateAtual = new Date();
     let alunoEmail = '';
-    let pixProfessor = '';
+    const pixProfessor = '';
     let valorDisciplina = 0;
     let titleDisciplina = '';
     const hourEnd = dto.entrada + 1;
@@ -54,11 +62,11 @@ class CreateAgendamentoService {
     }
 
     // Validar se a hora de entrada é maior do que a de saída
-    if (hourEnd > dto.entrada) {
+    if (hourEnd < dto.entrada) {
       throw new AppError('Hora de Saída maior que hora de entrada!');
     }
 
-    // VALIDACOES DISCIPLINA
+    // #################### VALIDACOES DISCIPLINA
     if (!dto.disciplina_id) {
       throw new AppError('Disciplina Inválida!');
     }
@@ -74,10 +82,10 @@ class CreateAgendamentoService {
         titleDisciplina = disciplina.titulo;
       });
 
-    // VALIDACOES ALUNO
-    if (!dto.aluno_id) {
+    // ###################### VALIDACOES ALUNO
+    /* if (!dto.aluno_id) {
       throw new AppError('Aluno Inválido!');
-    }
+    } */
 
     await this.alunoRepository.findById(dto.aluno_id).then(aluno => {
       if (!aluno) {
@@ -91,14 +99,14 @@ class CreateAgendamentoService {
         throw new AppError('Aluno está bloqueado pelo sistema!');
       }
 
-      // Validar se Aluno contém uma aula no mesmo horário(alterado)
+      // Validar se Aluno contém uma aula no mesmo dia e horário(alterado)
       if (aluno.agendamentos) {
         const result = aluno.agendamentos.filter(a => {
           if (
             a.data.getDay() === dto.data.getDay() &&
             (a.entrada === dto.entrada || a.saida === hourEnd)
           ) {
-            return true;
+            return a; // ou true
           }
           return false;
         });
@@ -116,41 +124,53 @@ class CreateAgendamentoService {
       throw new AppError('Professor Inválido!');
     }
 
-    await this.professorRepository
+    const professorAgendamentos = await this.agendamentoRepository.findByProfessorID(
+      dto.professor_id,
+    );
+
+    if (professorAgendamentos) {
+      const verifyDisponibilidadeDoProfessor = professorAgendamentos.filter(
+        item =>
+          item.data.getDay() === dto.data.getDay() &&
+          (item.entrada === dto.entrada || item.saida === hourEnd),
+      );
+
+      if (verifyDisponibilidadeDoProfessor.length >= 1) {
+        throw new AppError(
+          'Professor já possui um agendamento para essa data!',
+        );
+      }
+    }
+
+    /* await this.professorRepository
       .findById(dto.professor_id)
       .then(async professor => {
         if (!professor) {
           throw new AppError('Não foi possível obter o professor!');
         }
 
-        // Validar se Professor contém uma aula no mesmo horário
-        if (professor.agendamentos) {
-          if (
-            professor.agendamentos.filter(
-              a =>
-                a.data.getDay() === dto.data.getDay() &&
-                (a.entrada === dto.entrada || a.saida === hourEnd),
-            )
-          ) {
-            throw new AppError(
-              'Professor já tem um agendamento neste horário!',
-            );
-          }
-        }
-
-        // Validar se Professor contém a disponibilidade para esta aula
-        const validadeDisponibilidade = professor.disponibilidades.filter(
-          d =>
-            d.diaSemana === dto.data.getDay() && // Dia da semana Igual
-            dto.entrada >= d.horarioEntrada && // Hora de entrada do agendamento maior ou igual à disponibilidade
-            hourEnd <= d.horarioSaida, // Hora de saida do agendamento menor ou igual à disponibilidade
+        const verifyDisponibilidadeDoProfessor = await this.agendamentoRepository.findByProfessorID(
+          professor.id,
         );
-        if (!validadeDisponibilidade) {
-          throw new AppError('Disponibilidade Inválida!');
+
+        if (verifyDisponibilidadeDoProfessor === undefined) {
+          return;
         }
 
-        pixProfessor = professor.pix;
-      });
+        const dataPermitida = professor.agendamentos.filter(a => {
+          if (
+            a.data.getDay() === dto.data.getDay() &&
+            (a.entrada === dto.entrada || a.saida === hourEnd)
+          ) {
+            return true;
+          }
+          return false;
+        });
+
+        if (dataPermitida.length >= 1) {
+          throw new AppError('Professor já tem um agendamento neste horário!');
+        }
+      }); */
 
     // Criar Pagamento
 
@@ -163,8 +183,13 @@ class CreateAgendamentoService {
       valor: valorDisciplina,
     });
 
-    const result = await this.agendamentoRepository.create2({
+    const result = await this.agendamentoRepository.create({
       ...dto,
+      saida: dto.entrada + 1,
+      link: '',
+      opiniao: '',
+      status: 1,
+      nota: '',
       pagamento_id: pagamento.id,
     });
 

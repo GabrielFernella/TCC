@@ -21,17 +21,13 @@ agendamentoRouter.get(
   agendamentoController.create,
 );
 
-
 // Create Dsiciplina
 agendamentoRouter.post(
   '/create',
   celebrate({
     [Segments.BODY]: {
-      date: Joi.string().required(),
-      link: Joi.string().required(),
-      status: Joi.number().required(),
-      nota: Joi.string().required(),
-      opiniao: Joi.string().required(),
+      data: Joi.date().required(),
+      entrada: Joi.number().required(),
       aluno_id: Joi.string().required(),
       professor_id: Joi.string().required(),
       disciplina_id: Joi.string().required(),
@@ -39,7 +35,6 @@ agendamentoRouter.post(
   }),
   agendamentoController.create,
 );
-
 
 // Autenticar Usuário
 agendamentoRouter.use(ensureAuthenticated);

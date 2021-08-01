@@ -73,11 +73,6 @@ export default class AgendamentoController {
     const {
       data,
       entrada,
-      saida,
-      status,
-      link,
-      nota,
-      opiniao,
       disciplina_id,
       professor_id,
       aluno_id,
@@ -87,11 +82,6 @@ export default class AgendamentoController {
     const agendamento = await listAgendamentos.execute({
       data,
       entrada,
-      saida,
-      status,
-      link,
-      nota,
-      opiniao,
       disciplina_id,
       professor_id,
       aluno_id,

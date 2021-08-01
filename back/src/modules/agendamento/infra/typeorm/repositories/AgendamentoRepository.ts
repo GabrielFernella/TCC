@@ -2,11 +2,8 @@ import { getRepository, Repository } from 'typeorm';
 
 import IAgendamentoRepository from '@modules/agendamento/repositories/IAgendamentoRepository';
 
-import {
-  IUpdateAgendamentoDTO,
-  ICreateAgendamentoDTO2,
-} from '@modules/agendamento/dtos/IAgendamentoDTO';
-import Agendamento from '../entities/Agendamento';
+import { ICreateAgendamentoDTO } from '@modules/agendamento/dtos/IAgendamentoDTO';
+import Agendamento, { StatusAula } from '../entities/Agendamento';
 
 class AgendamentoRepository implements IAgendamentoRepository {
   private ormRepository: Repository<Agendamento>;
@@ -44,7 +41,7 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return result;
   }
 
-  public async create(data: ICreateAgendamentoDTO2): Promise<Agendamento> {
+  public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
     const createAgendamento = this.ormRepository.create(data);
     await this.ormRepository.save(createAgendamento);
 
@@ -53,8 +50,9 @@ class AgendamentoRepository implements IAgendamentoRepository {
 
   public async updateStatus(
     id: string,
-    status: string,
+    status: StatusAula,
   ): Promise<Agendamento | undefined> {
+    // ################# Falta arrumar essa parte
     /* if (
       !(
         status === 'processando' ||
@@ -63,7 +61,9 @@ class AgendamentoRepository implements IAgendamentoRepository {
         status === 'cancelado'
       )
     ) { */
-    // await this.ormRepository.update(id, { status });
+    await this.ormRepository.update(id, {
+      status,
+    });
     const result = await this.ormRepository.findOne(id);
     return result;
   }

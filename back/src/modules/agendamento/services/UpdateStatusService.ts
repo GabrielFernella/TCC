@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import { IUpdateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
+// import { IUpdateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 import Agendamento from '../infra/typeorm/entities/Agendamento';
@@ -14,16 +14,17 @@ class FindAgendamentoService {
     private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  public async execute(id: string, status: string): Promise<Agendamento> {
+  public async execute(id: string, status: number): Promise<Agendamento> {
     if (
       !(
-        status === 'processando' ||
-        status === 'confirmacao' ||
-        status === 'efetivado' ||
-        status === 'cancelado'
+        status === 0 ||
+        status === 1 ||
+        status === 2 ||
+        status === 3 ||
+        status === 4
       )
     ) {
-      throw new AppError('Status inválido não encontrado');
+      throw new AppError('Status inválido');
     }
 
     const agendamento = await this.agendamentoRepository.updateStatus(
