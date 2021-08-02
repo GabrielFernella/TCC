@@ -129,6 +129,27 @@ class CreateAgendamentoService {
     );
 
     if (professorAgendamentos) {
+      const disponibilidadeTeacher = await this.disponibilidadeRepository.findByProfessorID(
+        dto.professor_id,
+      );
+
+      if (!disponibilidadeTeacher) {
+        throw new AppError('Professor não possui disponibilidade!');
+      }
+
+      const verifyDisponibilidade = disponibilidadeTeacher.filter(
+        item =>
+          item.diaSemana === dto.data.getDay() &&
+          item.horarioEntrada >= dto.entrada &&
+          item.horarioSaida <= dto.entrada + 1,
+      );
+
+      if (!(verifyDisponibilidade.length >= 1)) {
+        throw new AppError(
+          'Intervalo de horas inválidas de acordo com o professor',
+        );
+      }
+
       const verifyDisponibilidadeDoProfessor = professorAgendamentos.filter(
         item =>
           item.data.getDay() === dto.data.getDay() &&
