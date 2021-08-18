@@ -5,6 +5,8 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 import api from '../../../services/api';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 interface IResponse {
   id: string;
@@ -134,6 +136,28 @@ const ProfessorListAgendamentos: React.FC = () => {
 
       <main>
         <fieldset>
+          <div className="filterContent">
+            <h2>Agendamentos</h2>
+            <div className="inputContent">
+              <Input name="filter" label="Disciplina" />
+              <Input type="date" name="data" label="Data" />
+            </div>
+
+            <div className="buttonsContent">
+              <Button id="alterar" name="handleFilter">
+                Pendente
+              </Button>
+              <Button id="deletar" name="handleFilter">
+                Cancelados
+              </Button>
+              <Button id="aceitar" name="handleFilter">
+                Concluídos
+              </Button>
+            </div>
+          </div>
+          <br />
+          <hr />
+
           <div id="list-info">
             <div key={agendamentos.id} id="card">
               <div className="states">

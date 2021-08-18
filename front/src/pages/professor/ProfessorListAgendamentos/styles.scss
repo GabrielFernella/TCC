@@ -77,6 +77,42 @@
         }
       }
 
+      .filterContent {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: space-between;
+        align-items: center;
+
+        .inputContent {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          input {
+            height: 5rem;
+
+            & {
+              margin-right: 4px;
+            }
+          }
+        }
+
+        .buttonsContent {
+          display: flex;
+          height: 100%;
+          button {
+            margin: 0;
+            width: 80%;
+
+            height: 5rem;
+
+            & {
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+
       #card {
         background: var(--color-box-base);
         //background: var(--color-input-background);
@@ -122,27 +158,6 @@
           transition: background-color 0.5s;
           margin-top: 3.2rem;
           margin: 10px;
-        }
-        #alterar {
-          background: #8257e5;
-          border: solid #8257e5;
-          &:hover {
-            background: #6c3cdd;
-          }
-        }
-        #deletar {
-          background: red;
-          border: solid red;
-          &:hover {
-            background: rgb(216, 17, 17);
-          }
-        }
-        #aceitar {
-          background: var(--color-secundary-dark);
-          border: solid var(--color-secundary-dark);
-          &:hover {
-            background: #029b47;
-          }
         }
 
         #desc {
@@ -258,4 +273,26 @@
   #avatar-info {
     grid-area: avatar;
   }*/
+}
+
+#alterar {
+  background: #8257e5;
+  border: solid #8257e5;
+  &:hover {
+    background: #6c3cdd;
+  }
+}
+#deletar {
+  background: red;
+  border: solid red;
+  &:hover {
+    background: rgb(216, 17, 17);
+  }
+}
+#aceitar {
+  background: var(--color-secundary-dark);
+  border: solid var(--color-secundary-dark);
+  &:hover {
+    background: #029b47;
+  }
 }
