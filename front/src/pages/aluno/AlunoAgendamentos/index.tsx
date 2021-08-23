@@ -141,7 +141,6 @@ const AlunoAgendamentos: React.FC = () => {
                 <h2>
                   Status:
                   <span style={alterColor(agendamentos.status)}>
-                    {' '}
                     {agendamentos.status}
                   </span>
                 </h2>

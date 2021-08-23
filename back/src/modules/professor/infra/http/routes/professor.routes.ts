@@ -68,6 +68,8 @@ professorRouter.put(
   professorController.update,
 );
 
+professorRouter.get('/agendamentos', professorController.listAppointments);
+
 /* usersRouter.patch(
   '/avatar',
   ensureAuthenticated,

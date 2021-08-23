@@ -47,6 +47,8 @@ alunoRoute.put(
   alunoController.update,
 );
 
+alunoRoute.get('/agendamentos', alunoController.listAgendamentos);
+
 /* usersRouter.patch(
   '/avatar',
   ensureAuthenticated,

@@ -144,7 +144,7 @@ class CreateAgendamentoService {
           item.horarioSaida <= dto.entrada + 1,
       );
 
-      if (!(verifyDisponibilidade.length >= 1)) {
+      if (verifyDisponibilidade.length >= 1) {
         throw new AppError(
           'Intervalo de horas inválidas de acordo com o professor',
         );

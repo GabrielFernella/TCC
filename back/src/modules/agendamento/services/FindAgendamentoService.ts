@@ -5,6 +5,8 @@ import AppError from '@shared/errors/AppError';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 import Agendamento from '../infra/typeorm/entities/Agendamento';
 
+// Esse serviço procura todos os agendamentos
+
 @injectable()
 class FindAgendamentoService {
   constructor(

@@ -8,7 +8,16 @@ const agendamentoRouter = Router();
 const agendamentoController = new AgendamentoController();
 
 // Listagem Disciplina
-agendamentoRouter.get('/list', agendamentoController.listAllByProfessor);
+agendamentoRouter.get(
+  '/list/professor',
+  celebrate({
+    [Segments.QUERY]: {
+      id: Joi.string().uuid().required(),
+      data: Joi.string().required(),
+    },
+  }),
+  agendamentoController.listAgendamentosByProfessor,
+);
 
 // Show all disciplina do professor_id
 agendamentoRouter.get(
@@ -21,7 +30,7 @@ agendamentoRouter.get(
   agendamentoController.create,
 );
 
-// Create Dsiciplina
+// Criar agendamento
 agendamentoRouter.post(
   '/create',
   celebrate({
@@ -36,7 +45,7 @@ agendamentoRouter.post(
   agendamentoController.create,
 );
 
-// Autenticar Usuário
+// Autenticar Usuário Através do Middleware, assim consigo pegar o ID do mesmo
 agendamentoRouter.use(ensureAuthenticated);
 
 // Update Disciplina
@@ -62,17 +71,6 @@ agendamentoRouter.put(
       disciplina_id: Joi.string().required(),
       qtdAvaliacao: Joi.number().required(),
       mediaAvaliacao: Joi.number().required(),
-    },
-  }),
-  agendamentoController.create,
-);
-
-// Delete Disciplina #
-agendamentoRouter.delete(
-  '/delete',
-  celebrate({
-    [Segments.BODY]: {
-      disciplina_id: Joi.string().required(),
     },
   }),
   agendamentoController.create,

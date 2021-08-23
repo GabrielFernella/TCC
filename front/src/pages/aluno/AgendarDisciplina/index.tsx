@@ -44,6 +44,10 @@ interface IResponse {
   ];
 }
 
+interface IDia {
+  dia: Date;
+}
+
 /* function parseDate(dateString: string, format: string, locale: string) {
   const parsed = dateFnsParse(dateString, format, new Date());
   if (DateUtils.isDate(parsed)) {
@@ -67,7 +71,7 @@ formatDate?: (date: Date, format: string, locale: string) => string;
 const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   const [data, setData] = useState<IResponse>();
   const [hora, setHora] = useState('');
-  const [dia, setDia] = useState(0);
+  const [dia, setDia] = useState<IDia>();
 
   const [value, onChange] = useState(new Date());
 
@@ -113,6 +117,10 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   const changeDate = (e: any) => {
     setDateState(e);
   };
+
+  useEffect(() => {
+    console.log(dia?.dia.getDay);
+  }, [dia]);
 
   // 58 min
   // rever parte que mostra as disponibilidades
@@ -169,21 +177,23 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
                 ))}
               </div>
               <br />
-              <br />
 
               <div id="btn-agendar">
-                <div>
-                  <DatePicker value={value} onChange={() => onChange} />
-                </div>
+                <Input
+                  name="data"
+                  type="date"
+                  label="Data"
+                  // onChange={e => console.log(e.target.value.substr(-2))}
+                  // onChange={e => setDia(e.target.value)}
+                />
 
                 <Input
                   name="saida"
-                  // label="Até"
+                  label="Até"
                   value={hora}
                   mask="money"
                   maxLength={2}
                   onChange={e => setHora(e.target.value)}
-                  required
                 />
               </div>
               <button className="button" type="submit">

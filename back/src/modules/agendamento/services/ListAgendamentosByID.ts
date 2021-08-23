@@ -8,31 +8,22 @@ import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 import Agendamento from '../infra/typeorm/entities/Agendamento';
 
 @injectable()
-class FindDisciplinaService {
+class ListAgendamentosByID {
   constructor(
-    @inject('AlunoRepository')
-    private alunoRepository: IAlunoRepository,
-
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  public async execute(email: string): Promise<Agendamento[]> {
-    const findAluno = await this.alunoRepository.findByEmail(email);
-
-    if (!findAluno) {
-      throw new AppError('Aluno não encontrado.');
-    }
-
+  /* public async execute(email: string): Promise<Agendamento[]> {
     // Procura a disciplina através do ID
-    const result = await this.agendamentoRepository.findByAlunoID(findAluno.id);
+    const result = await this.agendamentoRepository.findById(email);
     if (!result) {
       throw new AppError(
         'Naõ foi encontrado nenhum agendamento para esse Aluno.',
       );
     }
     return result;
-  }
+  } */
 }
 
-export default FindDisciplinaService;
+export default ListAgendamentosByID;

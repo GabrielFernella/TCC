@@ -5,6 +5,7 @@ import { classToClass } from 'class-transformer';
 import CreateAlunoService from '@modules/aluno/services/CreateAlunoService';
 import UpdateAlunoService from '@modules/aluno/services/UpdateAlunoService';
 import ShowAlunoService from '@modules/aluno/services/ShowAlunoService';
+import ListAllAgendamentosService from '@modules/aluno/services/ListAllAgendamentosService';
 
 export default class AlunoController {
   public async show(request: Request, response: Response): Promise<Response> {
@@ -47,5 +48,18 @@ export default class AlunoController {
     });
 
     return response.status(201).json(classToClass(updated));
+  }
+
+  public async listAgendamentos(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.user;
+
+    const createUser = container.resolve(ListAllAgendamentosService);
+
+    const user = await createUser.execute({ id });
+
+    return response.json(classToClass(user));
   }
 }

@@ -2,15 +2,13 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import FindByAlunoIdService from '@modules/agendamento/services/FindByAlunoIdService';
-import FindByProfessorIdService from '@modules/agendamento/services/FindByProfessorIdService';
-import ListAgendamentoByEmailAlunoService from '@modules/agendamento/services/ListAgendamentoByEmailAlunoService';
+import ListHorasDisponiveisProfService from '@modules/agendamento/services/ListHorasDisponiveisProfService';
 import FindAgendamentoService from '@modules/agendamento/services/FindAgendamentoService';
 import UpdateStatusService from '@modules/agendamento/services/UpdateStatusService';
 import CreateAgendamentoService from '@modules/agendamento/services/CreateAgendamentoService';
 
 export default class AgendamentoController {
-  public async listAllByAluno(
+  /* public async listAllByAluno(
     request: Request,
     response: Response,
   ): Promise<Response> {
@@ -20,21 +18,22 @@ export default class AgendamentoController {
     const agendamentos = listAlunos.execute(user_id);
 
     return response.json(agendamentos);
-  }
+  } */
 
-  public async listAllByProfessor(
+  public async listAgendamentosByProfessor(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const user_id = request.user.id;
+    const id = request.query.id as string;
+    const data = request.query.data as string;
 
-    const listProfessor = container.resolve(FindByProfessorIdService);
-    const agendamentos = listProfessor.execute(user_id);
+    const listProfessor = container.resolve(ListHorasDisponiveisProfService);
+    const agendamentos = listProfessor.execute(id, data);
 
     return response.json(agendamentos);
   }
 
-  public async listByEmail(
+  /* public async listByEmail(
     request: Request,
     response: Response,
   ): Promise<Response> {
@@ -42,7 +41,7 @@ export default class AgendamentoController {
     const findAluno = container.resolve(ListAgendamentoByEmailAlunoService);
     const agendamentos = findAluno.execute(email);
     return response.json(agendamentos);
-  }
+  } */
 
   public async findAgendamento(
     request: Request,
