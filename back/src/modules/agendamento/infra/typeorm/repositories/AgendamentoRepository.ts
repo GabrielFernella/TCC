@@ -48,6 +48,16 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return createAgendamento;
   }
 
+  public async listAgendamentoByDate(date: Date): Promise<Agendamento[]> {
+    const agendamento = this.ormRepository.find({
+      where: {
+        data: date,
+      },
+    });
+
+    return agendamento;
+  }
+
   public async updateStatus(
     id: string,
     status: StatusAula,

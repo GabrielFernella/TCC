@@ -29,6 +29,12 @@ class Usuario {
   @Column()
   pix: string;
 
+  @Column({ nullable: true, default: '' })
+  key: string;
+
+  @Column({ nullable: true, default: false })
+  bloqueio: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

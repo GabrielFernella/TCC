@@ -16,24 +16,24 @@ class DeleteDisciplinaService {
     professor_id: string,
     disciplina_id: string,
   ): Promise<Disciplina> {
-    const result = await this.disciplinaRepository.findByID(disciplina_id);
+    const disciplina = await this.disciplinaRepository.findByID(disciplina_id);
 
-    if (!result) {
+    if (!disciplina) {
       throw new AppError('Disciplina não encontrada');
     }
 
-    if (professor_id !== result.professor_id) {
+    if (professor_id !== disciplina.professor_id) {
       throw new AppError('Disciplina não pertence a esse professor');
     }
 
-    result.ativado = false;
+    disciplina.ativado = false;
 
     // Ao invés de excluir apenas flegaremos a disciplina como Inativa
-    await this.disciplinaRepository.save(result);
+    await this.disciplinaRepository.save(disciplina);
 
     // await this.disciplinaRepository.deleted(disciplina_id);
 
-    return result;
+    return disciplina;
   }
 }
 

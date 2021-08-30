@@ -2,10 +2,14 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
-
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 import Agendamento from '../infra/typeorm/entities/Agendamento';
+
+interface IRequest {
+  agendamento_id: string;
+}
+
+// ## Esse serviço retorna as informações do agendamento de acordo com o ID do mesmo
 
 @injectable()
 class ListAgendamentosByID {
@@ -14,16 +18,19 @@ class ListAgendamentosByID {
     private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  /* public async execute(email: string): Promise<Agendamento[]> {
+  public async execute({ agendamento_id }: IRequest): Promise<Agendamento> {
     // Procura a disciplina através do ID
-    const result = await this.agendamentoRepository.findById(email);
-    if (!result) {
+    const agendamento = await this.agendamentoRepository.findById(
+      agendamento_id,
+    );
+    if (!agendamento) {
       throw new AppError(
         'Naõ foi encontrado nenhum agendamento para esse Aluno.',
       );
     }
-    return result;
-  } */
+
+    return agendamento;
+  }
 }
 
 export default ListAgendamentosByID;

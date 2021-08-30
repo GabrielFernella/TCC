@@ -41,6 +41,10 @@ class ProfessorRepository implements IProfessorRepository {
     return this.ormRepository.save(user);
   }
 
+  public async saveKey(key: string): Promise<Professor> {
+    return this.ormRepository.save({ key });
+  }
+
   public async updated(
     professor_id: string,
     data: IUpdateProfessorDTO,

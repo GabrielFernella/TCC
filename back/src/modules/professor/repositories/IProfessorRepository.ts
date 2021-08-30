@@ -14,4 +14,5 @@ export default interface IProfessorRepository {
     data: IUpdateProfessorDTO,
   ): Promise<Professor | undefined>;
   save(user: Professor): Promise<Professor>;
+  saveKey(key: string): Promise<Professor>;
 }

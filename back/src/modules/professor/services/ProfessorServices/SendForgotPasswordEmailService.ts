@@ -7,6 +7,8 @@ import IMailProvider from '@shared/container/providers/MailProvider/models/IMail
 import IProfessorRepository from '../../repositories/IProfessorRepository';
 import IProfessorTokensRepository from '../../repositories/IProfessorTokensRepository';
 
+import { generateKey } from '../../../../shared/container/Tools';
+
 interface IRequest {
   email: string;
 }
@@ -40,6 +42,9 @@ class SendForgotPasswordEmailService {
       'forgot_password.hbs',
     );
 
+    const key = generateKey();
+
+    const teacherSave = await this.professorRepository.saveKey(key);
     // Enviar o email para o destinatário
     await this.mailProvider.sendMail({
       to: {
@@ -52,6 +57,7 @@ class SendForgotPasswordEmailService {
         variables: {
           name: user.name,
           link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+          key: teacherSave.key,
         },
       },
     });

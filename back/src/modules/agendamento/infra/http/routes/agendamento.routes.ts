@@ -7,18 +7,6 @@ import AgendamentoController from '../controllers/AgendamentoController';
 const agendamentoRouter = Router();
 const agendamentoController = new AgendamentoController();
 
-// Listagem Disciplina
-agendamentoRouter.get(
-  '/list/professor',
-  celebrate({
-    [Segments.QUERY]: {
-      id: Joi.string().uuid().required(),
-      data: Joi.string().required(),
-    },
-  }),
-  agendamentoController.listAgendamentosByProfessor,
-);
-
 // Show all disciplina do professor_id
 agendamentoRouter.get(
   '/find',
@@ -47,6 +35,18 @@ agendamentoRouter.post(
 
 // Autenticar Usuário Através do Middleware, assim consigo pegar o ID do mesmo
 agendamentoRouter.use(ensureAuthenticated);
+
+// Listar todas as horas disponíveis do professor
+agendamentoRouter.post(
+  '/prof-horas',
+  celebrate({
+    [Segments.BODY]: {
+      professor_id: Joi.string().uuid().required(),
+      data: Joi.string().required(),
+    },
+  }),
+  agendamentoController.ListHorasDisponiveisProf,
+);
 
 // Update Disciplina
 agendamentoRouter.put(

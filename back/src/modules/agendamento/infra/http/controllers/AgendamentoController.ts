@@ -20,17 +20,21 @@ export default class AgendamentoController {
     return response.json(agendamentos);
   } */
 
-  public async listAgendamentosByProfessor(
+  public async ListHorasDisponiveisProf(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const id = request.query.id as string;
-    const data = request.query.data as string;
+    // const id = request.query.id as string;
+    // const data = request.query.data as string;
 
-    const listProfessor = container.resolve(ListHorasDisponiveisProfService);
-    const agendamentos = listProfessor.execute(id, data);
+    const { professor_id, data } = request.body;
 
-    return response.json(agendamentos);
+    const listHorasDisponiveis = container.resolve(
+      ListHorasDisponiveisProfService,
+    );
+    const agendamentos = await listHorasDisponiveis.execute(professor_id, data);
+
+    return response.status(200).json(agendamentos);
   }
 
   /* public async listByEmail(

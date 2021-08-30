@@ -7,9 +7,6 @@ import AlunoToken from './AlunoToken';
 
 @Entity('aluno')
 class Aluno extends Usuario {
-  @Column({ nullable: true, default: false })
-  bloqueio: boolean;
-
   // TODO -> Refatorar para ficar no Usuário
   @OneToMany(() => Agendamento, aluno => Aluno)
   agendamentos: Agendamento[];

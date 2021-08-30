@@ -2,6 +2,7 @@ import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -43,6 +44,12 @@ export default class Disciplina {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column({ default: false })
+  deleted: boolean;
+
+  @DeleteDateColumn({ nullable: true })
+  deleted_at: Date;
 
   @Column()
   professor_id: string;
