@@ -11,8 +11,10 @@ interface IRequest {
 
 // ## Esse serviço retorna as informações do agendamento de acordo com o ID do mesmo
 
+// ### REVER ###
+
 @injectable()
-class ListAgendamentosByID {
+class ListAgendamentosByIDDate {
   constructor(
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
@@ -33,4 +35,4 @@ class ListAgendamentosByID {
   }
 }
 
-export default ListAgendamentosByID;
+export default ListAgendamentosByIDDate;

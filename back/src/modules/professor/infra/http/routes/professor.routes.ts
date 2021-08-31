@@ -68,7 +68,15 @@ professorRouter.put(
   professorController.update,
 );
 
-professorRouter.get('/agendamentos', professorController.listAppointments);
+professorRouter.post(
+  '/agendamentos',
+  celebrate({
+    [Segments.BODY]: {
+      date: Joi.string().required(),
+    },
+  }),
+  professorController.listAppointments,
+);
 
 /* usersRouter.patch(
   '/avatar',

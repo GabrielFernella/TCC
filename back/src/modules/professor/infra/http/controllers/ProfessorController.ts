@@ -58,10 +58,11 @@ export default class TeachersController {
     response: Response,
   ): Promise<Response> {
     const { id } = request.user;
+    const { date } = request.body;
 
     const appointments = container.resolve(ListAllAgendamentosService);
 
-    const agendamentos = await appointments.execute({ id });
+    const agendamentos = await appointments.execute({ id, date });
 
     return response.status(200).json(classToClass(agendamentos));
   }

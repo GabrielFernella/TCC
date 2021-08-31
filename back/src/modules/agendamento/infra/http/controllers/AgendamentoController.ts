@@ -6,6 +6,7 @@ import ListHorasDisponiveisProfService from '@modules/agendamento/services/ListH
 import FindAgendamentoService from '@modules/agendamento/services/FindAgendamentoService';
 import UpdateStatusService from '@modules/agendamento/services/UpdateStatusService';
 import CreateAgendamentoService from '@modules/agendamento/services/CreateAgendamentoService';
+import ListAgendamentosByIDDate from '@modules/agendamento/services/ListAgendamentosByIDDate';
 
 export default class AgendamentoController {
   /* public async listAllByAluno(
@@ -24,9 +25,6 @@ export default class AgendamentoController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    // const id = request.query.id as string;
-    // const data = request.query.data as string;
-
     const { professor_id, data } = request.body;
 
     const listHorasDisponiveis = container.resolve(
@@ -37,12 +35,14 @@ export default class AgendamentoController {
     return response.status(200).json(agendamentos);
   }
 
-  /* public async listByEmail(
+  /* public async listTodosAgendamentosPorData(
     request: Request,
     response: Response,
   ): Promise<Response> {
+    const user_id = request.body;
     const { email } = request.body;
-    const findAluno = container.resolve(ListAgendamentoByEmailAlunoService);
+
+    const findAluno = container.resolve(ListAgendamentosByIDDate);
     const agendamentos = findAluno.execute(email);
     return response.json(agendamentos);
   } */

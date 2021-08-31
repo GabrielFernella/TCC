@@ -92,7 +92,7 @@ class CreateDisciplinaService {
       throw new AppError('Usuário não encontrado.');
     }
 
-    const forgotPasswordTemplate = path.resolve(
+    /* const forgotPasswordTemplate = path.resolve(
       __dirname,
       '..',
       '..',
@@ -114,7 +114,7 @@ class CreateDisciplinaService {
           link: `sua chave é: ${user.email}`,
         },
       },
-    });
+    }); */
 
     return cadDisciplina;
   }

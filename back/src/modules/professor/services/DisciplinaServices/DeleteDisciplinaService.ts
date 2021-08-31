@@ -27,6 +27,8 @@ class DeleteDisciplinaService {
     }
 
     disciplina.ativado = false;
+    disciplina.deleted = true;
+    disciplina.deleted_at = new Date();
 
     // Ao invés de excluir apenas flegaremos a disciplina como Inativa
     await this.disciplinaRepository.save(disciplina);
