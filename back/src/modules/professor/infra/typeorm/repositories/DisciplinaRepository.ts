@@ -36,6 +36,19 @@ class DisciplinaRepository implements IDisciplinaRepository {
     return disciplina;
   }
 
+  public async findByIwithDeleted(
+    disciplina_id: string,
+  ): Promise<Disciplina | undefined> {
+    const disciplina = await this.ormRepository.findOne({
+      where: {
+        id: disciplina_id,
+      },
+      withDeleted: true,
+    });
+
+    return disciplina;
+  }
+
   public async create(data: ICreateDisciplinaDTO): Promise<Disciplina> {
     // Essa função deve ser executada 1 única vez
     const createDisciplina = this.ormRepository.create(data);

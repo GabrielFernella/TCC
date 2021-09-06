@@ -14,6 +14,9 @@ export default interface IDisciplinaRepository {
   // Procurar uma disciplina no banco
   findByID(id: string): Promise<Disciplina | undefined>;
 
+  // Busca o id mesmo que esteja deletado
+  findByIwithDeleted(id: string): Promise<Disciplina | undefined>;
+
   // Criando uma disciplina no banco
   create(data: ICreateDisciplinaDTO): Promise<Disciplina>;
 

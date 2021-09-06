@@ -52,7 +52,6 @@ class DisponibilidadeRepository implements IDisponibilidadeRepository {
       horarioEntrada,
       horarioSaida,
     });
-    console.log('Here');
 
     const findDisponibilidade = await this.ormRepository.findOne({
       where: { id },

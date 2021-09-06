@@ -16,6 +16,7 @@ import ProfessorUpdateDisciplina from '../pages/professor/ProfessorUpdateDiscipl
 import ProfessorListDisciplinas from '../pages/professor/ProfessorListDisciplinas';
 import ProfessorCadDisponibilidade from '../pages/professor/ProfessorCadDisponibilidade';
 import ProfessorListAgendamentos from '../pages/professor/ProfessorListAgendamentos';
+import ProfessorInfoAgendamento from '../pages/professor/ProfessorInfoAgendamento';
 import ProfessorHome from '../pages/professor/ProfessorHome';
 import ProfessorLogin from '../pages/professor/ProfessorLogin';
 
@@ -54,7 +55,16 @@ const Routes: React.FC = () => {
       <Route path="/prof-form" exact component={ProfessorForm} />
       <Route path="/prof-up-form" exact component={ProfessorUpdateForm} />
 
-      <Route path="/prof-agenda" exact component={ProfessorListAgendamentos} />
+      <Route
+        path="/professor/agenda"
+        exact
+        component={ProfessorListAgendamentos}
+      />
+      <Route
+        exact
+        path="/professor/agenda/info"
+        component={ProfessorInfoAgendamento}
+      />
       <Route
         path="/prof-cad-disciplina"
         exact
@@ -70,6 +80,7 @@ const Routes: React.FC = () => {
         exact
         component={ProfessorListDisciplinas}
       />
+
       <Route
         path="/prof-disponibilidade"
         exact

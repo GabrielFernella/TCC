@@ -106,7 +106,7 @@ class ListHorasDisponiveisProfService {
       return { hora: item.hora, disp: true };
     });
 
-    console.log(validHorasDisponiveis);
+    // console.log(validHorasDisponiveis);
 
     // Validar se tem algum outro agendamento nesse horário (validar o Array) - Montar um array com o anterior trazendo se tem horário disponível ou n
 

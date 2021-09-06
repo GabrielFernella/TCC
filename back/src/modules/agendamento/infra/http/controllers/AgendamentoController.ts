@@ -7,6 +7,8 @@ import FindAgendamentoService from '@modules/agendamento/services/FindAgendament
 import UpdateStatusService from '@modules/agendamento/services/UpdateStatusService';
 import CreateAgendamentoService from '@modules/agendamento/services/CreateAgendamentoService';
 import ListAgendamentosByIDDate from '@modules/agendamento/services/ListAgendamentosByIDDate';
+import GetAgendamentoInfoService from '@modules/agendamento/services/GetAgendamentoInfoService';
+import UpdateLinkService from '@modules/agendamento/services/UpdateLinkService';
 
 export default class AgendamentoController {
   /* public async listAllByAluno(
@@ -59,15 +61,20 @@ export default class AgendamentoController {
     return response.json(agendamento);
   }
 
+  // Atualizar o status do agendamento
   public async updateStatus(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { id, status } = request.body;
-    // const id = request.user.id;
+    const { agendamento_id, status } = request.body;
+    const user_id = request.user.id;
 
     const listAgendamentos = container.resolve(UpdateStatusService);
-    const agendamentos = listAgendamentos.execute(id, status);
+    const agendamentos = await listAgendamentos.execute(
+      agendamento_id,
+      status,
+      user_id,
+    );
 
     return response.json(agendamentos);
   }
@@ -89,6 +96,32 @@ export default class AgendamentoController {
       professor_id,
       aluno_id,
     });
+
+    return response.json(classToClass(agendamento));
+  }
+
+  public async info(request: Request, response: Response): Promise<Response> {
+    const { agendamento_id } = request.params;
+    const user_id = request.user.id;
+
+    const getInfoAgendamento = container.resolve(GetAgendamentoInfoService);
+    const agendamento = await getInfoAgendamento.execute({
+      agendamento_id,
+      user_id,
+    });
+
+    return response.json(agendamento);
+  }
+
+  public async updateLink(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { agendamento_id, link } = request.body;
+
+    const alterLink = container.resolve(UpdateLinkService);
+    const agendamento = await alterLink.execute(user_id, agendamento_id, link);
 
     return response.json(classToClass(agendamento));
   }

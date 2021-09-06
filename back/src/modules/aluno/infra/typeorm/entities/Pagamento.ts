@@ -12,13 +12,13 @@ import {
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
 import Aluno from './Aluno';
 
+// fiz alteração aqui
 export enum StatusPagamento {
   EmEspera = 0,
-  ProcessamentoCartao = 1,
-  Recusado = 2,
-  ProcessamentoPix = 3,
-  PixIncorreto = 4,
-  Finalizado = 5,
+  Processando = 1,
+  Negado = 2,
+  Cancelado = 3,
+  Concluido = 4,
 }
 
 @Entity('pagamento')

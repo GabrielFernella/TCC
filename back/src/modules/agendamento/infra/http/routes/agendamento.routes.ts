@@ -63,17 +63,39 @@ agendamentoRouter.put(
   agendamentoController.create,
 );
 
-// Update Disciplina -> AddAvaliacao
+// Update Agendamento
 agendamentoRouter.put(
-  '/avaliacao',
+  '/status',
   celebrate({
     [Segments.BODY]: {
-      disciplina_id: Joi.string().required(),
-      qtdAvaliacao: Joi.number().required(),
-      mediaAvaliacao: Joi.number().required(),
+      agendamento_id: Joi.string().uuid().required(),
+      status: Joi.number().required(),
     },
   }),
-  agendamentoController.create,
+  agendamentoController.updateStatus,
+);
+
+// Update Link
+agendamentoRouter.put(
+  '/link',
+  celebrate({
+    [Segments.BODY]: {
+      agendamento_id: Joi.string().uuid().required(),
+      link: Joi.string().required(),
+    },
+  }),
+  agendamentoController.updateLink,
+);
+
+// Get info Agendamento
+agendamentoRouter.get(
+  '/info/:agendamento_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      agendamento_id: Joi.string().uuid().required(),
+    },
+  }),
+  agendamentoController.info,
 );
 
 export default agendamentoRouter;
