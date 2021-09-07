@@ -25,7 +25,7 @@ import AlunoCadForm from '../pages/aluno/AlunoCadForm';
 import AlunoUpdateForm from '../pages/aluno/AlunoUpdateForm';
 import AlunoLogin from '../pages/aluno/AlunoLogin';
 import AlunoHome from '../pages/aluno/AlunoHome';
-import AlunoAgendamentos from '../pages/aluno/AlunoAgendamentos';
+import AlunoListAgendamentos from '../pages/aluno/AlunoListAgendamentos';
 import ListDisciplinas from '../pages/aluno/ListDisciplinas';
 import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
 import ListPendencias from '../pages/aluno/ListPendencias';
@@ -46,7 +46,11 @@ const Routes: React.FC = () => {
       <Route path="/aluno-form" exact component={AlunoCadForm} />
       <Route path="/aluno-up-form" exact component={AlunoUpdateForm} />
       <Route path="/list-disciplina" exact component={ListDisciplinas} />
-      <Route path="/aluno-agenda" exact component={AlunoAgendamentos} />
+      <Route
+        path="/aluno/agendamentos"
+        exact
+        component={AlunoListAgendamentos}
+      />
       <Route path="/agendar" exact component={AgendarDisciplina} />
       <Route path="/pendencias" exact component={ListPendencias} />
 
