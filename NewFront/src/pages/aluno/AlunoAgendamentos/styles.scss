@@ -77,42 +77,6 @@
         }
       }
 
-      .filterContent {
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-content: space-between;
-        align-items: center;
-
-        .inputContent {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          input {
-            height: 5rem;
-
-            & {
-              margin-right: 4px;
-            }
-          }
-        }
-
-        .buttonsContent {
-          display: flex;
-          height: 100%;
-          button {
-            margin: 0;
-            width: 80%;
-
-            height: 5rem;
-
-            & {
-              margin-right: 4px;
-            }
-          }
-        }
-      }
-
       #card {
         background: var(--color-box-base);
         //background: var(--color-input-background);
@@ -129,22 +93,6 @@
           //background: #d9cdf5;
           border: solid #b9a6e7;
           margin-left: 10px;
-        }
-
-        .states {
-          display: flex;
-          
-          align-items: center;
-          font-size: 16px;
-
-          gap: 2rem;
-        }
-
-        h3 {
-          max-width: 80%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
         }
 
         div {
@@ -175,6 +123,27 @@
           margin-top: 3.2rem;
           margin: 10px;
         }
+        #alterar {
+          background: #8257e5;
+          border: solid #8257e5;
+          &:hover {
+            background: #6c3cdd;
+          }
+        }
+        #deletar {
+          background: red;
+          border: solid red;
+          &:hover {
+            background: rgb(216, 17, 17);
+          }
+        }
+        #aceitar {
+          background: var(--color-secundary-dark);
+          border: solid var(--color-secundary-dark);
+          &:hover {
+            background: #029b47;
+          }
+        }
 
         #desc {
           word-break: break-word;
@@ -200,14 +169,6 @@
         }
       }
     }
-  }
-
-  .visualizar{
-    color: #FFF;
-  }
-
-  .btnVisualizar {
-    width: 100%;
   }
 }
 
@@ -297,26 +258,4 @@
   #avatar-info {
     grid-area: avatar;
   }*/
-}
-
-#alterar {
-  background: #8257e5;
-  border: solid #8257e5;
-  &:hover {
-    background: #6c3cdd;
-  }
-}
-#deletar {
-  background: red;
-  border: solid red;
-  &:hover {
-    background: rgb(216, 17, 17);
-  }
-}
-#aceitar {
-  background: var(--color-secundary-dark);
-  border: solid var(--color-secundary-dark);
-  &:hover {
-    background: #029b47;
-  }
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { parseISO, format } from 'date-fns';
-import { Link } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -105,13 +104,13 @@ const ProfessorListAgendamentos: React.FC = () => {
 
   async function getAppointments(findData: string) {
     const newDate = findData;
+    console.log(newDate);
 
     await api
       .post('/professor/agendamentos', {
         date: newDate,
       })
       .then(async response => {
-        setDate(newDate);
         setAgendamentos(await response.data);
       })
       .catch(() => {
@@ -119,29 +118,30 @@ const ProfessorListAgendamentos: React.FC = () => {
       });
   }
 
+  // Carregar todas as disciplinas
+
+  // setAgendamentos(teste);
+
   function alterColor(value: number) {
-    if (value === 4) {
+    if (value === 1) {
+      return { color: '#6C3CDD' };
+    }
+    if (value === 2) {
       return { color: 'red' };
     }
-    if (value === 3) {
-      return { color: 'green' };
-    }
-    return { color: '#6C3CDD' };
+    return { color: 'green' };
   }
 
-  async function putStatus(agendamento_id: string, status: number) {
-    await api
-      .put('/agendamento/status', {
-        agendamento_id,
-        status,
-      })
-      .then(() => {
-        getAppointments(date);
-        toast.success(`Alteração do status realizada com sucesso.`);
-      })
-      .catch(() => {
-        toast.error(`Algo deu errado ao mudar o status do Agendamento.`);
-      });
+  function select(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção: Visualizar  ${disciplina_id}`);
+  }
+
+  function cancelar(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção: Cancelar  ${disciplina_id}`);
+  }
+
+  function aceitar(disciplina_id: string) {
+    toast.success(`Você escolheu uma opção: Aceitar  ${disciplina_id}`);
   }
 
   return (
@@ -197,78 +197,51 @@ const ProfessorListAgendamentos: React.FC = () => {
                         'dd-MM-yyyy',
                       )}
                     </h2>
-                    <h3>
-                      Horario: {item.appointment.agendamento.entrada}h até{' '}
-                      {item.appointment.agendamento.saida}h
-                    </h3>
                     &ensp;&ensp;
+                    <h2>
+                      Status:
+                      <span
+                        style={alterColor(item.appointment.agendamento.status)}
+                      >
+                        {item.appointment.agendamento.status}
+                      </span>
+                    </h2>
                   </div>
-                  <h2>
-                    Status:
-                    <span
-                      style={alterColor(item.appointment.agendamento.status)}
-                    >
-                      {item.appointment.agendamento.status === 0 && (
-                        <span> Agendada</span>
-                      )}
-                      {item.appointment.agendamento.status === 1 && (
-                        <span> Confirmada </span>
-                      )}
-                      {item.appointment.agendamento.status === 2 && (
-                        <span> Em processo </span>
-                      )}
-                      {item.appointment.agendamento.status === 3 && (
-                        <span> Concluida </span>
-                      )}
-                      {item.appointment.agendamento.status === 4 && (
-                        <span> Cancelada </span>
-                      )}
-                    </span>
-                  </h2>
 
                   <h3>Disciplina: {item.appointment.disciplina.titulo}</h3>
                   <h3>Aluno: {item.appointment.aluno.name}</h3>
 
-                  <h3 className="link">
-                    Link de acesso: {item.appointment.agendamento.link}
-                  </h3>
+                  <h3>Link de acesso: {item.appointment.agendamento.link}</h3>
 
                   <h3>Valor: R$ {item.appointment.disciplina.valor} /hora</h3>
 
                   <div className="buttons">
-                    {item.appointment.agendamento.status === 0 ? (
+                    {item.appointment.agendamento.status === 1 ? (
                       <button
                         type="button"
                         id="aceitar"
                         onClick={() => {
-                          putStatus(item.appointment.agendamento.id, 1);
+                          aceitar(item.appointment.disciplina.titulo);
                         }}
                       >
                         Aceitar
                       </button>
                     ) : null}
 
-                    <Link
-                      className="btnVisualizar"
-                      to={{
-                        pathname: '/professor/agenda/info',
-                        state: {
-                          agendamento_id: item.appointment.agendamento.id,
-                        },
-                      }}
+                    <button
+                      type="button"
+                      id="alterar"
+                      onClick={() => select(item.appointment.disciplina.titulo)}
                     >
-                      <button type="button" id="alterar">
-                        <span className="visualizar">Visualizar</span>
-                      </button>
-                    </Link>
+                      Visualizar
+                    </button>
 
-                    {item.appointment.agendamento.status !== 4 &&
-                    item.appointment.agendamento.status !== 3 ? (
+                    {item.appointment.agendamento.status === 2 ? (
                       <button
                         type="button"
                         id="deletar"
                         onClick={() => {
-                          putStatus(item.appointment.agendamento.id, 4);
+                          cancelar(item.appointment.disciplina.titulo);
                         }}
                       >
                         Cancelar
