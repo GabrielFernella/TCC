@@ -209,7 +209,7 @@ class CreateAgendamentoService {
       saida: dto.entrada + 1,
       link: '',
       opiniao: '',
-      status: 1,
+      status: 0,
       nota: '',
       pagamento_id: pagamento.id,
     });

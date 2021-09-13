@@ -10,14 +10,6 @@ import api from '../../../services/api';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
-/*
-Agendada = 0,
-  Confirmada = 1,
-  EmProgresso = 2,
-  Efetivada = 3,
-  Canceladas = 4,
-*/
-
 interface IResponse {
   appointment: {
     agendamento: {

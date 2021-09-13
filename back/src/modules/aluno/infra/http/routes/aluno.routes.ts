@@ -47,7 +47,17 @@ alunoRoute.put(
   alunoController.update,
 );
 
-alunoRoute.get('/agendamentos', alunoController.listAgendamentos);
+alunoRoute.post(
+  '/agendamentos',
+  celebrate({
+    [Segments.BODY]: {
+      date: Joi.string().required(),
+    },
+  }),
+  alunoController.listAgendamentos,
+);
+
+// alunoRoute.get('/agendamentos', alunoController.listAgendamentos);
 
 /* usersRouter.patch(
   '/avatar',

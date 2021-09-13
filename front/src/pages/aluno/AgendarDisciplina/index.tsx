@@ -3,6 +3,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import 'moment/locale/pt-br';
 import './styles.scss';
 import DatePicker from 'react-date-picker';
+import { useHistory } from 'react-router-dom';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -11,6 +12,19 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 
 import Input from '../../../components/Input';
 import api from '../../../services/api';
+import Button from '../../../components/Button';
+import { useAuth } from '../../../hooks/auth';
+
+/*
+  TODO: Fazer
+  1. pegar a listagem de horas da API
+  2. Realizar agendamento com os parametros
+  3. Limpar funções 
+  4. Alinhar a parte de listagem de agedamento
+  5. Cancelamento de agendamento 
+  6. Envio de Email para o aluno
+  
+  */
 
 interface IProps {
   location: {
@@ -44,36 +58,18 @@ interface IResponse {
   ];
 }
 
-interface IDia {
-  dia: Date;
-}
-
-/* function parseDate(dateString: string, format: string, locale: string) {
-  const parsed = dateFnsParse(dateString, format, new Date());
-  if (DateUtils.isDate(parsed)) {
-    return parsed;
-  }
-
-  alert('parsed');
-  return undefined;
-}
-
-function formatDate(date: Date, format: string, locale?: string) {
-  return dateFnsFormat(date, format);
-}
-
-
-formatDate?: (date: Date, format: string, locale: string) => string;
-  parseDate?: (str: string, format: string, locale: string) => Date | void;
-
-*/
-
 const ListDisciplina: React.FC<IProps> = (props: IProps) => {
-  const [data, setData] = useState<IResponse>();
-  const [hora, setHora] = useState('');
-  const [dia, setDia] = useState<IDia>();
+  const { user } = useAuth();
+  const history = useHistory();
 
-  const [value, onChange] = useState(new Date());
+  const [data, setData] = useState<IResponse>();
+  const [hora, setHora] = useState(0);
+
+  const [date, setDate] = useState(new Date());
+
+  const [listData, setListData] = useState([{ hora: 0, disp: false }]);
+
+  const [dateState, setDateState] = useState('');
 
   useEffect(() => {
     try {
@@ -87,6 +83,10 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    getDisponibilidadeDate();
+  }, [dateState]);
 
   function validateDay(day: number) {
     switch (day) {
@@ -109,21 +109,81 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
     }
   }
 
-  function handleCreateProfile(e: FormEvent) {
-    alert('teste');
+  function createDate(dateProps: string): string {
+    const teste = new Date(`${dateProps}T00:00:00-03:00`);
+
+    /* if (dateProps !== '') {
+      teste = new Date(dateProps);
+    } */
+
+    // console.log(`aqui${teste}`);
+
+    // const formatter = Intl.DateTimeFormat('pt-BR', {});
+
+    // console.log(formatter.format(teste));
+
+    const newvalue = `${teste.getDate()}-${
+      teste.getMonth() + 1
+    }-${teste.getFullYear()}`;
+
+    return `${newvalue}`;
+
+    // const newDate = new Date(dateProps);
+    // const day = newDate.getDate();
+    // const month = newDate.getMonth();
+    // const year = newDate.getFullYear();
+
+    // return `${day}/${month + 1}/${year} 00:00:00-03:00`;
+
+    // return new Date(${day}/${month + 1}/${year} 00:00:00-03:00)
   }
 
-  const [dateState, setDateState] = useState(new Date());
-  const changeDate = (e: any) => {
-    setDateState(e);
-  };
+  async function getDisponibilidadeDate() {
+    await api
+      .post('agendamento/prof-horas', {
+        data: dateState,
+        professor_id: data?.professor.id,
+      })
+      .then(response => {
+        // toast.success('Cadastro realizado com sucesso!');
+        setListData(response.data);
+      })
+      .catch(error => {
+        /* toast.error(
+          `Não foi possível consultar a disponibilidade para esse professor.`,
+        ); */
+        setListData([{ disp: false, hora: 0 }]);
+        console.log(error);
+      });
+  }
 
-  useEffect(() => {
-    console.log(dia?.dia.getDay);
-  }, [dia]);
+  async function handleAgendamento() {
+    const parseDate = dateState.split('-');
 
-  // 58 min
-  // rever parte que mostra as disponibilidades
+    const newDate = new Date(
+      Number(parseDate[2]),
+      Number(parseDate[1]) - 1,
+      Number(parseDate[0]),
+    );
+    await api
+      .post('agendamento/create', {
+        data: newDate,
+        entrada: hora,
+        professor_id: data?.professor.id,
+        aluno_id: user.id,
+        disciplina_id: data?.disciplina.id,
+      })
+      .then(response => {
+        toast.success('Agedamento realizado com sucesso!');
+        history.push('/list-disciplina');
+      })
+      .catch(error => {
+        toast.error(`Não foi possivel realizar o aendamento. ${error}`);
+        setListData([{ disp: false, hora: 0 }]);
+        console.log(error.message);
+      });
+  }
+
   return (
     <div id="page-agendar-disciplina" className="container">
       <Toaster />
@@ -142,16 +202,126 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
       </PageHeader>
 
       <main>
+        {data ? (
+          <div className="disciplina-info">
+            <h2>{data.disciplina.titulo}</h2>
+
+            <div className="disciplina">
+              <img src={data.professor.avatar} alt="AvatarProfessor" />
+
+              <p>
+                <b>Professor:</b> {data.professor.nome}
+              </p>
+
+              <p>
+                <b>Tags:</b> {data.disciplina.tag.map(item => `${item}, `)}
+              </p>
+
+              <p>
+                <b>Descrição:</b> {data.disciplina.descricao}
+              </p>
+
+              <p>
+                <b>Valor:</b> R${data.disciplina.valor}/hora
+              </p>
+
+              <br />
+
+              <b>Disponibilidades:</b>
+
+              <div>
+                {data?.disponibilidade.map(list => (
+                  <div key={list.id} className="dia-disponibilidade">
+                    <h4>{validateDay(list.diaSemana)}</h4>
+                    <p>
+                      das {list.horarioEntrada || '00'}h até{' '}
+                      {list.horarioSaida || '00'}h
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="agendar">
+              <div>
+                <h4>Selecione uma data:</h4>
+                <Input
+                  name="data"
+                  type="date"
+                  // value={dateState.dia.toDateString()}
+                  onChange={e => {
+                    setDateState(createDate(e.target.value));
+                    console.log(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div className="hours">
+                {listData.map(item => (
+                  <button
+                    type="button"
+                    className={item.disp === false ? 'disable' : 'null'}
+                    onClick={() => setHora(item.hora)}
+                  >
+                    {item.hora}h
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="confirmar">
+              <div>
+                <h4>
+                  Agendar para: {dateState} das {hora}h até {hora + 1}h
+                </h4>
+                <span />
+              </div>
+              <Button name="submit" onClick={handleAgendamento}>
+                Agendar
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <h1>Volte para a tela anterior para selecionar uma disciplina</h1>
+        )}
+        <footer>
+          <p>
+            Selecione uma das disciplinas e veja a disponibilidade para
+            agendamento!
+          </p>
+        </footer>
+      </main>
+    </div>
+  );
+};
+
+export default ListDisciplina;
+
+/*
+
+<DayPickerInput
+                  formatDate={formatDate}
+                  format={FORMAT}
+                  parseDate={parseDate}
+                  placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
+                /> */
+
+/*
+
+      <main>
         <form onSubmit={handleCreateProfile}>
           <fieldset>
             <div id="disciplina">
-              <h2>{data?.disciplina.titulo || 'Valor não encontrado'}</h2>
+              <h2>{data?.disciplina.titulo || ''}</h2>
 
-              <h3> + {data?.professor.nome || 'Valor não encontrado'}</h3>
+              <h3> + {data?.professor.nome || ''}</h3>
 
               <div>
                 <h4>Tags:</h4>
-                <p>{data?.disciplina.tag || 'Valor não encontrado'}</p>
+                <p>
+                  {data?.disciplina.tag &&
+                    data.disciplina.tag.map(item => `${item}, `)}
+                </p>
               </div>
 
               <h4>Descrição:</h4>
@@ -179,6 +349,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
               <br />
 
               <div id="btn-agendar">
+                <span>Selected Date:</span>
                 <Input
                   name="data"
                   type="date"
@@ -187,14 +358,9 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
                   // onChange={e => setDia(e.target.value)}
                 />
 
-                <Input
-                  name="saida"
-                  label="Até"
-                  value={hora}
-                  mask="money"
-                  maxLength={2}
-                  onChange={e => setHora(e.target.value)}
-                />
+                <div className="list-hours">
+                  <span className="hours" />
+                </div>
               </div>
               <button className="button" type="submit">
                 Agendar
@@ -210,17 +376,4 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
           </footer>
         </form>
       </main>
-    </div>
-  );
-};
-
-export default ListDisciplina;
-
-/*
-
-<DayPickerInput
-                  formatDate={formatDate}
-                  format={FORMAT}
-                  parseDate={parseDate}
-                  placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
-                /> */
+*/

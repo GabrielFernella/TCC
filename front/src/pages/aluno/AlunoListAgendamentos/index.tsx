@@ -10,14 +10,6 @@ import api from '../../../services/api';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
-/*
-Agendada = 0,
-  Confirmada = 1,
-  EmProgresso = 2,
-  Efetivada = 3,
-  Canceladas = 4,
-*/
-
 interface IResponse {
   appointment: {
     agendamento: {
@@ -39,7 +31,7 @@ interface IResponse {
     };
     professor: {
       id?: string;
-      nome?: string;
+      name?: string;
       avatar?: string;
       email?: string;
     };
@@ -52,7 +44,7 @@ interface IResponse {
   };
 }
 
-const ProfessorListAgendamentos: React.FC = () => {
+const AlunoListAgendamentos: React.FC = () => {
   const [agendamentos, setAgendamentos] = useState<IResponse[]>([
     {
       appointment: {
@@ -75,7 +67,7 @@ const ProfessorListAgendamentos: React.FC = () => {
         },
         professor: {
           id: '',
-          nome: '',
+          name: '',
           avatar: '',
           email: '',
         },
@@ -107,7 +99,7 @@ const ProfessorListAgendamentos: React.FC = () => {
     const newDate = findData;
 
     await api
-      .post('/professor/agendamentos', {
+      .post('/aluno/agendamentos', {
         date: newDate,
       })
       .then(async response => {
@@ -129,7 +121,7 @@ const ProfessorListAgendamentos: React.FC = () => {
     return { color: '#6C3CDD' };
   }
 
-  async function putStatus(agendamento_id: string, status: number) {
+  /* async function putStatus(agendamento_id: string, status: number) {
     await api
       .put('/agendamento/status', {
         agendamento_id,
@@ -142,7 +134,7 @@ const ProfessorListAgendamentos: React.FC = () => {
       .catch(() => {
         toast.error(`Algo deu errado ao mudar o status do Agendamento.`);
       });
-  }
+  } */
 
   return (
     <div id="list-aluno-agendamentos" className="container">
@@ -227,7 +219,7 @@ const ProfessorListAgendamentos: React.FC = () => {
                   </h2>
 
                   <h3>Disciplina: {item.appointment.disciplina.titulo}</h3>
-                  <h3>Aluno: {item.appointment.aluno.name}</h3>
+                  <h3>Professor: {item.appointment.professor.name}</h3>
 
                   <h3 className="link">
                     Link de acesso: {item.appointment.agendamento.link}
@@ -241,7 +233,7 @@ const ProfessorListAgendamentos: React.FC = () => {
                         type="button"
                         id="aceitar"
                         onClick={() => {
-                          putStatus(item.appointment.agendamento.id, 1);
+                          // putStatus(item.appointment.agendamento.id, 1);
                         }}
                       >
                         Aceitar
@@ -268,7 +260,7 @@ const ProfessorListAgendamentos: React.FC = () => {
                         type="button"
                         id="deletar"
                         onClick={() => {
-                          putStatus(item.appointment.agendamento.id, 4);
+                          // putStatus(item.appointment.agendamento.id, 4);
                         }}
                       >
                         Cancelar
@@ -292,4 +284,4 @@ const ProfessorListAgendamentos: React.FC = () => {
   );
 };
 
-export default ProfessorListAgendamentos;
+export default AlunoListAgendamentos;

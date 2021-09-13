@@ -11,8 +11,8 @@ import Aluno from '@modules/aluno/infra/typeorm/entities/Aluno';
 
 import IAgendamentoRepository from '@modules/agendamento/repositories/IAgendamentoRepository';
 import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
-import IProfessorRepository from '../../repositories/IProfessorRepository';
-import IDisciplinaRepository from '../../repositories/IDisciplinaRepository';
+import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
+import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRepository';
 
 interface IRequest {
   id: string;
@@ -28,10 +28,10 @@ interface IResponse {
   };
 }
 
-// Esse serviço consiste em retornar todos os agendamentos vinculados ao professor filtrando pela data
+// Esse serviço consiste em retornar todos os agendamentos vinculados ao Aluno filtrando pela data
 
 @injectable()
-class ListAllAgendamentosService {
+class ListAllAgendamentosAlunoService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
@@ -47,23 +47,13 @@ class ListAllAgendamentosService {
   ) {}
 
   public async execute({ id, date }: IRequest): Promise<IResponse[]> {
-    const userAppointment = await this.agendamentoRepository.findByProfessorID(
-      id,
-    );
+    // Primeiro verifica se esse id possui algum agendamento
+    const userAppointment = await this.agendamentoRepository.findByAlunoID(id);
 
     if (!userAppointment) {
       throw new AppError('Você não possui nenhum agendamento.');
     }
 
-    // const trateDate = date.split('-', 3);
-
-    /* const dataSelect = new Date(
-      Number(trateDate[2]),
-      Number(trateDate[1]) - 1,
-      Number(trateDate[0]),
-    ); */
-
-    // const dataSelect = new Date(date).toLocaleDateString();
     const dataSelect = parseISO(date);
 
     // Filtrando por data
@@ -120,70 +110,4 @@ class ListAllAgendamentosService {
   }
 }
 
-export default ListAllAgendamentosService;
-
-/*
- // GetOthers informations
-
-    /* async function getDados(
-      agendamentoRepository: AgendamentoRepository,
-      alunoRepository: AlunoRepository,
-      professorRepository: ProfessorRepository,
-      disciplinaRepository: DisciplinaRepository,
-      agendas: Agendamento,
-    ): IResponse {
-     
-
-      return {
-        agendamento,
-        professor,
-        disciplina,
-        aluno,
-      };
-    } */
-
-/* const values = result.map(async item => {
-      /* await getDados(
-        this.agendamentoRepository,
-        this.alunoRepository,
-        this.professorRepository,
-        this.disciplinaRepository,
-        item,
-      ); */
-/* const agenda = await this.agendamentoRepository.findById(item.id);
-      if (!agenda) {
-        throw new AppError('Você não possui nenhum agendamento.');
-      }
-
-      const aluno = await this.alunoRepository.findById(item.aluno_id);
-      if (!aluno) {
-        throw new AppError('Você não possui nenhum agendamento.');
-      }
-
-      const disciplina = await this.disciplinaRepository.findByID(
-        item.disciplina_id,
-      );
-      if (!disciplina) {
-        throw new AppError('Você não possui nenhum agendamento.');
-      }
-
-      const professor = await this.professorRepository.findById(
-        item.professor_id,
-      );
-      if (!professor) {
-        throw new AppError('Você não possui nenhum agendamento.');
-      }
-
-      const agendamento = await this.agendamentoRepository.findById(item.id);
-      if (!agendamento) {
-        throw new AppError('Você não possui nenhum agendamento.');
-      }
-
-      return Promise.resolve({
-        agendamento,
-        professor,
-        aluno,
-        disciplina,
-      }); 
-
-*/
+export default ListAllAgendamentosAlunoService;
