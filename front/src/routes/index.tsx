@@ -26,9 +26,11 @@ import AlunoUpdateForm from '../pages/aluno/AlunoUpdateForm';
 import AlunoLogin from '../pages/aluno/AlunoLogin';
 import AlunoHome from '../pages/aluno/AlunoHome';
 import AlunoListAgendamentos from '../pages/aluno/AlunoListAgendamentos';
+import AlunoInfoAgendamento from '../pages/aluno/AlunoInfoAgendamento';
+
 import ListDisciplinas from '../pages/aluno/ListDisciplinas';
 import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
-import ListPendencias from '../pages/aluno/ListPendencias';
+import ListFinanceiro from '../pages/aluno/ListFinanceiro';
 
 // Testes
 import teste from '../pages/professor/ProfessorHome';
@@ -51,8 +53,9 @@ const Routes: React.FC = () => {
         exact
         component={AlunoListAgendamentos}
       />
+      <Route path="/aluno/agenda/info" exact component={AlunoInfoAgendamento} />
       <Route path="/agendar" exact component={AgendarDisciplina} />
-      <Route path="/pendencias" exact component={ListPendencias} />
+      <Route path="/aluno/financeiro" exact component={ListFinanceiro} />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} />

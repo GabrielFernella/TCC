@@ -11,3 +11,8 @@
 # Atual
 1. Montar a tela de visualizar mais informações referente ao agendamento do aluno (mesma do professor)
 2. add avatar automático para todos os usuários
+
+
+1. Fazer a parte de integração com com o Financeiro (talvez trocar de nome)
+2. botões de manipulação dentro do agendamento info(canelar)
+3. listagem de pendencias 

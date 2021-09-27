@@ -6,6 +6,7 @@ import notification from '@modules/notifications/infra/http/routes/notification.
 import alunoRouter from '@modules/aluno/infra/http/routes/aluno.routes';
 import alunoAuthRouter from '@modules/aluno/infra/http/routes/alunoAuth.routes';
 import alunoPasswordRouter from '@modules/aluno/infra/http/routes/password.routes';
+import pagamentoRouter from '@modules/aluno/infra/http/routes/pagamento.routes';
 
 // Teacher imports
 import professorRouter from '@modules/professor/infra/http/routes/professor.routes';
@@ -24,6 +25,7 @@ routes.use('/notification', notification);
 routes.use('/aluno', alunoRouter);
 routes.use('/alunosession', alunoAuthRouter);
 routes.use('/alunopass', alunoPasswordRouter);
+routes.use('/pagamento', pagamentoRouter);
 
 routes.use('/professor', professorRouter);
 routes.use('/profsession', professorAuthRouter);

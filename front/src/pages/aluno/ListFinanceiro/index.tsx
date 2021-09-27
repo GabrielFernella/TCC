@@ -44,7 +44,7 @@ interface IResponse {
   };
 }
 
-const AlunoListAgendamentos: React.FC = () => {
+const ListFinanceiro: React.FC = () => {
   const [agendamentos, setAgendamentos] = useState<IResponse[]>([
     {
       appointment: {
@@ -137,7 +137,7 @@ const AlunoListAgendamentos: React.FC = () => {
   } */
 
   return (
-    <div id="list-aluno-agendamentos" className="container">
+    <div id="list-aluno-financeiro" className="container">
       <Toaster />
       <PageHeader
         page="Agendamentos"
@@ -272,4 +272,4 @@ const AlunoListAgendamentos: React.FC = () => {
   );
 };
 
-export default AlunoListAgendamentos;
+export default ListFinanceiro;

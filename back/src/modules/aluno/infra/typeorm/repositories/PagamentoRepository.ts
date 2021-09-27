@@ -22,8 +22,8 @@ class PagamentoRepository implements IPagamentoRepository {
 
   public async findByEmailPagador(
     email: string,
-  ): Promise<Pagamento | undefined> {
-    const findemail = await this.ormRepository.findOne({
+  ): Promise<Pagamento[] | undefined> {
+    const findemail = await this.ormRepository.find({
       where: { emailPagador: email },
     });
 

@@ -51,7 +51,6 @@ class CreateAgendamentoService {
   public async execute(dto: IAgendamentoDTO): Promise<Agendamento> {
     const dateAtual = new Date();
     let alunoEmail = '';
-    const pixProfessor = '';
     let valorDisciplina = 0;
     let titleDisciplina = '';
     const hourEnd = dto.entrada + 1;
@@ -193,13 +192,19 @@ class CreateAgendamentoService {
         }
       }); */
 
+    // pegar o Pix do professor
+    const professor = await this.professorRepository.findById(dto.professor_id);
+    if (!professor) {
+      throw new AppError('Professor não encontrado.');
+    }
+
     // Criar Pagamento
 
     const pagamento = await this.pagamentoRepository.create({
       aluno_id: dto.aluno_id,
       status: StatusPagamento.EmEspera,
       emailPagador: alunoEmail,
-      pixDestinatario: pixProfessor,
+      pixDestinatario: professor.pix,
       title: titleDisciplina,
       valor: valorDisciplina,
     });

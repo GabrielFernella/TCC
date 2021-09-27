@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 
 // import IHashProvider from '@modules/aluno/providers/HashProvider/models/IHashProvider';
 
+// Classe vai ser alterada
 // Essa classe possui métodos a serem analisados
 
 import Pagamento from '../infra/typeorm/entities/Pagamento';
