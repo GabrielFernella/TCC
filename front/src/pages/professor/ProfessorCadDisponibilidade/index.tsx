@@ -87,6 +87,12 @@ const Disponibilidade: React.FC = () => {
     }
   }
 
+  function clear() {
+    setDiaSemana('');
+    setHorarioEntrada('');
+    setHorarioSaida('');
+  }
+
   async function incluir(values: ScheduleCreate) {
     const dia = parseInt(values.diaSemana, 10);
     const entrada = parseInt(values.horarioEntrada, 10);
@@ -117,6 +123,7 @@ const Disponibilidade: React.FC = () => {
           toast.success('Disponibilidade Criada com sucesso');
 
           listDisponibilidade();
+          clear();
         })
         .catch(error => {
           toast.error(
@@ -159,8 +166,11 @@ const Disponibilidade: React.FC = () => {
       <main>
         <fieldset>
           <legend>Suas Disponibilidades</legend>
-          <p>Seleciona um dia e especifico e horário (ex: Segunda-feira das 09 até 15)</p> <br />
-
+          <p>
+            Seleciona um dia e especifico e horário (ex: Segunda-feira das 09
+            até 15)
+          </p>{' '}
+          <br />
           {scheduleItems.map(scheduleItem => {
             return (
               <div key={scheduleItem.id} id="disponibilidade-content">
@@ -204,7 +214,6 @@ const Disponibilidade: React.FC = () => {
               </div>
             );
           })}
-
           <div id="disponibilidade-content">
             <div id="diasemana-info">
               <Select
@@ -223,7 +232,6 @@ const Disponibilidade: React.FC = () => {
                   { value: '6', label: 'Sábado' },
                 ]}
               />
-              
             </div>
             <div id="entrada-info">
               <Input
@@ -275,7 +283,8 @@ const Disponibilidade: React.FC = () => {
         <footer>
           <p>
             <img src={warningIcon} alt="Aviso importante" />
-            Importante! Não é permitido cadastrar o mesmo dia da semana com horários distintos, delete o cadastrado e crie um novo.
+            Importante! Não é permitido cadastrar o mesmo dia da semana com
+            horários distintos, delete o cadastrado e crie um novo.
           </p>
         </footer>
       </main>

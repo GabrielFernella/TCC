@@ -60,9 +60,11 @@ const TopBarContainer: React.FunctionComponent<TopBarContainerProps> = ({
             <img src={backIcon} alt="Voltar" />
           </button>
           <div id="title">
-            <img id="avatar" src={user?.avatar} alt="Avatar" />
+            {user?.avatar && (
+              <img id="avatar" src={user?.avatar} alt="Avatar" />
+            )}
             <p>
-              {title} - {user?.name}{' '}
+              {title} - {user?.name}
             </p>
           </div>
 

@@ -13,19 +13,20 @@ const ForgotPassword: React.FC = () => {
   const history = useHistory();
 
   function handleForgotPassword(e: FormEvent) {
-    /*
     e.preventDefault();
     api
-      .post('forgot-password', {
+      .post('profpass/forgot', {
         email,
       })
       .then(() => {
-        toast.success('Disciplina cadastrada com sucesso!');
-        history.push('/professor-login');
+        toast.success('E-mail enviado com sucesso!');
+        history.push('/prof-login');
+      })
+      .catch(err => {
+        toast.error(
+          'Ocorreu um erro ao tentar recuperar a senha desse e-mail!',
+        );
       });
-      */
-
-    history.push('/professor-login');
   }
 
   return (

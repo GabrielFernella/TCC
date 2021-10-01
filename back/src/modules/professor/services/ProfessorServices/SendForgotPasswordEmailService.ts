@@ -32,19 +32,28 @@ class SendForgotPasswordEmailService {
       throw new AppError('User does not exists');
     }
 
-    const { token } = await this.professorTokensRepository.generate(user.id);
+    const token = await this.professorTokensRepository.findByProfessorID(
+      user.id,
+    );
+
+    let newToken;
+    if (!token) {
+      newToken = await this.professorTokensRepository.generate(user.id);
+    }
 
     // Buscando o arquivo de template do email de recuperação
     const forgotPasswordTemplate = path.resolve(
       __dirname,
+      '..',
       '..',
       'views',
       'forgot_password.hbs',
     );
 
     const key = generateKey();
+    // console.log(key);
 
-    const teacherSave = await this.professorRepository.saveKey(key);
+    await this.professorRepository.saveKey(user.id, key);
     // Enviar o email para o destinatário
     await this.mailProvider.sendMail({
       to: {
@@ -56,8 +65,10 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
-          key: teacherSave.key,
+          link: `${process.env.APP_WEB_URL}/reset-password?token=${
+            token ? token.token : newToken
+          }`,
+          key: user.key,
         },
       },
     });

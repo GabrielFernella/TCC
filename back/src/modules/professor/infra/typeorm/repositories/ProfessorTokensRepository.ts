@@ -28,6 +28,16 @@ class ProfessorTokensRepository implements ITeacherTokensRepository {
 
     return userToken;
   }
+
+  public async findByProfessorID(
+    user_id: string,
+  ): Promise<ProfessorToken | undefined> {
+    const userToken = this.ormRepository.findOne({
+      professor_id: user_id,
+    });
+
+    return userToken;
+  }
 }
 
 export default ProfessorTokensRepository;
