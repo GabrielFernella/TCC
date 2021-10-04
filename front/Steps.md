@@ -13,6 +13,8 @@
 2. add avatar automático para todos os usuários
 
 
-1. Fazer a parte de integração com com o Financeiro (talvez trocar de nome)
+1. Fazer a parte de integração com o Financeiro (talvez trocar de nome)
 2. botões de manipulação dentro do agendamento info(canelar)
 3. listagem de pendencias 
+4. Verificar se para realizar o agendamento ele está validando o limite de pendencias
+5. 

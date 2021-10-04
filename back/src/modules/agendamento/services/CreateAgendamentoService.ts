@@ -117,6 +117,22 @@ class CreateAgendamentoService {
       alunoEmail = aluno.email;
     });
 
+    // Validar se o aluno possui mais de uma pendencia
+    const validPendencia = await this.pagamentoRepository.findByEmailPagador(
+      alunoEmail,
+    );
+    if (validPendencia) {
+      const valid = validPendencia.filter(
+        item => item.statusPagamento === 0 || 1 || 2,
+      );
+
+      if (valid.length > 2) {
+        throw new AppError(
+          'Você possui pendencias, acerte as mesmas para realizar novos agendamentos!',
+        );
+      }
+    }
+
     // VALIDACOES PROFESSOR
 
     if (!dto.professor_id) {
