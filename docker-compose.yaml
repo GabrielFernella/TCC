@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    ports:
+      - 3333:3333
+    restart: unless-stopped
+    networks:
+      - net-back
+    depends_on:
+      - postgres
+      - mongo
+    volumes:
+      - ./back/:/app/
+      - /app/node_modules/
+    command: yarn dev:server
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    volumes:
+      - ./front/:/app/
+      - /app/node_modules/
+    command: yarn start
+    stdin_open: true
+
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    networks:
+      - net-back
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=web_educa
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    networks:
+      - net-back
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  postgres-data:
+    driver: local
+  mongo-data:
+    driver: local
+
+networks:
+  net-back:
+    driver: bridge

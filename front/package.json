@@ -1,5 +1,5 @@
 {
-  "name": "06-gobarber-web",
+  "name": "web_educa",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +15,6 @@
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
     "polished": "^4.0.2",
     "rc-datepicker": "^5.0.16",
     "react": "^16.13.1",
@@ -29,6 +28,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-spring": "^8.0.27",
+    "sass": "^1.42.1",
     "styled-components": "^5.2.0",
     "typescript": "~3.7.2",
     "uuid": "^8.3.1",
