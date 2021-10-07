@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 3333:3333
-    restart: unless-stopped
+    #restart: unless-stopped
     networks:
       - net-back
     depends_on:
@@ -16,7 +16,7 @@ services:
     volumes:
       - ./back/:/app/
       - /app/node_modules/
-    command: yarn dev:server
+    command: yarn dev:server -- --host 0.0.0.0
 
   frontend:
     build:
@@ -24,11 +24,11 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
-    restart: unless-stopped
+    #restart: unless-stopped
     volumes:
       - ./front/:/app/
-      - /app/node_modules/
-    command: yarn start
+      - /app/node_modules
+    command: yarn start -- --host 0.0.0.0
     stdin_open: true
 
   postgres:

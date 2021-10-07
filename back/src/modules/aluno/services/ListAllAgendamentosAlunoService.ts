@@ -59,8 +59,7 @@ class ListAllAgendamentosAlunoService {
     // Filtrando por data
     const agendamentos = userAppointment.filter(item => {
       const newDate = new Date(item.data);
-      // console.log(newDate);
-      return isEqual(newDate, dataSelect);
+      return isEqual(newDate.getDate(), dataSelect.getDate());
     });
 
     // Precisa passar a data

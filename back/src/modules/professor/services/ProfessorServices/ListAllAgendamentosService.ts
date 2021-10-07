@@ -55,22 +55,12 @@ class ListAllAgendamentosService {
       throw new AppError('Você não possui nenhum agendamento.');
     }
 
-    // const trateDate = date.split('-', 3);
-
-    /* const dataSelect = new Date(
-      Number(trateDate[2]),
-      Number(trateDate[1]) - 1,
-      Number(trateDate[0]),
-    ); */
-
-    // const dataSelect = new Date(date).toLocaleDateString();
     const dataSelect = parseISO(date);
 
     // Filtrando por data
     const agendamentos = userAppointment.filter(item => {
       const newDate = new Date(item.data);
-      // console.log(newDate);
-      return isEqual(newDate, dataSelect);
+      return isEqual(newDate.getDate(), dataSelect.getDate());
     });
 
     // Precisa passar a data
