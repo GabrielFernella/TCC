@@ -161,7 +161,7 @@ const ListFinanceiro: React.FC = () => {
                         <Link
                           className="btnVisualizar"
                           to={{
-                            pathname: '/aluno/agenda/info', // API do arthur
+                            // pathname: '/aluno/agenda/info', // API do arthur
                             state: {
                               pagamento: item,
                             },

@@ -7,6 +7,14 @@
     }
   }
 
+  .cancelar{
+    background: #e33d3d;
+    border: none;
+  }
+  .cancelar:hover {
+    filter: blur(#000,0.9);
+  }
+
   .profile-header {
     margin-top: 4rem;
     & > form {

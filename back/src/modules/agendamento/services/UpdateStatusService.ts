@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 
 import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
 import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
+import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
 import Agendamento from '../infra/typeorm/entities/Agendamento';
@@ -15,6 +16,9 @@ class FindAgendamentoService {
   constructor(
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
+
+    @inject('PagamentoRepository')
+    private pagamentoRepository: IPagamentoRepository,
 
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
@@ -78,6 +82,10 @@ class FindAgendamentoService {
     );
     if (!updatedAgendamento) {
       throw new AppError('Agendamento não encontrado');
+    }
+
+    if (status === 4) {
+      await this.pagamentoRepository.updateStatus(agendamento.pagamento_id, 3);
     }
 
     return updatedAgendamento;

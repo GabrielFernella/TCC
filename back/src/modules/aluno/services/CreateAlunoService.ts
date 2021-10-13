@@ -38,10 +38,10 @@ class CreateAlunoService {
     pix,
   }: IRequest): Promise<Aluno> {
     // Procurando se há um user com o mesmo CPF
-    const checkUserCpfExists = await this.alunoRepository.findByEmail(cpf);
+    /* const checkUserCpfExists = await this.alunoRepository.find(cpf);
     if (checkUserCpfExists) {
       throw new AppError('CPF address already used');
-    }
+    } */
 
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.alunoRepository.findByEmail(email);

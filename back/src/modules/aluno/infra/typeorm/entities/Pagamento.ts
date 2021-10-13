@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
+import Professor from '@modules/professor/infra/typeorm/entities/Professor';
 import Aluno from './Aluno';
 
 // fiz alteração aqui
@@ -32,14 +33,17 @@ export default class Pagamento {
   @Column()
   title: string;
 
-  @Column()
-  emailPagador: string;
-
   @Column({ type: 'numeric' })
   valor: number;
 
   @Column()
+  emailPagador: string;
+
+  @Column()
   pixDestinatario: string;
+
+  @Column({ nullable: true })
+  key: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -50,9 +54,16 @@ export default class Pagamento {
   @Column()
   aluno_id: string;
 
+  @Column()
+  professor_id: string;
+
   @ManyToOne(type => Aluno, pagamento => Pagamento)
   @JoinColumn({ name: 'aluno_id' })
   aluno: Aluno;
+
+  @ManyToOne(type => Professor, pagamento => Pagamento)
+  @JoinColumn({ name: 'professor_id' })
+  professor: Professor;
 
   @OneToOne(type => Agendamento, pagamento => Pagamento)
   agendamento: Agendamento;

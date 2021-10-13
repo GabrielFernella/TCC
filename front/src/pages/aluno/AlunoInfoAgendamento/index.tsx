@@ -122,6 +122,24 @@ const AlunoInfoAgendamentos = () => {
       });
   }
 
+  async function cancelarAgendamento() {
+    const resultado = window.confirm('Você deseja realmente cancelar?');
+    if (resultado) {
+      await api
+        .put(`/agendamento/status`, {
+          agendamento_id: agendamentos.agendamento.id,
+          status: 4,
+        })
+        .then(response => {
+          toast.success('Agendamento cancelado');
+          setLoad(true);
+        })
+        .catch(() => {
+          toast.error('Não foi possível carregar o agendamento');
+        });
+    }
+  }
+
   useEffect(() => {
     getInfo();
   }, [load]);
@@ -229,6 +247,15 @@ const AlunoInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
+          {agendamentos.agendamento.status !== 4 && (
+            <Button
+              name="submit"
+              className="cancelar"
+              onClick={() => cancelarAgendamento()}
+            >
+              Cancelar
+            </Button>
+          )}
         </footer>
       </main>
     </div>

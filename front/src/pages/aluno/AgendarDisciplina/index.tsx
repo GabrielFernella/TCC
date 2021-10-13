@@ -153,7 +153,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
           `Não foi possível consultar a disponibilidade para esse professor.`,
         ); */
         setListData([{ disp: false, hora: 0 }]);
-        console.log(error);
+        console.log(error.message);
       });
   }
 
@@ -177,10 +177,10 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
         toast.success('Agedamento realizado com sucesso!');
         history.push('/list-disciplina');
       })
-      .catch(error => {
-        toast.error(`Não foi possivel realizar o aendamento. ${error}`);
+      .catch(err => {
+        toast.error(`Não foi possivel realizar o agendamento. ${err.message}`);
         setListData([{ disp: false, hora: 0 }]);
-        console.log(error.message);
+        console.log(err);
       });
   }
 
@@ -229,7 +229,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
 
               <b>Disponibilidades:</b>
 
-              <div>
+              <div className="disponibilidades">
                 {data?.disponibilidade.map(list => (
                   <div key={list.id} className="dia-disponibilidade">
                     <h4>{validateDay(list.diaSemana)}</h4>

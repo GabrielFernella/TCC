@@ -111,6 +111,25 @@ const AlunoListAgendamentos: React.FC = () => {
       });
   }
 
+  async function cancelarAgendamento(id: string) {
+    const resultado = window.confirm('Você deseja realmente cancelar?');
+    if (resultado) {
+      await api
+        .put(`/agendamento/status`, {
+          agendamento_id: id,
+          status: 4,
+        })
+        .then(response => {
+          toast.success('Agendamento cancelado');
+          getAppointments(date);
+          setLoad(true);
+        })
+        .catch(() => {
+          toast.error('Não foi possível carregar o agendamento');
+        });
+    }
+  }
+
   function alterColor(value: number) {
     if (value === 4) {
       return { color: 'red' };
@@ -248,7 +267,7 @@ const AlunoListAgendamentos: React.FC = () => {
                         type="button"
                         id="deletar"
                         onClick={() => {
-                          // putStatus(item.appointment.agendamento.id, 4);
+                          cancelarAgendamento(item.appointment.agendamento.id);
                         }}
                       >
                         Cancelar
