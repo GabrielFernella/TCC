@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
-import { parseISO, format } from 'date-fns';
-import { Location } from 'history';
-import { useLocation } from 'react-router-dom';
-import { string } from 'yup';
+import { useLocation, useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
 import './styles.scss';
 import api from '../../../services/api';
-import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
 interface IResponse {
@@ -94,6 +90,7 @@ const AlunoInfoAgendamentos = () => {
       email: '',
     },
   });
+  const history = useHistory();
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
@@ -102,11 +99,19 @@ const AlunoInfoAgendamentos = () => {
 
   const valor = (location.state as Props) || {};
 
-  // console.log(valor.agendamento_id);
-
   async function getLink() {
-    navigator.clipboard.writeText(agendamentos.agendamento.link);
-    toast.success('Link copiado!');
+    // navigator.clipboard.writeText(agendamentos.agendamento.link);
+    // toast.success('Link copiado!');
+
+    if (agendamentos.agendamento.link.length === 0) {
+      toast.error('Nenhum parametro cadastrado pelo professor até o momento');
+    } else {
+      history.push(`${agendamentos.agendamento.link}`);
+    }
+  }
+
+  function efetuarPagamento() {
+    history.push(`/aluno/financeiro`);
   }
 
   async function getInfo() {
@@ -130,7 +135,7 @@ const AlunoInfoAgendamentos = () => {
           agendamento_id: agendamentos.agendamento.id,
           status: 4,
         })
-        .then(response => {
+        .then(() => {
           toast.success('Agendamento cancelado');
           setLoad(true);
         })
@@ -202,23 +207,39 @@ const AlunoInfoAgendamentos = () => {
             <br />
 
             <h3>Pagamento</h3>
-            <span>Valor: {agendamentos.pagamento.valor} </span>
-            <span>
-              Status Pagamento:
-              {agendamentos.pagamento.statusPagamento === 0 && (
-                <b> Em espera </b>
+            <div>
+              <span>
+                Valor: <b> R${agendamentos.pagamento.valor} </b>
+              </span>
+              <br />
+              <span>
+                Status Pagamento:
+                {agendamentos.pagamento.statusPagamento === 0 && (
+                  <b> Em espera </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 1 && (
+                  <b> Processando </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 2 && (
+                  <b> Negado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 3 && (
+                  <b> Cancelado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 4 && (
+                  <b> Concluido </b>
+                )}
+              </span>
+              {(agendamentos.pagamento.statusPagamento === 0 || 1 || 2) && (
+                <Button
+                  name="link"
+                  type="button"
+                  onClick={() => efetuarPagamento()}
+                >
+                  Efetuar pagamento
+                </Button>
               )}
-              {agendamentos.pagamento.statusPagamento === 1 && (
-                <b> Processando </b>
-              )}
-              {agendamentos.pagamento.statusPagamento === 2 && <b> Negado </b>}
-              {agendamentos.pagamento.statusPagamento === 3 && (
-                <b> Cancelado </b>
-              )}
-              {agendamentos.pagamento.statusPagamento === 4 && (
-                <b> Concluido </b>
-              )}
-            </span>
+            </div>
             <br />
             <br />
 
@@ -230,7 +251,7 @@ const AlunoInfoAgendamentos = () => {
                 onChange={e => setLink(e.target.value)}
               />
               <Button name="link" type="button" onClick={() => getLink()}>
-                COPIAR
+                Abrir no navegador
               </Button>
             </div>
           </div>

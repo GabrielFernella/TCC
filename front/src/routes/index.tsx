@@ -58,7 +58,7 @@ const Routes: React.FC = () => {
       <Route path="/aluno/financeiro" exact component={ListFinanceiro} />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
-      <Route path="/prof-home" exact component={ProfessorHome} />
+      <Route path="/prof-home" exact component={ProfessorHome} isPrivate />
       <Route path="/prof-form" exact component={ProfessorForm} />
       <Route path="/prof-up-form" exact component={ProfessorUpdateForm} />
 
