@@ -113,20 +113,22 @@ class CreateAgendamentoService {
           }
         }
 
-        // Validar se o aluno possui mais de uma pendencia = Validar
-
         alunoEmail = aluno.email;
       })
       .catch(err => {
         throw new AppError('Algo deu errado');
       });
 
+    // Validar se o aluno possui mais de uma pendencia = Validar
     const validPendencia = await this.pagamentoRepository.findByEmailPagador(
       alunoEmail,
     );
     if (validPendencia) {
       const valid = validPendencia.filter(
-        item => item.statusPagamento === 0 || 1 || 2,
+        item =>
+          item.statusPagamento === 0 ||
+          item.statusPagamento === 1 ||
+          item.statusPagamento === 2,
       );
 
       if (valid.length >= 2) {

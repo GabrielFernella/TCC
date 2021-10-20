@@ -44,18 +44,39 @@ const Routes: React.FC = () => {
       <Route path="/forgot-password" exact component={RecuperarSenha} />
 
       <Route path="/aluno-login" exact component={AlunoLogin} />
-      <Route path="/aluno-home" exact component={AlunoHome} />
-      <Route path="/aluno-form" exact component={AlunoCadForm} />
-      <Route path="/aluno-up-form" exact component={AlunoUpdateForm} />
-      <Route path="/list-disciplina" exact component={ListDisciplinas} />
+      <Route path="/aluno-home" exact component={AlunoHome} isPrivate />
+      <Route path="/aluno-form" exact component={AlunoCadForm} isPrivate />
+      <Route
+        path="/aluno-up-form"
+        exact
+        component={AlunoUpdateForm}
+        isPrivate
+      />
+      <Route
+        path="/list-disciplina"
+        exact
+        component={ListDisciplinas}
+        isPrivate
+      />
       <Route
         path="/aluno/agendamentos"
         exact
         component={AlunoListAgendamentos}
+        isPrivate
       />
-      <Route path="/aluno/agenda/info" exact component={AlunoInfoAgendamento} />
-      <Route path="/agendar" exact component={AgendarDisciplina} />
-      <Route path="/aluno/financeiro" exact component={ListFinanceiro} />
+      <Route
+        path="/aluno/agenda/info"
+        exact
+        component={AlunoInfoAgendamento}
+        isPrivate
+      />
+      <Route path="/agendar" exact component={AgendarDisciplina} isPrivate />
+      <Route
+        path="/aluno/financeiro"
+        exact
+        component={ListFinanceiro}
+        isPrivate
+      />
 
       <Route path="/prof-login" exact component={ProfessorLogin} />
       <Route path="/prof-home" exact component={ProfessorHome} isPrivate />

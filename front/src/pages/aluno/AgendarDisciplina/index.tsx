@@ -1,8 +1,7 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import 'moment/locale/pt-br';
 import './styles.scss';
-import DatePicker from 'react-date-picker';
 import { useHistory } from 'react-router-dom';
 
 import toast, { Toaster } from 'react-hot-toast';
@@ -69,14 +68,14 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
 
   const [listData, setListData] = useState([{ hora: 0, disp: false }]);
 
-  const [dateState, setDateState] = useState('');
+  const [dateState, setDateState] = useState(`${new Date()}`);
 
   useEffect(() => {
     try {
       const { dados } = props.location.state;
 
       setData(dados);
-      console.log(dados);
+      getDisponibilidadeDate(dateState);
     } catch (error) {
       toast.error(
         'Parametros não puderam ser carregados, volte a pagina e tente novamente',
@@ -85,7 +84,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   }, []);
 
   useEffect(() => {
-    getDisponibilidadeDate();
+    getDisponibilidadeDate(dateState);
   }, [dateState]);
 
   function validateDay(day: number) {
@@ -112,36 +111,17 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   function createDate(dateProps: string): string {
     const teste = new Date(`${dateProps}T00:00:00-03:00`);
 
-    /* if (dateProps !== '') {
-      teste = new Date(dateProps);
-    } */
-
-    // console.log(`aqui${teste}`);
-
-    // const formatter = Intl.DateTimeFormat('pt-BR', {});
-
-    // console.log(formatter.format(teste));
-
     const newvalue = `${teste.getDate()}-${
       teste.getMonth() + 1
     }-${teste.getFullYear()}`;
 
     return `${newvalue}`;
-
-    // const newDate = new Date(dateProps);
-    // const day = newDate.getDate();
-    // const month = newDate.getMonth();
-    // const year = newDate.getFullYear();
-
-    // return `${day}/${month + 1}/${year} 00:00:00-03:00`;
-
-    // return new Date(${day}/${month + 1}/${year} 00:00:00-03:00)
   }
 
-  async function getDisponibilidadeDate() {
+  async function getDisponibilidadeDate(value: string) {
     await api
       .post('agendamento/prof-horas', {
-        data: dateState,
+        data: value,
         professor_id: data?.professor.id,
       })
       .then(response => {
@@ -149,11 +129,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
         setListData(response.data);
       })
       .catch(error => {
-        /* toast.error(
-          `Não foi possível consultar a disponibilidade para esse professor.`,
-        ); */
         setListData([{ disp: false, hora: 0 }]);
-        console.log(error.message);
       });
   }
 
@@ -174,13 +150,12 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
         disciplina_id: data?.disciplina.id,
       })
       .then(response => {
-        toast.success('Agedamento realizado com sucesso!');
+        toast.success('Agendamento realizado com sucesso!');
         history.push('/list-disciplina');
       })
       .catch(err => {
-        toast.error(`Não foi possivel realizar o agendamento. ${err.message}`);
+        toast.error(`${err.response.data.message}`);
         setListData([{ disp: false, hora: 0 }]);
-        console.log(err);
       });
   }
 
@@ -256,24 +231,35 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
                 />
               </div>
 
-              <div className="hours">
-                {listData.map(item => (
-                  <button
-                    type="button"
-                    className={item.disp === false ? 'disable' : 'null'}
-                    onClick={() => setHora(item.hora)}
-                  >
-                    {item.hora}h
-                  </button>
-                ))}
-              </div>
+              {listData.length !== 1 ? (
+                <div className="hours">
+                  {listData.map(item => (
+                    <button
+                      type="button"
+                      className={item.disp === false ? 'disable' : 'null'}
+                      onClick={() => setHora(item.hora)}
+                    >
+                      {item.hora}h
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <span>Nenhum horário disponível para esse dia</span>
+              )}
             </div>
 
             <div className="confirmar">
               <div>
-                <h4>
-                  Agendar para: {dateState} das {hora}h até {hora + 1}h
-                </h4>
+                {listData.length === 1 &&
+                listData[0].disp === false &&
+                listData[0].hora === 0 ? (
+                  <h4>Nenhum horário selecionado</h4>
+                ) : (
+                  <h4>
+                    Agendar para: {dateState} das {hora}h até {hora + 1}h
+                  </h4>
+                )}
+
                 <span />
               </div>
               <Button name="submit" onClick={handleAgendamento}>
@@ -296,84 +282,3 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
 };
 
 export default ListDisciplina;
-
-/*
-
-<DayPickerInput
-                  formatDate={formatDate}
-                  format={FORMAT}
-                  parseDate={parseDate}
-                  placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
-                /> */
-
-/*
-
-      <main>
-        <form onSubmit={handleCreateProfile}>
-          <fieldset>
-            <div id="disciplina">
-              <h2>{data?.disciplina.titulo || ''}</h2>
-
-              <h3> + {data?.professor.nome || ''}</h3>
-
-              <div>
-                <h4>Tags:</h4>
-                <p>
-                  {data?.disciplina.tag &&
-                    data.disciplina.tag.map(item => `${item}, `)}
-                </p>
-              </div>
-
-              <h4>Descrição:</h4>
-              <p id="desc">
-                {data?.disciplina.descricao || 'Valor não encontrado'}
-              </p>
-
-              <div>
-                <h3>Valor: R$ {data?.disciplina.valor || '0'} /hora</h3>
-              </div>
-            </div>
-            <div className="agendar">
-              <h3>Disponibilidades:</h3>
-              <div id="dia-disponibilidade">
-                {data?.disponibilidade.map(list => (
-                  <div>
-                    <h4>{validateDay(list.diaSemana)}</h4>
-                    <p>
-                      das {list.horarioEntrada || '00'}h até{' '}
-                      {list.horarioSaida || '00'}h
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <br />
-
-              <div id="btn-agendar">
-                <span>Selected Date:</span>
-                <Input
-                  name="data"
-                  type="date"
-                  label="Data"
-                  // onChange={e => console.log(e.target.value.substr(-2))}
-                  // onChange={e => setDia(e.target.value)}
-                />
-
-                <div className="list-hours">
-                  <span className="hours" />
-                </div>
-              </div>
-              <button className="button" type="submit">
-                Agendar
-              </button>
-            </div>
-          </fieldset>
-
-          <footer>
-            <p>
-              Selecione uma das disciplinas e veja a disponibilidade para
-              agendamento!
-            </p>
-          </footer>
-        </form>
-      </main>
-*/
