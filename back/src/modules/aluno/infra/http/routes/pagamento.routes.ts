@@ -7,6 +7,18 @@ import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 const pagamentoRoute = Router();
 const pagamentoController = new PagamentoController();
 
+pagamentoRoute.put(
+  '/update',
+  celebrate({
+    [Segments.BODY]: {
+      id_pagamento: Joi.string().required(),
+      status: Joi.number().required(),
+      key: Joi.string().required(),
+    },
+  }),
+  pagamentoController.update,
+);
+
 // Autenticar Usuário
 pagamentoRoute.use(ensureAuthenticated);
 

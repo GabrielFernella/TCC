@@ -30,6 +30,14 @@ class PagamentoRepository implements IPagamentoRepository {
     return findemail;
   }
 
+  public async findProcess(): Promise<Pagamento[] | undefined> {
+    const findemail = await this.ormRepository.find({
+      where: { statusPagamento: 1 },
+    });
+
+    return findemail;
+  }
+
   /* public async consultStatusPayment(
     pagamento_id: string,
   ): Promise<StatusPagamento | undefined> {

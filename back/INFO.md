@@ -31,15 +31,15 @@ statusPagamento
 1. API para alterar o status do pagamento para pago (colocar uma chave de segurança)
 2. Robo para processar todos os pagamentos feitos no dia, e efetivar o pagamento
 
-# Create agendamento
-1. Ver porque o valor de erro não está retornando certo
-
 # Cancelamento de aula
 1. Colocar o horário disponível para o aluno quando outro cancela(na parte de exibir os horários para agendamentos)
 
 # Pagamento
 1. Mostrar mais informações no response para exibir para o aluno 
 
+
+# Robo
+1. Fazer o processamento de pagamento, montar um exemplo de objeto que será retornado
 
 
 

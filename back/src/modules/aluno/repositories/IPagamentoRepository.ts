@@ -10,6 +10,7 @@ import {
 export default interface IPagamentoRepository {
   findById(id: string): Promise<Pagamento | undefined>;
   findByEmailPagador(email: string): Promise<Pagamento[] | undefined>;
+  findProcess(): Promise<Pagamento[] | undefined>;
   // consultStatusPayment(id: string): Promise<StatusPagamento | undefined>;
   create(data: ICreatePagamentoDTO): Promise<Pagamento>;
   updateStatus(
