@@ -9,6 +9,7 @@ import CreateAgendamentoService from '@modules/agendamento/services/CreateAgenda
 import ListAgendamentosByIDDate from '@modules/agendamento/services/ListAgendamentosByIDDate';
 import GetAgendamentoInfoService from '@modules/agendamento/services/GetAgendamentoInfoService';
 import UpdateLinkService from '@modules/agendamento/services/UpdateLinkService';
+import ConcludeAgendamentoService from '@modules/agendamento/services/ConcludeAgendamentoService';
 
 export default class AgendamentoController {
   /* public async listAllByAluno(
@@ -122,6 +123,24 @@ export default class AgendamentoController {
 
     const alterLink = container.resolve(UpdateLinkService);
     const agendamento = await alterLink.execute(user_id, agendamento_id, link);
+
+    return response.json(classToClass(agendamento));
+  }
+
+  public async conclude(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { id_agendamento, nota, opiniao } = request.body;
+
+    const conclude = container.resolve(ConcludeAgendamentoService);
+    const agendamento = await conclude.execute({
+      user_id,
+      id_agendamento,
+      nota,
+      opiniao,
+    });
 
     return response.json(classToClass(agendamento));
   }

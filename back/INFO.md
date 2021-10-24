@@ -11,31 +11,41 @@ docker build -t nome_do_container .
 docker run -p 3000:3000 -d tcc_backend_1
 
 
-statusPagamento
-  EmEspera = 0,
-  Processando = 1,
-  Negado = 2,
-  Cancelado = 3,
-  Concluido = 4,
+export enum StatusAula {
+  Agendada = 0,
+  Confirmada = 1, -> Depois que o Professor realiza a confirmação
+  EmProgresso = 2, -> se o aluno não realizou o pagamento, ele não vai conseguir acessar o link da aula
+  Efetivada = 3, -> O aluno deverá confirmar a aula 
+  Canceladas = 4, -> Caso o Professor ou aluno  
+  Concluida = 5, -> Depois que a aula for concluida e o pagamento já realizado
+}
+
+statusPagamento {
+  EmEspera = 0, -> Assim que o agendamento é criado
+  Processando = 1, -> aguardando pagamento do aluno
+  Efetivado=2, -> Efetivado é quando o aluno conclui o pagamento (cartão ou pix)
+  Negado = 3,
+  Cancelado = 4,
+  Concluido = 5,
+}
 
 # Fazer
-1. Validar o limite de agendamentos para dois enquanto não estiver pago - OK - rever
-2. atributo pix do destinatário no pagamento - OK
-3. colocar atributo professor_id em pagamento (rever necessidade)
-4. Continuar Tela de listagem de pagamentos, e mostrado um link para direcionar para API do Arthur
-5. verificar a parte de cancelamento tanto do aluno quanto do professor, toda parte de cancelamento e liberação do horário
-6. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
-7. ver a parte de recuperação de senha
+1. colocar atributo professor_id em pagamento (rever necessidade)
+2. Continuar Tela de listagem de pagamentos, e mostrado um link para direcionar para API do Arthur
+3. verificar a parte de cancelamento tanto do aluno quanto do professor, toda parte de cancelamento e liberação do horário
+4. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
+5. ver a parte de recuperação de senha
 
 # Pagamento
 1. API para alterar o status do pagamento para pago (colocar uma chave de segurança)
 2. Robo para processar todos os pagamentos feitos no dia, e efetivar o pagamento
 
-# Cancelamento de aula
-1. Colocar o horário disponível para o aluno quando outro cancela(na parte de exibir os horários para agendamentos)
 
 # Pagamento
-1. Mostrar mais informações no response para exibir para o aluno 
+1. Mostrar mais informações no response para exibir para o aluno (n lembro)
+
+# Nota de aula
+1. O aluno, após terminar a aula, precisa confirmar a aula como concluída e deverá dar uma nota
 
 
 # Robo

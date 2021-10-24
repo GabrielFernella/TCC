@@ -38,7 +38,8 @@ class FindAgendamentoService {
         status === 1 ||
         status === 2 ||
         status === 3 ||
-        status === 4
+        status === 4 ||
+        status === 5
       )
     ) {
       throw new AppError('Status inválido');
@@ -74,6 +75,13 @@ class FindAgendamentoService {
       }
     } else {
       throw new AppError('Usuário não encontrado.');
+    }
+
+    // Verificar se o horário está autorizado para realizar o cancelamento
+    if (status === 4) {
+      if (agendamento.data.getDate() === new Date().getDate()) {
+        throw new AppError('Não é permitida o cancelamento da aula.');
+      }
     }
 
     const updatedAgendamento = await this.agendamentoRepository.updateStatus(

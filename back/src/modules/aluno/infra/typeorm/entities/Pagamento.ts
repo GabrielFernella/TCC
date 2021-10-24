@@ -17,9 +17,10 @@ import Aluno from './Aluno';
 export enum StatusPagamento {
   EmEspera = 0,
   Processando = 1,
-  Negado = 2,
-  Cancelado = 3,
-  Concluido = 4,
+  Efetivado = 2,
+  Negado = 3,
+  Cancelado = 4,
+  Concluido = 5,
 }
 
 @Entity('pagamento')

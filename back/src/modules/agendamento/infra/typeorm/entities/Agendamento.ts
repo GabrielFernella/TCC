@@ -19,6 +19,7 @@ export enum StatusAula {
   EmProgresso = 2,
   Efetivada = 3,
   Canceladas = 4,
+  Concluida = 5,
 }
 
 @Entity('agendamento')

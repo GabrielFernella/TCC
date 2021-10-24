@@ -101,7 +101,7 @@ class ListHorasDisponiveisProfService {
       const result = validHorasAgendadas.find(h => h.entrada === item.hora);
 
       if (result) {
-        return { hora: item.hora, disp: false };
+        if (result.status !== 4) return { hora: item.hora, disp: false };
       }
       return { hora: item.hora, disp: true };
     });

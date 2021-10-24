@@ -98,6 +98,18 @@ agendamentoRouter.get(
   agendamentoController.info,
 );
 
+agendamentoRouter.post(
+  '/concluir',
+  celebrate({
+    [Segments.BODY]: {
+      id_agendamento: Joi.string().uuid().required(),
+      nota: Joi.string().required(),
+      opiniao: Joi.string().required(),
+    },
+  }),
+  agendamentoController.conclude,
+);
+
 export default agendamentoRouter;
 
 /*
