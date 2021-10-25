@@ -15,6 +15,15 @@
 
 1. Fazer a parte de integração com o Financeiro (talvez trocar de nome)
 2. botões de manipulação dentro do agendamento info(canelar)
-3. listagem de pendencias 
-4. Verificar se para realizar o agendamento ele está validando o limite de pendencias
-5. 
+
+
+
+# Tela agendamento info
+1. Mostrar um botão de confirmação para o aluno confirmar a aula usando uma API de confirmação da aula
+
+# Tela de listagem de agendamentos
+1. Mostrar primeiro todas as pendencias
+2. Ordenar os agendamentos por data
+
+# listagem de pendencias
+1. Melhorar a listagem 

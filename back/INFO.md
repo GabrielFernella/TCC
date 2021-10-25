@@ -47,6 +47,8 @@ statusPagamento {
 # Nota de aula
 1. O aluno, após terminar a aula, precisa confirmar a aula como concluída e deverá dar uma nota
 
+# Concluir Aula
+1. Validar se a data já passou para ele avaliar a aula
 
 # Robo
 1. Fazer o processamento de pagamento, montar um exemplo de objeto que será retornado

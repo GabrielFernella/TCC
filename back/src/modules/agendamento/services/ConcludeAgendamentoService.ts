@@ -10,6 +10,9 @@ import Agendamento from '../infra/typeorm/entities/Agendamento';
   Esse serviço é responsável por atualizar o agendamento como concluido e aplicar a nota ao professor
 */
 
+// @ Falta
+// 1 - Validar se a data já passou para ele avaliar a aula
+
 interface IRequest {
   user_id: string;
   id_agendamento: string;

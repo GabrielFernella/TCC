@@ -39,6 +39,8 @@ class PayPagamentoService {
     });
     console.log(buildObject);
 
+    // Passsar a API do arthur
+
     const rawResponse = await fetch('https://httpbin.org/post', {
       method: 'POST',
       headers: {

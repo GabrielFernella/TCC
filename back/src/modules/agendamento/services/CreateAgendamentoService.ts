@@ -128,6 +128,7 @@ class CreateAgendamentoService {
         item =>
           item.statusPagamento === 0 ||
           item.statusPagamento === 1 ||
+          item.statusPagamento === 3 ||
           item.statusPagamento === 2,
       );
 
