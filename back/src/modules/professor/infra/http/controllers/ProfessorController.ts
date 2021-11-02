@@ -5,7 +5,8 @@ import { classToClass } from 'class-transformer';
 import ShowProfessorService from '@modules/professor/services/ProfessorServices/ShowProfessorService';
 import CreateProfessorService from '@modules/professor/services/ProfessorServices/CreateProfessorService';
 import UpdateProfessorService from '@modules/professor/services/ProfessorServices/UpdateProfessorService';
-import ListAllAgendamentosService from '@modules/professor/services/ProfessorServices/ListAllAgendamentosService';
+import ListAllAgendamentosProfessorService from '@modules/professor/services/ProfessorServices/ListAllAgendamentosProfessorService';
+import ListAgendamentosByDateService from '@modules/professor/services/ProfessorServices/ListAgendamentosByDateService';
 
 export default class TeachersController {
   public async show(request: Request, response: Response): Promise<Response> {
@@ -53,14 +54,27 @@ export default class TeachersController {
     return response.status(201).json(classToClass(updated));
   }
 
-  public async listAppointments(
+  public async listAllAppointments(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.user;
+
+    const appointments = container.resolve(ListAllAgendamentosProfessorService);
+
+    const agendamentos = await appointments.execute({ id });
+
+    return response.status(200).json(classToClass(agendamentos));
+  }
+
+  public async listAppointmentsByDate(
     request: Request,
     response: Response,
   ): Promise<Response> {
     const { id } = request.user;
     const { date } = request.body;
 
-    const appointments = container.resolve(ListAllAgendamentosService);
+    const appointments = container.resolve(ListAgendamentosByDateService);
 
     const agendamentos = await appointments.execute({ id, date });
 

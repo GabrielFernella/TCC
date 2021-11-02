@@ -31,7 +31,7 @@ interface IResponse {
 // Esse serviço consiste em retornar todos os agendamentos vinculados ao professor filtrando pela data
 
 @injectable()
-class ListAllAgendamentosService {
+class ListAgendamentosByDateService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
@@ -110,7 +110,7 @@ class ListAllAgendamentosService {
   }
 }
 
-export default ListAllAgendamentosService;
+export default ListAgendamentosByDateService;
 
 /*
  // GetOthers informations

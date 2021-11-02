@@ -68,6 +68,8 @@ professorRouter.put(
   professorController.update,
 );
 
+professorRouter.get('/agendamentos', professorController.listAllAppointments);
+
 professorRouter.post(
   '/agendamentos',
   celebrate({
@@ -75,7 +77,7 @@ professorRouter.post(
       date: Joi.string().required(),
     },
   }),
-  professorController.listAppointments,
+  professorController.listAppointmentsByDate,
 );
 
 /* usersRouter.patch(
