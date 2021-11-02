@@ -46,6 +46,18 @@
       }
     }
 
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 2rem;
+      transition: 0.2s;
+
+      &:hover {
+        font-weight: 600;
+      }
+    }
+
     .login-footer {
       display: none;
 

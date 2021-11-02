@@ -10,7 +10,7 @@ import Button from '../../../components/Button';
 
 interface IResponse {
   id: string;
-  statusPagamento: 1 | 2 | 3 | 4 | 0;
+  statusPagamento: 1 | 2 | 3 | 4 | 0 | 5;
   title: string;
   emailPagador: string;
   valor: number;
@@ -37,29 +37,46 @@ const ListFinanceiro: React.FC = () => {
     },
   ]);
 
-  const [newArray, setNewArray] = useState<IResponse[]>([]);
+  const [newPagamentos, setNewPagamentos] = useState<IResponse[]>([
+    {
+      id: '',
+      statusPagamento: 0,
+      title: '',
+      emailPagador: '',
+      valor: 0,
+      pixDestinatario: '',
+      aluno_id: '',
+    },
+  ]);
 
   useEffect(() => {
     getPagamentos();
-    filterPagamentos({ typeFilter: 'pendente' });
+    // filterPagamentos({ typeFilter: 'pendente' });
   }, []);
 
   async function filterPagamentos(value: IFilter) {
-    console.log(newArray);
     if (value.typeFilter === 'pendente') {
-      setNewArray(
-        pagamentos.filter(item => item.statusPagamento === 0 || 1 || 2),
+      setNewPagamentos(
+        pagamentos.filter(
+          item =>
+            item.statusPagamento === 0 ||
+            item.statusPagamento === 1 ||
+            item.statusPagamento === 2 ||
+            item.statusPagamento === 3,
+        ),
       );
     }
 
-    if (value.typeFilter === 'concluido') {
-      setNewArray(pagamentos.filter(item => item.statusPagamento === 4));
+    if (value.typeFilter === 'cancelado') {
+      const result = pagamentos.filter(item => item.statusPagamento === 4);
+      setNewPagamentos(result.sort());
     }
 
-    if (value.typeFilter === 'cancelado') {
-      setNewArray(pagamentos.filter(item => item.statusPagamento === 3));
+    if (value.typeFilter === 'concluido') {
+      setNewPagamentos(pagamentos.filter(item => item.statusPagamento === 5));
     }
-    await setLoad(true);
+
+    setLoad(true);
   }
 
   async function getPagamentos() {
@@ -67,6 +84,7 @@ const ListFinanceiro: React.FC = () => {
       .get('pagamento/list')
       .then(async response => {
         setPagamentos(await response.data);
+        setNewPagamentos(await response.data);
       })
       .catch(() => {
         toast.error('Não foi possível carregar as pendências');
@@ -74,10 +92,10 @@ const ListFinanceiro: React.FC = () => {
   }
 
   function alterColor(value: number) {
-    if (value === 3) {
+    if (value === 4) {
       return { color: 'red' };
     }
-    if (value === 4) {
+    if (value === 5) {
       return { color: 'green' };
     }
     return { color: '#6C3CDD' };
@@ -130,7 +148,7 @@ const ListFinanceiro: React.FC = () => {
 
           {load ? (
             <div id="list-info">
-              {newArray.map(item => {
+              {newPagamentos.map(item => {
                 return (
                   <div key={item.id} id="card">
                     <div className="states">
@@ -147,17 +165,19 @@ const ListFinanceiro: React.FC = () => {
                         {item.statusPagamento === 1 && (
                           <span> Processando </span>
                         )}
-                        {item.statusPagamento === 2 && <span> Negado </span>}
-                        {item.statusPagamento === 3 && <span> Cancelado </span>}
-                        {item.statusPagamento === 4 && <span> Concluido </span>}
+                        {item.statusPagamento === 2 && <span> Efetivado</span>}
+                        {item.statusPagamento === 3 && <span> Negado </span>}
+                        {item.statusPagamento === 4 && <span> Cancelado </span>}
+                        {item.statusPagamento === 5 && <span> Concluido </span>}
                       </span>
                     </h2>
 
                     <h3>Valor: R$ {item.valor}</h3>
 
                     <div className="buttons">
-                      {item.statusPagamento !== 4 &&
-                      item.statusPagamento !== 3 ? (
+                      {(item.statusPagamento === 0 ||
+                        item.statusPagamento === 1 ||
+                        item.statusPagamento === 3) && (
                         <Link
                           className="btnVisualizar"
                           to={{
@@ -173,15 +193,15 @@ const ListFinanceiro: React.FC = () => {
                             </span>
                           </button>
                         </Link>
-                      ) : null}
+                      )}
 
-                      {item.statusPagamento === 3 && (
+                      {item.statusPagamento === 4 && (
                         <button type="button" id="deletar" disabled>
                           <span className="visualizar">Cancelado</span>
                         </button>
                       )}
 
-                      {item.statusPagamento === 4 && (
+                      {item.statusPagamento === 5 && (
                         <button type="button" id="aceitar" disabled>
                           <span className="visualizar">Concluído</span>
                         </button>
@@ -190,6 +210,11 @@ const ListFinanceiro: React.FC = () => {
                   </div>
                 );
               })}
+              {newPagamentos.length === 0 && (
+                <div>
+                  <span>Nenhum item encontrado</span>
+                </div>
+              )}
             </div>
           ) : null}
         </fieldset>

@@ -1,5 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
+import { isEqual, parseISO, format } from 'date-fns';
+
 import AppError from '@shared/errors/AppError';
 
 import Agendamento from '@modules/agendamento/infra/typeorm/entities/Agendamento';
@@ -14,6 +16,7 @@ import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRe
 
 interface IRequest {
   id: string;
+  date: string;
 }
 
 interface IResponse {
@@ -28,7 +31,7 @@ interface IResponse {
 // Esse serviço consiste em retornar todos os agendamentos vinculados ao Aluno filtrando pela data
 
 @injectable()
-class ListAllAgendamentosAlunoService {
+class ListAgendamentosAlunobyDateService {
   constructor(
     @inject('ProfessorRepository')
     private professorRepository: IProfessorRepository,
@@ -43,13 +46,23 @@ class ListAllAgendamentosAlunoService {
     private agendamentoRepository: IAgendamentoRepository,
   ) {}
 
-  public async execute({ id }: IRequest): Promise<IResponse[]> {
+  public async execute({ id, date }: IRequest): Promise<IResponse[]> {
     // Primeiro verifica se esse id possui algum agendamento
-    const agendamentos = await this.agendamentoRepository.findByAlunoID(id);
+    const userAppointment = await this.agendamentoRepository.findByAlunoID(id);
 
-    if (!agendamentos) {
+    if (!userAppointment) {
       throw new AppError('Você não possui nenhum agendamento.');
     }
+
+    const dataSelect = parseISO(date);
+
+    // Filtrando por data
+    const agendamentos = userAppointment.filter(item => {
+      const newDate = new Date(item.data);
+      return isEqual(newDate.getDate(), dataSelect.getDate());
+    });
+
+    // Precisa passar a data
 
     const result = agendamentos.sort(
       (a, b) => a.data.getTime() - b.data.getTime() && a.entrada - b.entrada,
@@ -96,4 +109,4 @@ class ListAllAgendamentosAlunoService {
   }
 }
 
-export default ListAllAgendamentosAlunoService;
+export default ListAgendamentosAlunobyDateService;

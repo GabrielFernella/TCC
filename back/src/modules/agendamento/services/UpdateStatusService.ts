@@ -78,10 +78,18 @@ class FindAgendamentoService {
     }
 
     // Verificar se o horário está autorizado para realizar o cancelamento
-    if (status === 4) {
-      if (agendamento.data.getDate() === new Date().getDate()) {
-        throw new AppError('Não é permitida o cancelamento da aula.');
-      }
+    if (agendamento.data.getDate() === new Date().getDate()) {
+      throw new AppError('Não é permitida o cancelamento da aula.');
+    }
+
+    if (agendamento.status === 4) {
+      throw new AppError('Agendamento já está cancelado.');
+    }
+
+    if (agendamento.status === 5) {
+      throw new AppError(
+        'Não é permitida o cancelamento da aula para uma aula já concluída.',
+      );
     }
 
     const updatedAgendamento = await this.agendamentoRepository.updateStatus(
@@ -93,7 +101,7 @@ class FindAgendamentoService {
     }
 
     if (status === 4) {
-      await this.pagamentoRepository.updateStatus(agendamento.pagamento_id, 3);
+      await this.pagamentoRepository.updateStatus(agendamento.pagamento_id, 4);
     }
 
     return updatedAgendamento;

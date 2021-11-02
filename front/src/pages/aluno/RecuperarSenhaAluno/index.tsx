@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 
 import Input from '../../../components/Input';
@@ -20,7 +20,7 @@ const ForgotPassword: React.FC = () => {
       })
       .then(() => {
         toast.success('E-mail enviado com sucesso!');
-        history.push('/prof-login');
+        history.push('/aluno-login');
       })
       .catch(err => {
         toast.error(
@@ -54,6 +54,7 @@ const ForgotPassword: React.FC = () => {
                 Enviar
               </button>
             </fieldset>
+            <Link to="/aluno-login">Voltar pata login</Link>
           </form>
         </div>
       </WrapperContent>

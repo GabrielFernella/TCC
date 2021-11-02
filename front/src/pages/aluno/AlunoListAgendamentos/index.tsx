@@ -44,6 +44,10 @@ interface IResponse {
   };
 }
 
+interface stateFilter {
+  status: 'pendente' | 'cancelado' | 'concluido';
+}
+
 const AlunoListAgendamentos: React.FC = () => {
   const [agendamentos, setAgendamentos] = useState<IResponse[]>([
     {
@@ -81,21 +85,50 @@ const AlunoListAgendamentos: React.FC = () => {
     },
   ]);
 
+  const [newAgendamento, setNewAgendamento] = useState<IResponse[]>([]);
+
   const [date, setDate] = useState('');
+
+  const [status, setStatus] = useState<stateFilter>({ status: 'pendente' });
 
   const [load, setLoad] = useState(false);
 
+  function compare(a: IResponse, b: IResponse) {
+    return (
+      a.appointment.agendamento.data.getDate() -
+      b.appointment.agendamento.data.getDate()
+    );
+  }
+
   useEffect(() => {
     const newDate = new Date();
+
+    getAppointments();
+    setterStateFilter(status);
+
+    const sortAppointment = agendamentos.sort(compare);
+    setAgendamentos(sortAppointment);
 
     const newDate2 = `${newDate.getDate()}-${
       newDate.getMonth() + 1
     }-${newDate.getFullYear()}`;
 
-    getAppointments(newDate2);
+    getAppointmentsByDate(newDate2);
   }, []);
 
-  async function getAppointments(findData: string) {
+  async function getAppointments() {
+    await api
+      .get('/aluno/agendamentos')
+      .then(async response => {
+        setAgendamentos(await response.data);
+        setNewAgendamento(await response.data);
+      })
+      .catch(() => {
+        toast.error('Não foi possível carregar os agendamentos');
+      });
+  }
+
+  async function getAppointmentsByDate(findData: string) {
     const newDate = findData;
 
     await api
@@ -105,9 +138,11 @@ const AlunoListAgendamentos: React.FC = () => {
       .then(async response => {
         setDate(newDate);
         setAgendamentos(await response.data);
+        setNewAgendamento(await response.data);
       })
       .catch(() => {
-        toast.error('Não foi possível carregar os agendamentos');
+        // toast.error('Não foi possível carregar os agendamentos para essa data');
+        getAppointments();
       });
   }
 
@@ -121,11 +156,11 @@ const AlunoListAgendamentos: React.FC = () => {
         })
         .then(response => {
           toast.success('Agendamento cancelado');
-          getAppointments(date);
+          getAppointments();
           setLoad(true);
         })
-        .catch(() => {
-          toast.error('Não foi possível carregar o agendamento');
+        .catch(err => {
+          toast.error(err.response.data.message);
         });
     }
   }
@@ -134,10 +169,32 @@ const AlunoListAgendamentos: React.FC = () => {
     if (value === 4) {
       return { color: 'red' };
     }
-    if (value === 3) {
+    if (value === 5) {
       return { color: 'green' };
     }
     return { color: '#6C3CDD' };
+  }
+
+  function setterStateFilter(value: stateFilter) {
+    setStatus(value);
+
+    let result: IResponse[] = [];
+
+    if (value.status === 'cancelado') {
+      result = agendamentos.filter(
+        item => item.appointment.agendamento.status === 4,
+      );
+    } else if (value.status === 'concluido') {
+      result = agendamentos.filter(
+        item => item.appointment.agendamento.status === 5,
+      );
+    } else {
+      result = agendamentos.filter(
+        item => item.appointment.agendamento.status === 0,
+      );
+    }
+
+    setNewAgendamento(result);
   }
 
   /* async function putStatus(agendamento_id: string, status: number) {
@@ -177,18 +234,30 @@ const AlunoListAgendamentos: React.FC = () => {
                 type="date"
                 name="data"
                 label="Data"
-                onChange={e => getAppointments(e.target.value)}
+                onChange={e => getAppointmentsByDate(e.target.value)}
               />
             </div>
 
             <div className="buttonsContent">
-              <Button id="alterar" name="handleFilter">
+              <Button
+                id="alterar"
+                name="handleFilter"
+                onClick={() => setterStateFilter({ status: 'pendente' })}
+              >
                 Pendente
               </Button>
-              <Button id="deletar" name="handleFilter">
+              <Button
+                id="deletar"
+                name="handleFilter"
+                onClick={() => setterStateFilter({ status: 'cancelado' })}
+              >
                 Cancelados
               </Button>
-              <Button id="aceitar" name="handleFilter">
+              <Button
+                id="aceitar"
+                name="handleFilter"
+                onClick={() => setterStateFilter({ status: 'concluido' })}
+              >
                 Concluídos
               </Button>
             </div>
@@ -197,7 +266,7 @@ const AlunoListAgendamentos: React.FC = () => {
           <hr />
 
           <div id="list-info">
-            {agendamentos.map(item => {
+            {newAgendamento.map(item => {
               return (
                 <div key={item.appointment.agendamento.id} id="card">
                   <div className="states">
@@ -234,6 +303,9 @@ const AlunoListAgendamentos: React.FC = () => {
                       {item.appointment.agendamento.status === 4 && (
                         <span> Cancelada </span>
                       )}
+                      {item.appointment.agendamento.status === 5 && (
+                        <span> Concluida </span>
+                      )}
                     </span>
                   </h2>
 
@@ -262,7 +334,7 @@ const AlunoListAgendamentos: React.FC = () => {
                     </Link>
 
                     {item.appointment.agendamento.status !== 4 &&
-                    item.appointment.agendamento.status !== 3 ? (
+                    item.appointment.agendamento.status !== 5 ? (
                       <button
                         type="button"
                         id="deletar"

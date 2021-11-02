@@ -7,7 +7,6 @@ import { Switch, Route } from 'react-router-dom';
 import Landing from '../pages/dashboard/Landing';
 
 // Professor
-import RecuperarSenha from '../pages/professor/RecuperarSenha';
 import ProfessorForm from '../pages/professor/ProfessorCadForm';
 import ProfessorUpdateForm from '../pages/professor/ProfessorUpdateForm';
 
@@ -19,6 +18,7 @@ import ProfessorListAgendamentos from '../pages/professor/ProfessorListAgendamen
 import ProfessorInfoAgendamento from '../pages/professor/ProfessorInfoAgendamento';
 import ProfessorHome from '../pages/professor/ProfessorHome';
 import ProfessorLogin from '../pages/professor/ProfessorLogin';
+import RecuperarSenhaProfessor from '../pages/professor/RecuperarSenhaProfessor';
 
 // Aluno
 import AlunoCadForm from '../pages/aluno/AlunoCadForm';
@@ -27,6 +27,7 @@ import AlunoLogin from '../pages/aluno/AlunoLogin';
 import AlunoHome from '../pages/aluno/AlunoHome';
 import AlunoListAgendamentos from '../pages/aluno/AlunoListAgendamentos';
 import AlunoInfoAgendamento from '../pages/aluno/AlunoInfoAgendamento';
+import RecuperarSenhaAluno from '../pages/aluno/RecuperarSenhaAluno';
 
 import ListDisciplinas from '../pages/aluno/ListDisciplinas';
 import AgendarDisciplina from '../pages/aluno/AgendarDisciplina';
@@ -41,7 +42,6 @@ const Routes: React.FC = () => {
       <Route path="/" exact component={Landing} />
 
       <Route path="/dashboard" exact component={Landing} />
-      <Route path="/forgot-password" exact component={RecuperarSenha} />
 
       <Route path="/aluno-login" exact component={AlunoLogin} />
       <Route path="/aluno-home" exact component={AlunoHome} isPrivate />
@@ -72,9 +72,15 @@ const Routes: React.FC = () => {
       />
       <Route path="/agendar" exact component={AgendarDisciplina} isPrivate />
       <Route
-        path="/aluno/financeiro"
+        path="/aluno/pendencia"
         exact
         component={ListFinanceiro}
+        isPrivate
+      />
+      <Route
+        path="/aluno/forgot"
+        exact
+        component={RecuperarSenhaAluno}
         isPrivate
       />
 
@@ -113,6 +119,12 @@ const Routes: React.FC = () => {
         path="/prof-disponibilidade"
         exact
         component={ProfessorCadDisponibilidade}
+      />
+      <Route
+        path="/professor/forgot"
+        exact
+        component={RecuperarSenhaProfessor}
+        isPrivate
       />
     </Switch>
   );

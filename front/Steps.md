@@ -27,3 +27,9 @@
 
 # listagem de pendencias
 1. Melhorar a listagem 
+
+
+
+# Finalizando telas
+## Aluno Listagem Agendamentos - ok
+## Aluno Agendamentos - ok

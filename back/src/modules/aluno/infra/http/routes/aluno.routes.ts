@@ -57,6 +57,8 @@ alunoRoute.post(
   alunoController.listAgendamentos,
 );
 
+alunoRoute.get('/agendamentos', alunoController.listAllAgendamentos);
+
 // alunoRoute.get('/agendamentos', alunoController.listAgendamentos);
 
 /* usersRouter.patch(

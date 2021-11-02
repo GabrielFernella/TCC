@@ -268,7 +268,10 @@ const AlunoInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-          {agendamentos.agendamento.status !== 4 && (
+          {(agendamentos.agendamento.status === 0 ||
+            agendamentos.agendamento.status === 1 ||
+            agendamentos.agendamento.status === 2 ||
+            agendamentos.agendamento.status === 3) && (
             <Button
               name="submit"
               className="cancelar"

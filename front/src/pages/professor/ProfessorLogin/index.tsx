@@ -96,7 +96,7 @@ const Login: React.FC = () => {
 
               <div className="login-tools">
                 <div />
-                <Link to="/forgot-password">Esqueci minha senha</Link>
+                <Link to="/professor/forgot">Esqueci minha senha</Link>
               </div>
               <button
                 className={`login-submit ${'login-submit-active'}`}
