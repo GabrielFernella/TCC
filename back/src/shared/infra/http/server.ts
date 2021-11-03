@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata';
 import 'dotenv/config';
 import managerCron from '@shared/container/cron/ProcessPayment';
@@ -6,14 +8,16 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
 import 'express-async-errors';
+import { Server, Socket } from 'socket.io';
 
 // import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
-import routes from './routes';
-
 import '@shared/infra/typeorm';
 import '@shared/container';
+import { ChatService } from '@modules/chat/services/ChatService';
+import { MensagemService } from '@modules/chat/services/MensasgemService';
+import routes from './routes';
 
 const app = express();
 
@@ -37,8 +41,76 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     .json({ status: 'error', message: 'Internal server error' });
 });
 
-app.listen(3333, () => {
+const server = app.listen(3333, () => {
   console.log('🚀 Server started on port 3333');
-
-  // managerCron.start();
 });
+
+//SOCKET.IO - CHAT
+
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+io.on('connection', (socket: Socket) => {
+  console.log('Conectado', socket.id);
+});
+
+io.on('connect', async (socket: Socket) => {
+  const chatService = new ChatService();
+  const mensagemService = new MensagemService();
+
+  socket.on('create_chat', async (params: any) => {
+
+    if (params.professorId && params.alunoId && params.agendamentoId) {
+      let chat: any;
+      chat = await chatService.find(params.agendamentoId);
+
+      if (!chat) {
+        chat = await chatService.create(
+          params.alunoId,
+          params.professorId,
+          params.agendamentoId,
+        );
+      }
+
+      if (params.chatStartText) {
+        const mensagem = await mensagemService.create(
+          chat.id,
+          params.chatStartText,
+          params.isAluno,
+        );
+
+        io.emit('receber_mensagem', mensagem);
+      }
+
+      const mensagens = await mensagemService.findByChatId(chat.id);
+
+      const obj = {
+        mensagens,
+        chatId: chat.id,
+      };
+
+      socket.emit('chat_listar_mensagens', obj);
+    }
+  });
+
+  socket.on('enviar_mensagem', async params => {
+    console.log(params);
+
+    const mensagem = await mensagemService.create(
+      params.chatId,
+      params.mensagem,
+      params.isAluno,
+    );
+
+    io.emit('receber_mensagem', mensagem);
+  });
+
+  socket.on('disconnect', function () {
+    console.log('Desconectado');
+  });
+});
+
+export { server, io };

@@ -7,6 +7,9 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import './styles.scss';
 import api from '../../../services/api';
 import Button from '../../../components/Button';
+import { io } from 'socket.io-client';
+import ReactDOM from 'react-dom';
+import { ChatComponent } from '../../chat/ChatComponent';
 
 interface IResponse {
   agendamento: {
@@ -52,6 +55,26 @@ interface Props {
 }
 
 const AlunoInfoAgendamentos = () => {
+
+  window.onload = function(){
+    initBeforeUnLoad();
+  }
+
+  const initBeforeUnLoad = () =>{
+    window.onbeforeunload = (event) =>{
+      if(socket){
+        socket.disconnect();
+      }
+    }
+
+  }
+
+  onbeforeunload = () => {
+    if(socket){
+      socket.disconnect();
+    }
+  }
+
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     agendamento: {
       id: '',
@@ -94,10 +117,12 @@ const AlunoInfoAgendamentos = () => {
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
+  const [chatStartText, setChatStartText] = useState<string>('');
 
   const location = useLocation();
 
   const valor = (location.state as Props) || {};
+
 
   async function getLink() {
     // navigator.clipboard.writeText(agendamentos.agendamento.link);
@@ -108,6 +133,46 @@ const AlunoInfoAgendamentos = () => {
     } else {
       history.push(`${agendamentos.agendamento.link}`);
     }
+  }
+
+  let socket: any;
+
+  async function startChat(){
+    socket = io("http://localhost:3333");
+
+    socket.on('connect', () =>{
+
+      const params =
+      {
+        chatStartText,
+        professorId: agendamentos.professor.id,
+        alunoId: agendamentos.aluno.id,
+        agendamentoId: agendamentos.agendamento.id,
+        isAluno: true
+      };
+
+      socket.emit('create_chat', params, (call, err) =>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(call);
+        }
+      })
+    });
+
+    socket.on('chat_listar_mensagens', mensagens =>{
+      console.log(mensagens);
+
+      const element = <ChatComponent mensagens={mensagens.mensagens} isAluno={true} socket={socket} chatId={mensagens.chatId}/>;
+
+      ReactDOM.render(
+        element,
+        document.getElementById('chat')
+      );
+    });
+
+
   }
 
   function efetuarPagamento() {
@@ -169,6 +234,10 @@ const AlunoInfoAgendamentos = () => {
           </div>
           <br />
           <hr />
+
+          <div id="chat">
+
+            </div>
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -258,20 +327,27 @@ const AlunoInfoAgendamentos = () => {
 
           <br />
           <br />
-          <h3>Alinhe algumas expectativas</h3>
-          <div className="chat">
-            <span>Chat</span>
-          </div>
+
+          {(agendamentos.agendamento.status !== 4) && (
+            <div>
+              <h3>Alinhe algumas expectativas</h3>
+
+              <div className="chat">
+                <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
+                <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
+              </div>
+
+              <Button name="abrirChat" onClick={() => startChat()}>Abrir Chat</Button>
+            </div>
+          )}
+
           <br />
           <hr />
         </fieldset>
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-          {(agendamentos.agendamento.status === 0 ||
-            agendamentos.agendamento.status === 1 ||
-            agendamentos.agendamento.status === 2 ||
-            agendamentos.agendamento.status === 3) && (
+          {(agendamentos.agendamento.status !== 4) && (
             <Button
               name="submit"
               className="cancelar"
