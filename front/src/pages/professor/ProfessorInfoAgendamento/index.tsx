@@ -11,6 +11,9 @@ import './styles.scss';
 import api from '../../../services/api';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import { io } from 'socket.io-client';
+import { ChatComponent } from '../../chat/ChatComponent';
+import ReactDOM from 'react-dom';
 
 interface IResponse {
   agendamento: {
@@ -97,6 +100,7 @@ const ProfessorInfoAgendamentos = () => {
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
+  const [chatStartText, setChatStartText] = useState<string>('');
 
   const location = useLocation();
 
@@ -118,6 +122,46 @@ const ProfessorInfoAgendamentos = () => {
           'Aldo deu errado ao tentar atualizar o link, tente novamente.',
         );
       });
+  }
+
+  let socket: any;
+
+  async function startChat(){
+    socket = io("http://localhost:3333");
+
+    console.log(chatStartText);
+
+    socket.on('connect', () =>{
+      const params =
+      {
+        chatStartText,
+        professorId: agendamentos.professor.id,
+        alunoId: agendamentos.aluno.id,
+        agendamentoId: agendamentos.agendamento.id,
+        isAluno: false
+      }
+
+      socket.emit('create_chat', params, (call, err) =>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(call);
+        }
+      })
+    });
+
+    socket.on('chat_listar_mensagens', mensagens =>{
+      console.log(mensagens);
+
+      const element = <ChatComponent mensagens={mensagens} isAluno={false} />;
+      ReactDOM.render(
+        element,
+        document.getElementById('info-professor-agendamentos')
+      );
+    });
+
+
   }
 
   async function getInfo() {
@@ -229,10 +273,18 @@ const ProfessorInfoAgendamentos = () => {
 
           <br />
           <br />
-          <h3>Alinhe algumas expectativas</h3>
-          <div className="chat">
-            <span>Chat</span>
-          </div>
+
+          {(agendamentos.agendamento.status !== 4) && (
+            <div>
+              <h3>Alinhe algumas expectativas</h3>
+
+              <div className="chat">
+                <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
+                <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
+              </div>
+            </div>
+          )}
+
           <br />
           <hr />
         </fieldset>

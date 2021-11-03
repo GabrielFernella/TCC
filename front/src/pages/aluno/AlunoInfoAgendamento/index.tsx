@@ -7,6 +7,9 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import './styles.scss';
 import api from '../../../services/api';
 import Button from '../../../components/Button';
+import { io } from 'socket.io-client';
+import ReactDOM from 'react-dom';
+import { ChatComponent } from '../../chat/ChatComponent';
 
 interface IResponse {
   agendamento: {
@@ -94,10 +97,12 @@ const AlunoInfoAgendamentos = () => {
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
+  const [chatStartText, setChatStartText] = useState<string>('');
 
   const location = useLocation();
 
   const valor = (location.state as Props) || {};
+
 
   async function getLink() {
     // navigator.clipboard.writeText(agendamentos.agendamento.link);
@@ -108,6 +113,46 @@ const AlunoInfoAgendamentos = () => {
     } else {
       history.push(`${agendamentos.agendamento.link}`);
     }
+  }
+
+  let socket: any;
+
+  async function startChat(){
+    socket = io("http://localhost:3333");
+
+    console.log(chatStartText);
+
+    socket.on('connect', () =>{
+      const params =
+      {
+        chatStartText,
+        professorId: agendamentos.professor.id,
+        alunoId: agendamentos.aluno.id,
+        agendamentoId: agendamentos.agendamento.id,
+        isAluno: true
+      }
+
+      socket.emit('create_chat', params, (call, err) =>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(call);
+        }
+      })
+    });
+
+    socket.on('chat_listar_mensagens', mensagens =>{
+      console.log(mensagens);
+
+      const element = <ChatComponent mensagens={mensagens} isAluno={true} />;
+      ReactDOM.render(
+        element,
+        document.getElementById('info-professor-agendamentos')
+      );
+    });
+
+
   }
 
   function efetuarPagamento() {
@@ -258,20 +303,25 @@ const AlunoInfoAgendamentos = () => {
 
           <br />
           <br />
-          <h3>Alinhe algumas expectativas</h3>
-          <div className="chat">
-            <span>Chat</span>
-          </div>
+
+          {(agendamentos.agendamento.status !== 4) && (
+            <div>
+              <h3>Alinhe algumas expectativas</h3>
+
+              <div className="chat">
+                <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
+                <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
+              </div>
+            </div>
+          )}
+
           <br />
           <hr />
         </fieldset>
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-          {(agendamentos.agendamento.status === 0 ||
-            agendamentos.agendamento.status === 1 ||
-            agendamentos.agendamento.status === 2 ||
-            agendamentos.agendamento.status === 3) && (
+          {(agendamentos.agendamento.status !== 4) && (
             <Button
               name="submit"
               className="cancelar"
