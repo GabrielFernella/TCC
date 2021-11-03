@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata';
 import 'dotenv/config';
 import managerCron from '@shared/container/cron/ProcessPayment';
@@ -11,12 +13,11 @@ import { Server, Socket } from 'socket.io';
 // import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
-import routes from './routes';
-
 import '@shared/infra/typeorm';
 import '@shared/container';
 import { ChatService } from '@modules/chat/services/ChatService';
 import { MensagemService } from '@modules/chat/services/MensasgemService';
+import routes from './routes';
 
 const app = express();
 
@@ -61,15 +62,12 @@ io.on('connect', async (socket: Socket) => {
   const mensagemService = new MensagemService();
 
   socket.on('create_chat', async (params: any) => {
-    console.log(params);
 
     if (params.professorId && params.alunoId && params.agendamentoId) {
       let chat: any;
       chat = await chatService.find(params.agendamentoId);
 
       if (!chat) {
-        newChat = true;
-
         chat = await chatService.create(
           params.alunoId,
           params.professorId,
@@ -78,17 +76,40 @@ io.on('connect', async (socket: Socket) => {
       }
 
       if (params.chatStartText) {
-        await mensagemService.create(
+        const mensagem = await mensagemService.create(
           chat.id,
           params.chatStartText,
           params.isAluno,
         );
+
+        io.emit('receber_mensagem', mensagem);
       }
 
       const mensagens = await mensagemService.findByChatId(chat.id);
 
-      socket.emit('chat_listar_mensagens', mensagens);
+      const obj = {
+        mensagens,
+        chatId: chat.id,
+      };
+
+      socket.emit('chat_listar_mensagens', obj);
     }
+  });
+
+  socket.on('enviar_mensagem', async params => {
+    console.log(params);
+
+    const mensagem = await mensagemService.create(
+      params.chatId,
+      params.mensagem,
+      params.isAluno,
+    );
+
+    io.emit('receber_mensagem', mensagem);
+  });
+
+  socket.on('disconnect', function () {
+    console.log('Desconectado');
   });
 });
 

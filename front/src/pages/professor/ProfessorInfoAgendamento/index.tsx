@@ -59,6 +59,26 @@ interface Props {
 }
 
 const ProfessorInfoAgendamentos = () => {
+
+  window.onload = function(){
+    initBeforeUnLoad();
+  }
+
+  const initBeforeUnLoad = () =>{
+    window.onbeforeunload = (event) =>{
+      if(socket){
+        socket.disconnect();
+      }
+    }
+
+  }
+
+  onbeforeunload = () => {
+    if(socket){
+      socket.disconnect();
+    }
+  }
+
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     agendamento: {
       id: '',
@@ -154,10 +174,19 @@ const ProfessorInfoAgendamentos = () => {
     socket.on('chat_listar_mensagens', mensagens =>{
       console.log(mensagens);
 
-      const element = <ChatComponent mensagens={mensagens} isAluno={false} />;
+      mensagens.mensagens.forEach(msg => {
+        if(msg.isAluno){
+          msg.isAluno = false;
+        }
+        else{
+          msg.isAluno = true;
+        }
+      });
+
+      const element = <ChatComponent mensagens={mensagens.mensagens} isAluno={false} socket={socket} chatId={mensagens.chatId}/>;
       ReactDOM.render(
         element,
-        document.getElementById('info-professor-agendamentos')
+        document.getElementById('chat')
       );
     });
 
@@ -201,6 +230,10 @@ const ProfessorInfoAgendamentos = () => {
           </div>
           <br />
           <hr />
+
+          <div id="chat">
+
+            </div>
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -282,6 +315,8 @@ const ProfessorInfoAgendamentos = () => {
                 <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
                 <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
               </div>
+
+              <Button name="abrirChat" onClick={() => startChat()}>Abrir Chat</Button>
             </div>
           )}
 

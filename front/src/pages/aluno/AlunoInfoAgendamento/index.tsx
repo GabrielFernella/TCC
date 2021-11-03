@@ -55,6 +55,26 @@ interface Props {
 }
 
 const AlunoInfoAgendamentos = () => {
+
+  window.onload = function(){
+    initBeforeUnLoad();
+  }
+
+  const initBeforeUnLoad = () =>{
+    window.onbeforeunload = (event) =>{
+      if(socket){
+        socket.disconnect();
+      }
+    }
+
+  }
+
+  onbeforeunload = () => {
+    if(socket){
+      socket.disconnect();
+    }
+  }
+
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     agendamento: {
       id: '',
@@ -120,9 +140,8 @@ const AlunoInfoAgendamentos = () => {
   async function startChat(){
     socket = io("http://localhost:3333");
 
-    console.log(chatStartText);
-
     socket.on('connect', () =>{
+
       const params =
       {
         chatStartText,
@@ -130,7 +149,7 @@ const AlunoInfoAgendamentos = () => {
         alunoId: agendamentos.aluno.id,
         agendamentoId: agendamentos.agendamento.id,
         isAluno: true
-      }
+      };
 
       socket.emit('create_chat', params, (call, err) =>{
         if(err){
@@ -145,10 +164,11 @@ const AlunoInfoAgendamentos = () => {
     socket.on('chat_listar_mensagens', mensagens =>{
       console.log(mensagens);
 
-      const element = <ChatComponent mensagens={mensagens} isAluno={true} />;
+      const element = <ChatComponent mensagens={mensagens.mensagens} isAluno={true} socket={socket} chatId={mensagens.chatId}/>;
+
       ReactDOM.render(
         element,
-        document.getElementById('info-professor-agendamentos')
+        document.getElementById('chat')
       );
     });
 
@@ -214,6 +234,10 @@ const AlunoInfoAgendamentos = () => {
           </div>
           <br />
           <hr />
+
+          <div id="chat">
+
+            </div>
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -312,6 +336,8 @@ const AlunoInfoAgendamentos = () => {
                 <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
                 <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
               </div>
+
+              <Button name="abrirChat" onClick={() => startChat()}>Abrir Chat</Button>
             </div>
           )}
 
