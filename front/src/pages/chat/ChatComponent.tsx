@@ -1,139 +1,141 @@
-import React from "react";
-import './styles.scss';
+import React from 'react';
+// import './styles.scss';
 
+import ReactDOM, { unmountComponentAtNode } from 'react-dom';
 import chat from '../../assets/images/chat.png';
 import close from '../../assets/images/close.png';
 import send from '../../assets/images/send.png';
-import ReactDOM, { unmountComponentAtNode } from "react-dom";
 
-interface IChatProps{
+import { Component } from './styles';
+
+interface IChatProps {
   mensagens: any[];
   isAluno: boolean;
   chatId: string;
   socket: any;
 }
 
-interface IChatState{
+interface IChatState {
   mensagem: string;
   closed: boolean;
 }
 
-
-export class ChatComponent extends React.Component<IChatProps, IChatState>{
-
+export class ChatComponent extends React.Component<IChatProps, IChatState> {
   public socket: any;
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
-    this.state = {mensagem: '', closed: false};
+    this.state = { mensagem: '', closed: false };
     console.log(this.state);
 
     this.socket = this.props.socket;
 
-    this.socket.on('receber_mensagem', mensagem =>{
-
-      if(mensagem.chatId === this.props.chatId){
-
-        if(!this.props.isAluno){
-          if(!mensagem.isAluno){
+    this.socket.on('receber_mensagem', mensagem => {
+      if (mensagem.chatId === this.props.chatId) {
+        if (!this.props.isAluno) {
+          if (!mensagem.isAluno) {
             mensagem.isAluno = true;
-          }
-          else{
+          } else {
             mensagem.isAluno = false;
           }
         }
 
         this.props.mensagens.push({
           isAluno: mensagem.isAluno,
-          mensagem: mensagem.mensagem
+          mensagem: mensagem.mensagem,
         });
 
         this.forceUpdate();
       }
-
-    })
+    });
   }
-
 
   handleMensagem(event) {
-    this.setState({mensagem: event});
+    this.setState({ mensagem: event });
   }
 
-  closeChat(){
+  closeChat() {
     this.socket.disconnect();
 
-    this.setState({closed: true});
+    this.setState({ closed: true });
     this.forceUpdate();
   }
 
-  renderMensagem(mensagem: any){
+  renderMensagem(mensagem: any) {
     return (
       <div className={mensagem.isAluno ? 'client' : 'admin'}>
-        <span className={mensagem.isAluno ? 'client message' : 'admin message'}> {mensagem.mensagem} </span>
+        <span className={mensagem.isAluno ? 'client message' : 'admin message'}>
+          {' '}
+          {mensagem.mensagem}{' '}
+        </span>
       </div>
     );
   }
 
-  async enviarMensagem(){
+  async enviarMensagem() {
     const text = this.state.mensagem;
 
     const params = {
       mensagem: text,
       chatId: this.props.chatId,
-      isAluno: this.props.isAluno
-    }
+      isAluno: this.props.isAluno,
+    };
 
-    this.socket.emit("enviar_mensagem", params);
-    this.setState({mensagem: ''});
+    this.socket.emit('enviar_mensagem', params);
+    this.setState({ mensagem: '' });
   }
 
-  componentDidMount(){
-    var objDiv = document.getElementById('messagebox');
+  componentDidMount() {
+    const objDiv = document.getElementById('messagebox');
     objDiv!.scrollTop = objDiv!.scrollHeight - objDiv!.clientHeight;
   }
 
-  render(){
-
-    let mensagens: any[] = [];
-    this.props.mensagens.forEach(msg =>{
+  render() {
+    const mensagens: any[] = [];
+    this.props.mensagens.forEach(msg => {
       mensagens.push(msg);
     });
 
-    if(this.state.closed){
+    if (this.state.closed) {
       return null;
     }
 
     return (
-      <div className="chat chat_support" id="chat_in_support">
-        <div className="in_support_header">
-          <span>Chat</span>
-          <div className="icon_close" onClick={() => this.closeChat()}>
-            <img src={close} />
+      <Component>
+        <div className="chat chat_support" id="chat_in_support">
+          <div className="in_support_header">
+            <span>Chat</span>
+            <div className="icon_close" onClick={() => this.closeChat()}>
+              <img src={close} />
+            </div>
           </div>
-        </div>
 
-        <div className="text_support" id="messagebox">
-          <div id="messages" className="chat__messages">
-            {mensagens.map(this.renderMensagem)}
+          <div className="text_support" id="messagebox">
+            <div id="messages" className="chat__messages">
+              {mensagens.map(this.renderMensagem)}
+            </div>
+            <div className="line" />
           </div>
-          <div className="line"></div>
-        </div>
 
-        <div className="message_send">
-          <input
-            type="text"
-            placeholder="Digite sua mensagem aqui"
-            id="message_user"
-            value={this.state.mensagem}
-            onChange={e => this.handleMensagem(e.target.value)}
-          />
-          <div className="send_message_button" id="send_message_button" onClick={() => this.enviarMensagem()}>
-            <img src={send} />
+          <div className="message_send">
+            <input
+              type="text"
+              placeholder="Digite sua mensagem aqui"
+              id="message_user"
+              value={this.state.mensagem}
+              onChange={e => this.handleMensagem(e.target.value)}
+            />
+            <div
+              className="send_message_button"
+              id="send_message_button"
+              onClick={() => this.enviarMensagem()}
+            >
+              <img src={send} />
+            </div>
           </div>
         </div>
-      </div>
+      </Component>
     );
   }
 }
-

@@ -1,0 +1,25 @@
+{
+  "name": "mercadopago2020",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mercadopago": "^1.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurAssem/APIPAGAMENTO.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArthurAssem/APIPAGAMENTO/issues"
+  },
+  "homepage": "https://github.com/ArthurAssem/APIPAGAMENTO#readme"
+}

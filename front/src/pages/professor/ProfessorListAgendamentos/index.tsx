@@ -118,7 +118,7 @@ const ProfessorListAgendamentos: React.FC = () => {
 
   async function getAppointments() {
     await api
-      .get('/aluno/agendamentos')
+      .get('/professor/agendamentos')
       .then(async response => {
         setAgendamentos(await response.data);
         setNewAgendamento(await response.data);
@@ -218,7 +218,7 @@ const ProfessorListAgendamentos: React.FC = () => {
       <PageHeader
         page="Agendamentos"
         background={backgroundImg}
-        home="/aluno-home"
+        home="/prof-home"
       >
         <div className="profile-header">
           <h2>Essas são todos os seus agendamentos</h2>
@@ -322,7 +322,7 @@ const ProfessorListAgendamentos: React.FC = () => {
                     <Link
                       className="btnVisualizar"
                       to={{
-                        pathname: '/aluno/agenda/info',
+                        pathname: '/professor/agenda/info',
                         state: {
                           agendamento_id: item.appointment.agendamento.id,
                         },

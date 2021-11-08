@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "jquery": "^3.6.0",
+    "mercadopago": "^1.5.9",
     "moment": "^2.29.1",
     "polished": "^4.0.2",
     "rc-datepicker": "^5.0.16",

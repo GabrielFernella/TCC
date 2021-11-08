@@ -45,7 +45,7 @@ class ListAllAgendamentosAlunoService {
 
   public async execute({ id }: IRequest): Promise<IResponse[]> {
     // Primeiro verifica se esse id possui algum agendamento
-    const agendamentos = await this.agendamentoRepository.findByAlunoID(id);
+    const agendamentos = await this.agendamentoRepository.findByProfessorID(id);
 
     if (!agendamentos) {
       throw new AppError('Você não possui nenhum agendamento.');

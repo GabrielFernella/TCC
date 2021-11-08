@@ -10,6 +10,7 @@ import ListAgendamentosByIDDate from '@modules/agendamento/services/ListAgendame
 import GetAgendamentoInfoService from '@modules/agendamento/services/GetAgendamentoInfoService';
 import UpdateLinkService from '@modules/agendamento/services/UpdateLinkService';
 import ConcludeAgendamentoService from '@modules/agendamento/services/ConcludeAgendamentoService';
+import CancelarAgendamento from '@modules/agendamento/services/CancelarAgendamento';
 
 export default class AgendamentoController {
   /* public async listAllByAluno(
@@ -143,5 +144,18 @@ export default class AgendamentoController {
     });
 
     return response.json(classToClass(agendamento));
+  }
+
+  public async cancelAgendamento(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { agendamento_id } = request.params;
+
+    const cancel = container.resolve(CancelarAgendamento);
+    await cancel.execute(agendamento_id, user_id);
+
+    return response.status(204).json();
   }
 }

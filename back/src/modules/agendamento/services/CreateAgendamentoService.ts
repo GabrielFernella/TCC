@@ -178,9 +178,35 @@ class CreateAgendamentoService {
       );
 
       if (verifyDisponibilidadeDoProfessor.length >= 1) {
-        throw new AppError(
-          'Professor já possui um agendamento para essa data!',
+        /* if (verifyDisponibilidadeDoProfessor.length === 1) {
+          if (verifyDisponibilidadeDoProfessor[0].status !== 4) {
+            throw new AppError(
+              'Professor possui um agendamento para esse horário!',
+            );
+          }
+        } */
+
+        const verifyActiveAgendamento = verifyDisponibilidadeDoProfessor.filter(
+          item => item.status !== 4,
         );
+
+        if (verifyActiveAgendamento.length >= 1) {
+          throw new AppError(
+            'Professor possui um agendamento para esse horário!',
+          );
+        }
+
+        /* const verifyActiveAgendamento = verifyDisponibilidadeDoProfessor.map(
+          item => item.status !== 4,
+        );
+        if (
+          verifyActiveAgendamento.length !==
+          verifyDisponibilidadeDoProfessor.length
+        ) {
+          throw new AppError(
+            'Professor já possui um agendamento para essa data!',
+          );
+        } */
       }
     }
 

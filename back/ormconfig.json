@@ -2,7 +2,7 @@
   {
     "name": "default",
     "type": "postgres",
-    "host": "postgres",
+    "host": "localhost",
     "port": 5432,
     "username": "postgres",
     "password": "postgres",
@@ -20,7 +20,7 @@
   {
     "name": "mongo",
     "type": "mongodb",
-    "host": "mongo",
+    "host": "localhost",
     "port": 27017,
     "database": "web_educa",
     "useUnifiedTopology": true,

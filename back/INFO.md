@@ -32,14 +32,12 @@ statusPagamento {
 # Fazer
 1. colocar atributo professor_id em pagamento (rever necessidade)
 2. Continuar Tela de listagem de pagamentos, e mostrado um link para direcionar para API do Arthur
-3. verificar a parte de cancelamento tanto do aluno quanto do professor, toda parte de cancelamento e liberação do horário
 4. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
 5. ver a parte de recuperação de senha
 
 # Pagamento
 1. API para alterar o status do pagamento para pago (colocar uma chave de segurança)
 2. Robo para processar todos os pagamentos feitos no dia, e efetivar o pagamento
-
 
 # Pagamento
 1. Mostrar mais informações no response para exibir para o aluno (n lembro)
@@ -49,10 +47,25 @@ statusPagamento {
 
 # Concluir Aula
 1. Validar se a data já passou para ele avaliar a aula
+2. validar se para fazer um novo agendamento, o aluno concluiu as aulas para efetivar o pagamento do professor
 
 # Robo
 1. Fazer o processamento de pagamento, montar um exemplo de objeto que será retornado
 
+# Cancelamento de aula
+1. validar horário
+2. montar parte de reembolso
+3. testar e add no web
+4. liberação do horário que foi cancelado - ok
+
+# mandar um email para o professor assim que for feito um agendamento
+1. Mandar um e-mail para o professor entrar no portal para aceitar o agendamento
+
+# Verificar a parte de listagem de disponibilidade das disciplinas
+1. filtar e mostrar a cor escura para os agendamentos que foram cancelados (ver na web)
+
+# PayPagamentoService
+1. Essa classe deve pegar as propriedades para atualizar o pagamento do aluno(fazer apenas uma simulação)
 
 
 

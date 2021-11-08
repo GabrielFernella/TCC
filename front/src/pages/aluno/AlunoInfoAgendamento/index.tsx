@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
+import ReactDOM from 'react-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { useLocation, useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
@@ -7,8 +9,7 @@ import backgroundImg from '../../../assets/images/success-background.svg';
 import './styles.scss';
 import api from '../../../services/api';
 import Button from '../../../components/Button';
-import { io } from 'socket.io-client';
-import ReactDOM from 'react-dom';
+
 import { ChatComponent } from '../../chat/ChatComponent';
 
 interface IResponse {
@@ -55,25 +56,23 @@ interface Props {
 }
 
 const AlunoInfoAgendamentos = () => {
-
-  window.onload = function(){
+  window.onload = function () {
     initBeforeUnLoad();
-  }
+  };
 
-  const initBeforeUnLoad = () =>{
-    window.onbeforeunload = (event) =>{
-      if(socket){
+  const initBeforeUnLoad = () => {
+    window.onbeforeunload = event => {
+      if (socket) {
         socket.disconnect();
       }
-    }
-
-  }
+    };
+  };
 
   onbeforeunload = () => {
-    if(socket){
+    if (socket) {
       socket.disconnect();
     }
-  }
+  };
 
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     agendamento: {
@@ -123,7 +122,6 @@ const AlunoInfoAgendamentos = () => {
 
   const valor = (location.state as Props) || {};
 
-
   async function getLink() {
     // navigator.clipboard.writeText(agendamentos.agendamento.link);
     // toast.success('Link copiado!');
@@ -137,42 +135,41 @@ const AlunoInfoAgendamentos = () => {
 
   let socket: any;
 
-  async function startChat(){
-    socket = io("http://localhost:3333");
+  async function startChat() {
+    socket = io('http://localhost:3333');
 
-    socket.on('connect', () =>{
-
-      const params =
-      {
+    socket.on('connect', () => {
+      const params = {
         chatStartText,
         professorId: agendamentos.professor.id,
         alunoId: agendamentos.aluno.id,
         agendamentoId: agendamentos.agendamento.id,
-        isAluno: true
+        isAluno: true,
       };
 
-      socket.emit('create_chat', params, (call, err) =>{
-        if(err){
+      socket.emit('create_chat', params, (call, err) => {
+        if (err) {
           console.log(err);
-        }
-        else{
+        } else {
           console.log(call);
         }
-      })
+      });
     });
 
-    socket.on('chat_listar_mensagens', mensagens =>{
+    socket.on('chat_listar_mensagens', mensagens => {
       console.log(mensagens);
 
-      const element = <ChatComponent mensagens={mensagens.mensagens} isAluno={true} socket={socket} chatId={mensagens.chatId}/>;
-
-      ReactDOM.render(
-        element,
-        document.getElementById('chat')
+      const element = (
+        <ChatComponent
+          mensagens={mensagens.mensagens}
+          isAluno
+          socket={socket}
+          chatId={mensagens.chatId}
+        />
       );
+
+      ReactDOM.render(element, document.getElementById('chat'));
     });
-
-
   }
 
   function efetuarPagamento() {
@@ -235,9 +232,7 @@ const AlunoInfoAgendamentos = () => {
           <br />
           <hr />
 
-          <div id="chat">
-
-            </div>
+          <div id="chat" />
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -290,16 +285,22 @@ const AlunoInfoAgendamentos = () => {
                   <b> Processando </b>
                 )}
                 {agendamentos.pagamento.statusPagamento === 2 && (
-                  <b> Negado </b>
+                  <b> Efetivado </b>
                 )}
                 {agendamentos.pagamento.statusPagamento === 3 && (
-                  <b> Cancelado </b>
+                  <b> Negado </b>
                 )}
                 {agendamentos.pagamento.statusPagamento === 4 && (
+                  <b> Cancelado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 5 && (
                   <b> Concluido </b>
                 )}
               </span>
-              {(agendamentos.pagamento.statusPagamento === 0 || 1 || 2) && (
+              {(agendamentos.pagamento.statusPagamento === 0 ||
+                agendamentos.pagamento.statusPagamento === 1 ||
+                agendamentos.pagamento.statusPagamento === 2 ||
+                agendamentos.pagamento.statusPagamento === 3) && (
                 <Button
                   name="link"
                   type="button"
@@ -328,16 +329,24 @@ const AlunoInfoAgendamentos = () => {
           <br />
           <br />
 
-          {(agendamentos.agendamento.status !== 4) && (
+          {agendamentos.agendamento.status !== 4 && (
             <div>
               <h3>Alinhe algumas expectativas</h3>
 
               <div className="chat">
-                <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
-                <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
+                <textarea
+                  rows={10}
+                  cols={30}
+                  onChange={e => setChatStartText(e.target.value)}
+                />
+                <Button name="enviarMsg" onClick={() => startChat()}>
+                  Enviar Mensagem
+                </Button>
               </div>
 
-              <Button name="abrirChat" onClick={() => startChat()}>Abrir Chat</Button>
+              <Button name="abrirChat" onClick={() => startChat()}>
+                Abrir Chat
+              </Button>
             </div>
           )}
 
@@ -347,7 +356,7 @@ const AlunoInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-          {(agendamentos.agendamento.status !== 4) && (
+          {agendamentos.agendamento.status !== 4 && (
             <Button
               name="submit"
               className="cancelar"

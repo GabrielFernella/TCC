@@ -45,7 +45,7 @@ const server = app.listen(3333, () => {
   console.log('🚀 Server started on port 3333');
 });
 
-//SOCKET.IO - CHAT
+// SOCKET.IO - CHAT
 
 const io = require('socket.io')(server, {
   cors: {
@@ -62,7 +62,6 @@ io.on('connect', async (socket: Socket) => {
   const mensagemService = new MensagemService();
 
   socket.on('create_chat', async (params: any) => {
-
     if (params.professorId && params.alunoId && params.agendamentoId) {
       let chat: any;
       chat = await chatService.find(params.agendamentoId);
@@ -96,6 +95,32 @@ io.on('connect', async (socket: Socket) => {
     }
   });
 
+  socket.on(
+    'enviar_mensagem',
+    async (params: {
+      chatId: string;
+      mensagem: string;
+      isAluno: boolean | undefined;
+    }) => {
+      console.log(params);
+
+      const mensagem = await mensagemService.create(
+        params.chatId,
+        params.mensagem,
+        params.isAluno,
+      );
+
+      io.emit('receber_mensagem', mensagem);
+    },
+  );
+
+  socket.on('disconnect', function () {
+    console.log('Desconectado');
+  });
+});
+
+export { server, io };
+/*
   socket.on('enviar_mensagem', async params => {
     console.log(params);
 
@@ -107,10 +132,4 @@ io.on('connect', async (socket: Socket) => {
 
     io.emit('receber_mensagem', mensagem);
   });
-
-  socket.on('disconnect', function () {
-    console.log('Desconectado');
-  });
-});
-
-export { server, io };
+  */

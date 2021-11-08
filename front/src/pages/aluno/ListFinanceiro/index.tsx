@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import MercadoPago from 'mercadopago';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
-import { Link } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -22,7 +23,14 @@ interface IFilter {
   typeFilter: 'pendente' | 'cancelado' | 'concluido';
 }
 
+MercadoPago.configure({
+  sandbox: true,
+  access_token:
+    'TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388',
+});
+
 const ListFinanceiro: React.FC = () => {
+  const history = useHistory();
   const [load, setLoad] = useState(false);
 
   const [pagamentos, setPagamentos] = useState<IResponse[]>([
@@ -53,6 +61,29 @@ const ListFinanceiro: React.FC = () => {
     getPagamentos();
     // filterPagamentos({ typeFilter: 'pendente' });
   }, []);
+
+  async function efetuarPagamento(
+    id: string,
+    title: string,
+    valor: number,
+    emailDoPagador: string,
+  ): Promise<void> {
+    await api
+      .post(`http://localhost:80/pagar`, {
+        id,
+        title,
+        valor,
+        emailDoPagador,
+      })
+      .then(response => {
+        // (response.data.url);
+        window.open(response.data.url);
+        setLoad(true);
+      })
+      .catch(() => {
+        toast.error('Não foi possível carregar o agendamento');
+      });
+  }
 
   async function filterPagamentos(value: IFilter) {
     if (value.typeFilter === 'pendente') {
@@ -187,7 +218,18 @@ const ListFinanceiro: React.FC = () => {
                             },
                           }}
                         >
-                          <button type="button" id="alterar">
+                          <button
+                            type="button"
+                            id="alterar"
+                            onClick={() => {
+                              efetuarPagamento(
+                                item.id,
+                                item.title,
+                                item.valor,
+                                item.emailPagador,
+                              );
+                            }}
+                          >
                             <span className="visualizar">
                               Efetuar Pagamento
                             </span>
