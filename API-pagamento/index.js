@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const {Request, Response} = require("express");
 const MercadoPago = require("mercadopago"); 
+var bodyParser = require('body-parser');
 const { setTimeout } = require("timers");
 const app = express();
 
@@ -9,6 +10,9 @@ const app = express();
 //https://github.com/mercadopago/sdk-nodejs/blob/master/examples/payment-search/search-payments.js
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
 MercadoPago.configure({
@@ -20,28 +24,32 @@ MercadoPago.configure({
 
 app.get("/search", async (req, res) => {
 
-    const filters = {
+    /*const filters = {
         //site_id: 'MLA',
-        external_reference: '959ecfb1-985d-4a1e-af74-f1fa484ebdc1'
+        //external_reference: '345470388-595ff56c-8901-4d0e-957a-cb4f733614e6'
+        //id: '345470388-595ff56c-8901-4d0e-957a-cb4f733614e6'
+        external_reference: '2079cc87-5411-4531-b1e9-83eaba1ca8e2'
+      };*/
+
+      var filters = {
+        //external_reference: '2079cc87-5411-4531-b1e9-83eaba1ca8e2',
+        site_id: '345470388-4f2ccb68-d651-437f-a7ff-65ad6b4bc60d'
       };
     
       const result = await MercadoPago.payment.search({
         qs: filters
-      }).then(
-        function (data) {
+      }).then(function (data) {
+        console.log(data)
         /*res.render('payment-search/search-result', {
           result: data
         });*/
-        console.log(data)
         return data;
-      }
-      
-      ).catch(function (error) {
+      }).catch(function (error) {
         /*res.render('500', {
           error: error
-        })*/
+        });*/
         console.log(error)
-    });
+      })
 
     console.log(result)
 
@@ -109,6 +117,7 @@ app.post("/pagar",async (req, res) => {
         var pagamento = await MercadoPago.preferences.create(dados);
         //Banco.SalvarPagamento({id: id, pagador: emailDoPagador});
         console.log(pagamento.body.init_point)
+        console.log(pagamento)
         //return res.redirect(pagamento.body.init_point);
         return res.json({url: pagamento.body.init_point})
     }catch(err){

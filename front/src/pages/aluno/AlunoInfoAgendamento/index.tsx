@@ -173,7 +173,7 @@ const AlunoInfoAgendamentos = () => {
   }
 
   function efetuarPagamento() {
-    history.push(`/aluno/financeiro`);
+    history.push(`/aluno/pendencia`);
   }
 
   async function getInfo() {
@@ -193,16 +193,13 @@ const AlunoInfoAgendamentos = () => {
     const resultado = window.confirm('Você deseja realmente cancelar?');
     if (resultado) {
       await api
-        .put(`/agendamento/status`, {
-          agendamento_id: agendamentos.agendamento.id,
-          status: 4,
-        })
+        .put(`/agendamento/cancel/${agendamentos.agendamento.id}`)
         .then(() => {
           toast.success('Agendamento cancelado');
           setLoad(true);
         })
-        .catch(() => {
-          toast.error('Não foi possível carregar o agendamento');
+        .catch(err => {
+          toast.error(`Ocorreu um erro: ${err.data.message}`);
         });
     }
   }
