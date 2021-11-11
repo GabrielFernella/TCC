@@ -1,13 +1,17 @@
 const express = require("express");
 const cors = require('cors');
+var config = require('./config');
 const {Request, Response} = require("express");
 const MercadoPago = require("mercadopago"); 
 var bodyParser = require('body-parser');
 const { setTimeout } = require("timers");
 const app = express();
 
+
+
 //nodemon server.js
 //https://github.com/mercadopago/sdk-nodejs/blob/master/examples/payment-search/search-payments.js
+////external_reference: "aaaaaaaaaassssssssssdddddddddd"
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({
@@ -17,46 +21,29 @@ app.use(bodyParser.urlencoded({
 
 MercadoPago.configure({
     sandbox: true,
-    access_token: "TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388"
+    access_token: "TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388",
 });
+//var oldAccessToken = MercadoPago.configurations.getAccessToken();
 
 
 
-app.get("/search", async (req, res) => {
+app.get("/search/:reference", async (req, res) => {
+    const {reference } = req.params;
 
-    /*const filters = {
-        //site_id: 'MLA',
-        //external_reference: '345470388-595ff56c-8901-4d0e-957a-cb4f733614e6'
-        //id: '345470388-595ff56c-8901-4d0e-957a-cb4f733614e6'
-        external_reference: '2079cc87-5411-4531-b1e9-83eaba1ca8e2'
-      };*/
-
-      var filters = {
-        //external_reference: '2079cc87-5411-4531-b1e9-83eaba1ca8e2',
-        site_id: '345470388-4f2ccb68-d651-437f-a7ff-65ad6b4bc60d'
+      const filters = {
+        external_reference: reference
       };
     
       const result = await MercadoPago.payment.search({
         qs: filters
       }).then(function (data) {
-        console.log(data)
-        /*res.render('payment-search/search-result', {
-          result: data
-        });*/
-        return data;
+        return data.response.results;
       }).catch(function (error) {
-        /*res.render('500', {
-          error: error
-        });*/
         console.log(error)
       })
 
-    console.log(result)
 
     return res.json({ result: result})
-
-
-
       /*MercadoPago.preferences.findById({
         //qs: filters
       }).then(function (data) {
@@ -64,8 +51,6 @@ app.get("/search", async (req, res) => {
       }).catch(function (error) {
         res.send(error);
       });*/
-
-    
 });
 
 //Buscar Pagamento
@@ -84,6 +69,79 @@ app.get("/", async (req, res) => {
   
 });
 
+app.post("/pagar",async (req, res) => {
+
+    const {id, title, valor, emailDoPagador } = await req.body;
+
+    console.log('Olha a string')
+
+    /*var payment = {
+      description: title,
+      token: "TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388",
+      transaction_amount: parseInt(valor),
+      payment_method_id: "master",
+      external_reference:id,
+      payer: {
+        email: emailDoPagador,
+        identification: {
+          type: 'DNI',
+          number: '123456'
+        }
+      }
+    };*/
+
+    const payment = {
+      items: [
+          item = {
+              id: id,
+              title: title,
+              quantity: 1,
+              currency_id: 'BRL',
+              unit_price: parseFloat(valor)
+          }
+      ],
+      payer:{
+          email: emailDoPagador
+      },
+      external_reference: id,
+  }
+  
+    // Set the access_token credentials for testing
+    //MercadoPago.configurations.setAccessToken("TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388");
+  
+    const result = await MercadoPago.preferences.create(payment).then(function (data) {
+      /*res.render('jsonOutput', {
+        result: data
+      });*/
+      //return res.json({url: pagamento.body.init_point})
+      return data;
+      
+    }).catch(function (error) {
+      /*res.render('500', {
+        error: error
+      });*/
+      console.log("erro");
+      console.log(error);
+
+    }).finally(function() {
+      //MercadoPago.configurations.setAccessToken(oldAccessToken);
+      console.log('deu certo')
+    });
+
+     try{
+
+        console.log(result.body.init_point)
+        console.log(result)
+        //return res.redirect(pagamento.body.init_point);
+        return res.json({url: result.body.init_point})
+    }catch(err){
+        return res.send(err.message);
+    }
+
+
+});
+
+/*
 app.post("/pagar",async (req, res) => {
 
     const {id, title, valor, emailDoPagador } = req.body;
@@ -123,7 +181,7 @@ app.post("/pagar",async (req, res) => {
     }catch(err){
         return res.send(err.message);
     }
-});
+});*/
 
 app.post("/not",(req, res) => {
     var id = req.query.id;
