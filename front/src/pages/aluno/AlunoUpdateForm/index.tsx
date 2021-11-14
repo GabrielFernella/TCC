@@ -74,18 +74,14 @@ const AlunoUpdateForm: React.FC = () => {
         home="/aluno-home"
       >
         <div className="profile-header">
-          <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
-          <p>
-            Faça seu cadastro e junte-se a uma comunidade incrível de
-            professores e alunos.
-          </p>
+          <h2>Perfil Aluno</h2>
         </div>
       </PageHeader>
 
       <main>
         <form onSubmit={handleUpdateProfile}>
           <fieldset>
-            <legend>Cadastro Aluno</legend>
+            <legend>Dados cadastrados</legend>
             <div id="cad-aluno">
               <div id="name-info">
                 <Input

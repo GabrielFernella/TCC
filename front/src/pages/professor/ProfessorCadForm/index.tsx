@@ -78,8 +78,11 @@ const Profile: React.FC = () => {
 
       <PageHeader page="Cadastro Professor" background={backgroundImg}>
         <div className="profile-header">
-          <h2>Que bom que você deseja dar aulas!</h2>
-          <p>Faça seu cadastro e junte-se a outros professores.</p>
+          <h2>Dar aulas particulares ficou ainda mais fácil!</h2>
+          <p>
+            Anuncie suas aulas particulares para encontre milhares de potenciais
+            alunos próximos de sua casa ou de seu local de trabalho.
+          </p>
         </div>
       </PageHeader>
 
@@ -91,7 +94,7 @@ const Profile: React.FC = () => {
               <div id="name-info">
                 <Input
                   required
-                  placeholder="Ricardo"
+                  placeholder="Nome"
                   label="Nome *"
                   name="name"
                   maxLength={120}
@@ -122,7 +125,7 @@ const Profile: React.FC = () => {
               <div id="email-info">
                 <Input
                   required
-                  placeholder="ricardo@email.com"
+                  placeholder="email@email.com"
                   label="E-mail *"
                   name="email"
                   value={email || ''}
@@ -192,7 +195,7 @@ const Profile: React.FC = () => {
             <p>
               <img src={warningIcon} alt="Aviso importante" />
               Importante! <br />
-              Preencha todos os dados
+              preencha todos os dados obrigatorios
             </p>
             <button type="submit">Salvar cadastro</button>
           </footer>

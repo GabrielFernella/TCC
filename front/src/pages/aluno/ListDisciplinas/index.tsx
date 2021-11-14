@@ -143,8 +143,8 @@ const ListDisciplina: React.FC = () => {
         home="/aluno-home"
       >
         <div className="profile-header">
-          <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
-          <p>Escolha uma das disciplinas</p>
+          <h2>Faça seu cadastro e junte-se a outros professores!</h2>
+          <p>Escolha uma disciplina</p>
         </div>
       </PageHeader>
 

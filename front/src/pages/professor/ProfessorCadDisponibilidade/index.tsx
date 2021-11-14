@@ -157,7 +157,7 @@ const Disponibilidade: React.FC = () => {
         <div className="profile-header">
           <h2>Cadastre suas disponibilidades</h2>
           <p>
-            Assim saberemos quais são os melhores horários para você atender os
+            Assim saberemos quais horários estará disposto a atender nossos
             alunos.
           </p>
         </div>
@@ -283,8 +283,8 @@ const Disponibilidade: React.FC = () => {
         <footer>
           <p>
             <img src={warningIcon} alt="Aviso importante" />
-            Importante! Não é permitido cadastrar o mesmo dia da semana com
-            horários distintos, delete o cadastrado e crie um novo.
+            Importante! Não será permitido o cadastro de dois horários no mesmo
+            dia.
           </p>
         </footer>
       </main>

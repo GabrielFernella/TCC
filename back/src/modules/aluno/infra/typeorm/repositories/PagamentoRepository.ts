@@ -32,7 +32,7 @@ class PagamentoRepository implements IPagamentoRepository {
 
   public async findProcess(): Promise<Pagamento[] | undefined> {
     const findemail = await this.ormRepository.find({
-      where: { statusPagamento: 1 || 0 },
+      where: { statusPagamento: 2 },
     });
 
     return findemail;

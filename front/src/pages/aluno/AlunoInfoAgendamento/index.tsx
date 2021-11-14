@@ -209,7 +209,7 @@ const AlunoInfoAgendamentos = () => {
   }, [load]);
 
   return (
-    <div id="info-professor-agendamentos" className="container">
+    <div id="info-aluno-agendamentos" className="container">
       <Toaster />
       <PageHeader
         page="Agendamentos"
@@ -328,19 +328,6 @@ const AlunoInfoAgendamentos = () => {
 
           {agendamentos.agendamento.status !== 4 && (
             <div>
-              <h3>Alinhe algumas expectativas</h3>
-
-              <div className="chat">
-                <textarea
-                  rows={10}
-                  cols={30}
-                  onChange={e => setChatStartText(e.target.value)}
-                />
-                <Button name="enviarMsg" onClick={() => startChat()}>
-                  Enviar Mensagem
-                </Button>
-              </div>
-
               <Button name="abrirChat" onClick={() => startChat()}>
                 Abrir Chat
               </Button>

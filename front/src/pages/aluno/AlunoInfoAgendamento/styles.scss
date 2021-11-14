@@ -1,4 +1,4 @@
-#info-professor-agendamentos {
+#info-aluno-agendamentos {
   width: 100vw;
   height: 100vh;
   .page-header {
@@ -129,7 +129,7 @@
 }
 
 @media (min-width: 700px) {
-  #info-professor-agendamentos {
+  #info-aluno-agendamentos {
     max-width: 100vw;
 
     .profile-header {
@@ -200,7 +200,7 @@
     }
   }
 
-  .chat {
+  /*.chat {
     border: 1px solid #8257e5;
     padding: 1.6rem;
     border-radius: 10px;
@@ -208,7 +208,7 @@
 
     min-height: 8rem;
     width: 100%;
-  }
+  }*/
 }
 
 #alterar {

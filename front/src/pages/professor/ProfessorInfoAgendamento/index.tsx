@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { parseISO, format } from 'date-fns';
 import { Location } from 'history';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { string } from 'yup';
+import { io } from 'socket.io-client';
+import ReactDOM from 'react-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
 
@@ -11,9 +13,7 @@ import './styles.scss';
 import api from '../../../services/api';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
-import { io } from 'socket.io-client';
 import { ChatComponent } from '../../chat/ChatComponent';
-import ReactDOM from 'react-dom';
 
 interface IResponse {
   agendamento: {
@@ -42,7 +42,7 @@ interface IResponse {
   };
   professor: {
     id?: string;
-    nome?: string;
+    name?: string;
     avatar?: string;
     email?: string;
   };
@@ -59,25 +59,23 @@ interface Props {
 }
 
 const ProfessorInfoAgendamentos = () => {
-
-  window.onload = function(){
+  window.onload = function () {
     initBeforeUnLoad();
-  }
+  };
 
-  const initBeforeUnLoad = () =>{
-    window.onbeforeunload = (event) =>{
-      if(socket){
+  const initBeforeUnLoad = () => {
+    window.onbeforeunload = event => {
+      if (socket) {
         socket.disconnect();
       }
-    }
-
-  }
+    };
+  };
 
   onbeforeunload = () => {
-    if(socket){
+    if (socket) {
       socket.disconnect();
     }
-  }
+  };
 
   const [agendamentos, setAgendamentos] = useState<IResponse>({
     agendamento: {
@@ -106,7 +104,7 @@ const ProfessorInfoAgendamentos = () => {
     },
     professor: {
       id: '',
-      nome: '',
+      name: '',
       avatar: '',
       email: '',
     },
@@ -117,6 +115,8 @@ const ProfessorInfoAgendamentos = () => {
       email: '',
     },
   });
+
+  const history = useHistory();
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
@@ -146,51 +146,52 @@ const ProfessorInfoAgendamentos = () => {
 
   let socket: any;
 
-  async function startChat(){
-    socket = io("http://localhost:3333");
+  async function startChat() {
+    socket = io('http://localhost:3333');
 
     console.log(chatStartText);
 
-    socket.on('connect', () =>{
-      const params =
-      {
+    socket.on('connect', () => {
+      const params = {
         chatStartText,
         professorId: agendamentos.professor.id,
         alunoId: agendamentos.aluno.id,
         agendamentoId: agendamentos.agendamento.id,
-        isAluno: false
-      }
+        isAluno: false,
+      };
 
-      socket.emit('create_chat', params, (call, err) =>{
-        if(err){
+      socket.emit('create_chat', params, (call, err) => {
+        if (err) {
           console.log(err);
-        }
-        else{
+        } else {
           console.log(call);
         }
-      })
+      });
     });
 
-    socket.on('chat_listar_mensagens', mensagens =>{
+    socket.on('chat_listar_mensagens', mensagens => {
       console.log(mensagens);
 
       mensagens.mensagens.forEach(msg => {
-        if(msg.isAluno){
+        if (msg.isAluno) {
+          // eslint-disable-next-line no-param-reassign
           msg.isAluno = false;
-        }
-        else{
+        } else {
+          // eslint-disable-next-line no-param-reassign
           msg.isAluno = true;
         }
       });
 
-      const element = <ChatComponent mensagens={mensagens.mensagens} isAluno={false} socket={socket} chatId={mensagens.chatId}/>;
-      ReactDOM.render(
-        element,
-        document.getElementById('chat')
+      const element = (
+        <ChatComponent
+          mensagens={mensagens.mensagens}
+          isAluno={false}
+          socket={socket}
+          chatId={mensagens.chatId}
+        />
       );
+      ReactDOM.render(element, document.getElementById('chat'));
     });
-
-
   }
 
   async function getInfo() {
@@ -210,6 +211,21 @@ const ProfessorInfoAgendamentos = () => {
     getInfo();
   }, [load]);
 
+  async function cancelarAgendamento() {
+    const resultado = window.confirm('Você deseja realmente cancelar?');
+    if (resultado) {
+      await api
+        .put(`/agendamento/cancel/${agendamentos.agendamento.id}`)
+        .then(() => {
+          toast.success('Agendamento cancelado');
+          setLoad(true);
+        })
+        .catch(err => {
+          toast.error(`Ocorreu um erro: ${err.data.message}`);
+        });
+    }
+  }
+
   return (
     <div id="info-professor-agendamentos" className="container">
       <Toaster />
@@ -219,21 +235,19 @@ const ProfessorInfoAgendamentos = () => {
         home="/prof-home"
       >
         <div className="profile-header">
-          <h2>Informações agendamento</h2>
+          <h2>Informações do agendamento</h2>
         </div>
       </PageHeader>
 
       <main>
         <fieldset>
           <div className="filterContent">
-            <h2>Informações agendamento</h2>
+            <h2>Informações do agendamento</h2>
           </div>
           <br />
           <hr />
 
-          <div id="chat">
-
-            </div>
+          <div id="chat" />
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -251,45 +265,54 @@ const ProfessorInfoAgendamentos = () => {
             </span>
 
             <br />
-            <h3>
-              Status Agendamento:
-              {agendamentos.agendamento.status === 0 && <span> Agendada</span>}
-              {agendamentos.agendamento.status === 1 && (
-                <span> Confirmada </span>
-              )}
-              {agendamentos.agendamento.status === 2 && (
-                <span> Em processo </span>
-              )}
-              {agendamentos.agendamento.status === 3 && (
-                <span> Concluida </span>
-              )}
-              {agendamentos.agendamento.status === 4 && (
-                <span> Cancelada </span>
-              )}
-            </h3>
+            <h3>Status Agendamento:</h3>
+            {agendamentos.agendamento.status === 0 && <span> Agendado</span>}
+            {agendamentos.agendamento.status === 1 && <span> Confirmado </span>}
+            {agendamentos.agendamento.status === 2 && (
+              <span> Em processo </span>
+            )}
+            {agendamentos.agendamento.status === 3 && <span> Concluido </span>}
+            {agendamentos.agendamento.status === 4 && <span> Cancelado </span>}
+            <br />
 
+            <h3>Aluno(a)</h3>
             <span>Aluno: {agendamentos.aluno.name}</span>
             <span>E-mail: {agendamentos.aluno.email}</span>
             <br />
-            <span>Valor: {agendamentos.pagamento.valor} </span>
-            <span>
-              Status Pagamento:
-              {agendamentos.pagamento.statusPagamento === 0 && (
-                <span> Em espera </span>
-              )}
-              {agendamentos.pagamento.statusPagamento === 1 && (
-                <span> Processando </span>
-              )}
-              {agendamentos.pagamento.statusPagamento === 2 && (
-                <span> Negado </span>
-              )}
-              {agendamentos.pagamento.statusPagamento === 3 && (
-                <span> Cancelado </span>
-              )}
-              {agendamentos.pagamento.statusPagamento === 4 && (
-                <span> Concluido </span>
-              )}
-            </span>
+
+            <h3>Professor(a)</h3>
+            <span>Professor: {agendamentos.professor.name}</span>
+            <span>E-mail: {agendamentos.professor.email}</span>
+            <br />
+
+            <h3>Pagamento</h3>
+            <div>
+              <span>
+                Valor: <b> R${agendamentos.pagamento.valor} </b>
+              </span>
+              <br />
+              <span>
+                Status Pagamento:
+                {agendamentos.pagamento.statusPagamento === 0 && (
+                  <b> Em espera </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 1 && (
+                  <b> Processando </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 2 && (
+                  <b> Efetivado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 3 && (
+                  <b> Negado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 4 && (
+                  <b> Cancelado </b>
+                )}
+                {agendamentos.pagamento.statusPagamento === 5 && (
+                  <b> Concluido </b>
+                )}
+              </span>
+            </div>
             <br />
             <div className="link-access">
               <h3>Link de Acesso: </h3>
@@ -307,16 +330,24 @@ const ProfessorInfoAgendamentos = () => {
           <br />
           <br />
 
-          {(agendamentos.agendamento.status !== 4) && (
+          {agendamentos.agendamento.status !== 4 && (
             <div>
               <h3>Alinhe algumas expectativas</h3>
 
               <div className="chat">
-                <textarea rows={10} cols={30} onChange={e => setChatStartText(e.target.value)} ></textarea>
-                <Button name="enviarMsg" onClick={() => startChat()}>Enviar Mensagem</Button>
+                <textarea
+                  rows={10}
+                  cols={30}
+                  onChange={e => setChatStartText(e.target.value)}
+                />
+                <Button name="enviarMsg" onClick={() => startChat()}>
+                  Enviar Mensagem
+                </Button>
               </div>
 
-              <Button name="abrirChat" onClick={() => startChat()}>Abrir Chat</Button>
+              <Button name="abrirChat" onClick={() => startChat()}>
+                Abrir Chat
+              </Button>
             </div>
           )}
 
@@ -326,6 +357,13 @@ const ProfessorInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e gerencia seus horários</p>
+          <Button
+            id="deletar"
+            name="CancelarAgendamento"
+            onClick={() => cancelarAgendamento()}
+          >
+            Cancelar agendamento
+          </Button>
         </footer>
       </main>
     </div>

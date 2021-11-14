@@ -94,15 +94,15 @@ const UpdateProfessor: React.FC = () => {
         home="/prof-home"
       >
         <div className="profile-header">
-          <h2>Que bom que você deseja dar aulas!</h2>
-          <p>Faça seu cadastro e junte-se a outros professores.</p>
+          <h2>Perfil Professor!</h2>
+          <p />
         </div>
       </PageHeader>
 
       <main>
         <form onSubmit={handleCreateProfile}>
           <fieldset>
-            <legend>Perfil Professor</legend>
+            <legend>Dados cadastrados</legend>
             <div id="form-content">
               <div id="name-info">
                 <Input
@@ -177,7 +177,7 @@ const UpdateProfessor: React.FC = () => {
             <p>
               <img src={warningIcon} alt="Aviso importante" />
               Importante! <br />
-              Preencha todos os dados
+              Clique em salvar depois que alterar seus dados.
             </p>
             <button type="submit">Atualizar perfil</button>
           </footer>

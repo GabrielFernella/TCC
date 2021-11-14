@@ -58,6 +58,16 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return agendamento;
   }
 
+  public async findEffect(): Promise<Agendamento[] | undefined> {
+    const agendamento = this.ormRepository.find({
+      where: {
+        status: 3,
+      },
+    });
+
+    return agendamento;
+  }
+
   public async updateStatus(
     id: string,
     status: StatusAula,

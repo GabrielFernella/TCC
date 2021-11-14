@@ -12,8 +12,6 @@ pagamentoRoute.put(
   celebrate({
     [Segments.BODY]: {
       id_pagamento: Joi.string().required(),
-      status: Joi.number().required(),
-      key: Joi.string().required(),
     },
   }),
   pagamentoController.update,

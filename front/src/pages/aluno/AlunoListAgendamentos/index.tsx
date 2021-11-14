@@ -221,7 +221,7 @@ const AlunoListAgendamentos: React.FC = () => {
         home="/aluno-home"
       >
         <div className="profile-header">
-          <h2>Essas são todos os seus agendamentos</h2>
+          <h2>Esses são todos seus agendamentos</h2>
         </div>
       </PageHeader>
 

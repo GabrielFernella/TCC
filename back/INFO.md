@@ -58,9 +58,6 @@ statusPagamento {
 3. testar e add no web
 4. liberação do horário que foi cancelado - ok
 
-# mandar um email para o professor assim que for feito um agendamento
-1. Mandar um e-mail para o professor entrar no portal para aceitar o agendamento
-
 # Verificar a parte de listagem de disponibilidade das disciplinas
 1. filtar e mostrar a cor escura para os agendamentos que foram cancelados (ver na web)
 

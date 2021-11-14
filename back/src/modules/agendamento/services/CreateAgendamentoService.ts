@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import path from 'path';
 
 // Imports
 import IProfessorRepository from '@modules/professor/repositories/IProfessorRepository';
@@ -8,6 +9,7 @@ import IDisciplinaRepository from '@modules/professor/repositories/IDisciplinaRe
 import IDisponibilidadeRepository from '@modules/professor/repositories/IDisponibilidadeRepository';
 import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
 import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
+import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 
 import { generateKey } from '@shared/container/Tools';
 // DTOs
@@ -47,6 +49,9 @@ class CreateAgendamentoService {
 
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
+
+    @inject('MailProvider')
+    private mailProvider: IMailProvider,
   ) {}
 
   public async execute(dto: IAgendamentoDTO): Promise<Agendamento> {
@@ -55,6 +60,9 @@ class CreateAgendamentoService {
     let valorDisciplina = 0;
     let titleDisciplina = '';
     const hourEnd = dto.entrada + 1;
+
+    // let professorData: Professor;
+    // let disciplinaData: Disciplina;
 
     // Validar se a data ainda vai ocorrer
     if (dateAtual > dto.data) {
@@ -80,6 +88,8 @@ class CreateAgendamentoService {
 
         valorDisciplina = disciplina.valor;
         titleDisciplina = disciplina.titulo;
+
+        // disciplinaData = disciplina;
       });
 
     // ###################### VALIDACOES ALUNO
@@ -242,9 +252,12 @@ class CreateAgendamentoService {
 
     // pegar o Pix do professor
     const professor = await this.professorRepository.findById(dto.professor_id);
+
     if (!professor) {
       throw new AppError('Professor não encontrado.');
     }
+
+    const professorData = professor;
 
     // Criar Pagamento
 
@@ -267,6 +280,31 @@ class CreateAgendamentoService {
       status: 0,
       nota: '',
       pagamento_id: pagamento.id,
+    });
+
+    // Buscando o arquivo template de email de recuperação
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'create_agendamento.hbs',
+    );
+
+    // Enviar o email para o destinatário
+    await this.mailProvider.sendMail({
+      to: {
+        name: professorData.name,
+        email: professorData.email,
+      },
+      subject: '[WebEduca] Agendamento cadastrado',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: professorData.name,
+          title: titleDisciplina,
+          // link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+        },
+      },
     });
 
     if (!result) {

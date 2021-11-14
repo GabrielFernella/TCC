@@ -150,11 +150,8 @@ const ProfessorListAgendamentos: React.FC = () => {
     const resultado = window.confirm('Você deseja realmente cancelar?');
     if (resultado) {
       await api
-        .put(`/agendamento/status`, {
-          agendamento_id: id,
-          status: 4,
-        })
-        .then(response => {
+        .put(`/agendamento/cancel/${id}`)
+        .then(() => {
           toast.success('Agendamento cancelado');
           getAppointments();
           setLoad(true);
@@ -221,7 +218,7 @@ const ProfessorListAgendamentos: React.FC = () => {
         home="/prof-home"
       >
         <div className="profile-header">
-          <h2>Essas são todos os seus agendamentos</h2>
+          <h2>Esses são seus agendamentos</h2>
         </div>
       </PageHeader>
 
@@ -353,10 +350,7 @@ const ProfessorListAgendamentos: React.FC = () => {
         </fieldset>
 
         <footer>
-          <p>
-            Selecione uma das disciplinas e veja a disponibilidade para
-            agendamento!
-          </p>
+          <p>Gerencie o status dos agendamentos através de um clique!</p>
         </footer>
       </main>
     </div>

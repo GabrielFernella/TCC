@@ -66,8 +66,11 @@ const Disciplina: React.FC = () => {
         home="/prof-home"
       >
         <div className="profile-header">
-          <h2>Mostre para seus alunos do que você manja!</h2>
-          <p>Adicione aqui a disciplina que deseja ministrar.</p>
+          <h2>Adicione aqui a disciplina que deseja ministrar</h2>
+          <p>
+            capriche na descrição quanto mais aulas vc adicionar na descrição,
+            mais chance do aluno querer mais aulas suas.
+          </p>
         </div>
       </PageHeader>
 

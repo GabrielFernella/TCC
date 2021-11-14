@@ -1,7 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Component = styled.div`
+  padding: 0;
+  position: fixed;
+  max-width: 330px;
+  height: 460px;
+  max-height: 460px;
+  right: 10px;
+  bottom: 10px;
+  animation: up 1s;
+
   .client {
     display: flex;
     flex-direction: column;
@@ -83,12 +92,12 @@ export const Component = styled.div`
     font-size: 15px;
   }
 
-  .chat_support {
-    position: absolute;
-    max-width: 330px;
-    right: 10px;
-    animation: up 1s;
-  }
+  /*.chat_support {
+      position: fixed;
+      max-width: 330px;
+      right: 10px;
+      animation: up 1s;
+    }*/
 
   .chat_support_hide {
     animation: down 1s;
@@ -101,7 +110,7 @@ export const Component = styled.div`
     height: 56px;
 
     background: #8257e6;
-    border-radius: 16px 16px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 
     display: flex;
     justify-content: space-between;
@@ -118,4 +127,32 @@ export const Component = styled.div`
     display: flex;
     cursor: pointer;
   }
+`;
+
+export const Chat = styled.div`
+  width: 330px;
+  height: 460px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Message = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Send = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

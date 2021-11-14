@@ -57,6 +57,20 @@ const ListFinanceiro: React.FC = () => {
     },
   ]);
 
+  async function validationPayment(id_check: string) {
+    // eslint-disable-next-line no-param-reassign
+    id_check = 'aaaaaaaaaassssssssssdddddddddd';
+    await api
+      .get(`http://localhost:80/search/${id_check}`)
+      .then(response => {
+        const value = response.data.result[0];
+        console.log(value);
+      })
+      .catch(() => {
+        toast.error('Não foi possível carregar o agendamento');
+      });
+  }
+
   useEffect(() => {
     getPagamentos();
     // filterPagamentos({ typeFilter: 'pendente' });
@@ -83,6 +97,8 @@ const ListFinanceiro: React.FC = () => {
       .catch(() => {
         toast.error('Não foi possível carregar o agendamento');
       });
+
+    await validationPayment(id);
   }
 
   async function filterPagamentos(value: IFilter) {

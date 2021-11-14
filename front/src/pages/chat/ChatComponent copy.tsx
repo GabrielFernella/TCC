@@ -6,7 +6,7 @@ import chat from '../../assets/images/chat.png';
 import close from '../../assets/images/close.png';
 import send from '../../assets/images/send.png';
 
-import { Component, Chat, Header, Message, Send } from './styles';
+import { Component } from './styles';
 
 interface IChatProps {
   mensagens: any[];
@@ -102,34 +102,42 @@ export class ChatComponent extends React.Component<IChatProps, IChatState> {
     }
 
     return (
-      <Chat>
-        <Header>
-          <span>Chat</span>
-          <div className="icon_close" onClick={() => this.closeChat()}>
-            <img src={close} />
+      <>
+        <Component>
+          <div className="chat chat_support" id="chat_in_support">
+            <div className="in_support_header">
+              <span>Chat</span>
+              <div className="icon_close" onClick={() => this.closeChat()}>
+                <img src={close} />
+              </div>
+            </div>
+
+            <div className="text_support" id="messagebox">
+              <div id="messages" className="chat__messages">
+                {mensagens.map(this.renderMensagem)}
+              </div>
+              <div className="line" />
+            </div>
+
+            <div className="message_send">
+              <input
+                type="text"
+                placeholder="Digite sua mensagem aqui"
+                id="message_user"
+                value={this.state.mensagem}
+                onChange={e => this.handleMensagem(e.target.value)}
+              />
+              <div
+                className="send_message_button"
+                id="send_message_button"
+                onClick={() => this.enviarMensagem()}
+              >
+                <img src={send} />
+              </div>
+            </div>
           </div>
-        </Header>
-
-        <Message />
-
-        <Send>
-          <input
-            type="text"
-            placeholder="Digite sua mensagem aqui"
-            id="message_user"
-            value={this.state.mensagem}
-            onChange={e => this.handleMensagem(e.target.value)}
-          />
-          <button
-            type="button"
-            className="send_message_button"
-            id="send_message_button"
-            onClick={() => this.enviarMensagem()}
-          >
-            Enviar
-          </button>
-        </Send>
-      </Chat>
+        </Component>
+      </>
     );
   }
 }

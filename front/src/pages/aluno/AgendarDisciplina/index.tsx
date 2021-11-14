@@ -168,10 +168,9 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
         home="/aluno-home"
       >
         <div className="profile-header">
-          <h2>Verifique as disponibilidades desta disciplina e agende já!</h2>
+          <h2>Verifique as disponibilidades desta disciplina!</h2>
           <h3>
-            Você está a alguns passos de conhecer alguém que possa impulsionar
-            sua carreira
+            Você está prestes a conhecer uma forma de impulsiona sua carreira.
           </h3>
         </div>
       </PageHeader>

@@ -6,7 +6,7 @@ import ListPagamentos from '@modules/aluno/services/ListPagamentos';
 import PayPagamentoService from '@modules/aluno/services/PayPagamentoService';
 
 export default class PagamentoController {
-  public async show(request: Request, response: Response) {
+  public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
 
     const listPagamentos = container.resolve(ListPagamentos);
@@ -16,15 +16,13 @@ export default class PagamentoController {
     return response.json(classToClass(pagamentos));
   }
 
-  public async update(request: Request, response: Response) {
-    const { id_pagamento, status, key } = request.body;
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id_pagamento } = request.body;
 
     const efetuarPagamento = container.resolve(PayPagamentoService);
 
     const pagamentos = await efetuarPagamento.execute({
       id_pagamento,
-      status,
-      key,
     });
 
     return response.json(classToClass(pagamentos));

@@ -73,23 +73,6 @@ app.post("/pagar",async (req, res) => {
 
     const {id, title, valor, emailDoPagador } = await req.body;
 
-    console.log('Olha a string')
-
-    /*var payment = {
-      description: title,
-      token: "TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388",
-      transaction_amount: parseInt(valor),
-      payment_method_id: "master",
-      external_reference:id,
-      payer: {
-        email: emailDoPagador,
-        identification: {
-          type: 'DNI',
-          number: '123456'
-        }
-      }
-    };*/
-
     const payment = {
       items: [
           item = {
@@ -105,31 +88,17 @@ app.post("/pagar",async (req, res) => {
       },
       external_reference: id,
   }
-  
-    // Set the access_token credentials for testing
-    //MercadoPago.configurations.setAccessToken("TEST-454186915443095-092004-b8d3c1ca1d1c7b9e37b71060544d1087-345470388");
-  
-    const result = await MercadoPago.preferences.create(payment).then(function (data) {
-      /*res.render('jsonOutput', {
-        result: data
-      });*/
-      //return res.json({url: pagamento.body.init_point})
-      return data;
-      
-    }).catch(function (error) {
-      /*res.render('500', {
-        error: error
-      });*/
-      console.log("erro");
-      console.log(error);
 
+    const result = await MercadoPago.preferences.create(payment).then(function (data) {
+      return data;
+    }).catch(function (error) {
+      console.log(error);
     }).finally(function() {
       //MercadoPago.configurations.setAccessToken(oldAccessToken);
       console.log('deu certo')
     });
 
      try{
-
         console.log(result.body.init_point)
         console.log(result)
         //return res.redirect(pagamento.body.init_point);
@@ -137,8 +106,6 @@ app.post("/pagar",async (req, res) => {
     }catch(err){
         return res.send(err.message);
     }
-
-
 });
 
 /*
