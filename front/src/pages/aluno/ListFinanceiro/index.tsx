@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import MercadoPago from 'mercadopago';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
@@ -59,17 +61,43 @@ const ListFinanceiro: React.FC = () => {
 
   async function validationPayment(id_check: string) {
     // eslint-disable-next-line no-param-reassign
-    id_check = 'aaaaaaaaaassssssssssdddddddddd';
+    // id_check = 'aaaaaaaaaassssssssssdddddddddd';
+
     await api
+      .put(`/pagamento/update`, {
+        id_pagamento: id_check,
+      })
+      .then(response => {
+        // console.log(response.data);
+        getPagamentos();
+        toast.success('Dados reprocessados');
+        return response.data;
+      })
+      .catch(err => {
+        toast.error(err.response.data.message);
+      });
+  }
+
+  /* async function validationPayment(id_check: string) {
+    // eslint-disable-next-line no-param-reassign
+    id_check = 'aaaaaaaaaassssssssssdddddddddd';
+
+    const result = await api
       .get(`http://localhost:80/search/${id_check}`)
       .then(response => {
-        const value = response.data.result[0];
-        console.log(value);
+        // console.log(response.data);
+        return response.data;
       })
       .catch(() => {
         toast.error('Não foi possível carregar o agendamento');
       });
-  }
+
+    console.log(result);
+
+    if (result) {
+      getPagamentos();
+    }
+  } */
 
   useEffect(() => {
     getPagamentos();
@@ -95,10 +123,10 @@ const ListFinanceiro: React.FC = () => {
         setLoad(true);
       })
       .catch(() => {
-        toast.error('Não foi possível carregar o agendamento');
+        toast.error('Não foi possível carregar o pagamento');
       });
 
-    await validationPayment(id);
+    // await validationPayment(id);
   }
 
   async function filterPagamentos(value: IFilter) {
@@ -142,6 +170,9 @@ const ListFinanceiro: React.FC = () => {
     if (value === 4) {
       return { color: 'red' };
     }
+    if (value === 2) {
+      return { color: 'green' };
+    }
     if (value === 5) {
       return { color: 'green' };
     }
@@ -157,7 +188,7 @@ const ListFinanceiro: React.FC = () => {
         home="/aluno-home"
       >
         <div className="profile-header">
-          <h2>Essas são todas as suas pendencias</h2>
+          <h2>Esses são todos os seus pagamentos</h2>
         </div>
       </PageHeader>
 
@@ -199,10 +230,7 @@ const ListFinanceiro: React.FC = () => {
                 return (
                   <div key={item.id} id="card">
                     <div className="states">
-                      <h2>
-                        Titulo:
-                        {item.title}
-                      </h2>
+                      <h2>Titulo: {item.title}</h2>
                       &ensp;&ensp;
                     </div>
                     <h2>
@@ -216,8 +244,28 @@ const ListFinanceiro: React.FC = () => {
                         {item.statusPagamento === 3 && <span> Negado </span>}
                         {item.statusPagamento === 4 && <span> Cancelado </span>}
                         {item.statusPagamento === 5 && <span> Concluido </span>}
+
+                        {item.statusPagamento === 0 ||
+                        item.statusPagamento === 1 ||
+                        item.statusPagamento === 3 ? (
+                          <>
+                            <br />
+                            <span
+                              className="reprocess"
+                              onClick={() => validationPayment(item.id)}
+                            >
+                              Reprocessar pagamento
+                            </span>
+                          </>
+                        ) : null}
                       </span>
                     </h2>
+                    {item.statusPagamento === 2 && (
+                      <p>
+                        Aguardando a aula ser concluida para finalizar esse
+                        pagamento.
+                      </p>
+                    )}
 
                     <h3>Valor: R$ {item.valor}</h3>
 
@@ -225,44 +273,34 @@ const ListFinanceiro: React.FC = () => {
                       {(item.statusPagamento === 0 ||
                         item.statusPagamento === 1 ||
                         item.statusPagamento === 3) && (
-                        <Link
-                          className="btnVisualizar"
-                          to={{
-                            // pathname: '/aluno/agenda/info', // API do arthur
-                            state: {
-                              pagamento: item,
-                            },
-                          }}
-                        >
-                          <button
-                            type="button"
-                            id="alterar"
-                            onClick={() => {
-                              efetuarPagamento(
-                                item.id,
-                                item.title,
-                                item.valor,
-                                item.emailPagador,
-                              );
+                        <>
+                          <Link
+                            className="btnVisualizar"
+                            to={{
+                              // pathname: '/aluno/agenda/info', // API do arthur
+                              state: {
+                                pagamento: item,
+                              },
                             }}
                           >
-                            <span className="visualizar">
-                              Efetuar Pagamento
-                            </span>
-                          </button>
-                        </Link>
-                      )}
-
-                      {item.statusPagamento === 4 && (
-                        <button type="button" id="deletar" disabled>
-                          <span className="visualizar">Cancelado</span>
-                        </button>
-                      )}
-
-                      {item.statusPagamento === 5 && (
-                        <button type="button" id="aceitar" disabled>
-                          <span className="visualizar">Concluído</span>
-                        </button>
+                            <button
+                              type="button"
+                              id="alterar"
+                              onClick={() => {
+                                efetuarPagamento(
+                                  item.id,
+                                  item.title,
+                                  item.valor,
+                                  item.emailPagador,
+                                );
+                              }}
+                            >
+                              <span className="visualizar">
+                                Efetuar Pagamento
+                              </span>
+                            </button>
+                          </Link>
+                        </>
                       )}
                     </div>
                   </div>
@@ -286,3 +324,17 @@ const ListFinanceiro: React.FC = () => {
 };
 
 export default ListFinanceiro;
+
+/*
+
+{item.statusPagamento === 4 && (
+                        <button type="button" id="deletar" disabled>
+                          <span className="visualizar">Cancelado</span>
+                        </button>
+                      )}
+
+                      {item.statusPagamento === 5 && (
+                        <button type="button" id="aceitar" disabled>
+                          <span className="visualizar">Concluído</span>
+                        </button>
+                      )} */

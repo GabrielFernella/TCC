@@ -64,6 +64,9 @@ statusPagamento {
 # PayPagamentoService
 1. Essa classe deve pegar as propriedades para atualizar o pagamento do aluno(fazer apenas uma simulação)
 
+# Testar pagamento Robo
+1. Essa classe deve pegar as propriedades para atualizar o pagamento do aluno(fazer apenas uma simulação)
+
 
 
 

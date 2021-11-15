@@ -1,24 +1,9 @@
-# Fazer
 
-# Atual
-1. Fazer a parte de integração com o Financeiro (talvez trocar de nome)
-2. botões de manipulação dentro do agendamento info(canelar)
-
-# Tela agendamento info
-1. Mostrar um botão de confirmação para o aluno confirmar a aula usando uma API de confirmação da aula
-
-# Tela de listagem de agendamentos
-1. Mostrar primeiro todas as pendencias
+# Tela de listagem de agendamentos @
 2. Ordenar os agendamentos por data
 
-# listagem de pendencias
+# listagem de pendencias @
 1. Melhorar a listagem 
-
-# Cancelamento
-1. Validar se estão usando a API correta para tanto
-
-# Concluir aula
-1. Botão para o aluno concluir a aula (ele só pode concluir se tiver feito o pagamento previamente)
 
 # Na tela de agendamento info
 1. Pode ter um botão para processar o pagamento e será validado se já foi pago ou não
@@ -26,16 +11,11 @@
 # Aceitação de Aula
 1. Verificar como funciona o status do professor aceitar o agendamento
 
+# Mostrar avaliação de outros agendamentos
 1 - rota do formulário para Home
 2 - cancelamento limitado por hora tando do professor quanto do aluno
 
-
-Tela de info agendamento Aluno
-1 - status do agendamento
-
-Tela de financeiro Aluno
-1 - Arrumar porra de texto
-2 - remover botões 
+# Tela de financeiro Aluno
 3 - mostrar data da aula ou alguma referencia
 
 

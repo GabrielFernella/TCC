@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import ReactDOM from 'react-dom';
@@ -5,6 +7,9 @@ import toast, { Toaster } from 'react-hot-toast'; // Toast
 import { useLocation, useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
+
+import starBlack from '../../../assets/images/start_black.svg';
+import starWhite from '../../../assets/images/start_white.svg';
 
 import './styles.scss';
 import api from '../../../services/api';
@@ -115,7 +120,13 @@ const AlunoInfoAgendamentos = () => {
   const history = useHistory();
 
   const [link, setLink] = useState('');
+  const [opiniao, setOpiniao] = useState('');
+  const [nota, setNota] = useState('');
+  const [stars, setStars] = useState(0);
+
   const [load, setLoad] = useState(false);
+  const [openNota, setOpenNota] = useState(false);
+
   const [chatStartText, setChatStartText] = useState<string>('');
 
   const location = useLocation();
@@ -189,6 +200,35 @@ const AlunoInfoAgendamentos = () => {
       });
   }
 
+  // para computar as estrelas da nota do professor
+  function selectStar(starNumber: number) {
+    setStars(starNumber);
+
+    setNota(starNumber.toString());
+  }
+
+  async function concluirAula(): Promise<void> {
+    const numberNota = parseInt(nota, 10);
+
+    if (numberNota > 5) {
+      toast.error(`A nota deve ser de 1 a 5`);
+    } else {
+      await api
+        .put(`/agendamento/concluir`, {
+          id_agendamento: agendamentos.agendamento.id,
+          nota,
+          opiniao,
+        })
+        .then(() => {
+          toast.success('Avaliação enviada com sucesso');
+          setLoad(true);
+        })
+        .catch(err => {
+          toast.error(`Algo deu errado`);
+        });
+    }
+  }
+
   async function cancelarAgendamento() {
     const resultado = window.confirm('Você deseja realmente cancelar?');
     if (resultado) {
@@ -247,14 +287,28 @@ const AlunoInfoAgendamentos = () => {
             </span>
 
             <br />
-            <h3>Status Agendamento:</h3>
-            {agendamentos.agendamento.status === 0 && <span> Agendado</span>}
-            {agendamentos.agendamento.status === 1 && <span> Confirmado </span>}
-            {agendamentos.agendamento.status === 2 && (
-              <span> Em processo </span>
-            )}
-            {agendamentos.agendamento.status === 3 && <span> Concluido </span>}
-            {agendamentos.agendamento.status === 4 && <span> Cancelado </span>}
+            <h3>
+              Status Agendamento:
+              {agendamentos.agendamento.status === 0 && (
+                <b className="normal"> Agendado</b>
+              )}
+              {agendamentos.agendamento.status === 1 && (
+                <b className="normal"> Confirmado </b>
+              )}
+              {agendamentos.agendamento.status === 2 && (
+                <b className="normal"> Em processo </b>
+              )}
+              {agendamentos.agendamento.status === 3 && (
+                <b className="normal"> Efetivada </b>
+              )}
+              {agendamentos.agendamento.status === 4 && (
+                <b className="red"> Cancelado </b>
+              )}
+              {agendamentos.agendamento.status === 5 && (
+                <b className="green"> Concluido </b>
+              )}
+            </h3>
+
             <br />
 
             <h3>Aluno(a)</h3>
@@ -296,7 +350,6 @@ const AlunoInfoAgendamentos = () => {
               </span>
               {(agendamentos.pagamento.statusPagamento === 0 ||
                 agendamentos.pagamento.statusPagamento === 1 ||
-                agendamentos.pagamento.statusPagamento === 2 ||
                 agendamentos.pagamento.statusPagamento === 3) && (
                 <Button
                   name="link"
@@ -307,6 +360,18 @@ const AlunoInfoAgendamentos = () => {
                 </Button>
               )}
             </div>
+            {agendamentos.agendamento.status !== 4 && (
+              <div>
+                <Button
+                  name="abrirChat"
+                  id="chatOpen"
+                  onClick={() => startChat()}
+                >
+                  Abrir Chat
+                </Button>
+              </div>
+            )}
+            <br />
             <br />
             <br />
 
@@ -318,37 +383,134 @@ const AlunoInfoAgendamentos = () => {
                 onChange={e => setLink(e.target.value)}
               />
               <Button name="link" type="button" onClick={() => getLink()}>
-                Abrir no navegador
+                Abrir link no navegador
               </Button>
+              <hr />
+
+              <br />
+              {agendamentos.agendamento.status !== 4 &&
+                agendamentos.agendamento.status !== 5 && (
+                  <>
+                    {openNota === false ? (
+                      <Button
+                        name="aceitar"
+                        id="aceitar"
+                        onClick={() => setOpenNota(true)}
+                      >
+                        Avaliar e concluir agendamento
+                      </Button>
+                    ) : (
+                      <>
+                        <b>Opinião: </b>
+                        <textarea
+                          // type="text"
+                          value={opiniao}
+                          onChange={e => setOpiniao(e.target.value)}
+                        />
+
+                        <b>Avalie o professor </b>
+                        <div>
+                          {parseInt(nota, 10) >= 1 ? (
+                            <img
+                              src={starBlack}
+                              alt=""
+                              onClick={() => setNota('1')}
+                            />
+                          ) : (
+                            <img
+                              src={starWhite}
+                              alt=""
+                              onClick={() => setNota('1')}
+                            />
+                          )}
+
+                          {parseInt(nota, 10) >= 2 ? (
+                            <img
+                              src={starBlack}
+                              alt=""
+                              onClick={() => setNota('2')}
+                            />
+                          ) : (
+                            <img
+                              src={starWhite}
+                              alt=""
+                              onClick={() => setNota('2')}
+                            />
+                          )}
+
+                          {parseInt(nota, 10) >= 3 ? (
+                            <img
+                              src={starBlack}
+                              alt=""
+                              onClick={() => setNota('3')}
+                            />
+                          ) : (
+                            <img
+                              src={starWhite}
+                              alt=""
+                              onClick={() => setNota('3')}
+                            />
+                          )}
+
+                          {parseInt(nota, 10) >= 4 ? (
+                            <img
+                              src={starBlack}
+                              alt=""
+                              onClick={() => setNota('4')}
+                            />
+                          ) : (
+                            <img
+                              src={starWhite}
+                              alt=""
+                              onClick={() => setNota('4')}
+                            />
+                          )}
+
+                          {parseInt(nota, 10) >= 5 ? (
+                            <img
+                              src={starBlack}
+                              alt=""
+                              onClick={() => setNota('5')}
+                            />
+                          ) : (
+                            <img
+                              src={starWhite}
+                              alt=""
+                              onClick={() => setNota('5')}
+                            />
+                          )}
+                        </div>
+
+                        <Button
+                          name="aceitar"
+                          id="aceitar"
+                          onClick={() => concluirAula()}
+                        >
+                          Avaliar e concluir agendamento
+                        </Button>
+                      </>
+                    )}
+                  </>
+                )}
             </div>
           </div>
 
-          <br />
-          <br />
-
-          {agendamentos.agendamento.status !== 4 && (
-            <div>
-              <Button name="abrirChat" onClick={() => startChat()}>
-                Abrir Chat
-              </Button>
-            </div>
-          )}
-
-          <br />
           <hr />
         </fieldset>
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-          {agendamentos.agendamento.status !== 4 && (
-            <Button
-              name="submit"
-              className="cancelar"
-              onClick={() => cancelarAgendamento()}
-            >
-              Cancelar
-            </Button>
-          )}
+
+          {agendamentos.agendamento.status !== 4 &&
+            agendamentos.agendamento.status !== 5 && (
+              <Button
+                name="submit"
+                className="cancelar"
+                onClick={() => cancelarAgendamento()}
+              >
+                Cancelar
+              </Button>
+            )}
         </footer>
       </main>
     </div>

@@ -210,6 +210,15 @@
   .btnVisualizar {
     width: 100%;
   }
+
+  .reprocess {
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.4rem;
+    //border: 1px solid #8257E5;
+    border-radius: 6px;
+    margin: 1rem;
+  }
 }
 
 @media (min-width: 700px) {

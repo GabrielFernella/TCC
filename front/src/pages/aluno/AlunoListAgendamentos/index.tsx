@@ -150,10 +150,7 @@ const AlunoListAgendamentos: React.FC = () => {
     const resultado = window.confirm('Você deseja realmente cancelar?');
     if (resultado) {
       await api
-        .put(`/agendamento/status`, {
-          agendamento_id: id,
-          status: 4,
-        })
+        .put(`/agendamento/cancel/${id}`)
         .then(response => {
           toast.success('Agendamento cancelado');
           getAppointments();

@@ -64,7 +64,7 @@ class ConcludeAgendamentoService {
     if (
       pagamento.statusPagamento === 0 ||
       pagamento.statusPagamento === 1 ||
-      pagamento.statusPagamento === 2 ||
+      pagamento.statusPagamento === 3 ||
       pagamento.statusPagamento === 4
     ) {
       throw new AppError('Você não concluiu o pagamento dessa aula.');
@@ -74,6 +74,9 @@ class ConcludeAgendamentoService {
     agendamento.opiniao = opiniao;
     agendamento.status = 5;
 
+    pagamento.statusPagamento = 5;
+
+    await this.pagamentoRepository.save(pagamento);
     const result = await this.agendamentoRepository.save(agendamento);
 
     return result;

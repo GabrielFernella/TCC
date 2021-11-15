@@ -265,15 +265,27 @@ const ProfessorInfoAgendamentos = () => {
             </span>
 
             <br />
-            <h3>Status Agendamento:</h3>
-            {agendamentos.agendamento.status === 0 && <span> Agendado</span>}
-            {agendamentos.agendamento.status === 1 && <span> Confirmado </span>}
-            {agendamentos.agendamento.status === 2 && (
-              <span> Em processo </span>
-            )}
-            {agendamentos.agendamento.status === 3 && <span> Concluido </span>}
-            {agendamentos.agendamento.status === 4 && <span> Cancelado </span>}
-            <br />
+            <h3>
+              Status Agendamento:
+              {agendamentos.agendamento.status === 0 && (
+                <b className="normal"> Agendado</b>
+              )}
+              {agendamentos.agendamento.status === 1 && (
+                <b className="normal"> Confirmado </b>
+              )}
+              {agendamentos.agendamento.status === 2 && (
+                <b className="normal"> Em processo </b>
+              )}
+              {agendamentos.agendamento.status === 3 && (
+                <b className="normal"> Efetivada </b>
+              )}
+              {agendamentos.agendamento.status === 4 && (
+                <b className="red"> Cancelado </b>
+              )}
+              {agendamentos.agendamento.status === 5 && (
+                <b className="green"> Concluido </b>
+              )}
+            </h3>
 
             <h3>Aluno(a)</h3>
             <span>Aluno: {agendamentos.aluno.name}</span>
@@ -357,13 +369,16 @@ const ProfessorInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e gerencia seus horários</p>
-          <Button
-            id="deletar"
-            name="CancelarAgendamento"
-            onClick={() => cancelarAgendamento()}
-          >
-            Cancelar agendamento
-          </Button>
+          {agendamentos.agendamento.status !== 4 &&
+            agendamentos.agendamento.status !== 5 && (
+              <Button
+                name="submit"
+                className="CancelarAgendamento"
+                onClick={() => cancelarAgendamento()}
+              >
+                Cancelar
+              </Button>
+            )}
         </footer>
       </main>
     </div>

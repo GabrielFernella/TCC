@@ -98,7 +98,7 @@ agendamentoRouter.get(
   agendamentoController.info,
 );
 
-agendamentoRouter.post(
+agendamentoRouter.put(
   '/concluir',
   celebrate({
     [Segments.BODY]: {

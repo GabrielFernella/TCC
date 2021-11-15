@@ -107,7 +107,14 @@ class PayPagamentoService {
       });
     });
 
-    /* const findPagamento = await this.pagamentoRepository.findProcess();
+    return value;
+  }
+}
+
+export default PayPagamentoService;
+
+/*
+/* const findPagamento = await this.pagamentoRepository.findProcess();
 
     if (!findPagamento) {
       throw new AppError('Nenhum pagamento para processar');
@@ -118,16 +125,10 @@ class PayPagamentoService {
     });
     console.log(buildObject); */
 
-    // Buscando o status dos agendamentos que podem ser confirmados status pagamento 2 e agendamento status 3
+// Buscando o status dos agendamentos que podem ser confirmados status pagamento 2 e agendamento status 3
 
-    // Processando todos os pagamentos que deram sucesso para o professor
-    // const resp: IResponse[] = Object.values(rawResponse);
-
-    return value;
-  }
-}
-
-export default PayPagamentoService;
+// Processando todos os pagamentos que deram sucesso para o professor
+// const resp: IResponse[] = Object.values(rawResponse);
 
 /*
 // Buscando informações referente ao mercado pago
