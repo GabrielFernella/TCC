@@ -168,7 +168,7 @@ const AlunoInfoAgendamentos = () => {
     });
 
     socket.on('chat_listar_mensagens', mensagens => {
-      console.log(mensagens);
+      // console.log(mensagens);
 
       const element = (
         <ChatComponent
@@ -179,7 +179,7 @@ const AlunoInfoAgendamentos = () => {
         />
       );
 
-      ReactDOM.render(element, document.getElementById('chat'));
+      // ReactDOM.render(element, document.getElementById('chat'));
     });
   }
 
