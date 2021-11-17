@@ -120,6 +120,7 @@ const ProfessorInfoAgendamentos = () => {
 
   const [link, setLink] = useState('');
   const [load, setLoad] = useState(false);
+  const [openChat, setOpenChat] = useState(false);
   const [chatStartText, setChatStartText] = useState<string>('');
 
   const location = useLocation();
@@ -127,6 +128,12 @@ const ProfessorInfoAgendamentos = () => {
   const valor = (location.state as Props) || {};
 
   // console.log(valor.agendamento_id);
+
+  useEffect(() => {
+    if (openChat) {
+      startChat();
+    }
+  }, [openChat]);
 
   async function updateLink() {
     await api
@@ -247,8 +254,6 @@ const ProfessorInfoAgendamentos = () => {
           <br />
           <hr />
 
-          <div id="chat" />
-
           <div id="info">
             <h3>Disciplina: </h3>
             <span>{agendamentos.disciplina.titulo}</span>
@@ -325,6 +330,18 @@ const ProfessorInfoAgendamentos = () => {
                 )}
               </span>
             </div>
+            {agendamentos.agendamento.status !== 4 && (
+              <div>
+                <Button
+                  name="abrirChat"
+                  id="chatOpen"
+                  onClick={() => setOpenChat(!openChat)}
+                >
+                  Abrir Chat
+                </Button>
+              </div>
+            )}
+            <div id="chat" />
             <br />
             <div className="link-access">
               <h3>Link de Acesso: </h3>
@@ -338,30 +355,6 @@ const ProfessorInfoAgendamentos = () => {
               </Button>
             </div>
           </div>
-
-          <br />
-          <br />
-
-          {agendamentos.agendamento.status !== 4 && (
-            <div>
-              <h3>Alinhe algumas expectativas</h3>
-
-              <div className="chat">
-                <textarea
-                  rows={10}
-                  cols={30}
-                  onChange={e => setChatStartText(e.target.value)}
-                />
-                <Button name="enviarMsg" onClick={() => startChat()}>
-                  Enviar Mensagem
-                </Button>
-              </div>
-
-              <Button name="abrirChat" onClick={() => startChat()}>
-                Abrir Chat
-              </Button>
-            </div>
-          )}
 
           <br />
           <hr />

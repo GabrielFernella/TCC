@@ -124,6 +124,8 @@ const AlunoInfoAgendamentos = () => {
   const [nota, setNota] = useState('');
   const [stars, setStars] = useState(0);
 
+  const [openChat, setOpenChat] = useState(false);
+
   const [load, setLoad] = useState(false);
   const [openNota, setOpenNota] = useState(false);
 
@@ -132,6 +134,12 @@ const AlunoInfoAgendamentos = () => {
   const location = useLocation();
 
   const valor = (location.state as Props) || {};
+
+  useEffect(() => {
+    if (openChat) {
+      startChat();
+    }
+  }, [openChat]);
 
   async function getLink() {
     // navigator.clipboard.writeText(agendamentos.agendamento.link);
@@ -179,7 +187,7 @@ const AlunoInfoAgendamentos = () => {
         />
       );
 
-      // ReactDOM.render(element, document.getElementById('chat'));
+      ReactDOM.render(element, document.getElementById('chat'));
     });
   }
 
@@ -268,8 +276,6 @@ const AlunoInfoAgendamentos = () => {
           </div>
           <br />
           <hr />
-
-          <div id="chat" />
 
           <div id="info">
             <h3>Disciplina: </h3>
@@ -361,18 +367,16 @@ const AlunoInfoAgendamentos = () => {
               )}
             </div>
             {agendamentos.agendamento.status !== 4 && (
-              <div>
-                <Button
-                  name="abrirChat"
-                  id="chatOpen"
-                  onClick={() => startChat()}
-                >
+              <div id="chatOpen">
+                <Button name="abrirChat" onClick={() => setOpenChat(!openChat)}>
                   Abrir Chat
                 </Button>
               </div>
             )}
             <br />
             <br />
+
+            <div id="chat" />
             <br />
 
             <div className="link-access">

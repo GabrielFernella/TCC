@@ -3,17 +3,22 @@ import styled, { css } from 'styled-components';
 
 export const Component = styled.div`
   padding: 0;
-  position: fixed;
-  max-width: 330px;
-  height: 460px;
-  max-height: 460px;
+  //position: fixed;
+  width: 100%;
+  //max-width: 330px;
+  //max-height: 460px;
   right: 10px;
   bottom: 10px;
   animation: up 1s;
 
+  .chat_support {
+    width: 100%;
+  }
+
   .client {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
   }
 
   .client .name {
@@ -36,15 +41,19 @@ export const Component = styled.div`
     padding: 20px 10px;
     margin: 10px 0;
     width: 250px;
-    margin-left: 30px;
+    margin-right: 30px;
     border-radius: 4px;
     line-height: 20px;
   }
 
   .text_support {
     border: 1px solid #cec9c9;
+    width: 100%;
+    height: 260px;
     max-height: 500px;
     overflow-y: scroll;
+
+    //overflow-y: auto;
     /* border-bottom: 0px; */
   }
 
@@ -55,16 +64,22 @@ export const Component = styled.div`
 
   .admin .message {
     width: 230px;
-    background: #f2ecfa;
+    background: #b8ffe2;
     border-radius: 4px;
     padding: 10px;
     margin: 10px 0;
-    margin-left: 12px;
+    margin-left: 30px;
   }
 
   .message_send {
     display: flex;
     justify-content: space-between;
+    padding: 0.6rem;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    border-radius: 0px 0px 10px 10px;
+
     border: 1px solid #cec9c9;
     align-items: center;
   }
@@ -73,7 +88,9 @@ export const Component = styled.div`
     outline: none;
     height: 34px;
     align-items: center;
-    width: 252px;
+    //width: 252px;
+    width: 80%;
+    border: none;
   }
 
   .send_message_button {
@@ -92,12 +109,13 @@ export const Component = styled.div`
     font-size: 15px;
   }
 
-  /*.chat_support {
-      position: fixed;
-      max-width: 330px;
-      right: 10px;
-      animation: up 1s;
-    }*/
+  .chat_support {
+    //position: fixed;
+    width: 100%;
+    right: 10px;
+    animation: up 1s;
+    padding: 0;
+  }
 
   .chat_support_hide {
     animation: down 1s;
@@ -106,11 +124,13 @@ export const Component = styled.div`
 
   .in_support_header {
     float: right;
-    width: 320px;
+    width: 100%;
     height: 56px;
 
     background: #8257e6;
     border-radius: 10px 10px 0px 0px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 
     display: flex;
     justify-content: space-between;
@@ -120,6 +140,7 @@ export const Component = styled.div`
     color: #fff;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   .icon_close {
@@ -128,6 +149,8 @@ export const Component = styled.div`
     cursor: pointer;
   }
 `;
+
+/*
 
 export const Chat = styled.div`
   width: 330px;
@@ -156,3 +179,4 @@ export const Send = styled.div`
   align-items: center;
   justify-content: center;
 `;
+*/

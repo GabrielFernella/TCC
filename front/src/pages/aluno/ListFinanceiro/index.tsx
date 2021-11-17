@@ -244,20 +244,6 @@ const ListFinanceiro: React.FC = () => {
                         {item.statusPagamento === 3 && <span> Negado </span>}
                         {item.statusPagamento === 4 && <span> Cancelado </span>}
                         {item.statusPagamento === 5 && <span> Concluido </span>}
-
-                        {item.statusPagamento === 0 ||
-                        item.statusPagamento === 1 ||
-                        item.statusPagamento === 3 ? (
-                          <>
-                            <br />
-                            <span
-                              className="reprocess"
-                              onClick={() => validationPayment(item.id)}
-                            >
-                              Reprocessar pagamento
-                            </span>
-                          </>
-                        ) : null}
                       </span>
                     </h2>
                     {item.statusPagamento === 2 && (
@@ -269,7 +255,7 @@ const ListFinanceiro: React.FC = () => {
 
                     <h3>Valor: R$ {item.valor}</h3>
 
-                    <div className="buttons">
+                    <div className="buttons-card">
                       {(item.statusPagamento === 0 ||
                         item.statusPagamento === 1 ||
                         item.statusPagamento === 3) && (
@@ -302,6 +288,18 @@ const ListFinanceiro: React.FC = () => {
                           </Link>
                         </>
                       )}
+                      {item.statusPagamento === 0 ||
+                      item.statusPagamento === 1 ||
+                      item.statusPagamento === 3 ? (
+                        <Button name="reProcess" id="aceitar">
+                          <span
+                            className="reprocess"
+                            onClick={() => validationPayment(item.id)}
+                          >
+                            Reprocessar pagamento
+                          </span>
+                        </Button>
+                      ) : null}
                     </div>
                   </div>
                 );
