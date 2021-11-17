@@ -194,6 +194,7 @@ const ProfessorListAgendamentos: React.FC = () => {
     setNewAgendamento(result);
   }
 
+  // Fazer a confirmação de aula pelo professor
   /* async function putStatus(agendamento_id: string, status: number) {
     await api
       .put('/agendamento/status', {
@@ -210,7 +211,7 @@ const ProfessorListAgendamentos: React.FC = () => {
   } */
 
   return (
-    <div id="list-aluno-agendamentos" className="container">
+    <div id="list-professor-agendamentos" className="container">
       <Toaster />
       <PageHeader
         page="Agendamentos"
@@ -315,20 +316,26 @@ const ProfessorListAgendamentos: React.FC = () => {
 
                   <h3>Valor: R$ {item.appointment.disciplina.valor} /hora</h3>
 
-                  <div className="buttons">
-                    <Link
-                      className="btnVisualizar"
-                      to={{
-                        pathname: '/professor/agenda/info',
-                        state: {
-                          agendamento_id: item.appointment.agendamento.id,
-                        },
-                      }}
-                    >
-                      <button type="button" id="alterar">
+                  <div className="buttonsCard">
+                    <button type="button" id="alterar">
+                      <Link
+                        className="btnVisualizar"
+                        to={{
+                          pathname: '/professor/agenda/info',
+                          state: {
+                            agendamento_id: item.appointment.agendamento.id,
+                          },
+                        }}
+                      >
                         <span className="visualizar">Visualizar</span>
+                      </Link>
+                    </button>
+
+                    {item.appointment.agendamento.status === 0 && (
+                      <button type="button" id="aceitar" onClick={() => {}}>
+                        Aceitar
                       </button>
-                    </Link>
+                    )}
 
                     {item.appointment.agendamento.status !== 4 &&
                     item.appointment.agendamento.status !== 5 ? (
