@@ -187,7 +187,11 @@ const AlunoListAgendamentos: React.FC = () => {
       );
     } else {
       result = agendamentos.filter(
-        item => item.appointment.agendamento.status === 0,
+        item =>
+          item.appointment.agendamento.status === 0 ||
+          item.appointment.agendamento.status === 1 ||
+          item.appointment.agendamento.status === 2 ||
+          item.appointment.agendamento.status === 3,
       );
     }
 

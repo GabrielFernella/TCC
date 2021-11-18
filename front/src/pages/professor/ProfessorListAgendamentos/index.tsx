@@ -187,7 +187,11 @@ const ProfessorListAgendamentos: React.FC = () => {
       );
     } else {
       result = agendamentos.filter(
-        item => item.appointment.agendamento.status === 0,
+        item =>
+          item.appointment.agendamento.status === 0 ||
+          item.appointment.agendamento.status === 1 ||
+          item.appointment.agendamento.status === 2 ||
+          item.appointment.agendamento.status === 3,
       );
     }
 
@@ -195,20 +199,20 @@ const ProfessorListAgendamentos: React.FC = () => {
   }
 
   // Fazer a confirmação de aula pelo professor
-  /* async function putStatus(agendamento_id: string, status: number) {
+  async function confirmation(agendamento_id: string) {
     await api
       .put('/agendamento/status', {
         agendamento_id,
-        status,
+        status: 1,
       })
       .then(() => {
-        getAppointments(date);
-        toast.success(`Alteração do status realizada com sucesso.`);
+        getAppointments();
+        toast.success(`Confirmação realizada com sucesso.`);
       })
       .catch(() => {
         toast.error(`Algo deu errado ao mudar o status do Agendamento.`);
       });
-  } */
+  }
 
   return (
     <div id="list-professor-agendamentos" className="container">
@@ -332,7 +336,13 @@ const ProfessorListAgendamentos: React.FC = () => {
                     </button>
 
                     {item.appointment.agendamento.status === 0 && (
-                      <button type="button" id="aceitar" onClick={() => {}}>
+                      <button
+                        type="button"
+                        id="aceitar"
+                        onClick={() => {
+                          confirmation(item.appointment.agendamento.id);
+                        }}
+                      >
                         Aceitar
                       </button>
                     )}

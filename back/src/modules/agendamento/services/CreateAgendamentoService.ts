@@ -144,7 +144,7 @@ class CreateAgendamentoService {
 
       if (valid.length >= 2) {
         throw new AppError(
-          'Você possui pendencias, acerte as mesmas para realizar novos agendamentos!',
+          'Você possui pendencias, efetue o pagamento e conclua as aulas para realizar novos agendamentos!',
         );
       }
     }
@@ -291,7 +291,7 @@ class CreateAgendamentoService {
     );
 
     // Enviar o email para o destinatário
-    await this.mailProvider.sendMail({
+    this.mailProvider.sendMail({
       to: {
         name: professorData.name,
         email: professorData.email,

@@ -232,7 +232,7 @@ const AlunoInfoAgendamentos = () => {
           setLoad(true);
         })
         .catch(err => {
-          toast.error(`Algo deu errado`);
+          toast.error(err.response.data.message);
         });
     }
   }
@@ -247,7 +247,7 @@ const AlunoInfoAgendamentos = () => {
           setLoad(true);
         })
         .catch(err => {
-          toast.error(`Ocorreu um erro: ${err.data.message}`);
+          toast.error(`Ocorreu um erro: ${err.response.data.message}`);
         });
     }
   }

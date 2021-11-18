@@ -77,11 +77,11 @@ class ListHorasDisponiveisProfService {
 
     if (!validateDateProfessor) {
       throw new AppError(
-        'Esse professor não possui dispomibilidade para esse dia.',
+        'Esse professor não possui disponibilidade para esse dia.',
       );
     }
 
-    // Listando os horários disponiveis para esse dia
+    // Listando os horários do professor disponiveis para esse dia
     const horariosDisponiveis = horas.filter(
       item =>
         item.hora >= validateDateProfessor.horarioEntrada &&
@@ -98,13 +98,24 @@ class ListHorasDisponiveisProfService {
     }
 
     const validHorasDisponiveis = horariosDisponiveis.map(item => {
-      const result = validHorasAgendadas.find(h => h.entrada === item.hora);
+      const result = validHorasAgendadas.find(
+        h => h.entrada === item.hora && h.status !== 4,
+      );
 
       if (result) {
         if (result.status !== 4) return { hora: item.hora, disp: false };
       }
       return { hora: item.hora, disp: true };
     });
+
+    /* const validHorasDisponiveis = horariosDisponiveis.map(item => {
+      const result = validHorasAgendadas.find(h => h.entrada === item.hora);
+
+      if (result) {
+        if (result.status !== 4) return { hora: item.hora, disp: false };
+      }
+      return { hora: item.hora, disp: true };
+    }); */
 
     // console.log(validHorasDisponiveis);
 

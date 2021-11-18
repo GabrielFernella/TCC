@@ -12,6 +12,8 @@ const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
+  const [openReset, setOpenReset] = useState(false);
+
   function handleForgotPassword(e: FormEvent) {
     e.preventDefault();
     api

@@ -29,7 +29,6 @@
 # Back
 
 # Fazer
-1. colocar atributo professor_id em pagamento (rever necessidade)
 2. Continuar Tela de listagem de pagamentos, e mostrado um link para direcionar para API do Arthur
 4. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
 5. ver a parte de recuperação de senha
@@ -40,7 +39,7 @@
 
 # Concluir Aula
 1. Validar se a data já passou para ele avaliar a aula
-2. validar se para fazer um novo agendamento, o aluno concluiu as aulas para efetivar o pagamento do professor
+2. validar se para fazer um novo agendamento, o aluno concluiu as aulas para efetivar o pagamento do professor - acho que OK
 
 # Robo
 1. Fazer o processamento de pagamento, montar um exemplo de objeto que será retornado
