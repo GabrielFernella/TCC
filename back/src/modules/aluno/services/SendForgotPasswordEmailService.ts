@@ -7,6 +7,8 @@ import IMailProvider from '@shared/container/providers/MailProvider/models/IMail
 import IAlunoRepository from '../repositories/IAlunoRepository';
 import IAlunoTokensRepository from '../repositories/IAlunoTokensRepository';
 
+import { generateKey } from '../../../shared/container/Tools';
+
 interface IRequest {
   email: string;
 }
@@ -30,9 +32,14 @@ class SendForgotPasswordEmailService {
       throw new AppError('User does not exists');
     }
 
-    const { token } = await this.alunoTokensRepository.generate(user.id);
+    const token = await this.alunoTokensRepository.findByToken(user.id);
 
-    // Buscando o arquivo template de email de recuperação
+    let newToken;
+    if (!token) {
+      newToken = await this.alunoTokensRepository.generate(user.id);
+    }
+
+    // Buscando o arquivo de template do email de recuperação
     const forgotPasswordTemplate = path.resolve(
       __dirname,
       '..',
@@ -40,8 +47,14 @@ class SendForgotPasswordEmailService {
       'forgot_password.hbs',
     );
 
+    const key = generateKey();
+    // console.log(key);
+
+    user.key = key;
+
+    await this.alunoRepository.save(user);
     // Enviar o email para o destinatário
-    await this.mailProvider.sendMail({
+    this.mailProvider.sendMail({
       to: {
         name: user.name,
         email: user.email,
@@ -51,7 +64,10 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/reset-password?token=${
+            token ? token.token : newToken
+          }`,
+          key,
         },
       },
     });

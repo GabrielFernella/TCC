@@ -8,8 +8,9 @@ import IProfessorTokensRepository from '../../repositories/IProfessorTokensRepos
 import IHashProvider from '../../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
-  token: string;
+  key: string;
   password: string;
+  email: string;
 }
 
 @injectable()
@@ -25,25 +26,29 @@ class ResetPasswordService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ token, password }: IRequest): Promise<void> {
-    const userToken = await this.professortokensRepository.findByToken(token);
+  public async execute({ email, key, password }: IRequest): Promise<void> {
+    /* const userToken = await this.professortokensRepository.findByToken(token);
 
     if (!userToken) {
       throw new AppError('User token does not exists');
-    }
+    } */
 
-    const user = await this.professorRepository.findById(userToken.id);
+    const user = await this.professorRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError('User does not exists');
+      throw new AppError('Usuário não existe');
     }
 
-    const tokenCreatedAt = userToken.created_at;
-    const compareDate = addHours(tokenCreatedAt, 2);
+    if (user.key !== key) {
+      throw new AppError('Chave de validação incorreta.');
+    }
 
-    if (isAfter(Date.now(), compareDate)) {
+    // usar para validar as duas horas antes da data prevista
+    // const compareDate = addHours(tokenCreatedAt, 2);
+
+    /* if (isAfter(Date.now(), compareDate)) {
       throw new AppError('Token expired');
-    }
+    } */
 
     user.password = await this.hashProvider.generateHash(password);
 

@@ -6,6 +6,12 @@
       margin-bottom: 6.4rem;
     }
   }
+  .linkSite {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 
   .green{
     color: #029b47;
@@ -155,9 +161,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 2rem;
+    margin-top: 1rem;
+    
 
     button {
+      
       background: #8257e5;
       width: 16rem;
       border: 0;
@@ -258,6 +266,7 @@
 }
 
 #alterar {
+  margin-top: 2rem;
   background: #8257e5;
   border: solid #8257e5;
   &:hover {
@@ -265,13 +274,15 @@
   }
 }
 #deletar {
-  background: red;
+  margin-top: 2rem;
+  background: red !important;
   border: solid red;
   &:hover {
     background: rgb(216, 17, 17);
   }
 }
 #aceitar {
+  margin-top: 2rem;
   background: var(--color-secundary-dark);
   border: solid var(--color-secundary-dark);
   &:hover {

@@ -229,6 +229,7 @@ const AlunoInfoAgendamentos = () => {
         })
         .then(() => {
           toast.success('Avaliação enviada com sucesso');
+          window.location.reload();
           setLoad(true);
         })
         .catch(err => {
@@ -381,14 +382,12 @@ const AlunoInfoAgendamentos = () => {
 
             <div className="link-access">
               <h3>Link de Acesso: </h3>
-              <input
-                type="text"
-                value={link}
-                onChange={e => setLink(e.target.value)}
-              />
-              <Button name="link" type="button" onClick={() => getLink()}>
-                Abrir link no navegador
-              </Button>
+              <input type="text" disabled value={link} />
+              <a className="linkSite" href={link} target="blank">
+                <button name="link" type="button">
+                  Abrir link no navegador
+                </button>
+              </a>
               <hr />
 
               <br />
@@ -401,7 +400,7 @@ const AlunoInfoAgendamentos = () => {
                         id="aceitar"
                         onClick={() => setOpenNota(true)}
                       >
-                        Avaliar e concluir agendamento
+                        Avaliar e concluir aula
                       </Button>
                     ) : (
                       <>
@@ -496,6 +495,18 @@ const AlunoInfoAgendamentos = () => {
                     )}
                   </>
                 )}
+              {agendamentos.agendamento.status !== 4 &&
+                agendamentos.agendamento.status !== 5 && (
+                  <Button
+                    type="button"
+                    name="submit"
+                    id="deletar"
+                    // className="deletar"
+                    onClick={() => cancelarAgendamento()}
+                  >
+                    Cancelar agendamento
+                  </Button>
+                )}
             </div>
           </div>
 
@@ -504,17 +515,6 @@ const AlunoInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e fique de olho no horário!</p>
-
-          {agendamentos.agendamento.status !== 4 &&
-            agendamentos.agendamento.status !== 5 && (
-              <Button
-                name="submit"
-                className="cancelar"
-                onClick={() => cancelarAgendamento()}
-              >
-                Cancelar
-              </Button>
-            )}
         </footer>
       </main>
     </div>

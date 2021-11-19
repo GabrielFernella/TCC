@@ -28,10 +28,16 @@
 ###########################################################################################################
 # Back
 
+# Api que retorna todos as notas e média das disciplinas
+1. Api que retorna todas as notas e opinião dos alunos
+2. vc deve pegar o id da disciplina e buscar nos agendamentos, montar um objeto { opinião, nota}
+3. e mostrar outro objeto com a média realizada com base nas notas
+
 # Fazer
 2. Continuar Tela de listagem de pagamentos, e mostrado um link para direcionar para API do Arthur
 4. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
 5. ver a parte de recuperação de senha
+6. testar dois cadastros com o mesmo cpf
 
 # Pagamento
 1. API para alterar o status do pagamento para pago (colocar uma chave de segurança)

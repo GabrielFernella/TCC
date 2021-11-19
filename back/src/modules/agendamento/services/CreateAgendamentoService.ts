@@ -197,7 +197,8 @@ class CreateAgendamentoService {
         } */
 
         const verifyActiveAgendamento = verifyDisponibilidadeDoProfessor.filter(
-          item => item.status !== 4,
+          item =>
+            item.status !== 4 && item.data.getDate() === dto.data.getDate(),
         );
 
         if (verifyActiveAgendamento.length >= 1) {

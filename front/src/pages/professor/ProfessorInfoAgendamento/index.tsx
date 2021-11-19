@@ -353,6 +353,18 @@ const ProfessorInfoAgendamentos = () => {
               <Button name="link" type="button" onClick={() => updateLink()}>
                 Atualizar
               </Button>
+              {agendamentos.agendamento.status !== 4 &&
+                agendamentos.agendamento.status !== 5 && (
+                  <Button
+                    type="button"
+                    name="submit"
+                    id="deletar"
+                    // className="deletar"
+                    onClick={() => cancelarAgendamento()}
+                  >
+                    Cancelar agendamento
+                  </Button>
+                )}
             </div>
           </div>
 
@@ -362,16 +374,6 @@ const ProfessorInfoAgendamentos = () => {
 
         <footer>
           <p>Alinhe suas expectativas e gerencia seus horários</p>
-          {agendamentos.agendamento.status !== 4 &&
-            agendamentos.agendamento.status !== 5 && (
-              <Button
-                name="submit"
-                className="CancelarAgendamento"
-                onClick={() => cancelarAgendamento()}
-              >
-                Cancelar
-              </Button>
-            )}
         </footer>
       </main>
     </div>

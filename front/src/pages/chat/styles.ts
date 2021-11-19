@@ -8,6 +8,7 @@ export const Component = styled.div`
   //max-width: 330px;
   //max-height: 460px;
   right: 10px;
+  margin-top: 1rem;
   bottom: 10px;
   animation: up 1s;
 

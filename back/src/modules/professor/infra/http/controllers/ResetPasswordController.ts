@@ -7,14 +7,15 @@ import AuthenticateUserService from '@modules/professor/services/ProfessorServic
 
 export default class ResetPasswordController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { token, password } = request.body;
+    const { email, key, password } = request.body;
 
     // const { authorization } = request.headers;
 
     const resetPassword = container.resolve(ResetPasswordService);
     // const token = authorization;
     await resetPassword.execute({
-      token,
+      email,
+      key,
       password,
     });
 

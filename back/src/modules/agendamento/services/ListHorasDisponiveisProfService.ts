@@ -127,6 +127,8 @@ class ListHorasDisponiveisProfService {
       );
     } */
 
+    validHorasDisponiveis.splice(-1, 1);
+
     return validHorasDisponiveis;
   }
 }

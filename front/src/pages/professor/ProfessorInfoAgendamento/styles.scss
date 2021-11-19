@@ -228,6 +228,7 @@
 }
 
 #alterar {
+  margin-top: 2rem;
   background: #8257e5;
   border: solid #8257e5;
   &:hover {
@@ -235,14 +236,16 @@
   }
 }
 #deletar {
-  background: red;
+  margin-top: 2rem;
+  background: red !important;
   border: solid red;
   &:hover {
     background: rgb(216, 17, 17);
   }
 }
 #aceitar {
-  background: var(--color-secundary-dark);
+  margin-top: 2rem;
+  background: var(--color-secundary-dark) !important;
   border: solid var(--color-secundary-dark);
   &:hover {
     background: #029b47;

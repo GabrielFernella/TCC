@@ -68,7 +68,7 @@ class SendForgotPasswordEmailService {
           link: `${process.env.APP_WEB_URL}/reset-password?token=${
             token ? token.token : newToken
           }`,
-          key: user.key,
+          key,
         },
       },
     });
