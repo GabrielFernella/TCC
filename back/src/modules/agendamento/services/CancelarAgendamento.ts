@@ -79,7 +79,7 @@ class CancelarAgendamento {
       throw new AppError('Houve um erro ao localizar o aluno desse pagamento');
     }
 
-    if (pagamento.statusPagamento === 3) {
+    if (pagamento.statusPagamento === 2) {
       // Chamar API de reembolso // Mandar um e-mail de reembolso do ALUNO
       // Buscando o arquivo template de email de recuperação
       const forgotPasswordTemplate = path.resolve(

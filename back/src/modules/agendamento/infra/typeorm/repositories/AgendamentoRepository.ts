@@ -68,6 +68,17 @@ class AgendamentoRepository implements IAgendamentoRepository {
     return agendamento;
   }
 
+  public async listAllAgendamentoDisciplina(
+    disciplina_id: string,
+  ): Promise<Agendamento[] | undefined> {
+    const result = await this.ormRepository.find({
+      where: {
+        disciplina_id,
+      },
+    });
+    return result;
+  }
+
   public async updateStatus(
     id: string,
     status: StatusAula,

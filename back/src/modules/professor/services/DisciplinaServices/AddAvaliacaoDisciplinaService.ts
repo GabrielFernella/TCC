@@ -11,7 +11,7 @@ class AddAvaliacaoDisciplinaService {
   constructor(
     @inject('DisciplinaRepository')
     private disciplinaRepository: IDisciplinaRepository,
-  ) { }
+  ) {}
 
   public async execute(
     professor_id: string,
@@ -33,14 +33,15 @@ class AddAvaliacaoDisciplinaService {
         );
       }
       // Chamando a repository
-      const updateDisciplina = await this.disciplinaRepository.addAvaliacao(data);
+      const updateDisciplina = await this.disciplinaRepository.addAvaliacao(
+        data,
+      );
 
       if (!updateDisciplina) {
         throw new AppError('Disciplina not found');
       }
 
       return updateDisciplina;
-
     } catch (error) {
       throw new AppError('Erro ao adicionar a avaliação.');
     }

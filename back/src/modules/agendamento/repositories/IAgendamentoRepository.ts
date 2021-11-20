@@ -16,4 +16,7 @@ export default interface IAgendamentoRepository {
     status: StatusAula,
   ): Promise<Agendamento | undefined>;
   save(user: Agendamento): Promise<Agendamento>;
+  listAllAgendamentoDisciplina(
+    disciplina_id: string,
+  ): Promise<Agendamento[] | undefined>;
 }
