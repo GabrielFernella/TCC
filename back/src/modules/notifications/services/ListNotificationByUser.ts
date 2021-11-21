@@ -21,10 +21,13 @@ class ListNotificationByUser {
     const notify = await this.notificationRepository.list(user_id);
 
     if (!notify) {
-      throw new AppError('Nenhuma notificação encontrada');
+      // throw new AppError('Nenhuma notificação encontrada');
+      return [];
     }
 
-    return notify;
+    const newArray = notify.reverse().slice(0, 5);
+
+    return newArray;
   }
 }
 

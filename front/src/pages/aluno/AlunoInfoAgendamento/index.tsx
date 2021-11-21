@@ -312,7 +312,7 @@ const AlunoInfoAgendamentos = () => {
                 <b className="red"> Cancelado </b>
               )}
               {agendamentos.agendamento.status === 5 && (
-                <b className="green"> Concluido </b>
+                <b className="green"> Concluído </b>
               )}
             </h3>
 
@@ -352,7 +352,7 @@ const AlunoInfoAgendamentos = () => {
                   <b> Cancelado </b>
                 )}
                 {agendamentos.pagamento.statusPagamento === 5 && (
-                  <b> Concluido </b>
+                  <b> Concluído </b>
                 )}
               </span>
               {(agendamentos.pagamento.statusPagamento === 0 ||

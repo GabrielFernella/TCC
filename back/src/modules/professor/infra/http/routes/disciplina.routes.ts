@@ -21,6 +21,16 @@ disciplinaRouter.get(
   disciplinaController.findDisciplina,
 );
 
+disciplinaRouter.get(
+  '/avaliation/:disciplina_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      disciplina_id: Joi.string().required(),
+    },
+  }),
+  disciplinaController.getAvaliation,
+);
+
 // Autenticar Usuário
 disciplinaRouter.use(ensureAuthenticated);
 

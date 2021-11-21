@@ -17,6 +17,7 @@ import Professor from '@modules/professor/infra/typeorm/entities/Professor';
 import Aluno from '@modules/aluno/infra/typeorm/entities/Aluno';
 import { ICreatePagamentoDTO } from '@modules/aluno/dtos/IPagamentoDTO';
 import { StatusPagamento } from '@modules/aluno/infra/typeorm/entities/Pagamento';
+import INotificationRepository from '@modules/notifications/repositories/INotificationsRepository';
 import { ICreateAgendamentoDTO } from '../dtos/IAgendamentoDTO';
 import Agendamento, { StatusAula } from '../infra/typeorm/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
@@ -52,6 +53,9 @@ class CreateAgendamentoService {
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
+
+    @inject('NotificationRepository')
+    private notificationRepository: INotificationRepository,
   ) {}
 
   public async execute(dto: IAgendamentoDTO): Promise<Agendamento> {
@@ -281,6 +285,13 @@ class CreateAgendamentoService {
       status: 0,
       nota: '',
       pagamento_id: pagamento.id,
+    });
+
+    // cadastro de notificação
+    await this.notificationRepository.create({
+      recipient_id: professor.id,
+      content: `${new Date().toLocaleDateString()} - Agendamento realizado`,
+      type: 'green',
     });
 
     // Buscando o arquivo template de email de recuperação

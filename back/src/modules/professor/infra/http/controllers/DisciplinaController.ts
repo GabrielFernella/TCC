@@ -8,6 +8,7 @@ import UpdateDisciplinaService from '@modules/professor/services/DisciplinaServi
 import DeleteDisciplinaService from '@modules/professor/services/DisciplinaServices/DeleteDisciplinaService';
 import ListDisciplinaService from '@modules/professor/services/DisciplinaServices/ListDisciplinaService';
 import AddAvaliacaoDisciplinaService from '@modules/professor/services/DisciplinaServices/AddAvaliacaoDisciplinaService';
+import getAvaliacaoDisciplina from '@modules/professor/services/DisciplinaServices/getAvaliacaoDisciplina';
 
 interface IHeaders {
   id: string;
@@ -26,6 +27,19 @@ export default class DisciplinaController {
     /* if (!result) {
       return response.status(404).json(result);
     } */
+
+    return response.status(200).json(result);
+  }
+
+  public async getAvaliation(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { disciplina_id } = request.params;
+
+    const disciplina = container.resolve(getAvaliacaoDisciplina);
+
+    const result = await disciplina.execute(disciplina_id);
 
     return response.status(200).json(result);
   }

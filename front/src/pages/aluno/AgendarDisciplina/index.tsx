@@ -33,6 +33,11 @@ interface IProps {
   };
 }
 
+interface IAvaliations {
+  opinioes: [];
+  nota: number;
+}
+
 interface IResponse {
   disciplina: {
     id: string;
@@ -67,12 +72,17 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
   const [date, setDate] = useState(new Date());
 
   const [listData, setListData] = useState([{ hora: 0, disp: false }]);
+  const [avaliation, setAvaliation] = useState<IAvaliations>({
+    opinioes: [],
+    nota: 0,
+  });
 
   const [dateState, setDateState] = useState(`${new Date()}`);
 
   useEffect(() => {
     try {
       const { dados } = props.location.state;
+      getAvaliation(dados.disciplina.id);
 
       setData(dados);
       getDisponibilidadeDate(dateState);
@@ -130,6 +140,18 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
       })
       .catch(error => {
         setListData([{ disp: false, hora: 0 }]);
+      });
+  }
+
+  async function getAvaliation(disciplina_id: string) {
+    await api
+      .get(`disciplina/avaliation/${disciplina_id}`)
+      .then(response => {
+        // toast.success('Cadastro realizado com sucesso!');
+        setAvaliation(response.data);
+      })
+      .catch(error => {
+        setAvaliation({ opinioes: [], nota: 0 });
       });
   }
 
@@ -216,6 +238,22 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
               </div>
             </div>
 
+            <div className="avaliation">
+              <h4>Opiniões de outros alunos</h4>
+              <div className="lsitAvaliation">
+                {avaliation.opinioes.length === 0 && (
+                  <span>Nenhuma nota anterior cadastrada</span>
+                )}
+                {avaliation.opinioes.map(item => (
+                  <>
+                    <li>{item}</li>
+                  </>
+                ))}
+              </div>
+              <br />
+              <h4>Média de notas: {avaliation.nota}/5</h4>
+            </div>
+
             <div className="agendar">
               <div>
                 <h4>Selecione uma data:</h4>
@@ -273,6 +311,9 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
           <p>
             Selecione uma das disciplinas e veja a disponibilidade para
             agendamento!
+            <br /> <br />
+            Importante! <br />A hora aula equivale a 50 ou 55 min dependendo da
+            preferencia do professor
           </p>
         </footer>
       </main>

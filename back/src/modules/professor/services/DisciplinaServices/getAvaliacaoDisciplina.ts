@@ -42,12 +42,15 @@ class getAvaliacaoDisciplina {
 
     getOpinions.forEach(item => {
       nota += Number(item.nota);
-      opinions.push(item.opiniao);
+      if (item.opiniao !== '' && item.opiniao !== 'null') {
+        opinions.push(item.opiniao);
+      }
     });
 
-    const media = nota / getOpinions.length;
+    opinions.splice(opinions.indexOf('null'), 1);
+    const media = nota / opinions.length;
 
-    const object: IResponse = { opinioes: opinions, nota };
+    const object: IResponse = { opinioes: opinions, nota: media };
 
     return object;
   }

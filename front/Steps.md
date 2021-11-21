@@ -6,12 +6,6 @@
 # listagem de pendencias @
 1. Melhorar a listagem 
 
-# Na tela de agendamento info
-1. Pode ter um botão para processar o pagamento e será validado se já foi pago ou não
-
-# Aceitação de Aula
-1. Verificar como funciona o status do professor aceitar o agendamento (usar a api de update status no front)
-
 # Mostrar avaliação de outros agendamentos
 1 - rota do formulário para Home
 2 - cancelamento limitado por hora tando do professor quanto do aluno
@@ -21,9 +15,6 @@
 
 # Verificar a parte de listagem de disponibilidade das disciplinas
 1. filtar e mostrar a cor escura para os agendamentos que foram cancelados (ver na web)
-
-# Reset de senha
-1. Validar se está funcionando
 
 ###########################################################################################################
 # Back
@@ -38,14 +29,6 @@
 4. verificar as notificações e add um atributo de read, e colocar um icone de close para remover a notificação
 5. ver a parte de recuperação de senha
 6. testar dois cadastros com o mesmo cpf
-
-# Pagamento
-1. API para alterar o status do pagamento para pago (colocar uma chave de segurança)
-2. Robo para processar todos os pagamentos feitos no dia, e efetivar o pagamento
-
-# Concluir Aula
-1. Validar se a data já passou para ele avaliar a aula
-2. validar se para fazer um novo agendamento, o aluno concluiu as aulas para efetivar o pagamento do professor - acho que OK
 
 # Robo
 1. Fazer o processamento de pagamento, montar um exemplo de objeto que será retornado

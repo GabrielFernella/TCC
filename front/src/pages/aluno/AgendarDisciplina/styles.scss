@@ -79,6 +79,19 @@
         }
       }
 
+      .avaliation{
+        margin-top: 1rem; 
+        min-height: 120px;
+        max-height: 320px;
+
+        border: 4px solid #cab6f8;
+        padding: 1rem;
+        border-radius: 10px;
+        gap: 2rem;
+
+        width: 100%;
+      }
+
       .agendar{
         margin-top: 1rem; 
         border: 4px solid #cab6f8;
@@ -147,6 +160,8 @@
 
 
     footer {
+      display: flex;
+      flex-direction: column;
       padding: 4rem 2.4rem;
       background: var(--color-box-footer);
       border-top: 1px solid var(--color-line-in-white);
