@@ -11,6 +11,7 @@ import IProfessorRepository from '@modules/professor/repositories/IProfessorRepo
 import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
 import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+import INotificationRepository from '@modules/notifications/repositories/INotificationsRepository';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
 @injectable()
@@ -30,6 +31,9 @@ class CancelarAgendamento {
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
+
+    @inject('NotificationRepository')
+    private notificationRepository: INotificationRepository,
   ) {}
 
   public async execute(agendamento_id: string, user_id: string): Promise<void> {
@@ -90,7 +94,7 @@ class CancelarAgendamento {
       );
 
       // Enviar o email para o destinatário
-      await this.mailProvider.sendMail({
+      this.mailProvider.sendMail({
         to: {
           name: getAluno.name,
           email: getAluno.email,
@@ -104,6 +108,15 @@ class CancelarAgendamento {
             // link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
           },
         },
+      });
+    }
+
+    if (professor !== undefined) {
+      // cadastro de notificação
+      await this.notificationRepository.create({
+        recipient_id: professor.id,
+        content: `${new Date().toLocaleDateString()} - Agendamento cancelado`,
+        type: 'red',
       });
     }
 
