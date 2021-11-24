@@ -66,6 +66,16 @@ class CancelarAgendamento {
       );
     }
 
+    const DateAgendamento = new Date(agendamento.data);
+
+    if (
+      new Date().toLocaleDateString() === DateAgendamento.toLocaleDateString()
+    ) {
+      throw new AppError(
+        'Você só pode cancelar um agendamento com um dia de antecedencia',
+      );
+    }
+
     // Validar se esse usuário tem permissão em horas para fazer o cancelamento
     // ############################################# Fazer
 

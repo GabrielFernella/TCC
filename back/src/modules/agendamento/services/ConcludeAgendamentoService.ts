@@ -123,7 +123,7 @@ class ConcludeAgendamentoService {
         throw new AppError('Erro ao carregar os usuários.');
       }
 
-      await this.mailProvider.sendMail({
+      this.mailProvider.sendMail({
         to: {
           name: professor.name,
           email: professor.email,
@@ -134,7 +134,7 @@ class ConcludeAgendamentoService {
           variables: {
             name: professor.name,
             title: disciplina.titulo,
-            date: agendamento.data.toLocaleString(),
+            date: agendamento.data.toLocaleDateString(),
             valor: disciplina.valor,
             aluno: aluno.name,
             // link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,

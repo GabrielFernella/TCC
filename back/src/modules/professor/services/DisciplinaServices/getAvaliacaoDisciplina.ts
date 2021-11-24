@@ -50,7 +50,10 @@ class getAvaliacaoDisciplina {
     opinions.splice(opinions.indexOf('null'), 1);
     const media = nota / opinions.length;
 
-    const object: IResponse = { opinioes: opinions, nota: media };
+    const object: IResponse = {
+      opinioes: opinions,
+      nota: parseFloat(media.toFixed(1)),
+    };
 
     return object;
   }
