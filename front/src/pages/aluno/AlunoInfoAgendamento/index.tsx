@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import ReactDOM from 'react-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
+import { isBefore } from 'date-fns';
 import { useLocation, useHistory } from 'react-router-dom';
 import PageHeader from '../../../components/PageHeader';
 import backgroundImg from '../../../assets/images/success-background.svg';
@@ -245,6 +246,23 @@ const AlunoInfoAgendamentos = () => {
         .put(`/agendamento/cancel/${agendamentos.agendamento.id}`)
         .then(() => {
           toast.success('Agendamento cancelado');
+          setLoad(true);
+        })
+        .catch(err => {
+          toast.error(`Ocorreu um erro: ${err.response.data.message}`);
+        });
+    }
+  }
+
+  async function reembolsoAgendamento() {
+    const resultado = window.confirm('Você deseja realmente reembolsar?');
+    if (resultado) {
+      await api
+        .put(`/agendamento/reembolso/${agendamentos.agendamento.id}`)
+        .then(() => {
+          toast.success(
+            'Solicitação de reembolso e cancelamento efetuado com sucesso',
+          );
           setLoad(true);
         })
         .catch(err => {
@@ -505,6 +523,22 @@ const AlunoInfoAgendamentos = () => {
                     onClick={() => cancelarAgendamento()}
                   >
                     Cancelar agendamento
+                  </Button>
+                )}
+
+              {agendamentos.pagamento.statusPagamento === 2 &&
+                isBefore(
+                  new Date(agendamentos.agendamento.data),
+                  new Date(),
+                ) && (
+                  <Button
+                    type="button"
+                    name="submit"
+                    id="deletar"
+                    // className="deletar"
+                    onClick={() => reembolsoAgendamento()}
+                  >
+                    Reembolso e Cancelamento
                   </Button>
                 )}
             </div>

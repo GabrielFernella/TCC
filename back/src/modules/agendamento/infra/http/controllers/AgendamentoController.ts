@@ -11,6 +11,7 @@ import GetAgendamentoInfoService from '@modules/agendamento/services/GetAgendame
 import UpdateLinkService from '@modules/agendamento/services/UpdateLinkService';
 import ConcludeAgendamentoService from '@modules/agendamento/services/ConcludeAgendamentoService';
 import CancelarAgendamento from '@modules/agendamento/services/CancelarAgendamento';
+import ReembolsoAgendamento from '@modules/agendamento/services/ReembolsoAgendamento';
 
 export default class AgendamentoController {
   /* public async listAllByAluno(
@@ -155,6 +156,19 @@ export default class AgendamentoController {
 
     const cancel = container.resolve(CancelarAgendamento);
     await cancel.execute(agendamento_id, user_id);
+
+    return response.status(204).json();
+  }
+
+  public async reembolsoAgendamento(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { agendamento_id } = request.params;
+
+    const reembolso = container.resolve(ReembolsoAgendamento);
+    await reembolso.execute(agendamento_id, user_id);
 
     return response.status(204).json();
   }

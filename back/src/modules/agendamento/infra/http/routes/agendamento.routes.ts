@@ -120,6 +120,16 @@ agendamentoRouter.put(
   agendamentoController.cancelAgendamento,
 );
 
+agendamentoRouter.put(
+  '/reembolso/:agendamento_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      agendamento_id: Joi.string().uuid().required(),
+    },
+  }),
+  agendamentoController.reembolsoAgendamento,
+);
+
 export default agendamentoRouter;
 
 /*
