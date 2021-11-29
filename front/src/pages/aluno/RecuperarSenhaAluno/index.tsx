@@ -50,7 +50,7 @@ const ForgotPassword = () => {
         })
         .then(() => {
           toast.success(
-            'Senha resetada com sucesso, volte para o login e teste a nova senha!',
+            'Senha alterada com sucesso, volte para o login e teste a nova senha!',
           );
           setEmailReset('');
           setKey('');
@@ -126,6 +126,7 @@ const ForgotPassword = () => {
                 />
                 <Input
                   name="password"
+                  type="password"
                   placeholder="Nova senha"
                   value={newPassword}
                   onChange={e => {
@@ -134,6 +135,7 @@ const ForgotPassword = () => {
                 />
                 <Input
                   name="passwordConfirmation"
+                  type="password"
                   placeholder="Confirmar Senha"
                   value={newPasswordConfirmation}
                   onChange={e => {
@@ -141,7 +143,7 @@ const ForgotPassword = () => {
                   }}
                 />
                 <button className="login-submit" type="submit">
-                  Resetar
+                  Alterar
                 </button>
               </fieldset>
               <span
@@ -154,7 +156,7 @@ const ForgotPassword = () => {
             </form>
           )}
           <div className="footer">
-            <Link to="/aluno-login">Voltar pata login</Link>
+            <Link to="/aluno-login">Voltar para login</Link>
           </div>
         </div>
       </WrapperContent>

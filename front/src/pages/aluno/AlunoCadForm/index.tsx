@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 
@@ -21,6 +21,16 @@ const Profile: React.FC = () => {
   const [avatar, setAvatar] = useState('');
   const [pix, setPix] = useState('');
 
+  useEffect(() => {
+    const confirmation = window.confirm(
+      'Em observância à Lei nº. 13.709/18 – Lei Geral de Proteção de Dados Pessoais e demais normativas aplicáveis sobre proteção de Dados Pessoais, manifesto-me de forma informada, livre, expressa e consciente, no sentido de autorizar o SISTEMA WebEduca a realizar o tratamento de meus Dados Pessoais para uso na plataforma. Você aceita os termos de uso?',
+    );
+
+    if (confirmation === false) {
+      history.push('/');
+    }
+  }, []);
+
   async function handleCreateProfile(e: FormEvent) {
     e.preventDefault();
 
@@ -28,11 +38,15 @@ const Profile: React.FC = () => {
       toast.error('Password não confere');
     }
 
-    if (avatar.trim() === '') {
+    /* if (avatar.trim() === '') {
       setAvatar(
         'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?b=1&k=20&m=1300845620&s=170667a&w=0&h=JbOeyFgAc6-3jmptv6mzXpGcAd_8xqkQa_oUK2viFr8=',
       );
-    }
+    } */
+
+    /* const confirmation = window.confirm(
+      'Em observância à Lei nº. 13.709/18 – Lei Geral de Proteção de Dados Pessoais e demais normativas aplicáveis sobre proteção de Dados Pessoais, manifesto-me de forma informada, livre, expressa e consciente, no sentido de autorizar o SISTEMA WebEduca a realizar o tratamento de meus Dados Pessoais para as finalidades e de acordo com as condições aqui estabelecidas. , Você aceita os termos de uso?',
+    ); */
 
     if (name && cpf && email && password && passwordConf && avatar && pix) {
       await api
@@ -41,7 +55,10 @@ const Profile: React.FC = () => {
           cpf: cpf.replace(/\D/g, ''),
           email,
           password,
-          avatar,
+          avatar:
+            avatar === ''
+              ? 'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?b=1&k=20&m=1300845620&s=170667a&w=0&h=JbOeyFgAc6-3jmptv6mzXpGcAd_8xqkQa_oUK2viFr8='
+              : avatar,
           pix,
         })
         .then(() => {

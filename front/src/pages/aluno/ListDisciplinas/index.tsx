@@ -160,7 +160,7 @@ const ListDisciplina: React.FC = () => {
                 onChange={e => setFind(e.target.value)}
               />
               <button type="button" id="clear" onClick={clearFind}>
-                Clear
+                Limpar
               </button>
               <button type="button" onClick={() => findDisciplina(find)}>
                 Procurar

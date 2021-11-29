@@ -290,7 +290,9 @@ class CreateAgendamentoService {
     // cadastro de notificação
     await this.notificationRepository.create({
       recipient_id: professor.id,
-      content: `${new Date().toLocaleDateString()} - Agendamento realizado`,
+      content: `${new Date().toLocaleDateString()} - Agendamento realizado - ${titleDisciplina} para dia ${dto.data.toLocaleDateString()} às ${
+        dto.entrada
+      }h`,
       type: 'green',
     });
 

@@ -55,7 +55,7 @@ class SendForgotPasswordEmailService {
 
     await this.professorRepository.saveKey(user.id, key);
     // Enviar o email para o destinatário
-    await this.mailProvider.sendMail({
+    this.mailProvider.sendMail({
       to: {
         name: user.name,
         email: user.email,

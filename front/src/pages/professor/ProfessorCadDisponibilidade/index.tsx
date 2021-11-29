@@ -208,7 +208,7 @@ const Disponibilidade: React.FC = () => {
                     className="btnexcluir"
                     name="excluir"
                   >
-                    Delete
+                    Deletar
                   </Button>
                 </div>
               </div>
@@ -275,7 +275,7 @@ const Disponibilidade: React.FC = () => {
                 className="btnexcluir"
                 name="create"
               >
-                Create
+                Criar
               </Button>
             </div>
           </div>

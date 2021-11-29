@@ -93,6 +93,15 @@ class CancelarAgendamento {
       throw new AppError('Houve um erro ao localizar o aluno desse pagamento');
     }
 
+    const getProfessor = await this.professorRepository.findById(
+      pagamento.professor_id,
+    );
+    if (!getProfessor) {
+      throw new AppError(
+        'Houve um erro ao localizar o Professor desse agendamento',
+      );
+    }
+
     if (pagamento.statusPagamento === 2) {
       // Chamar API de reembolso // Mandar um e-mail de reembolso do ALUNO
       // Buscando o arquivo template de email de recuperação
@@ -121,14 +130,59 @@ class CancelarAgendamento {
       });
     }
 
-    if (professor !== undefined) {
-      // cadastro de notificação
-      await this.notificationRepository.create({
-        recipient_id: professor.id,
-        content: `${new Date().toLocaleDateString()} - Agendamento cancelado`,
-        type: 'red',
-      });
-    }
+    // Envio de e-mail
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'aula_cancelada.hbs',
+    );
+
+    // Enviar o email para o destinatário Aluno
+    this.mailProvider.sendMail({
+      to: {
+        name: getAluno.name,
+        email: getAluno.email,
+      },
+      subject: '[WebEduca] Agendamento cancelado',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: getProfessor.name,
+          title: pagamento.title,
+          data: agendamento.data.toLocaleDateString(),
+          hora: agendamento.entrada,
+          // link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+        },
+      },
+    });
+
+    this.mailProvider.sendMail({
+      to: {
+        name: getProfessor.name,
+        email: getProfessor.email,
+      },
+      subject: '[WebEduca] Agendamento cancelado',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: getProfessor.name,
+          title: pagamento.title,
+          data: agendamento.data.toLocaleDateString(),
+          hora: agendamento.entrada,
+          // link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+        },
+      },
+    });
+
+    // cadastro de notificação
+    await this.notificationRepository.create({
+      recipient_id: getProfessor.id,
+      content: `${new Date().toLocaleDateString()} - Agendamento cancelado - Data: ${agendamento.data.toLocaleDateString()} às ${
+        agendamento.entrada
+      }h`,
+      type: 'red',
+    });
 
     // Fazer a atualização do cancelamento do agendamento e processar o restituição do calor pago caso ele tenha feito o pagamento
 

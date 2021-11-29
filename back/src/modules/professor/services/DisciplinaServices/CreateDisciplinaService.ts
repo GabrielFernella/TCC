@@ -78,11 +78,11 @@ class CreateDisciplinaService {
     });
 
     // cadastro de notificação
-    await this.notificationRepository.create({
+    /* await this.notificationRepository.create({
       recipient_id: cadDisciplina.professor_id,
       content: 'Disciplina cadastrada com sucesso',
       type: 'green',
-    });
+    }); */
 
     const user = await this.professorRepository.findById(
       cadDisciplina.professor_id,

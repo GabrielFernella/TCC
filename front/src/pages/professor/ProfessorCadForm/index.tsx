@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Toast
 
@@ -23,36 +23,51 @@ const Profile: React.FC = () => {
   const [pix, setPix] = useState('');
   const [biografia, setBiografia] = useState('');
 
-  async function handleCreateProfile(e: FormEvent) {
+  /* async function ConfirmParams(e: FormEvent) {
+    const confirmation = window.confirm(
+      'Em observância à Lei nº. 13.709/18 – Lei Geral de Proteção de Dados Pessoais e demais normativas aplicáveis sobre proteção de Dados Pessoais, manifesto-me de forma informada, livre, expressa e consciente, no sentido de autorizar o SISTEMA WebEduca a realizar o tratamento de meus Dados Pessoais para as finalidades e de acordo com as condições aqui estabelecidas. , Você aceita os termos de uso?',
+    );
+
+    if (confirmation) {
+      handleCreateProfile(e);
+    }
+  } */
+
+  useEffect(() => {
+    const confirmation = window.confirm(
+      'Em observância à Lei nº. 13.709/18 – Lei Geral de Proteção de Dados Pessoais e demais normativas aplicáveis sobre proteção de Dados Pessoais, manifesto-me de forma informada, livre, expressa e consciente, no sentido de autorizar o SISTEMA WebEduca a realizar o tratamento de meus Dados Pessoais para uso na plataforma. Você aceita os termos de uso?',
+    );
+
+    if (confirmation === false) {
+      history.push('/');
+    }
+  }, []);
+
+  async function handleCreateProfile(e: FormEvent): Promise<void> {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
       toast.error('Password não confere');
     }
 
-    if (avatar.trim() === '') {
+    /* if (avatar.trim() === '') {
       setAvatar(
         'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?b=1&k=20&m=1300845620&s=170667a&w=0&h=JbOeyFgAc6-3jmptv6mzXpGcAd_8xqkQa_oUK2viFr8=',
       );
-    }
+      alert('Colocamos uma foto padrão');
+    } */
 
-    if (
-      name &&
-      cpf &&
-      email &&
-      password &&
-      passwordConf &&
-      avatar &&
-      pix &&
-      biografia
-    ) {
+    if (name && cpf && email && password && passwordConf && pix && biografia) {
       await api
         .post('professor/create', {
           name,
           cpf: cpf.replace(/\D/g, ''),
           email,
           password,
-          avatar,
+          avatar:
+            avatar === ''
+              ? 'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?b=1&k=20&m=1300845620&s=170667a&w=0&h=JbOeyFgAc6-3jmptv6mzXpGcAd_8xqkQa_oUK2viFr8='
+              : avatar,
           pix,
           biografia,
         })
@@ -65,7 +80,11 @@ const Profile: React.FC = () => {
             `Não foi possível efetuar o cadastro, tente novamente. Error: ${error.response.data.message}`,
           );
         });
-    } /* else {
+    } else {
+      alert('algo deu errado');
+    }
+
+    /* else {
       toast.error(
         'Não foi possível efetuar o cadastro, um ou mais campos devem estar faltando. Tente novamente',
       );
