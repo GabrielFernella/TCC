@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
-      toast.error('Password não confere');
+      toast.error('Senha não confere');
     }
 
     /* if (avatar.trim() === '') {

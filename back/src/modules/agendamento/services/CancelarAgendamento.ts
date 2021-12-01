@@ -12,6 +12,7 @@ import IAlunoRepository from '@modules/aluno/repositories/IAlunoRepository';
 import IPagamentoRepository from '@modules/aluno/repositories/IPagamentoRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import INotificationRepository from '@modules/notifications/repositories/INotificationsRepository';
+import { isBefore } from 'date-fns';
 import IAgendamentoRepository from '../repositories/IAgendamentoRepository';
 
 @injectable()
@@ -68,9 +69,7 @@ class CancelarAgendamento {
 
     const DateAgendamento = new Date(agendamento.data);
 
-    if (
-      new Date().toLocaleDateString() === DateAgendamento.toLocaleDateString()
-    ) {
+    if (isBefore(DateAgendamento, new Date())) {
       throw new AppError(
         'Você só pode cancelar um agendamento com um dia de antecedencia',
       );
