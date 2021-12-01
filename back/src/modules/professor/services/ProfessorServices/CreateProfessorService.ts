@@ -37,7 +37,12 @@ class CreateProfessorService {
     // Procurando se há um user com o mesmo email
     const checkUserExists = await this.professorRepository.findByEmail(email);
     if (checkUserExists) {
-      throw new AppError('Email address already used');
+      throw new AppError('Email não permitido');
+    }
+
+    const checkCPFExists = await this.professorRepository.findByCPF(cpf);
+    if (checkCPFExists) {
+      throw new AppError('CPF inválido');
     }
 
     if (validarCPF(cpf) === false) {

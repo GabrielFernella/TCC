@@ -8,6 +8,7 @@ import {
 export default interface IProfessorRepository {
   findById(id: string): Promise<Professor | undefined>;
   findByEmail(email: string): Promise<Professor | undefined>;
+  findByCPF(cpf: string): Promise<Professor | undefined>;
   create(data: ICreateProfessorDTO): Promise<Professor>;
   updated(
     professor_id: string,

@@ -21,6 +21,14 @@ class ProfessorRepository implements IProfessorRepository {
     return findId;
   }
 
+  public async findByCPF(cpf: string): Promise<Professor | undefined> {
+    const findCPF = await this.ormRepository.findOne({
+      where: { cpf },
+    });
+
+    return findCPF;
+  }
+
   public async findByEmail(email: string): Promise<Professor | undefined> {
     const findEmail = await this.ormRepository.findOne({
       where: { email },

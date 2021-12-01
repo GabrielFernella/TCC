@@ -49,6 +49,11 @@ class CreateAlunoService {
       throw new AppError('Email address already used');
     }
 
+    const checkCPFExists = await this.alunoRepository.findByCPF(cpf);
+    if (checkCPFExists) {
+      throw new AppError('CPF inválido');
+    }
+
     // eslint-disable-next-line no-use-before-define
     if (!validarCPF(cpf)) {
       throw new AppError('CPF inválido');

@@ -20,6 +20,14 @@ class AlunoRepository implements IAlunoRepository {
     return findId;
   }
 
+  public async findByCPF(cpf: string): Promise<Aluno | undefined> {
+    const findCPF = await this.ormRepository.findOne({
+      where: { cpf },
+    });
+
+    return findCPF;
+  }
+
   public async findByEmail(email: string): Promise<Aluno | undefined> {
     const findEmail = await this.ormRepository.findOne({
       where: { email },
