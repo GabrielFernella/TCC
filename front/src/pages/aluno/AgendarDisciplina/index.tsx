@@ -203,7 +203,11 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
             <h2>{data.disciplina.titulo}</h2>
 
             <div className="disciplina">
-              <img src={data.professor.avatar} alt="AvatarProfessor" />
+              <img
+                src={data.professor.avatar}
+                alt="AvatarProfessor"
+                id="avatar-prof"
+              />
 
               <p>
                 <b>Professor:</b> {data.professor.nome}
@@ -246,7 +250,7 @@ const ListDisciplina: React.FC<IProps> = (props: IProps) => {
                 )}
                 {avaliation.opinioes.map(item => (
                   <>
-                    <li>{item}</li>
+                    <li className="opiniao">{item}</li>
                   </>
                 ))}
               </div>

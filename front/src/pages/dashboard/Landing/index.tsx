@@ -16,10 +16,10 @@ const Landing: React.FC = () => {
     api
       .get('notification/echo')
       .then(() => {
-        toast.success('Server Connected');
+        toast.success('Servidor Conectado');
       })
       .catch(() => {
-        toast.error('Server disconnected');
+        toast.error('Servidor Desconectado');
 
         // 'Estamos com algum problema com a conexão dos nossos servidores, recarregue a página ou tente mais tarde.',
         setDisable(true);

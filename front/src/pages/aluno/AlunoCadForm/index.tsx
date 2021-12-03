@@ -35,7 +35,7 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (!(password === passwordConf)) {
-      toast.error('Password não confere');
+      toast.error('Senha não confere');
     }
 
     /* if (avatar.trim() === '') {
@@ -76,11 +76,7 @@ const Profile: React.FC = () => {
   return (
     <div id="page-aluno-profile" className="container">
       <Toaster />
-      <PageHeader
-        page="Meu perfil"
-        background={backgroundImg}
-        home="/aluno-home"
-      >
+      <PageHeader page="Meu perfil" background={backgroundImg} home="/">
         <div className="profile-header">
           <h2>Vamos estudar e se aperfeiçoar ainda mais!</h2>
           <p>
@@ -141,7 +137,7 @@ const Profile: React.FC = () => {
               <div id="password-info">
                 <Input
                   required
-                  label="Password"
+                  label="Senha"
                   name="password"
                   type="password"
                   maxLength={32}
@@ -152,7 +148,7 @@ const Profile: React.FC = () => {
               <div id="password-confirmation">
                 <Input
                   required
-                  label="Confirmation Pass."
+                  label="Confirmação senha"
                   name="confirmation"
                   type="password"
                   maxLength={32}

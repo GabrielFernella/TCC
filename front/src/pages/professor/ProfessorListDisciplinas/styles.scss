@@ -171,6 +171,11 @@
 
         #desc {
           word-break: break-word;
+          overflow: hidden; // Removendo barra de rolagem
+text-overflow: ellipsis; // Adicionando "..." ao final
+display: -webkit-box;
+-webkit-line-clamp: 3; // Quantidade de linhas
+-webkit-box-orient: vertical; 
         }
       }
     }
